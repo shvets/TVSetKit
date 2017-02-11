@@ -6,8 +6,10 @@ open class MediaItemsController: InfiniteCollectionViewController {
   var CELL_IDENTIFIER: String { return  "MediaItemCell" }
   var HEADER_VIEW_IDENTIFIER: String { return  "MediaItemsHeader" }
 
-  static public func instantiate(fromStoryboard storyboard: String) -> Self {
-    return AppStoryboard.instantiateController(storyboard, viewControllerClass: self)
+  static public func instantiate() -> Self {
+    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+    return AppStoryboard.instantiateController("Player", bundle: bundle, viewControllerClass: self)
   }
 
   public var displayTitle = true
@@ -112,7 +114,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
           newAdapter.parentName = selectedCell.item?.name
           newAdapter.isContainer = true
 
-          let destination = MediaItemsController.instantiate(fromStoryboard: "Main")
+          let destination = MediaItemsController.instantiate()
 
           destination.adapter = newAdapter
 

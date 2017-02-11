@@ -1,8 +1,8 @@
 open class AppStoryboard {
 
-  public static func instantiateController<T: UIViewController>(_ storyboardId: String, viewControllerClass: T.Type,
+  public static func instantiateController<T: UIViewController>(_ storyboardId: String, bundle: Bundle=Bundle.main, viewControllerClass: T.Type,
                 function: String = #function, line: Int = #line, file: String = #file) -> T {
-    let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: Bundle.main)
+    let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: bundle)
 
     let storyboardID = (viewControllerClass as UIViewController.Type).storyboardID
 

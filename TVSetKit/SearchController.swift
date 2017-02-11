@@ -15,8 +15,10 @@ open class SearchController: UIViewController {
   let checkedImage = UIImage(named: "ic_check_box")! as UIImage
   let uncheckedImage = UIImage(named: "ic_check_box_outline_blank")! as UIImage
 
-  static public func instantiate(fromStoryboard storyboard: String) -> Self {
-    return AppStoryboard.instantiateController(storyboard, viewControllerClass: self)
+  static public func instantiate() -> Self {
+    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+    return AppStoryboard.instantiateController( "Player", bundle: bundle, viewControllerClass: self)
   }
 
   var isChecked: Bool = false {
@@ -54,7 +56,7 @@ open class SearchController: UIViewController {
   }
 
   @IBAction func onSearchAction(_ sender: UIButton) {
-    let destination = MediaItemsController.instantiate(fromStoryboard: "Main")
+    let destination = MediaItemsController.instantiate()
 
     if isChecked {
       let transcoded = LatToRusConverter().transliterate(query.text!)
