@@ -1,5 +1,3 @@
-import SwiftSoup
-
 public struct RequestParams {
   public init() {}
 
@@ -11,7 +9,7 @@ public struct RequestParams {
 
   public var parentName: String?
 
-  public var document: Document?
+  public var document: Any?
 
   public var bookmarks: Bookmarks?
 

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder.AppleTV.Storyboard" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="appleTV" orientation="landscape">
+        <adaptation id="light"/>
+    </device>
+    <dependencies>
+        <deployment identifier="tvOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--AV Player View Controller-->
+        <scene sceneID="p86-7f-fuD">
+            <objects>
+                <avPlayerViewController storyboardIdentifier="videoPlayerController" videoGravity="AVLayerVideoGravityResizeAspect" id="pFb-VM-9Qh" customClass="VideoPlayerController" customModule="TVSetKit" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="3sf-vq-KL8"/>
+                </avPlayerViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tux-Pq-6YJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6348" y="22185"/>
+        </scene>
+        <!--AV Player View Controller-->
+        <scene sceneID="N8A-be-9RK">
+            <objects>
+                <avPlayerViewController storyboardIdentifier="AudioPlayerController" videoGravity="AVLayerVideoGravityResizeAspect" id="8TF-WO-tT2" customClass="AudioPlayerController" customModule="TVSetKit" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nR5-Tt-Px0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3207" y="22185"/>
+        </scene>
+        <!--MediaItems-->
+        <scene sceneID="ZlP-xW-dKc">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AYA-kW-oy8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <collectionViewController storyboardIdentifier="MediaItemsController" title="MediaItems" id="3sZ-Oe-aCu" customClass="MediaItemsController" customModule="TVSetKit" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="nY4-li-qZ3">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="20" id="vpE-EK-UJm">
+                            <size key="itemSize" width="240" height="360"/>
+                            <size key="headerReferenceSize" width="100" height="65"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaItemCell" id="7tY-AH-cz7" customClass="MediaItemCell" customModule="TVSetKit">
+                                <rect key="frame" x="0.0" y="65" width="240" height="360"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="240" height="360"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fEM-Cd-HGT">
+                                            <rect key="frame" x="10" y="0.0" width="240" height="360"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LJT-AT-H7J">
+                                            <rect key="frame" x="10" y="381" width="240" height="86"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="86" id="DtO-Tf-p7o"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="21"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstAttribute="trailingMargin" secondItem="fEM-Cd-HGT" secondAttribute="trailing" constant="-18" id="9ef-pt-g5Y"/>
+                                    <constraint firstItem="fEM-Cd-HGT" firstAttribute="top" secondItem="7tY-AH-cz7" secondAttribute="top" id="Bwq-bS-tQs"/>
+                                    <constraint firstItem="LJT-AT-H7J" firstAttribute="top" secondItem="fEM-Cd-HGT" secondAttribute="bottom" constant="21" id="Hcs-5I-whH"/>
+                                    <constraint firstItem="fEM-Cd-HGT" firstAttribute="leading" secondItem="LJT-AT-H7J" secondAttribute="leading" id="KBA-gK-zID"/>
+                                    <constraint firstAttribute="bottom" secondItem="fEM-Cd-HGT" secondAttribute="bottom" id="YAN-dA-SZS"/>
+                                    <constraint firstItem="fEM-Cd-HGT" firstAttribute="leading" secondItem="7tY-AH-cz7" secondAttribute="leadingMargin" constant="2" id="mBh-oR-WQ9"/>
+                                    <constraint firstItem="fEM-Cd-HGT" firstAttribute="trailing" secondItem="LJT-AT-H7J" secondAttribute="trailing" id="uk5-su-6hj"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="thumb" destination="fEM-Cd-HGT" id="aA3-Xg-W4K"/>
+                                    <outlet property="title" destination="LJT-AT-H7J" id="Dnt-iZ-jlB"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MediaItemsHeader" id="Ty6-3P-7xr" customClass="MediaItemsHeaderView" customModule="TVSetKit">
+                            <rect key="frame" x="0.0" y="0.0" width="1920" height="65"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pqZ-jd-fX0">
+                                    <rect key="frame" x="0.0" y="0.0" width="1920" height="45"/>
+                                    <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="36"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="pqZ-jd-fX0" firstAttribute="top" secondItem="Ty6-3P-7xr" secondAttribute="top" id="2Tl-ec-MOg"/>
+                                <constraint firstAttribute="trailing" secondItem="pqZ-jd-fX0" secondAttribute="trailing" id="Xkq-zi-ipz"/>
+                                <constraint firstAttribute="bottomMargin" secondItem="pqZ-jd-fX0" secondAttribute="bottom" constant="12" id="lra-bG-y7b"/>
+                                <constraint firstItem="pqZ-jd-fX0" firstAttribute="leading" secondItem="Ty6-3P-7xr" secondAttribute="leading" id="oR5-wZ-kcV"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="sectionLabel" destination="pqZ-jd-fX0" id="Fg7-Gb-bw3"/>
+                            </connections>
+                        </collectionReusableView>
+                        <connections>
+                            <outlet property="dataSource" destination="3sZ-Oe-aCu" id="i3j-CL-dXB"/>
+                            <outlet property="delegate" destination="3sZ-Oe-aCu" id="rkU-5W-VPh"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" title="MediaItems" id="q7W-Z9-vQV"/>
+                    <connections>
+                        <segue destination="VzC-ql-65N" kind="show" identifier="MediaItemDetails" animates="NO" id="18F-9f-g2i"/>
+                        <segue destination="FOy-Q9-YTa" kind="show" identifier="AudioItems" animates="NO" id="ROT-CS-qmK"/>
+                        <segue destination="pFb-VM-9Qh" kind="show" identifier="VideoPlayer" id="9KF-xe-36j"/>
+                    </connections>
+                </collectionViewController>
+            </objects>
+            <point key="canvasLocation" x="-6348" y="15991"/>
+        </scene>
+        <!--Audio Items Controller-->
+        <scene sceneID="Nw8-Dt-uR1">
+            <objects>
+                <tableViewController id="FOy-Q9-YTa" customClass="AudioItemsController" customModule="TVSetKit" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="105" sectionHeaderHeight="60" sectionFooterHeight="60" id="h4h-5n-E8G">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AudioItemCell" rowHeight="60" id="3dd-O4-sDH" customClass="AudioItemCell" customModule="TVSetKit">
+                                <rect key="frame" x="0.0" y="60" width="1920" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3dd-O4-sDH" id="2mu-CG-HNo">
+                                    <rect key="frame" x="0.0" y="0.0" width="1904" height="60"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6P-uB-7gO">
+                                            <rect key="frame" x="141" y="5" width="1750" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="24"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Duo-fz-oEb">
+                                            <rect key="frame" x="25" y="5" width="80" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="24"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="current" destination="Duo-fz-oEb" id="U8W-y3-Bbc"/>
+                                    <outlet property="title" destination="N6P-uB-7gO" id="zEv-kU-Wqa"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="FOy-Q9-YTa" id="l0o-IF-kyE"/>
+                            <outlet property="delegate" destination="FOy-Q9-YTa" id="fYz-Pg-tTS"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="8TF-WO-tT2" kind="show" identifier="playAudio" animates="NO" id="n1D-XD-vhk"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Sbg-6n-cyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3207" y="19229"/>
+        </scene>
+        <!--Media Item Details Controller-->
+        <scene sceneID="cKC-1z-2vb">
+            <objects>
+                <viewController id="VzC-ql-65N" customClass="MediaItemDetailsController" customModule="TVSetKit" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zXi-2s-XGk"/>
+                        <viewControllerLayoutGuide type="bottom" id="RcO-IW-oXh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="t38-96-m4M">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wv2-Ql-T1d">
+                                <rect key="frame" x="61" y="-66" width="540" height="910"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0XE-Ks-k3C">
+                                <rect key="frame" x="1547" y="20" width="353" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZM8-mM-BLc">
+                                <rect key="frame" x="1547" y="89" width="353" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceHorizontal="YES" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeY-XA-L75">
+                                <rect key="frame" x="619" y="154" width="1301" height="633"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fS9-S5-99n">
+                                <rect key="frame" x="648" y="20" width="900" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YLt-Bj-zyI">
+                                <rect key="frame" x="648" y="85" width="564" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <connections>
+                        <outlet property="imageView" destination="Wv2-Ql-T1d" id="KNR-u9-xpR"/>
+                        <outlet property="movieDescription" destination="DeY-XA-L75" id="O5o-6U-Jfe"/>
+                        <outlet property="name" destination="fS9-S5-99n" id="mU3-fz-jm5"/>
+                        <outlet property="rating" destination="ZM8-mM-BLc" id="yMW-cX-Agz"/>
+                        <outlet property="tag" destination="YLt-Bj-zyI" id="eXc-ph-gzK"/>
+                        <outlet property="watchStatus" destination="0XE-Ks-k3C" id="3DK-IU-Npz"/>
+                        <segue destination="pFb-VM-9Qh" kind="show" identifier="VideoPlayer" animates="NO" id="em3-I2-4yz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="85z-VF-0Oq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-8276" y="19229"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="3pl-Ud-hWh">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RqE-W3-oQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <collectionViewController title="Settings" id="qNk-J8-Fb4" customClass="SettingsController" customModule="EtvnetApp" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="gmR-NO-cga">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="j5U-sg-CPS">
+                            <size key="itemSize" width="450" height="150"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SettingCell" id="fmB-Q0-VIw" customClass="MediaNameCell" customModule="TVSetKit">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="150"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="150"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CDa-hq-8J3">
+                                            <rect key="frame" x="0.0" y="0.0" width="450" height="150"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <connections>
+                                    <outlet property="thumb" destination="CDa-hq-8J3" id="uEC-Tm-gw2"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="qNk-J8-Fb4" id="bc1-I3-wPc"/>
+                            <outlet property="delegate" destination="qNk-J8-Fb4" id="EWl-TY-jIO"/>
+                        </connections>
+                    </collectionView>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" title="Collection" id="X5d-eS-dp6"/>
+                    <navigationItem key="navigationItem" title="Movies" id="CVx-KE-Uj2"/>
+                </collectionViewController>
+            </objects>
+            <point key="canvasLocation" x="-3207" y="15991"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="5vM-jT-VvG">
+            <objects>
+                <viewController storyboardIdentifier="SearchController" id="cGS-Mn-zL4" customClass="SearchController" customModule="TVSetKit" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X4U-hj-O1y"/>
+                        <viewControllerLayoutGuide type="bottom" id="iFq-up-Gux"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JFA-BO-D3A">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Query" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Uh9-Bh-B5v">
+                                <rect key="frame" x="590" y="318" width="1200" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZk-xe-6gl">
+                                <rect key="frame" x="590" y="683" width="400" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <state key="normal" title="Search"/>
+                                <connections>
+                                    <action selector="onSearchAction:" destination="cGS-Mn-zL4" eventType="primaryActionTriggered" id="jxI-6j-H75"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o9P-Lv-gZu">
+                                <rect key="frame" x="590" y="533" width="164" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                <connections>
+                                    <action selector="onUseRunglish:" destination="cGS-Mn-zL4" eventType="primaryActionTriggered" id="XQs-el-e05"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQn-Un-5ke">
+                                <rect key="frame" x="590" y="422" width="1200" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Use Runglish?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wdl-gd-G6a">
+                                <rect key="frame" x="60" y="533" width="522" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="36"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Search" id="LpN-AB-7Fy"/>
+                    <connections>
+                        <outlet property="query" destination="Uh9-Bh-B5v" id="6mS-OH-YRr"/>
+                        <outlet property="searchButton" destination="eZk-xe-6gl" id="P20-8A-JbH"/>
+                        <outlet property="transcodedQuery" destination="JQn-Un-5ke" id="ynh-Rl-QOH"/>
+                        <outlet property="useRunglish" destination="o9P-Lv-gZu" id="nLb-RC-tGR"/>
+                        <outlet property="useRunglishLabel" destination="Wdl-gd-G6a" id="Feu-x5-kdl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ATB-7R-CjE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-116" y="15991"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="em3-I2-4yz"/>
+    </inferredMetricsTieBreakers>
+</document>

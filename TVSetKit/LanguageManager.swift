@@ -20,8 +20,6 @@ open class LanguageManager {
     let data = load()
 
     if data != nil {
-      let langCode = data?["langCode"] as? String
-
       if let langCode = data?["langCode"] as? String {
         return langCode
       }

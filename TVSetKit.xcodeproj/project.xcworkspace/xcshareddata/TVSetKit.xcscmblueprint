@@ -1,17 +1,20 @@
 {
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3" : 9223372036854775807,
+    "7753260C4535CFA7BC8319DE142DC7085FADE8D9" : 9223372036854775807,
     "DF731D8DADBC775E9B4C2E38B20808181D1B8D67" : 9223372036854775807,
-    "7753260C4535CFA7BC8319DE142DC7085FADE8D9" : 9223372036854775807
+    "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D44829AE-55E8-41F0-874A-EF39B0346223",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "C861FC00CEE0F6A6BE81FCFF6785FAA78C58EBB3" : "WebAPI\/Packages\/SwiftyJSON-3.1.3\/",
+    "7753260C4535CFA7BC8319DE142DC7085FADE8D9" : "WebAPI\/",
     "DF731D8DADBC775E9B4C2E38B20808181D1B8D67" : "Runglish\/",
-    "7753260C4535CFA7BC8319DE142DC7085FADE8D9" : "WebAPI\/"
+    "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7" : "TVSetKit\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "TVSetKit",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -31,6 +34,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:shvets\/Runglish.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DF731D8DADBC775E9B4C2E38B20808181D1B8D67"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:shvets\/TVSetKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7"
     }
   ]
 }

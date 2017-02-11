@@ -13,6 +13,7 @@
 		2DBA158050670FDFEBDD9C19 /* RequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15DDDB290018615D87C2 /* RequestParams.swift */; };
 		2DBA167B330DBB6999E37A01 /* IServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */; };
 		2DBA17DBC2F9F4C8CD7F579D /* AppStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1883C214B22BA26BB9CA /* AppStoryboard.swift */; };
+		2DBA1AB356CA8A29A6252AA7 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DBA12F93A56F01F374C9F6A /* Player.storyboard */; };
 		2DBA1C394C44BD6ED2AEC49C /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
 		FA35052F1E4663B4009BB40E /* TVSetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3505251E4663B3009BB40E /* TVSetKit.framework */; };
 		FA3505341E4663B4009BB40E /* TVSetKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3505331E4663B4009BB40E /* TVSetKitTests.swift */; };
@@ -124,6 +125,7 @@
 
 /* Begin PBXFileReference section */
 		2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IServiceAdapter.swift; sourceTree = "<group>"; };
+		2DBA12F93A56F01F374C9F6A /* Player.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Player.storyboard; sourceTree = "<group>"; };
 		2DBA13B4456078B90903EDEA /* PlainSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
 		2DBA140B06A6A92129BE33D8 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController-extension.swift"; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				2DBA140B06A6A92129BE33D8 /* DataSource.swift */,
 				2DBA15DDDB290018615D87C2 /* RequestParams.swift */,
 				2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */,
+				2DBA12F93A56F01F374C9F6A /* Player.storyboard */,
 			);
 			path = TVSetKit;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DBA1AB356CA8A29A6252AA7 /* Player.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
