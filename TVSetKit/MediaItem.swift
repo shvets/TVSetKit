@@ -3,6 +3,8 @@ import SwiftyJSON
 
 open class MediaItem: MediaName {
   public var type: String?
+  public var parentName: String?
+  public var parentId: String?
   public var thumb: String?
   public var tags: String?
   public var description: String?
@@ -21,9 +23,11 @@ open class MediaItem: MediaName {
     self.tags = data["tags"].stringValue
     self.description = data["description"].stringValue
     self.rating = data["rating"].intValue
-    self.watchStatus = ""
-    self.seasonNumber = ""
-    self.episodeNumber = ""
+    self.parentName = data["parentName"].stringValue ?? ""
+    self.parentId = data["parentId"].stringValue ?? ""
+    self.watchStatus = data["watchStatus"].stringValue ?? ""
+    self.seasonNumber = data["seasonNumber"].stringValue ?? ""
+    self.episodeNumber = data["episodeNumber"].stringValue ?? ""
 
     super.init(name: data["name"].stringValue, id: data["id"].stringValue)
   }
@@ -86,8 +90,9 @@ open class MediaItem: MediaName {
   }
 
   override open func toJson() -> [String: Any] {
-    var result: [String: Any] = ["type": type!, "thumb": thumb!, "tags": tags!, "description": description!,
-                  "rating": rating!.description, "seasonNumber": seasonNumber!]
+    var result: [String: Any] = ["type": type!, "parentName": parentName!, "thumb": thumb!, "tags": tags!, 
+                                 "description": description!, "rating": rating!.description, 
+                                 "seasonNumber": seasonNumber!]
 
     for (key, value) in super.toJson() {
       result[key] = value

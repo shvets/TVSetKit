@@ -9,7 +9,15 @@ open class Bookmarks: FileStorage {
     for (_, item) in items {
       var json = JSON(item)
 
-      data.append(json["item"])
+      var item = json["item"]
+
+      let parentName = item["parentName"]
+
+      if parentName != JSON.null {
+        item["name"] = JSON("\(parentName.rawString()!) (\(item["name"].rawString()!))")
+      }
+
+      data.append(item)
     }
 
     var newData: [Any] = []
