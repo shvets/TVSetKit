@@ -23,11 +23,11 @@ open class MediaItem: MediaName {
     self.tags = data["tags"].stringValue
     self.description = data["description"].stringValue
     self.rating = data["rating"].intValue
-    self.parentName = data["parentName"].stringValue ?? ""
-    self.parentId = data["parentId"].stringValue ?? ""
-    self.watchStatus = data["watchStatus"].stringValue ?? ""
-    self.seasonNumber = data["seasonNumber"].stringValue ?? ""
-    self.episodeNumber = data["episodeNumber"].stringValue ?? ""
+    self.parentName = data["parentName"].stringValue
+    self.parentId = data["parentId"].stringValue
+    self.watchStatus = data["watchStatus"].stringValue
+    self.seasonNumber = data["seasonNumber"].stringValue
+    self.episodeNumber = data["episodeNumber"].stringValue
 
     super.init(name: data["name"].stringValue, id: data["id"].stringValue)
   }

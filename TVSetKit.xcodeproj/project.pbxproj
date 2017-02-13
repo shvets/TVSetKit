@@ -180,8 +180,8 @@
 			isa = PBXGroup;
 			children = (
 				FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */,
-				FA3505271E4663B3009BB40E /* TVSetKit */,
-				FA3505321E4663B4009BB40E /* TVSetKitTests */,
+				FA3505271E4663B3009BB40E /* Sources */,
+				FA3505321E4663B4009BB40E /* Tests */,
 				FA3505261E4663B3009BB40E /* Products */,
 				2DBA161608A7DAAC8E767860 /* Package.swift */,
 			);
@@ -196,7 +196,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FA3505271E4663B3009BB40E /* TVSetKit */ = {
+		FA3505271E4663B3009BB40E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				FAE009521E46A15300941CAD /* UIHelper.swift */,
@@ -238,15 +238,17 @@
 				2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */,
 				2DBA12F93A56F01F374C9F6A /* Player.storyboard */,
 			);
+			name = Sources;
 			path = TVSetKit;
 			sourceTree = "<group>";
 		};
-		FA3505321E4663B4009BB40E /* TVSetKitTests */ = {
+		FA3505321E4663B4009BB40E /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 				FA3505331E4663B4009BB40E /* TVSetKitTests.swift */,
 				FA3505351E4663B4009BB40E /* Info.plist */,
 			);
+			name = Tests;
 			path = TVSetKitTests;
 			sourceTree = "<group>";
 		};
