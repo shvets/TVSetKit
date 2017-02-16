@@ -79,7 +79,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
     if (gesture.view as? MediaItemCell) != nil {
       let selectedCell = gesture.view as! MediaItemCell
 
-      let mediaItem = selectedCell.item!
+      let indexPath = collectionView?.indexPath(for: selectedCell)
+      let mediaItem = items[indexPath!.row]
 
       if mediaItem.isContainer() {
         tapped(gesture)
@@ -94,7 +95,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
     if (gesture.view as? MediaItemCell) != nil {
       let selectedCell = gesture.view as! MediaItemCell
 
-      let mediaItem = selectedCell.item!
+      let indexPath = collectionView?.indexPath(for: selectedCell)
+      let mediaItem = items[indexPath!.row]
 
       let type = mediaItem.type
 
@@ -110,8 +112,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
           let newAdapter = adapter.clone()
           newAdapter.selectedItem = mediaItem
 
-          newAdapter.parentId = selectedCell.item?.id
-          newAdapter.parentName = selectedCell.item?.name
+          newAdapter.parentId = mediaItem.id
+          newAdapter.parentName = mediaItem.name
           newAdapter.isContainer = true
 
           let destination = MediaItemsController.instantiate()
@@ -134,7 +136,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
   override open func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let identifier = segue.identifier {
       let selectedCell = sender as! MediaItemCell
-      let mediaItem = selectedCell.item!
+
+      let indexPath = collectionView?.indexPath(for: selectedCell)!
+      let mediaItem = items[indexPath!.row]
 
       switch identifier {
         case MediaItemDetailsController.SEGUE_IDENTIFIER:
