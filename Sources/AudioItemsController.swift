@@ -113,7 +113,8 @@ class AudioItemsController: InfiniteTableViewController {
         case AudioPlayerController.SEGUE_IDENTIFIER:
           if let destination = segue.destination as? AudioPlayerController,
              let selectedCell = sender as? AudioItemCell {
-            destination.mediaItem = selectedCell.item
+
+            destination.mediaItem = getItem(for: selectedCell)
           }
 
         default: break

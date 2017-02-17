@@ -9,6 +9,12 @@ open class InfiniteTableViewController: UITableViewController {
 
   var params = [String: Any]()
 
+  public func getItem(for cell: UITableViewCell) -> MediaItem {
+    let indexPath = tableView?.indexPath(for: cell)!
+
+    return items[indexPath!.row]
+  }
+
   func loadInitialData() {
     adapter.loadData() { result in
       self.items = result

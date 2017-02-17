@@ -36,4 +36,10 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     }
   }
 
+  public func getItem(for cell: UICollectionViewCell) -> MediaItem {
+    let indexPath = collectionView?.indexPath(for: cell)!
+
+    return items[indexPath!.row]
+  }
+
 }

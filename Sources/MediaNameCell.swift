@@ -1,13 +1,9 @@
 import UIKit
 
 open class MediaNameCell: UICollectionViewCell {
-  public var item: MediaName?
-
   @IBOutlet weak var thumb: UIImageView!
 
   public func configureCell(item: MediaName, localizedName: String, target: Any?, action: Selector?) {
-    self.item = item
-
     thumb.backgroundColor = UIColor(rgb: 0x00BFFF)
 
     let itemSize = UIHelper.shared.getItemSize(target as! UICollectionViewController)

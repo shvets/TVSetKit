@@ -1,8 +1,6 @@
 import UIKit
 
 class AudioItemCell: UITableViewCell {
-  public var item: MediaItem?
-
   @IBOutlet weak var current: UILabel!
   @IBOutlet weak var title: UILabel!
 
@@ -16,8 +14,6 @@ class AudioItemCell: UITableViewCell {
   }
 
   public func configureCell(item: MediaItem, target: Any?, action: Selector?) {
-    self.item = item
-
     self.title.text = item.name
 
     CellHelper.shared.addGestureRecognizer(view: self, target: target, action: action)
