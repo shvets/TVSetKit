@@ -32,11 +32,11 @@ open class LanguageManager {
     }
   }
 
-  public func localize(_ key: String, comment: String = "") -> String {
+  public func localize(_ key: String, comment: String = "", bundle: Bundle=Bundle.main) -> String {
     let locale = getLocale()
 
     let lang = locale
-    let path = Bundle.main.path(forResource: lang, ofType: "lproj")
+    let path = bundle.path(forResource: lang, ofType: "lproj")
     let bundle = Bundle(path: path!)
 
     return NSLocalizedString(key, bundle: bundle!, comment: comment)
