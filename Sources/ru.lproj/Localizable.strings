@@ -1,8 +1,8 @@
-RESET_HISTORY="Очистить Историю";
-RESET_BOOKMARKS="Очистить Очередь";
 HISTORY_WILL_BE_RESET="История Просмотров Будет Очищена";
 BOOKMARKS_WILL_BE_RESET="Очередь Будет Очищена";
 CONFIRM_YOUR_CHOICE="Пожалуйста Подтвердите Ваш Выбор";
+BOOKMARK_WILL_BE_ADDED="Movie will be added";
+BOOKMARK_WILL_BE_REMOVED="Movie will be removed";
 
 CANNOT_FIND_SOURCE="Источник Не Существует";
 
