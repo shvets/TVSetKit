@@ -234,8 +234,10 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
 
   func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = adapter?.languageManager?.localize("BOOKMARK_WILL_BE_REMOVED")
-    let message = adapter?.languageManager?.localize("CONFIRM_YOUR_CHOICE")
+    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+    let title = adapter?.languageManager?.localize("BOOKMARK_WILL_BE_REMOVED", bundle: bundle)
+    let message = adapter?.languageManager?.localize("CONFIRM_YOUR_CHOICE", bundle: bundle)
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     
@@ -259,8 +261,10 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
   
   func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = adapter?.languageManager?.localize("BOOKMARK_WILL_BE_ADDED")
-    let message = adapter?.languageManager?.localize("CONFIRM_YOUR_CHOICE")
+    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+    let title = adapter?.languageManager?.localize("BOOKMARK_WILL_BE_ADDED", bundle: bundle)
+    let message = adapter?.languageManager?.localize("CONFIRM_YOUR_CHOICE", bundle: bundle)
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     

@@ -58,7 +58,7 @@ class MediaItemDetailsController: UIViewController {
         currentOffset += Int(buttons[index-1].frame.size.width)+30
       }
 
-      let button = createButton(bitrate: bitrate, offset: currentOffset)
+      let button = createBitrateButton(bitrate: bitrate, offset: currentOffset)
 
       buttons.append(button)
       
@@ -107,8 +107,10 @@ class MediaItemDetailsController: UIViewController {
     }
   }
 
-  func createButton(bitrate: MediaName, offset: Int) -> PlayButton {
-    let title = adapter?.languageManager?.localize(bitrate.name!) ?? "Unknown"
+  func createBitrateButton(bitrate: MediaName, offset: Int) -> PlayButton {
+    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+    let title = adapter?.languageManager?.localize(bitrate.name!, bundle: bundle) ?? "Unknown"
 
     let button = PlayButton(type: .system)
     let scale = adapter?.languageManager?.getLocale() == "en" ? 52 : 36

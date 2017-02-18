@@ -125,8 +125,10 @@ class VideoPlayerController: AVPlayerViewController {
      // }
     }
     else {
-      let title = adapter?.languageManager?.localize("CANNOT_FIND_SOURCE")
-      let message = adapter?.languageManager?.localize("CANNOT_FIND_SOURCE")
+      let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+      let title = adapter?.languageManager?.localize("CANNOT_FIND_SOURCE", bundle: bundle)
+      let message = adapter?.languageManager?.localize("CANNOT_FIND_SOURCE", bundle: bundle)
       
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
       

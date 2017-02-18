@@ -1,0 +1,15 @@
+RESET_HISTORY="Reset History";
+RESET_BOOKMARKS="Reset Bookmarks";
+HISTORY_WILL_BE_RESET="History will be Reset";
+BOOKMARKS_WILL_BE_RESET="Bookmarks will be Reset";
+CONFIRM_YOUR_CHOICE="Please Confirm Your Choice";
+
+CANNOT_FIND_SOURCE="Cannot find Source";
+
+"Enter Query" = "Enter Query";
+"Search" = "Search";
+
+"Low" = "Low";
+"Medium" = "Medium";
+"Normal" = "Normal";
+"High" = "High";

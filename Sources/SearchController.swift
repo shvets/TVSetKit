@@ -16,8 +16,10 @@ open class SearchController: UIViewController {
   override open func viewDidLoad() {
     super.viewDidLoad()
 
-    searchButton.setTitle(adapter?.languageManager?.localize(searchButton.title(for: .normal)!), for: .normal)
-    query.placeholder = adapter?.languageManager?.localize(query.placeholder!)
+    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+
+    searchButton.setTitle(adapter?.languageManager?.localize(searchButton.title(for: .normal)!, bundle: bundle), for: .normal)
+    query.placeholder = adapter?.languageManager?.localize(query.placeholder!, bundle: bundle)
   }
 
   @IBAction func onSearchAction(_ sender: UIButton) {

@@ -1,0 +1,15 @@
+RESET_HISTORY="Очистить Историю";
+RESET_BOOKMARKS="Очистить Очередь";
+HISTORY_WILL_BE_RESET="История Просмотров Будет Очищена";
+BOOKMARKS_WILL_BE_RESET="Очередь Будет Очищена";
+CONFIRM_YOUR_CHOICE="Пожалуйста Подтвердите Ваш Выбор";
+
+CANNOT_FIND_SOURCE="Источник Не Существует";
+
+"Enter Query" = "Введите Запрос";
+"Search" = "Поиск";
+
+"Low" = "Низкое";
+"Medium" = "Среднее";
+"Normal" = "Нормальное";
+"High" = "Высокое";
