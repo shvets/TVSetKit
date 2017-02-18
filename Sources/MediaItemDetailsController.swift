@@ -15,8 +15,8 @@ class PlayButton: UIButton {
 }
 
 class MediaItemDetailsController: UIViewController {
-  static let SEGUE_IDENTIFIER = "MediaItemDetails"
-  let CELL_IDENTIFIER = "MediaItemDetailsCell"
+  static let SegueIdentifier = "MediaItemDetails"
+  let CellIdentifier = "MediaItemDetailsCell"
   
   @IBOutlet weak var imageView: UIImageView!
   @IBOutlet weak var movieDescription: UITextView!
@@ -159,7 +159,7 @@ class MediaItemDetailsController: UIViewController {
   }
   
   func playMediaItem(sender: UIView) {
-    performSegue(withIdentifier: VideoPlayerController.SEGUE_IDENTIFIER, sender: sender)
+    performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: sender)
   }
 
   // MARK: - Navigation
@@ -167,7 +167,7 @@ class MediaItemDetailsController: UIViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let identifier = segue.identifier {
       switch identifier {
-        case VideoPlayerController.SEGUE_IDENTIFIER:
+        case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
             destination.playVideo = true
             destination.collectionItems = collectionItems

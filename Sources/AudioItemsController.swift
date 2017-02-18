@@ -3,8 +3,8 @@ import AVFoundation
 import AVKit
 
 class AudioItemsController: InfiniteTableViewController {
-  static let SEGUE_IDENTIFIER = "AudioItems"
-  let CELL_IDENTIFIER = "AudioItemCell"
+  static let SegueIdentifier = "AudioItems"
+  let CellIdentifier = "AudioItemCell"
 
   var selectedCell: AudioItemCell?
   var mediaItem: MediaItem?
@@ -33,7 +33,7 @@ class AudioItemsController: InfiniteTableViewController {
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CELL_IDENTIFIER, for: indexPath) as! AudioItemCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! AudioItemCell
 
     let item = items[indexPath.row]
     
@@ -101,7 +101,7 @@ class AudioItemsController: InfiniteTableViewController {
 //          }
 //        }
 
-      performSegue(withIdentifier: AudioPlayerController.SEGUE_IDENTIFIER, sender: gesture.view)
+      performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: gesture.view)
     }
   }
 
@@ -110,7 +110,7 @@ class AudioItemsController: InfiniteTableViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let identifier = segue.identifier {
       switch identifier {
-        case AudioPlayerController.SEGUE_IDENTIFIER:
+        case AudioPlayerController.SegueIdentifier:
           if let destination = segue.destination as? AudioPlayerController,
              let selectedCell = sender as? AudioItemCell {
 

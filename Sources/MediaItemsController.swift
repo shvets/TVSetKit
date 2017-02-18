@@ -2,9 +2,9 @@ import UIKit
 import SwiftyJSON
 
 open class MediaItemsController: InfiniteCollectionViewController {
-  public class var SEGUE_IDENTIFIER: String { return  "MediaItems" }
-  var CELL_IDENTIFIER: String { return  "MediaItemCell" }
-  var HEADER_VIEW_IDENTIFIER: String { return  "MediaItemsHeader" }
+  public class var SegueIdentifier: String { return  "MediaItems" }
+  var CellIdentifier: String { return  "MediaItemCell" }
+  var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
 
   static public func instantiate() -> Self {
     let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
@@ -37,7 +37,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
 
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CELL_IDENTIFIER, for: indexPath) as! MediaItemCell
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaItemCell
 
     let item = items[indexPath.row]
 
@@ -86,7 +86,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
         tapped(gesture)
       }
       else {
-        performSegue(withIdentifier: VideoPlayerController.SEGUE_IDENTIFIER, sender: gesture.view)
+        performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: gesture.view)
       }
     }
   }
@@ -106,7 +106,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
       if mediaItem.isContainer() {
         if mediaItem.isAudioContainer() {
-          performSegue(withIdentifier: AudioItemsController.SEGUE_IDENTIFIER, sender: gesture.view)
+          performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: gesture.view)
         }
         else {
           let newAdapter = adapter.clone()
@@ -126,7 +126,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
         }
       }
       else {
-        performSegue(withIdentifier: MediaItemDetailsController.SEGUE_IDENTIFIER, sender: gesture.view)
+        performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: gesture.view)
       }
     }
   }
@@ -141,19 +141,19 @@ open class MediaItemsController: InfiniteCollectionViewController {
       let mediaItem = items[indexPath!.row]
 
       switch identifier {
-        case MediaItemDetailsController.SEGUE_IDENTIFIER:
+        case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
             destination.collectionItems = items
             destination.mediaItem = mediaItem
             destination.adapter = adapter
           }
-        case AudioItemsController.SEGUE_IDENTIFIER:
+        case AudioItemsController.SegueIdentifier:
           if let destination = segue.destination as? AudioItemsController {
             destination.mediaItem = mediaItem
             destination.adapter = adapter
             destination.adapter.selectedItem = mediaItem
           }
-        case VideoPlayerController.SEGUE_IDENTIFIER:
+        case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
             destination.playVideo = true
             destination.collectionItems = items
@@ -181,7 +181,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
                                at indexPath: IndexPath) -> UICollectionReusableView {
     if kind == "UICollectionElementKindSectionHeader" {
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-        withReuseIdentifier: HEADER_VIEW_IDENTIFIER, for: indexPath as IndexPath) as! MediaItemsHeaderView
+        withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as! MediaItemsHeaderView
 
       headerView.sectionLabel.text = adapter?.languageManager?.localize(getHeaderName())
       
