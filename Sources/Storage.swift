@@ -23,7 +23,9 @@ open class Storage {
     clear()
     
     if exist() {
-      items = loadStorage()
+      if let items = loadStorage() {
+        self.items = items
+      }
     }
   }
 
@@ -35,7 +37,7 @@ open class Storage {
     saveStorage(self.items)
   }
 
-  func loadStorage() -> [String: Any] {
+  func loadStorage() -> [String: Any]? {
     return [:]
   }
   

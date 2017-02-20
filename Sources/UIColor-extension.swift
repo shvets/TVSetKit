@@ -1,5 +1,3 @@
-// UIColorExtension.swift
-
 import Foundation
 import UIKit
 

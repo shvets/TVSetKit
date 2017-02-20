@@ -11,36 +11,40 @@ open class FileStorage: Storage {
     return FileManager.default.fileExists(atPath: fileName)
   }
 
-  override public func loadStorage() -> [String: Any] {
-    var contents: Data?
+  override public func loadStorage() -> [String: Any]? {
+    var data: [String: Any]?
 
     if FileManager.default.fileExists(atPath: fileName) {
+      var content: Data?
+
       if let file = FileHandle(forReadingAtPath: fileName) {
-        contents = file.readDataToEndOfFile()
+        content = file.readDataToEndOfFile()
 
         file.closeFile()
       }
-    }
-    else {
-      print("File does not exist")
-      contents = Data()
+
+      data = JsonConverter.toItems(content!)
     }
 
-    return JsonConverter.toItems(contents!)
+    return data
   }
 
   override public func saveStorage(_ items: [String: Any]) {
     let contents: Data = JsonConverter.toData(items)
 
+    save(contents)
+  }
+
+  func save(_ data: Data) {
     let defaultManager = FileManager.default
 
     if !defaultManager.fileExists(atPath: fileName) {
-      defaultManager.createFile(atPath: fileName, contents: contents)
+      defaultManager.createFile(atPath: fileName, contents: data)
     }
     else {
       if let file = FileHandle(forWritingAtPath: fileName) {
         file.truncateFile(atOffset: 0)
-        file.write(contents)
+        file.write(data)
 
         file.closeFile()
       }

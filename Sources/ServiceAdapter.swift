@@ -28,7 +28,7 @@ open class ServiceAdapter {
   private var configName: String?
 
   public init(configName: String) {
-    languageManager = LanguageManager(configName)
+    languageManager = LanguageManager()
   }
 
   open func clone() -> ServiceAdapter {
