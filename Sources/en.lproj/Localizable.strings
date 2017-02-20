@@ -1,3 +1,6 @@
+BOOKMARKS="Bookmarks";
+HISTORY="History";
+
 HISTORY_WILL_BE_RESET="History will be Reset";
 BOOKMARKS_WILL_BE_RESET="Bookmarks will be Reset";
 CONFIRM_YOUR_CHOICE="Please Confirm Your Choice";

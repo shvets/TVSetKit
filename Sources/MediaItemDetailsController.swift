@@ -97,6 +97,9 @@ class MediaItemDetailsController: UIViewController {
 
   func loadData() throws {
     do {
+      print(mediaItem)
+      print(try mediaItem.getBitrates())
+
       for bitrate in try mediaItem.getBitrates() {
         let name = bitrate["name"] as! String
         let id = bitrate["id"] as? String
