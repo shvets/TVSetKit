@@ -8,8 +8,13 @@ open class Localizer {
 
   let bundle: Bundle!
 
-  public init(identifier: String) {
-    bundle = Bundle(identifier: identifier)
+  public init(_ identifier: String="") {
+    if identifier.isEmpty {
+      bundle = Bundle.main
+    }
+    else {
+      bundle = Bundle(identifier: identifier)
+    }
 
     config = FileStorage(Localizer.configName)
   }
@@ -19,7 +24,7 @@ open class Localizer {
   }
 
   public func getLocale() -> String {
-    var locale = LanguageManager.DefaultLocale
+    var locale = Localizer.DefaultLocale
 
     if let data = config.loadStorage() {
       if let langCode = data["langCode"] as? String {
@@ -30,14 +35,13 @@ open class Localizer {
     return locale
   }
 
-  public func localize(_ key: String, comment: String = "", bundle: Bundle=Bundle.main) -> String {
+  public func localize(_ key: String, comment: String = "") -> String {
     let locale = getLocale()
 
     let lang = locale
     let path = bundle.path(forResource: lang, ofType: "lproj")
-    let bundle = Bundle(path: path!)
 
-    return NSLocalizedString(key, bundle: bundle!, comment: comment)
+    return NSLocalizedString(key, bundle: Bundle(path: path!)!, comment: comment)
   }
 
 }

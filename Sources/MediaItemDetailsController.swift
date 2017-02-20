@@ -25,7 +25,7 @@ class MediaItemDetailsController: UIViewController {
   @IBOutlet weak var rating: UILabel!
   @IBOutlet weak var watchStatus: UILabel!
 
-  var localizer = TVSetKitLocalizer(identifier: "com.rubikon.TVSetKit")
+  var localizer = Localizer("com.rubikon.TVSetKit")
 
   var adapter: ServiceAdapter?
   var collectionItems: [MediaItem]!
@@ -113,7 +113,7 @@ class MediaItemDetailsController: UIViewController {
     let title = localizer.localize(bitrate.name!) ?? "Unknown"
 
     let button = PlayButton(type: .system)
-    let scale = adapter?.languageManager?.getLocale() == "en" ? 52 : 36
+    let scale = localizer.getLocale() == "en" ? 52 : 36
     button.frame = CGRect(x: 680+offset, y: 920, width: scale*title.characters.count, height: 80)
 
     button.setTitle(title, for: .normal)

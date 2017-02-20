@@ -3,7 +3,7 @@ import SwiftyJSON
 
 open class ServiceAdapter {
   public var spinner: Spinner?
-  public var languageManager: LanguageManager?
+  //public var languageManager: LanguageManager?
 
   private let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
 
@@ -28,7 +28,7 @@ open class ServiceAdapter {
   private var configName: String?
 
   public init(configName: String) {
-    languageManager = LanguageManager()
+    //languageManager = LanguageManager()
   }
 
   open func clone() -> ServiceAdapter {

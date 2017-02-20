@@ -5,7 +5,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
   var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
-  var localizer = TVSetKitLocalizer(identifier: "com.rubikon.TVSetKit")
+  var localizer = Localizer("com.rubikon.TVSetKit")
 
   static public func instantiate() -> Self {
     let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
