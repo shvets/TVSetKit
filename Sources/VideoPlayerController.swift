@@ -10,6 +10,7 @@ class VideoPlayerController: AVPlayerViewController {
 
   //let playerViewController: AVPlayerViewController? = AVPlayerViewController()
   var adapter: ServiceAdapter!
+  var localizer = TVSetKitLocalizer(identifier: "com.rubikon.TVSetKit")
 
   var params = [String: Any]()
 
@@ -125,10 +126,8 @@ class VideoPlayerController: AVPlayerViewController {
      // }
     }
     else {
-      let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
-
-      let title = adapter?.languageManager?.localize("CANNOT_FIND_SOURCE", bundle: bundle)
-      let message = adapter?.languageManager?.localize("CANNOT_FIND_SOURCE", bundle: bundle)
+      let title = localizer.localize("CANNOT_FIND_SOURCE")
+      let message = localizer.localize("CANNOT_FIND_SOURCE")
       
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
       

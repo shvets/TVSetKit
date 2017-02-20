@@ -5,6 +5,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
   var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
+  var localizer = TVSetKitLocalizer(identifier: "com.rubikon.TVSetKit")
 
   static public func instantiate() -> Self {
     let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
@@ -41,7 +42,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     let item = items[indexPath.row]
 
-    let localizedName = adapter?.languageManager?.localize(item.name!) ?? "Unknown"
+    let localizedName = localizer.localize(item.name!) ?? "Unknown"
 
     cell.configureCell(item: item, localizedName: localizedName, target: self, action: #selector(self.tapped(_:)))
 
@@ -183,7 +184,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
         withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as! MediaItemsHeaderView
 
-      headerView.sectionLabel.text = adapter?.languageManager?.localize(getHeaderName())
+      headerView.sectionLabel.text = localizer.localize(getHeaderName())
       
       return headerView
     }
@@ -234,10 +235,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
 
   func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
-
-    let title = adapter?.languageManager?.localize("BOOKMARK_WILL_BE_REMOVED", bundle: bundle)
-    let message = adapter?.languageManager?.localize("CONFIRM_YOUR_CHOICE", bundle: bundle)
+    let title = localizer.localize("BOOKMARK_WILL_BE_REMOVED")
+    let message = localizer.localize("CONFIRM_YOUR_CHOICE")
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     
@@ -261,10 +260,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
   
   func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
-
-    let title = adapter?.languageManager?.localize("BOOKMARK_WILL_BE_ADDED", bundle: bundle)
-    let message = adapter?.languageManager?.localize("CONFIRM_YOUR_CHOICE", bundle: bundle)
+    let title = localizer.localize("BOOKMARK_WILL_BE_ADDED")
+    let message = localizer.localize("CONFIRM_YOUR_CHOICE")
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     

@@ -25,6 +25,8 @@ class MediaItemDetailsController: UIViewController {
   @IBOutlet weak var rating: UILabel!
   @IBOutlet weak var watchStatus: UILabel!
 
+  var localizer = TVSetKitLocalizer(identifier: "com.rubikon.TVSetKit")
+
   var adapter: ServiceAdapter?
   var collectionItems: [MediaItem]!
 
@@ -108,9 +110,7 @@ class MediaItemDetailsController: UIViewController {
   }
 
   func createBitrateButton(bitrate: MediaName, offset: Int) -> PlayButton {
-    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
-
-    let title = adapter?.languageManager?.localize(bitrate.name!, bundle: bundle) ?? "Unknown"
+    let title = localizer.localize(bitrate.name!) ?? "Unknown"
 
     let button = PlayButton(type: .system)
     let scale = adapter?.languageManager?.getLocale() == "en" ? 52 : 36
@@ -135,7 +135,7 @@ class MediaItemDetailsController: UIViewController {
     var image: UIImage
 
     if path.isEmpty {
-      let localizedName = adapter?.languageManager?.localize(mediaItem.name!)
+      let localizedName = localizer.localize(mediaItem.name!)
 
       image = UIHelper.shared.textToImage(drawText: localizedName ?? "Unknown Name", width: 450, height: 150)
     }
