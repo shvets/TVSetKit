@@ -1,3 +1,5 @@
+import UIKit
+
 open class AppStoryboard {
 
   public static func instantiateController<T: UIViewController>(_ storyboardId: String, bundle: Bundle=Bundle.main, viewControllerClass: T.Type,

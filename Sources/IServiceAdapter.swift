@@ -1,3 +1,5 @@
+import UIKit
+
 public protocol IServiceAdapter {
 
   func nextPageAvailable(dataCount: Int, index: Int) -> Bool
