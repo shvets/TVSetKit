@@ -14,6 +14,8 @@ open class MediaNameCell: UICollectionViewCell {
   }
 
   override open func didUpdateFocus(in inContext: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-    thumb.adjustsImageWhenAncestorFocused = isFocused
+    #if os(tvOS)
+      self.thumb.adjustsImageWhenAncestorFocused = self.isFocused
+    #endif
   }
 }

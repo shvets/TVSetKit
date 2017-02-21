@@ -1,4 +1,4 @@
-import Foundation
+import AVFoundation
 import UIKit
 import AVKit
 import SwiftyJSON
@@ -102,7 +102,10 @@ class VideoPlayerController: AVPlayerViewController {
       let asset = AVAsset(url: url)
 
       let playerItem = AVPlayerItem(asset: asset)
-      playerItem.externalMetadata = externalMetaData(title: name!, description: description!)
+
+      #if os(tvOS)
+        playerItem.externalMetadata = externalMetaData(title: name!, description: description!)
+      #endif
 
       // playerViewController?.delegate = self
 

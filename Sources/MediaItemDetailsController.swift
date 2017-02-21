@@ -110,7 +110,7 @@ class MediaItemDetailsController: UIViewController {
   }
 
   func createBitrateButton(bitrate: MediaName, offset: Int) -> PlayButton {
-    let title = localizer.localize(bitrate.name!) ?? "Unknown"
+    let title = localizer.localize(bitrate.name!)
 
     let button = PlayButton(type: .system)
     let scale = localizer.getLocale() == "en" ? 52 : 36
@@ -137,7 +137,7 @@ class MediaItemDetailsController: UIViewController {
     if path.isEmpty {
       let localizedName = localizer.localize(mediaItem.name!)
 
-      image = UIHelper.shared.textToImage(drawText: localizedName ?? "Unknown Name", width: 450, height: 150)
+      image = UIHelper.shared.textToImage(drawText: localizedName, width: 450, height: 150)
     }
     else {
       let url = NSURL(string: path)!
