@@ -17,10 +17,10 @@
 		2DBA194E58FD9FE9CEA09A20 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA161608A7DAAC8E767860 /* Package.swift */; };
 		2DBA1AB356CA8A29A6252AA7 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DBA12F93A56F01F374C9F6A /* Player.storyboard */; };
 		2DBA1C394C44BD6ED2AEC49C /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
-		FA32F9691E5BD4A900E4BA81 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA32F9461E5BCE6700E4BA81 /* SwiftyJSON.framework */; };
-		FA32F9831E5BE2B900E4BA81 /* TVSetKit-iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = FA32F9811E5BE2B900E4BA81 /* TVSetKit-iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FA32F98E1E5BE2E300E4BA81 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA32F9461E5BCE6700E4BA81 /* SwiftyJSON.framework */; };
+		FA35052F1E4663B4009BB40E /* TVSetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3505251E4663B3009BB40E /* TVSetKit.framework */; };
+		FA3505341E4663B4009BB40E /* TVSetKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3505331E4663B4009BB40E /* TVSetKitTests.swift */; };
 		FA3505361E4663B4009BB40E /* TVSetKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3505281E4663B3009BB40E /* TVSetKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA3505951E4664E7009BB40E /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA35055D1E46646A009BB40E /* SwiftyJSON.framework */; };
 		FA67DC9D1E46933600734FB6 /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9B1E46933600734FB6 /* MediaItem.swift */; };
 		FA67DC9E1E46933600734FB6 /* MediaName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9C1E46933600734FB6 /* MediaName.swift */; };
 		FA9A189F1E58958E00DC0DCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA9A18A11E58958E00DC0DCE /* Localizable.strings */; };
@@ -52,44 +52,58 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FA32F9451E5BCE6700E4BA81 /* PBXContainerItemProxy */ = {
+		FA3505301E4663B4009BB40E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+			containerPortal = FA35051C1E4663B3009BB40E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA3505241E4663B3009BB40E;
+			remoteInfo = TVSetKit;
+		};
+		FA3505521E46646A009BB40E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2E4FEFDB19575BE100351305;
 			remoteInfo = "SwiftyJSON iOS";
 		};
-		FA32F9471E5BCE6700E4BA81 /* PBXContainerItemProxy */ = {
+		FA3505541E46646A009BB40E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2E4FEFE619575BE100351305;
 			remoteInfo = "SwiftyJSON iOS Tests";
 		};
-		FA32F9491E5BCE6700E4BA81 /* PBXContainerItemProxy */ = {
+		FA3505561E46646A009BB40E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 9C7DFC5B1A9102BD005AA3F7;
 			remoteInfo = "SwiftyJSON OSX";
 		};
-		FA32F94B1E5BCE6700E4BA81 /* PBXContainerItemProxy */ = {
+		FA3505581E46646A009BB40E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 9C7DFC651A9102BD005AA3F7;
 			remoteInfo = "SwiftyJSON OSX Tests";
 		};
-		FA32F94D1E5BCE6700E4BA81 /* PBXContainerItemProxy */ = {
+		FA35055A1E46646A009BB40E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E4D7CCE81B9465A700EE7221;
 			remoteInfo = "SwiftyJSON watchOS";
 		};
-		FA32F94F1E5BCE6700E4BA81 /* PBXContainerItemProxy */ = {
+		FA35055C1E46646A009BB40E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7236B4F61BAC14150020529B;
+			remoteInfo = "SwiftyJSON tvOS";
+		};
+		FA35055E1E46646A009BB40E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = A8580F741BCF5C5B00DA927B;
 			remoteInfo = "SwiftyJSON tvOS Tests";
@@ -107,13 +121,13 @@
 		2DBA161608A7DAAC8E767860 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		2DBA1883C214B22BA26BB9CA /* AppStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoryboard.swift; sourceTree = "<group>"; };
 		2DBA1FDFEACDB8AA7E909E35 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
-		FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = ../SwiftyJSON/SwiftyJSON.xcodeproj; sourceTree = "<group>"; };
-		FA32F97F1E5BE2B900E4BA81 /* TVSetKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TVSetKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FA32F9811E5BE2B900E4BA81 /* TVSetKit-iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TVSetKit-iOS.h"; sourceTree = "<group>"; };
-		FA32F9821E5BE2B900E4BA81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FA3505251E4663B3009BB40E /* TVSetKit_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TVSetKit_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3505251E4663B3009BB40E /* TVSetKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TVSetKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3505281E4663B3009BB40E /* TVSetKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVSetKit.h; sourceTree = "<group>"; };
 		FA3505291E4663B3009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		FA35052E1E4663B4009BB40E /* TVSetKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVSetKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA3505331E4663B4009BB40E /* TVSetKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSetKitTests.swift; sourceTree = "<group>"; };
+		FA3505351E4663B4009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftyJSON.xcodeproj; path = "../WebAPI/Packages/SwiftyJSON-3.1.3/SwiftyJSON.xcodeproj"; sourceTree = "<group>"; };
 		FA67DC9B1E46933600734FB6 /* MediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
 		FA67DC9C1E46933600734FB6 /* MediaName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaName.swift; sourceTree = "<group>"; };
 		FA9A18A01E58958E00DC0DCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -146,54 +160,31 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FA32F97B1E5BE2B900E4BA81 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FA32F98E1E5BE2E300E4BA81 /* SwiftyJSON.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FA3505211E4663B3009BB40E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA32F9691E5BD4A900E4BA81 /* SwiftyJSON.framework in Frameworks */,
+				FA3505951E4664E7009BB40E /* SwiftyJSON.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FA35052B1E4663B4009BB40E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA35052F1E4663B4009BB40E /* TVSetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FA32F93C1E5BCE6700E4BA81 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				FA32F9461E5BCE6700E4BA81 /* SwiftyJSON.framework */,
-				FA32F9481E5BCE6700E4BA81 /* SwiftyJSON iOS Tests.xctest */,
-				FA32F94A1E5BCE6700E4BA81 /* SwiftyJSON.framework */,
-				FA32F94C1E5BCE6700E4BA81 /* SwiftyJSON OSX Tests.xctest */,
-				FA32F94E1E5BCE6700E4BA81 /* SwiftyJSON.framework */,
-				FA32F9501E5BCE6700E4BA81 /* SwiftyJSON tvOS Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		FA32F9801E5BE2B900E4BA81 /* TVSetKit_iOS */ = {
-			isa = PBXGroup;
-			children = (
-				FA32F9811E5BE2B900E4BA81 /* TVSetKit-iOS.h */,
-				FA32F9821E5BE2B900E4BA81 /* Info.plist */,
-			);
-			name = TVSetKit_iOS;
-			path = "TVSetKit-iOS";
-			sourceTree = "<group>";
-		};
 		FA35051B1E4663B3009BB40E = {
 			isa = PBXGroup;
 			children = (
-				FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */,
+				FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */,
 				FA3505271E4663B3009BB40E /* Sources */,
-				FA32F9801E5BE2B900E4BA81 /* TVSetKit_iOS */,
+				FA3505321E4663B4009BB40E /* Tests */,
 				FA3505261E4663B3009BB40E /* Products */,
 				2DBA161608A7DAAC8E767860 /* Package.swift */,
 			);
@@ -202,8 +193,8 @@
 		FA3505261E4663B3009BB40E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FA3505251E4663B3009BB40E /* TVSetKit_tvOS.framework */,
-				FA32F97F1E5BE2B900E4BA81 /* TVSetKit_iOS.framework */,
+				FA3505251E4663B3009BB40E /* TVSetKit.framework */,
+				FA35052E1E4663B4009BB40E /* TVSetKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -254,17 +245,32 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
+		FA3505321E4663B4009BB40E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				FA3505331E4663B4009BB40E /* TVSetKitTests.swift */,
+				FA3505351E4663B4009BB40E /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		FA3505491E46646A009BB40E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FA3505531E46646A009BB40E /* SwiftyJSON.framework */,
+				FA3505551E46646A009BB40E /* SwiftyJSON iOS Tests.xctest */,
+				FA3505571E46646A009BB40E /* SwiftyJSON.framework */,
+				FA3505591E46646A009BB40E /* SwiftyJSON OSX Tests.xctest */,
+				FA35055B1E46646A009BB40E /* SwiftyJSON.framework */,
+				FA35055D1E46646A009BB40E /* SwiftyJSON.framework */,
+				FA35055F1E46646A009BB40E /* SwiftyJSON tvOS Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		FA32F97C1E5BE2B900E4BA81 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FA32F9831E5BE2B900E4BA81 /* TVSetKit-iOS.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FA3505221E4663B3009BB40E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -276,27 +282,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		FA32F97E1E5BE2B900E4BA81 /* TVSetKit_iOS */ = {
+		FA3505241E4663B3009BB40E /* TVSetKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FA32F98D1E5BE2B900E4BA81 /* Build configuration list for PBXNativeTarget "TVSetKit_iOS" */;
-			buildPhases = (
-				FA32F97A1E5BE2B900E4BA81 /* Sources */,
-				FA32F97B1E5BE2B900E4BA81 /* Frameworks */,
-				FA32F97C1E5BE2B900E4BA81 /* Headers */,
-				FA32F97D1E5BE2B900E4BA81 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TVSetKit_iOS;
-			productName = "TVSetKit-iOS";
-			productReference = FA32F97F1E5BE2B900E4BA81 /* TVSetKit_iOS.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		FA3505241E4663B3009BB40E /* TVSetKit_tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FA3505391E4663B4009BB40E /* Build configuration list for PBXNativeTarget "TVSetKit_tvOS" */;
+			buildConfigurationList = FA3505391E4663B4009BB40E /* Build configuration list for PBXNativeTarget "TVSetKit" */;
 			buildPhases = (
 				FA3505201E4663B3009BB40E /* Sources */,
 				FA3505211E4663B3009BB40E /* Frameworks */,
@@ -307,10 +295,28 @@
 			);
 			dependencies = (
 			);
-			name = TVSetKit_tvOS;
+			name = TVSetKit;
 			productName = TVSetKit;
-			productReference = FA3505251E4663B3009BB40E /* TVSetKit_tvOS.framework */;
+			productReference = FA3505251E4663B3009BB40E /* TVSetKit.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		FA35052D1E4663B4009BB40E /* TVSetKitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA35053C1E4663B4009BB40E /* Build configuration list for PBXNativeTarget "TVSetKitTests" */;
+			buildPhases = (
+				FA35052A1E4663B4009BB40E /* Sources */,
+				FA35052B1E4663B4009BB40E /* Frameworks */,
+				FA35052C1E4663B4009BB40E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA3505311E4663B4009BB40E /* PBXTargetDependency */,
+			);
+			name = TVSetKitTests;
+			productName = TVSetKitTests;
+			productReference = FA35052E1E4663B4009BB40E /* TVSetKitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -322,15 +328,15 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Alexander Shvets";
 				TargetAttributes = {
-					FA32F97E1E5BE2B900E4BA81 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = Y63DEDERL2;
-						ProvisioningStyle = Automatic;
-					};
 					FA3505241E4663B3009BB40E = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = Y63DEDERL2;
 						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+					FA35052D1E4663B4009BB40E = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = Y63DEDERL2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -348,71 +354,71 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = FA32F93C1E5BCE6700E4BA81 /* Products */;
-					ProjectRef = FA32F93B1E5BCE6700E4BA81 /* SwiftyJSON.xcodeproj */;
+					ProductGroup = FA3505491E46646A009BB40E /* Products */;
+					ProjectRef = FA3505481E46646A009BB40E /* SwiftyJSON.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				FA3505241E4663B3009BB40E /* TVSetKit_tvOS */,
-				FA32F97E1E5BE2B900E4BA81 /* TVSetKit_iOS */,
+				FA3505241E4663B3009BB40E /* TVSetKit */,
+				FA35052D1E4663B4009BB40E /* TVSetKitTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		FA32F9461E5BCE6700E4BA81 /* SwiftyJSON.framework */ = {
+		FA3505531E46646A009BB40E /* SwiftyJSON.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SwiftyJSON.framework;
-			remoteRef = FA32F9451E5BCE6700E4BA81 /* PBXContainerItemProxy */;
+			remoteRef = FA3505521E46646A009BB40E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FA32F9481E5BCE6700E4BA81 /* SwiftyJSON iOS Tests.xctest */ = {
+		FA3505551E46646A009BB40E /* SwiftyJSON iOS Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "SwiftyJSON iOS Tests.xctest";
-			remoteRef = FA32F9471E5BCE6700E4BA81 /* PBXContainerItemProxy */;
+			remoteRef = FA3505541E46646A009BB40E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FA32F94A1E5BCE6700E4BA81 /* SwiftyJSON.framework */ = {
+		FA3505571E46646A009BB40E /* SwiftyJSON.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SwiftyJSON.framework;
-			remoteRef = FA32F9491E5BCE6700E4BA81 /* PBXContainerItemProxy */;
+			remoteRef = FA3505561E46646A009BB40E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FA32F94C1E5BCE6700E4BA81 /* SwiftyJSON OSX Tests.xctest */ = {
+		FA3505591E46646A009BB40E /* SwiftyJSON OSX Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "SwiftyJSON OSX Tests.xctest";
-			remoteRef = FA32F94B1E5BCE6700E4BA81 /* PBXContainerItemProxy */;
+			remoteRef = FA3505581E46646A009BB40E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FA32F94E1E5BCE6700E4BA81 /* SwiftyJSON.framework */ = {
+		FA35055B1E46646A009BB40E /* SwiftyJSON.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SwiftyJSON.framework;
-			remoteRef = FA32F94D1E5BCE6700E4BA81 /* PBXContainerItemProxy */;
+			remoteRef = FA35055A1E46646A009BB40E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		FA32F9501E5BCE6700E4BA81 /* SwiftyJSON tvOS Tests.xctest */ = {
+		FA35055D1E46646A009BB40E /* SwiftyJSON.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftyJSON.framework;
+			remoteRef = FA35055C1E46646A009BB40E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FA35055F1E46646A009BB40E /* SwiftyJSON tvOS Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "SwiftyJSON tvOS Tests.xctest";
-			remoteRef = FA32F94F1E5BCE6700E4BA81 /* PBXContainerItemProxy */;
+			remoteRef = FA35055E1E46646A009BB40E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		FA32F97D1E5BE2B900E4BA81 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		FA3505231E4663B3009BB40E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -422,16 +428,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		FA32F97A1E5BE2B900E4BA81 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		FA35052C1E4663B4009BB40E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		FA3505201E4663B3009BB40E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -475,7 +481,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FA35052A1E4663B4009BB40E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA3505341E4663B4009BB40E /* TVSetKitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA3505311E4663B4009BB40E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA3505241E4663B3009BB40E /* TVSetKit */;
+			targetProxy = FA3505301E4663B4009BB40E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		FA9A18A11E58958E00DC0DCE /* Localizable.strings */ = {
@@ -490,52 +512,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		FA32F9841E5BE2B900E4BA81 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y63DEDERL2;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "TVSetKit-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rubikon.TVSetKit-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		FA32F9851E5BE2B900E4BA81 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y63DEDERL2;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "TVSetKit-iOS/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.rubikon.TVSetKit-iOS";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		FA3505371E4663B4009BB40E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -676,18 +652,35 @@
 			};
 			name = Release;
 		};
+		FA35053D1E4663B4009BB40E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = Y63DEDERL2;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rubikon.TVSetKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		FA35053E1E4663B4009BB40E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = Y63DEDERL2;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.rubikon.TVSetKitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FA32F98D1E5BE2B900E4BA81 /* Build configuration list for PBXNativeTarget "TVSetKit_iOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FA32F9841E5BE2B900E4BA81 /* Debug */,
-				FA32F9851E5BE2B900E4BA81 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		FA35051F1E4663B3009BB40E /* Build configuration list for PBXProject "TVSetKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -697,11 +690,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FA3505391E4663B4009BB40E /* Build configuration list for PBXNativeTarget "TVSetKit_tvOS" */ = {
+		FA3505391E4663B4009BB40E /* Build configuration list for PBXNativeTarget "TVSetKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FA35053A1E4663B4009BB40E /* Debug */,
 				FA35053B1E4663B4009BB40E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA35053C1E4663B4009BB40E /* Build configuration list for PBXNativeTarget "TVSetKitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA35053D1E4663B4009BB40E /* Debug */,
+				FA35053E1E4663B4009BB40E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

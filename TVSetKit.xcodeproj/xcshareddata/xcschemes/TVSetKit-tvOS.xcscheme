@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FA3505241E4663B3009BB40E"
-               BuildableName = "TVSetKit_tvOS.framework"
-               BlueprintName = "TVSetKit_tvOS"
+               BuildableName = "TVSetKit.framework"
+               BlueprintName = "TVSetKit"
                ReferencedContainer = "container:TVSetKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA3505241E4663B3009BB40E"
-            BuildableName = "TVSetKit_tvOS.framework"
-            BlueprintName = "TVSetKit_tvOS"
+            BuildableName = "TVSetKit.framework"
+            BlueprintName = "TVSetKit"
             ReferencedContainer = "container:TVSetKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,8 +64,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FA3505241E4663B3009BB40E"
-            BuildableName = "TVSetKit_tvOS.framework"
-            BlueprintName = "TVSetKit_tvOS"
+            BuildableName = "TVSetKit.framework"
+            BlueprintName = "TVSetKit"
             ReferencedContainer = "container:TVSetKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
