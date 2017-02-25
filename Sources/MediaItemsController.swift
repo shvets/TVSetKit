@@ -46,7 +46,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     cell.configureCell(item: item, localizedName: localizedName, target: self, action: #selector(self.tapped(_:)))
 
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.played(_:)))
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
 
     tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
@@ -76,59 +76,65 @@ open class MediaItemsController: InfiniteCollectionViewController {
     }
   }
 
-  func played(_ gesture: UITapGestureRecognizer) {
-    if (gesture.view as? MediaItemCell) != nil {
-      let selectedCell = gesture.view as! MediaItemCell
+  override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let mediaItem = items[indexPath.row]
 
-      let indexPath = collectionView?.indexPath(for: selectedCell)
-      let mediaItem = items[indexPath!.row]
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaItemCell
 
-      if mediaItem.isContainer() {
-        tapped(gesture)
-      }
-      else {
-        performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: gesture.view)
-      }
+    if mediaItem.isContainer() {
+      navigate(from: mediaItem, view: cell)
+    }
+    else {
+      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: cell)
     }
   }
 
   func tapped(_ gesture: UITapGestureRecognizer) {
-    if (gesture.view as? MediaItemCell) != nil {
-      let selectedCell = gesture.view as! MediaItemCell
+    if let view = gesture.view as? MediaItemCell {
+      let selectedCell = view as! MediaItemCell
 
       let indexPath = collectionView?.indexPath(for: selectedCell)
       let mediaItem = items[indexPath!.row]
 
-      let type = mediaItem.type
-
-      if type != nil && type!.isEmpty {
-        mediaItem.resolveType()
-      }
-
       if mediaItem.isContainer() {
-        if mediaItem.isAudioContainer() {
-          performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: gesture.view)
-        }
-        else {
-          let newAdapter = adapter.clone()
-          newAdapter.selectedItem = mediaItem
-
-          newAdapter.parentId = mediaItem.id
-          newAdapter.parentName = mediaItem.name
-          newAdapter.isContainer = true
-
-          let destination = MediaItemsController.instantiate()
-
-          destination.adapter = newAdapter
-
-          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
-
-          self.present(destination, animated: true)
-        }
+        navigate(from: mediaItem, view: view)
       }
       else {
-        performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: gesture.view)
+        performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
       }
+    }
+  }
+
+  func navigate(from mediaItem: MediaItem, view: UIView) {
+    let type = mediaItem.type
+
+    if type != nil && type!.isEmpty {
+      mediaItem.resolveType()
+    }
+
+    if mediaItem.isContainer() {
+      if mediaItem.isAudioContainer() {
+        performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
+      }
+      else {
+        let newAdapter = adapter.clone()
+        newAdapter.selectedItem = mediaItem
+
+        newAdapter.parentId = mediaItem.id
+        newAdapter.parentName = mediaItem.name
+        newAdapter.isContainer = true
+
+        let destination = MediaItemsController.instantiate()
+
+        destination.adapter = newAdapter
+
+        destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+
+        self.present(destination, animated: true)
+      }
+    }
+    else {
+      performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
     }
   }
 
@@ -205,6 +211,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
     return name
   }
 
+#if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
     cellSelection.setIndexPath(indexPath)
 
@@ -216,6 +223,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     return true
   }
+#endif
 
   // MARK:- Add Cell
 
