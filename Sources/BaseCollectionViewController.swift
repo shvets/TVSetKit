@@ -42,4 +42,10 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     return items[indexPath!.row]
   }
 
+  override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    navigate(from: collectionView.cellForItem(at: indexPath)!)
+  }
+
+  open func navigate(from cell: UICollectionViewCell) {}
+
 }

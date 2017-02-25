@@ -79,29 +79,25 @@ open class MediaItemsController: InfiniteCollectionViewController {
   override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let mediaItem = items[indexPath.row]
 
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaItemCell
+    let view = collectionView.cellForItem(at: indexPath)
 
     if mediaItem.isContainer() {
-      navigate(from: mediaItem, view: cell)
+      navigate(from: mediaItem, view: view!)
     }
     else {
-      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: cell)
+      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
     }
   }
 
   func tapped(_ gesture: UITapGestureRecognizer) {
-    if let view = gesture.view as? MediaItemCell {
-      let selectedCell = view as! MediaItemCell
+    let indexPath = collectionView?.indexPath(for: gesture.view as! UICollectionViewCell)
+    let mediaItem = items[indexPath!.row]
 
-      let indexPath = collectionView?.indexPath(for: selectedCell)
-      let mediaItem = items[indexPath!.row]
-
-      if mediaItem.isContainer() {
-        navigate(from: mediaItem, view: view)
-      }
-      else {
-        performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
-      }
+    if mediaItem.isContainer() {
+      navigate(from: mediaItem, view: view)
+    }
+    else {
+      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: gesture.view!)
     }
   }
 
