@@ -42,9 +42,9 @@ open class BaseTableViewController: UITableViewController {
     return items[indexPath!.row]
   }
 
-//  override open func tableView(_ tableView: UITableView, didSelectItemAt indexPath: IndexPath) {
-//    navigate(from: tableView.cellForItem(at: indexPath)!)
-//  }
+  override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    navigate(from: tableView.cellForRow(at: indexPath)!)
+  }
 
   open func navigate(from cell: UITableViewCell) {}
 
