@@ -17,7 +17,6 @@ class VideoPlayerController: AVPlayerViewController {
   var navigator: MediaItemsNavigator?
   var initialQualityLevel: QualityLevel?
 
-  var provider: String?
   var mode: String?
   var playVideo: Bool = false
   var collectionItems: [MediaItem] = []

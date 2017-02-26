@@ -30,7 +30,7 @@ open class InfiniteCollectionViewController: BaseCollectionViewController {
 
       self.collectionView?.insertItems(at: indexPaths)
 
-      let step = min(result.count, self.adapter.rowSize)
+      let step = min(result.count, self.adapter.rowSize!)
 
       self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
     }

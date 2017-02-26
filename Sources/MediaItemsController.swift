@@ -13,8 +13,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
     return AppStoryboard.instantiateController("Player", bundle: bundle, viewControllerClass: self)
   }
 
-  //public var displayTitle = true
-
   override open func viewDidLoad() {
     super.viewDidLoad()
 
@@ -56,10 +54,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     cell.thumb.frame = CGRect(x: 10, y: 0, width: itemSize.width, height: itemSize.height)
     cell.title.frame = CGRect(x: 10, y: itemSize.height, width: itemSize.width, height: 100)
-
-//    if !displayTitle {
-//      cell.title.text = ""
-//    }
 
     return cell
   }
@@ -162,7 +156,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
             destination.collectionItems = items
             destination.mediaItem = mediaItem
             destination.adapter = adapter
-            destination.provider = adapter.provider
 
             do {
               let bitrates = try mediaItem.getBitrates()

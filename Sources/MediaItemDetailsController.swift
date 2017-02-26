@@ -174,7 +174,6 @@ class MediaItemDetailsController: UIViewController {
             destination.playVideo = true
             destination.collectionItems = collectionItems
             destination.mediaItem = mediaItem
-            destination.provider = adapter!.provider
             destination.adapter = adapter
 
             let index = buttons.index(where: {$0 == sender as? UIButton})

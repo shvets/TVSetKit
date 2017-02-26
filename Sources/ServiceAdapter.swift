@@ -3,7 +3,6 @@ import SwiftyJSON
 
 open class ServiceAdapter {
   public var spinner: Spinner?
-  //public var languageManager: LanguageManager?
 
   private let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
 
@@ -20,19 +19,15 @@ open class ServiceAdapter {
 
   public var selectedItem: MediaItem?
 
-  public var pageSize: Int!
-  public var rowSize: Int!
-
-  public var provider: String?
+  public var pageSize: Int?
+  public var rowSize: Int?
 
   private var configName: String?
 
-  public init(configName: String) {
-    //languageManager = LanguageManager()
-  }
-
+  public init() {}
+  
   open func clone() -> ServiceAdapter {
-    return ServiceAdapter(configName: configName!)
+    return ServiceAdapter()
   }
 
   open func clear() {
@@ -51,7 +46,7 @@ open class ServiceAdapter {
   }
 
   open func nextPageAvailable(dataCount: Int, index: Int) -> Bool {
-    return dataCount - index <= self.rowSize && !endOfData
+    return dataCount - index <= self.rowSize! && !endOfData
   }
 
   open func loadData(onLoadCompleted: @escaping ([MediaItem]) -> Void) {
@@ -64,7 +59,7 @@ open class ServiceAdapter {
         do {
           let result = try self.load()
 
-          self.endOfData = result.isEmpty || result.count < self.pageSize
+          self.endOfData = result.isEmpty || result.count < self.pageSize!
 
           OperationQueue.main.addOperation() {
             if !result.isEmpty && result.count == self.pageSize {
@@ -103,21 +98,9 @@ open class ServiceAdapter {
     return nil
   }
 
-//  open func setParentId(_ parentId: String) {
-//    self.parentId = parentId
-//  }
-
   open func getParentName() -> String? {
     return (parentName != nil) ? parentName : selectedItem?.name
   }
-
-//  open func setParentName(_ parentName: String) {
-//    self.parentName = parentName
-//  }
-//
-//  open func setSelectedItem(_ item: MediaItem) {
-//    selectedItem = item
-//  }
 
   open func getUrl(_ params: [String: Any]) throws -> String? {
     return ""

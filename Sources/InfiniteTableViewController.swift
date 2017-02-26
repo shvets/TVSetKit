@@ -37,7 +37,7 @@ open class InfiniteTableViewController: UITableViewController {
 
       self.tableView?.insertRows(at: indexPaths, with: .none)
 
-      let step = min(result.count, self.adapter.rowSize)
+      let step = min(result.count, self.adapter.rowSize!)
 
       self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
     }
