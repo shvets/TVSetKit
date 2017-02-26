@@ -13,14 +13,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
     return AppStoryboard.instantiateController("Player", bundle: bundle, viewControllerClass: self)
   }
 
-//  static public func instantiate() -> UINavigationController {
-//    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
-//
-//    let storyboard: UIStoryboard = UIStoryboard(name: "Player", bundle: bundle)
-//
-//    return storyboard.instantiateViewController(withIdentifier: storyboardID) as! UINavigationController
-//  }
-
   public var displayTitle = true
 
   override open func viewDidLoad() {
