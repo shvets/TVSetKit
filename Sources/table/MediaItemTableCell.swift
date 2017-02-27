@@ -12,9 +12,4 @@ open class MediaItemTableCell: UITableViewCell {
     CellHelper.shared.addGestureRecognizer(view: self, target: target, action: action)
   }
 
-  override open func didUpdateFocus(in inContext: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-#if os(tvOS)
-    self.thumb.adjustsImageWhenAncestorFocused = self.isFocused
-#endif
-  }
 }

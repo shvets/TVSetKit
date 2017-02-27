@@ -13,9 +13,9 @@ open class MediaNameCell: UICollectionViewCell {
     CellHelper.shared.addGestureRecognizer(view: self, target: target, action: action)
   }
 
+#if os(tvOS)
   override open func didUpdateFocus(in inContext: UIFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
-    #if os(tvOS)
-      self.thumb.adjustsImageWhenAncestorFocused = self.isFocused
-    #endif
+    self.thumb.adjustsImageWhenAncestorFocused = self.isFocused
   }
+#endif
 }
