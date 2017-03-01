@@ -158,7 +158,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <segue destination="8TF-WO-tT2" kind="show" identifier="playAudio" animates="NO" id="n1D-XD-vhk"/>
+                        <segue destination="8TF-WO-tT2" kind="show" identifier="playAudio" id="n1D-XD-vhk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbg-6n-cyl" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -226,7 +226,7 @@
                         <outlet property="rating" destination="ZM8-mM-BLc" id="yMW-cX-Agz"/>
                         <outlet property="tag" destination="YLt-Bj-zyI" id="eXc-ph-gzK"/>
                         <outlet property="watchStatus" destination="0XE-Ks-k3C" id="3DK-IU-Npz"/>
-                        <segue destination="pFb-VM-9Qh" kind="show" identifier="VideoPlayer" animates="NO" id="em3-I2-4yz"/>
+                        <segue destination="pFb-VM-9Qh" kind="show" identifier="VideoPlayer" id="em3-I2-4yz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="85z-VF-0Oq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -320,6 +320,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="em3-I2-4yz"/>
+        <segue reference="9KF-xe-36j"/>
     </inferredMetricsTieBreakers>
 </document>

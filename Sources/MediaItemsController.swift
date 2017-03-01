@@ -3,6 +3,9 @@ import SwiftyJSON
 
 open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
+
+  public var callSeque = false
+
   var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
   var localizer = Localizer("com.rubikon.TVSetKit")
@@ -107,20 +110,27 @@ open class MediaItemsController: InfiniteCollectionViewController {
         performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
       }
       else {
-        let newAdapter = adapter.clone()
-        newAdapter.selectedItem = mediaItem
+        if callSeque {
+          performSegue(withIdentifier: MediaItemsController.SegueIdentifier, sender: view)
+        }
+        else {
+          let destination = MediaItemsController.instantiate()
 
-        newAdapter.parentId = mediaItem.id
-        newAdapter.parentName = mediaItem.name
-        newAdapter.isContainer = true
+          destination.callSeque = callSeque
 
-        let destination = MediaItemsController.instantiate()
+          let newAdapter = adapter.clone()
+          newAdapter.selectedItem = mediaItem
 
-        destination.adapter = newAdapter
+          newAdapter.parentId = mediaItem.id
+          newAdapter.parentName = mediaItem.name
+          newAdapter.isContainer = true
 
-        destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+          destination.adapter = newAdapter
 
-        self.present(destination, animated: true)
+          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+
+          self.present(destination, animated: true)
+        }
       }
     }
     else {
@@ -138,6 +148,21 @@ open class MediaItemsController: InfiniteCollectionViewController {
       let mediaItem = items[indexPath!.row]
 
       switch identifier {
+        case MediaItemsController.SegueIdentifier:
+          if let destination = segue.destination.getActionController() as? MediaItemsController {
+            destination.callSeque = callSeque
+
+            let newAdapter = adapter.clone()
+            newAdapter.selectedItem = mediaItem
+
+            newAdapter.parentId = mediaItem.id
+            newAdapter.parentName = mediaItem.name
+            newAdapter.isContainer = true
+
+            destination.adapter = newAdapter
+
+            destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+          }
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
             destination.collectionItems = items
