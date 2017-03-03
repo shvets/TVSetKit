@@ -42,6 +42,12 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     return items[indexPath!.row]
   }
 
+//#if os(tvOS)
+//  func tapped(_ gesture: UITapGestureRecognizer) {
+//    navigate(from: gesture.view as! UICollectionViewCell)
+//  }
+//#endif
+
   override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     navigate(from: collectionView.cellForItem(at: indexPath)!)
   }

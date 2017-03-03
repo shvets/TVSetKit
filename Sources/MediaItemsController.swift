@@ -47,18 +47,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     cell.configureCell(item: item, localizedName: localizedName)
 
-    var action: Selector?
-
 #if os(tvOS)
-    action = #selector(self.tapped(_:))
-//    let tapGesture = UITapGestureRecognizer(target: self, action: action)
-//
-//    tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
-//
-//    cell.addGestureRecognizer(tapGesture)
+    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 #endif
-
-    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: action)
 
     let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
 
@@ -67,6 +58,12 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     return cell
   }
+
+#if os(tvOS)
+  func tapped(_ gesture: UITapGestureRecognizer) {
+    navigate(from: gesture.view as! UICollectionViewCell)
+  }
+#endif
 
   override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let currentOffset = scrollView.contentOffset.y
@@ -80,34 +77,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
     }
   }
 
-  override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let mediaItem = items[indexPath.row]
+  override open func navigate(from view: UICollectionViewCell) {
+    let mediaItem = getItem(for: view)
 
-    let view = collectionView.cellForItem(at: indexPath)
-
-    if mediaItem.isContainer() {
-      navigate(from: mediaItem, view: view!)
-    }
-    else {
-      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
-    }
-  }
-
-#if os(tvOS)
-  func tapped(_ gesture: UITapGestureRecognizer) {
-    let indexPath = collectionView?.indexPath(for: gesture.view as! UICollectionViewCell)
-    let mediaItem = items[indexPath!.row]
-
-    if mediaItem.isContainer() {
-      navigate(from: mediaItem, view: view)
-    }
-    else {
-      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: gesture.view!)
-    }
-  }
-#endif
-
-  func navigate(from mediaItem: MediaItem, view: UIView) {
     let type = mediaItem.type
 
     if type != nil && type!.isEmpty {
