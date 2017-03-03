@@ -45,13 +45,18 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     let localizedName = localizer.localize(item.name!)
 
-    cell.configureCell(item: item, localizedName: localizedName, target: self, action: #selector(self.tapped(_:)))
+    var action: Selector?
 
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
+#if os(tvOS)
+    action = #selector(self.tapped(_:))
+    let tapGesture = UITapGestureRecognizer(target: self, action: action)
 
     tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
     cell.addGestureRecognizer(tapGesture)
+#endif
+
+    cell.configureCell(item: item, localizedName: localizedName, target: self, action: action)
 
     let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
 
@@ -86,6 +91,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
     }
   }
 
+#if os(tvOS)
   func tapped(_ gesture: UITapGestureRecognizer) {
     let indexPath = collectionView?.indexPath(for: gesture.view as! UICollectionViewCell)
     let mediaItem = items[indexPath!.row]
@@ -97,6 +103,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
       performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: gesture.view!)
     }
   }
+#endif
 
   func navigate(from mediaItem: MediaItem, view: UIView) {
     let type = mediaItem.type
@@ -111,7 +118,29 @@ open class MediaItemsController: InfiniteCollectionViewController {
       }
       else {
         if callSeque {
-          performSegue(withIdentifier: MediaItemsController.SegueIdentifier, sender: view)
+//          performSegue(withIdentifier: MediaItemsController.SegueIdentifier, sender: view)
+          let BundleIdentifier = "com.rubikon.EtvnetSite-iOS"
+
+          let bundle = Bundle(identifier: BundleIdentifier)!
+
+          let storyboard = UIStoryboard(name: "Etvnet-iOS", bundle: bundle)
+
+          let destination = storyboard.instantiateViewController(withIdentifier: "MediaItemsController") as! MediaItemsController
+
+          destination.callSeque = callSeque
+
+          let newAdapter = adapter.clone()
+          newAdapter.selectedItem = mediaItem
+
+          newAdapter.parentId = mediaItem.id
+          newAdapter.parentName = mediaItem.name
+          newAdapter.isContainer = true
+
+          destination.adapter = newAdapter
+
+          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+
+          navigationController!.pushViewController(destination, animated: true)
         }
         else {
           let destination = MediaItemsController.instantiate()
