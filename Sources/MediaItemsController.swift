@@ -45,18 +45,20 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     let localizedName = localizer.localize(item.name!)
 
+    cell.configureCell(item: item, localizedName: localizedName)
+
     var action: Selector?
 
 #if os(tvOS)
     action = #selector(self.tapped(_:))
-    let tapGesture = UITapGestureRecognizer(target: self, action: action)
-
-    tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
-
-    cell.addGestureRecognizer(tapGesture)
+//    let tapGesture = UITapGestureRecognizer(target: self, action: action)
+//
+//    tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
+//
+//    cell.addGestureRecognizer(tapGesture)
 #endif
 
-    cell.configureCell(item: item, localizedName: localizedName, target: self, action: action)
+    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: action)
 
     let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
 

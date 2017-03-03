@@ -13,10 +13,8 @@ class AudioItemCell: UITableViewCell {
     self.layer.borderColor = UIColor( red: 0, green: 0, blue:0, alpha: 1.0 ).cgColor
   }
 
-  public func configureCell(item: MediaItem, target: Any?, action: Selector?) {
+  public func configureCell(item: MediaItem) {
     self.title.text = item.name
-
-    CellHelper.shared.addGestureRecognizer(view: self, target: target, action: action)
   }
 
 }
