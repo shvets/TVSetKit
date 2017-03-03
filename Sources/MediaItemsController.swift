@@ -4,16 +4,16 @@ import SwiftyJSON
 open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
 
-  public var callSeque = false
+  //public var callSeque = false
 
   var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
   var localizer = Localizer("com.rubikon.TVSetKit")
 
-  static public func instantiate() -> Self {
-    let bundle = Bundle(identifier: "com.rubikon.TVSetKit")!
+  static public func instantiate(storyboardId: String="Player", bundleIdentifier: String="com.rubikon.TVSetKit") -> Self {
+    let bundle = Bundle(identifier: bundleIdentifier)!
 
-    return AppStoryboard.instantiateController("Player", bundle: bundle, viewControllerClass: self)
+    return AppStoryboard.instantiateController(storyboardId, bundle: bundle, viewControllerClass: self)
   }
 
   override open func viewDidLoad() {
@@ -91,47 +91,33 @@ open class MediaItemsController: InfiniteCollectionViewController {
         performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
       }
       else {
-        if callSeque {
-//          performSegue(withIdentifier: MediaItemsController.SegueIdentifier, sender: view)
-          let BundleIdentifier = "com.rubikon.EtvnetSite-iOS"
+        var destination: MediaItemsController!
 
-          let bundle = Bundle(identifier: BundleIdentifier)!
+//        if navigationController != nil {
+//          destination = MediaItemsController.instantiate(storyboardId: "Etvnet-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
+//
+//        }
+//        else {
+//          destination = MediaItemsController.instantiate()
+//        }
 
-          let storyboard = UIStoryboard(name: "Etvnet-iOS", bundle: bundle)
+        destination = MediaItemsController.instantiate()
 
-          let destination = storyboard.instantiateViewController(withIdentifier: "MediaItemsController") as! MediaItemsController
+        let newAdapter = adapter.clone()
+        newAdapter.selectedItem = mediaItem
 
-          destination.callSeque = callSeque
+        newAdapter.parentId = mediaItem.id
+        newAdapter.parentName = mediaItem.name
+        newAdapter.isContainer = true
 
-          let newAdapter = adapter.clone()
-          newAdapter.selectedItem = mediaItem
+        destination!.adapter = newAdapter
 
-          newAdapter.parentId = mediaItem.id
-          newAdapter.parentName = mediaItem.name
-          newAdapter.isContainer = true
+        destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
 
-          destination.adapter = newAdapter
-
-          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
-
+        if navigationController != nil {
           navigationController!.pushViewController(destination, animated: true)
         }
         else {
-          let destination = MediaItemsController.instantiate()
-
-          destination.callSeque = callSeque
-
-          let newAdapter = adapter.clone()
-          newAdapter.selectedItem = mediaItem
-
-          newAdapter.parentId = mediaItem.id
-          newAdapter.parentName = mediaItem.name
-          newAdapter.isContainer = true
-
-          destination.adapter = newAdapter
-
-          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
-
           self.present(destination, animated: true)
         }
       }
@@ -153,7 +139,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
       switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
-            destination.callSeque = callSeque
+            //destination.callSeque = callSeque
 
             let newAdapter = adapter.clone()
             newAdapter.selectedItem = mediaItem
