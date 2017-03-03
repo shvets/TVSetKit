@@ -11,8 +11,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
   var localizer = Localizer("com.rubikon.TVSetKit")
 
   static public func instantiate(storyboardId: String="Player", bundleIdentifier: String="com.rubikon.TVSetKit") -> Self {
-    let bundle = Bundle(identifier: bundleIdentifier)!
-
     return AppStoryboard.instantiateController(storyboardId, bundle: bundle, viewControllerClass: self)
   }
 
@@ -109,6 +107,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
         newAdapter.parentId = mediaItem.id
         newAdapter.parentName = mediaItem.name
         newAdapter.isContainer = true
+        newAdapter.mobile = true
 
         destination!.adapter = newAdapter
 

@@ -24,6 +24,8 @@ open class ServiceAdapter {
 
   private var configName: String?
 
+  public var mobile: Bool = false
+
   public init() {}
   
   open func clone() -> ServiceAdapter {
