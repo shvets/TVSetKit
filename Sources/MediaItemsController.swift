@@ -3,15 +3,19 @@ import SwiftyJSON
 
 open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
+  public class var StoryboardControllerId: String { return "MediaItemsController" }
 
   var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
+
   var localizer = Localizer("com.rubikon.TVSetKit")
 
-  static public func instantiate(storyboardId: String="Player", bundleIdentifier: String="com.rubikon.TVSetKit") -> Self {
+  static public func instantiate(storyboardId: String="Player", bundleIdentifier: String="com.rubikon.TVSetKit") -> UIViewController {
     let bundle = Bundle(identifier: bundleIdentifier)!
 
-    return AppStoryboard.instantiateController(storyboardId, bundle: bundle, viewControllerClass: self)
+    let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: bundle)
+
+    return storyboard.instantiateViewController(withIdentifier: StoryboardControllerId)
   }
 
   override open func viewDidLoad() {
@@ -92,14 +96,16 @@ open class MediaItemsController: InfiniteCollectionViewController {
         performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
       }
       else {
-        var destination: MediaItemsController!
+        var controller: UIViewController!
 
         if adapter.mobile == true {
-          destination = MediaItemsController.instantiate(storyboardId: "Player-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
+          controller = MediaItemsController.instantiate(storyboardId: "Etvnet-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
         }
         else {
-          destination = MediaItemsController.instantiate()
+          controller = MediaItemsController.instantiate()
         }
+
+        let destination = controller.getActionController() as! MediaItemsController
 
         let newAdapter = adapter.clone()
         newAdapter.selectedItem = mediaItem
@@ -108,7 +114,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
         newAdapter.parentName = mediaItem.name
         newAdapter.isContainer = true
 
-        destination!.adapter = newAdapter
+        destination.adapter = newAdapter
 
         destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
 
