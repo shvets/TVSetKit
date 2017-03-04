@@ -127,7 +127,6 @@ class MediaItemDetailsController: UIViewController {
       button.addTarget(self, action: action, for: .touchUpInside)
     }
     else {
-      let button = PlayButton(type: .system)
       let scale = localizer.getLocale() == "en" ? 52 : 36
       button.frame = CGRect(x: 680+offset, y: 920, width: scale*title.characters.count, height: 80)
 
