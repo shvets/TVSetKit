@@ -11,9 +11,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
   var localizer = Localizer("com.rubikon.TVSetKit")
 
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
-    let bundle = Bundle(identifier: adapter.mediaItemsBundleIdentifier)!
+    let bundle = Bundle(identifier: adapter.playerBundleId)!
 
-    let storyboard: UIStoryboard = UIStoryboard(name: adapter.mediaItemsStoryboardId, bundle: bundle)
+    let storyboard: UIStoryboard = UIStoryboard(name: adapter.playerStoryboardId, bundle: bundle)
 
     return storyboard.instantiateViewController(withIdentifier: StoryboardControllerId)
   }
@@ -56,10 +56,12 @@ open class MediaItemsController: InfiniteCollectionViewController {
     CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 #endif
 
-    let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
+    if adapter.mobile == false {
+      let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
 
-    cell.thumb.frame = CGRect(x: 10, y: 0, width: itemSize.width, height: itemSize.height)
-    cell.title.frame = CGRect(x: 10, y: itemSize.height, width: itemSize.width, height: 100)
+      cell.thumb.frame = CGRect(x: 10, y: 0, width: itemSize.width, height: itemSize.height)
+      cell.title.frame = CGRect(x: 10, y: itemSize.height, width: itemSize.width, height: 100)
+    }
 
     return cell
   }
@@ -98,13 +100,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
       else {
         var controller: UIViewController!
 
-//        if adapter.mobile == true {
-//          controller = MediaItemsController.instantiate(storyboardId: "Etvnet-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
-//        }
-//        else {
-//          controller = MediaItemsController.instantiate()
-//        }
-
         controller = MediaItemsController.instantiate(adapter)
 
         let destination = controller.getActionController() as! MediaItemsController
@@ -118,13 +113,13 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
         destination.adapter = newAdapter
 
-        destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+        if adapter.mobile == false {
+          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
 
-        if navigationController != nil {
-          navigationController!.pushViewController(destination, animated: true)
+          present(destination, animated: true)
         }
         else {
-          self.present(destination, animated: true)
+          navigationController!.pushViewController(destination, animated: true)
         }
       }
     }
@@ -154,7 +149,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
             destination.adapter = newAdapter
 
-            destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+            if adapter.mobile == false {
+              destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+            }
           }
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {

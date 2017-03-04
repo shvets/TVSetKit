@@ -5,6 +5,15 @@ import SwiftyJSON
 
 class VideoPlayerController: AVPlayerViewController {
   static let SegueIdentifier = "VideoPlayer"
+  public class var StoryboardControllerId: String { return "videoPlayerController" }
+
+  static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
+    let bundle = Bundle(identifier: adapter.playerBundleId)!
+
+    let storyboard: UIStoryboard = UIStoryboard(name: adapter.playerStoryboardId, bundle: bundle)
+
+    return storyboard.instantiateViewController(withIdentifier: StoryboardControllerId)
+  }
 
 //class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {
 

@@ -57,7 +57,12 @@ class MediaItemDetailsController: UIViewController {
 
     for (index, bitrate) in bitrates.enumerated() {
       if index > 0 {
-        currentOffset += Int(buttons[index-1].frame.size.width)+30
+        if adapter?.mobile == true {
+          currentOffset += Int(buttons[index-1].frame.size.width/2.5) + 40
+        }
+        else {
+          currentOffset += Int(buttons[index-1].frame.size.width) + 30
+        }
       }
 
       let button = createBitrateButton(bitrate: bitrate, offset: currentOffset)
@@ -119,8 +124,8 @@ class MediaItemDetailsController: UIViewController {
     button.bitrate = bitrate
 
     if adapter?.mobile == true {
-      let scale = localizer.getLocale() == "en" ? 52 : 36
-      button.frame = CGRect(x: offset, y: 500, width: scale*title.characters.count, height: 40)
+      let scale = localizer.getLocale() == "en" ? 26 : 18
+      button.frame = CGRect(x: offset, y: 580, width: scale*title.characters.count, height: 20)
 
       let action = #selector(self.playMediaItem)
 
@@ -171,39 +176,30 @@ class MediaItemDetailsController: UIViewController {
   }
 
   func playMediaItem(sender: UIView) {
-    performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: sender)
-  }
+    let controller = VideoPlayerController.instantiate(adapter!)
 
-  // MARK: - Navigation
+    if let destination = controller.getActionController() as? VideoPlayerController {
+      destination.playVideo = true
+      destination.collectionItems = collectionItems
+      destination.mediaItem = mediaItem
+      destination.adapter = adapter
 
-  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let identifier = segue.identifier {
-      switch identifier {
-        case VideoPlayerController.SegueIdentifier:
-          if let destination = segue.destination as? VideoPlayerController {
-            destination.playVideo = true
-            destination.collectionItems = collectionItems
-            destination.mediaItem = mediaItem
-            destination.adapter = adapter
+      let index = buttons.index(where: { $0 == sender as? UIButton })
 
-            let index = buttons.index(where: {$0 == sender as? UIButton})
+      if let index = index {
+        do {
+          let bitrates = try mediaItem.getBitrates()
 
-            if let index = index {
-              do {
-                let bitrates = try mediaItem.getBitrates()
-
-                if !bitrates.isEmpty {
-                  destination.bitrate = bitrates[index]
-                }
-              }
-              catch {
-                print("Error getting bitrate")
-              }
-            }
+          if !bitrates.isEmpty {
+            destination.bitrate = bitrates[index]
           }
-
-        default: break
+        } catch {
+          print("Error getting bitrate")
+        }
       }
+
+      present(controller, animated: true, completion: nil)
     }
   }
+
 }
