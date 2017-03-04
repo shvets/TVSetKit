@@ -10,10 +10,10 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
   var localizer = Localizer("com.rubikon.TVSetKit")
 
-  static public func instantiate(storyboardId: String="Player", bundleIdentifier: String="com.rubikon.TVSetKit") -> UIViewController {
-    let bundle = Bundle(identifier: bundleIdentifier)!
+  static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
+    let bundle = Bundle(identifier: adapter.mediaItemsBundleIdentifier)!
 
-    let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: bundle)
+    let storyboard: UIStoryboard = UIStoryboard(name: adapter.mediaItemsStoryboardId, bundle: bundle)
 
     return storyboard.instantiateViewController(withIdentifier: StoryboardControllerId)
   }
@@ -98,12 +98,14 @@ open class MediaItemsController: InfiniteCollectionViewController {
       else {
         var controller: UIViewController!
 
-        if adapter.mobile == true {
-          controller = MediaItemsController.instantiate(storyboardId: "Etvnet-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
-        }
-        else {
-          controller = MediaItemsController.instantiate()
-        }
+//        if adapter.mobile == true {
+//          controller = MediaItemsController.instantiate(storyboardId: "Etvnet-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
+//        }
+//        else {
+//          controller = MediaItemsController.instantiate()
+//        }
+
+        controller = MediaItemsController.instantiate(adapter)
 
         let destination = controller.getActionController() as! MediaItemsController
 
@@ -143,8 +145,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
       switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
-            //destination.callSeque = callSeque
-
             let newAdapter = adapter.clone()
             newAdapter.selectedItem = mediaItem
 

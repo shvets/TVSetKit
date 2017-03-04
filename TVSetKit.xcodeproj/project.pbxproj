@@ -45,7 +45,6 @@
 		FAE009751E46A15300941CAD /* MediaItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009601E46A15300941CAD /* MediaItemsController.swift */; };
 		FAE009771E46A15300941CAD /* MediaItemsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */; };
 		FAE009781E46A15300941CAD /* MediaItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */; };
-		FAE0097A1E46A15300941CAD /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009651E46A15300941CAD /* SearchController.swift */; };
 		FAE0097B1E46A15300941CAD /* VideoPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009661E46A15300941CAD /* VideoPlayerController.swift */; };
 		FAED60F31E4693A7007A2B91 /* QualityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAED60F11E4693A7007A2B91 /* QualityLevel.swift */; };
 		FAED61011E4693E4007A2B91 /* JsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAED61001E4693E4007A2B91 /* JsonConverter.swift */; };
@@ -107,7 +106,6 @@
 		FAE009601E46A15300941CAD /* MediaItemsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemsController.swift; sourceTree = "<group>"; };
 		FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemsHeaderView.swift; sourceTree = "<group>"; };
 		FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemsNavigator.swift; sourceTree = "<group>"; };
-		FAE009651E46A15300941CAD /* SearchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		FAE009661E46A15300941CAD /* VideoPlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerController.swift; sourceTree = "<group>"; };
 		FAED60F11E4693A7007A2B91 /* QualityLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QualityLevel.swift; sourceTree = "<group>"; };
 		FAED61001E4693E4007A2B91 /* JsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonConverter.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				FAE009601E46A15300941CAD /* MediaItemsController.swift */,
 				FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */,
 				FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */,
-				FAE009651E46A15300941CAD /* SearchController.swift */,
 				FAE009661E46A15300941CAD /* VideoPlayerController.swift */,
 				FAE009491E469DE000941CAD /* ServiceAdapter.swift */,
 				FAED61071E469BCA007A2B91 /* FileStorage.swift */,
@@ -367,7 +364,6 @@
 				FAE0096E1E46A15300941CAD /* CellSelection.swift in Sources */,
 				FAE009751E46A15300941CAD /* MediaItemsController.swift in Sources */,
 				FAE009741E46A15300941CAD /* MediaItemDetailsController.swift in Sources */,
-				FAE0097A1E46A15300941CAD /* SearchController.swift in Sources */,
 				FAE0096F1E46A15300941CAD /* History.swift in Sources */,
 				FAE0096D1E46A15300941CAD /* CellHelper.swift in Sources */,
 				FAE009771E46A15300941CAD /* MediaItemsHeaderView.swift in Sources */,
