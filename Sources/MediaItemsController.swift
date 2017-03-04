@@ -4,8 +4,6 @@ import SwiftyJSON
 open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
 
-  //public var callSeque = false
-
   var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
   var localizer = Localizer("com.rubikon.TVSetKit")
@@ -238,10 +236,10 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
       if let item = selectedItem {
         if adapter.requestType == "BOOKMARKS" {
-          self.present(buildRemoveBookmarkController(item), animated: false, completion: nil)
+          present(buildRemoveBookmarkController(item), animated: false, completion: nil)
         }
         else {
-          self.present(buildAddBookmarkController(item), animated: false, completion: nil)
+          present(buildAddBookmarkController(item), animated: false, completion: nil)
         }
       }
     }
