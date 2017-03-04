@@ -17,7 +17,7 @@ class PlayButton: UIButton {
 class MediaItemDetailsController: UIViewController {
   static let SegueIdentifier = "MediaItemDetails"
   let CellIdentifier = "MediaItemDetailsCell"
-  
+
   @IBOutlet weak var imageView: UIImageView!
   @IBOutlet weak var movieDescription: UITextView!
   @IBOutlet weak var name: UILabel!
@@ -33,7 +33,7 @@ class MediaItemDetailsController: UIViewController {
   var mediaItem: MediaItem!
 
   var bitrates = [MediaName]()
-  
+
   var buttons = [UIButton]()
 
   override func viewDidLoad() {
@@ -63,7 +63,7 @@ class MediaItemDetailsController: UIViewController {
       let button = createBitrateButton(bitrate: bitrate, offset: currentOffset)
 
       buttons.append(button)
-      
+
       view.addSubview(button)
     }
 
@@ -113,20 +113,31 @@ class MediaItemDetailsController: UIViewController {
     let title = localizer.localize(bitrate.name!)
 
     let button = PlayButton(type: .system)
-    let scale = localizer.getLocale() == "en" ? 52 : 36
-    button.frame = CGRect(x: 680+offset, y: 920, width: scale*title.characters.count, height: 80)
+    button.controller = self
 
     button.setTitle(title, for: .normal)
     button.bitrate = bitrate
 
-    button.controller = self
+    if adapter?.mobile == true {
+      let scale = localizer.getLocale() == "en" ? 52 : 36
+      button.frame = CGRect(x: offset, y: 500, width: scale*title.characters.count, height: 40)
 
-    let action = #selector(self.tapped(_:))
-    let tapGesture = UITapGestureRecognizer(target: self, action: action)
+      let action = #selector(self.playMediaItem)
 
-    tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
+      button.addTarget(self, action: action, for: .touchUpInside)
+    }
+    else {
+      let button = PlayButton(type: .system)
+      let scale = localizer.getLocale() == "en" ? 52 : 36
+      button.frame = CGRect(x: 680+offset, y: 920, width: scale*title.characters.count, height: 80)
 
-    button.addGestureRecognizer(tapGesture)
+      let action = #selector(self.tapped(_:))
+      let tapGesture = UITapGestureRecognizer(target: self, action: action)
+
+      tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
+
+      button.addGestureRecognizer(tapGesture)
+    }
 
     return button
   }
@@ -159,7 +170,7 @@ class MediaItemDetailsController: UIViewController {
   func tapped(_ gesture: UITapGestureRecognizer) {
     playMediaItem(sender: gesture.view!)
   }
-  
+
   func playMediaItem(sender: UIView) {
     performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: sender)
   }

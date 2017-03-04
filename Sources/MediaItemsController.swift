@@ -11,6 +11,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
   var localizer = Localizer("com.rubikon.TVSetKit")
 
   static public func instantiate(storyboardId: String="Player", bundleIdentifier: String="com.rubikon.TVSetKit") -> Self {
+    let bundle = Bundle(identifier: bundleIdentifier)!
+
     return AppStoryboard.instantiateController(storyboardId, bundle: bundle, viewControllerClass: self)
   }
 
@@ -18,6 +20,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
     super.viewDidLoad()
 
     navigationItem.title = ""
+
+    title = getHeaderName()
+
     clearsSelectionOnViewWillAppear = false
 
     collectionView?.backgroundView = activityIndicatorView
@@ -91,15 +96,12 @@ open class MediaItemsController: InfiniteCollectionViewController {
       else {
         var destination: MediaItemsController!
 
-//        if navigationController != nil {
-//          destination = MediaItemsController.instantiate(storyboardId: "Etvnet-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
-//
-//        }
-//        else {
-//          destination = MediaItemsController.instantiate()
-//        }
-
-        destination = MediaItemsController.instantiate()
+        if adapter.mobile == true {
+          destination = MediaItemsController.instantiate(storyboardId: "Player-iOS", bundleIdentifier: "com.rubikon.EtvnetSite-iOS")
+        }
+        else {
+          destination = MediaItemsController.instantiate()
+        }
 
         let newAdapter = adapter.clone()
         newAdapter.selectedItem = mediaItem
@@ -107,7 +109,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
         newAdapter.parentId = mediaItem.id
         newAdapter.parentName = mediaItem.name
         newAdapter.isContainer = true
-        newAdapter.mobile = true
 
         destination!.adapter = newAdapter
 
@@ -186,6 +187,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
     }
   }
 
+#if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
                                at indexPath: IndexPath) -> UICollectionReusableView {
     if kind == "UICollectionElementKindSectionHeader" {
@@ -199,6 +201,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     return UICollectionReusableView()
   }
+#endif
 
   func getHeaderName() -> String {
     var name = ""

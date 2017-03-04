@@ -24,9 +24,11 @@ open class ServiceAdapter {
 
   private var configName: String?
 
-  public var mobile: Bool = false
+  public var mobile: Bool?
 
-  public init() {}
+  public init(mobile: Bool=false) {
+    self.mobile = mobile
+  }
   
   open func clone() -> ServiceAdapter {
     return ServiceAdapter()
