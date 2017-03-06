@@ -24,6 +24,7 @@
 		2DBA1C8528239065328A4621 /* MediaItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA167D960840D5893FFF5E /* MediaItemCell.swift */; };
 		2DBA1CDF27C4F7D8F52D7893 /* InfiniteCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D1C5BBF79E24DD91EC6 /* InfiniteCollectionViewController.swift */; };
 		2DBA1D77C31D2B05E83A5454 /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1543A4143B7C41E78AD8 /* BaseCollectionViewController.swift */; };
+		2DBA1DA9AEB8CF5EC7807F7A /* PlayButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */; };
 		2DBA1FAA8464ECC4EB950DAB /* MediaItemTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1A36D4E5D86929CF21B0 /* MediaItemTableCell.swift */; };
 		FA35052F1E4663B4009BB40E /* TVSetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3505251E4663B3009BB40E /* TVSetKit.framework */; };
 		FA3505341E4663B4009BB40E /* TVSetKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3505331E4663B4009BB40E /* TVSetKitTests.swift */; };
@@ -67,6 +68,7 @@
 		2DBA10015F1A359BBBCE9565 /* Localizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
 		2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IServiceAdapter.swift; sourceTree = "<group>"; };
 		2DBA1118B30178E2519B8E54 /* MediaNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameCell.swift; sourceTree = "<group>"; };
+		2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButtonsView.swift; sourceTree = "<group>"; };
 		2DBA12F93A56F01F374C9F6A /* Player.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Player.storyboard; sourceTree = "<group>"; };
 		2DBA13B4456078B90903EDEA /* PlainSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
 		2DBA140B06A6A92129BE33D8 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				2DBA10015F1A359BBBCE9565 /* Localizer.swift */,
 				2DBA1C750A02BF4F2303EFAE /* table */,
 				2DBA11DB973B34579AD27E9B /* collection */,
+				2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				2DBA1AAD5746EFB32CE3EB96 /* MediaNameCell.swift in Sources */,
 				2DBA1FAA8464ECC4EB950DAB /* MediaItemTableCell.swift in Sources */,
 				2DBA1484B3611A07B1D7AD5F /* MediaNameTableCell.swift in Sources */,
+				2DBA1DA9AEB8CF5EC7807F7A /* PlayButtonsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

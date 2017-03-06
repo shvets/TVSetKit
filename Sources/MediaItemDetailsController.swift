@@ -1,19 +1,6 @@
 import UIKit
 import SwiftyJSON
 
-class PlayButton: UIButton {
-  var controller: MediaItemDetailsController?
-  var bitrate: MediaName?
-
-  override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
-    for item in presses {
-      if item.type == .select {
-        controller?.playMediaItem(sender: self)
-      }
-    }
-  }
-}
-
 class MediaItemDetailsController: UIViewController {
   static let SegueIdentifier = "MediaItemDetails"
   let CellIdentifier = "MediaItemDetailsCell"
@@ -25,7 +12,9 @@ class MediaItemDetailsController: UIViewController {
   @IBOutlet weak var rating: UILabel!
   @IBOutlet weak var watchStatus: UILabel!
 
-  var localizer = Localizer("com.rubikon.TVSetKit")
+  let localizer = Localizer("com.rubikon.TVSetKit")
+
+  @IBOutlet weak var playButtonsView: PlayButtonsView!
 
   var adapter: ServiceAdapter?
   var collectionItems: [MediaItem]!
@@ -33,8 +22,6 @@ class MediaItemDetailsController: UIViewController {
   var mediaItem: MediaItem!
 
   var bitrates = [MediaName]()
-
-  var buttons = [UIButton]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,23 +40,26 @@ class MediaItemDetailsController: UIViewController {
       print("Error loading data.")
     }
 
-    var currentOffset = 0
+    playButtonsView.createPlayButtons(bitrates, mobile: adapter!.mobile!)
 
-    for (index, bitrate) in bitrates.enumerated() {
-      if index > 0 {
-        if adapter?.mobile == true {
-          currentOffset += Int(buttons[index-1].frame.size.width/2.5) + 40
-        }
-        else {
-          currentOffset += Int(buttons[index-1].frame.size.width) + 30
-        }
+    for button in playButtonsView!.buttons {
+      let playButton = button as! PlayButton
+
+      playButton.controller = self
+
+      if adapter?.mobile == true {
+        let action = #selector(self.playMediaItem)
+
+        button.addTarget(self, action: action, for: .touchUpInside)
       }
+      else {
+        let action = #selector(self.tapped(_:))
+        let tapGesture = UITapGestureRecognizer(target: self, action: action)
 
-      let button = createBitrateButton(bitrate: bitrate, offset: currentOffset)
+        tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
-      buttons.append(button)
-
-      view.addSubview(button)
+        button.addGestureRecognizer(tapGesture)
+      }
     }
 
     if adapter?.requestType != "HISTORY" {
@@ -95,9 +85,13 @@ class MediaItemDetailsController: UIViewController {
 
     let posterPath = mediaItem.getPosterPath(isBetterQuality: true)
 
-    let imageView = createDetailsImage(path: posterPath)
+    let image = createDetailsImage(path: posterPath)
 
-    view.addSubview(imageView)
+    imageView.image = image
+
+    if let frame = adapter?.getDetailsImageFrame() {
+      imageView.frame = frame
+    }
   }
 
   func loadData() throws {
@@ -114,39 +108,7 @@ class MediaItemDetailsController: UIViewController {
     }
   }
 
-  func createBitrateButton(bitrate: MediaName, offset: Int) -> PlayButton {
-    let title = localizer.localize(bitrate.name!)
-
-    let button = PlayButton(type: .system)
-    button.controller = self
-
-    button.setTitle(title, for: .normal)
-    button.bitrate = bitrate
-
-    if adapter?.mobile == true {
-      let scale = localizer.getLocale() == "en" ? 26 : 18
-      button.frame = CGRect(x: offset, y: 580, width: scale*title.characters.count, height: 20)
-
-      let action = #selector(self.playMediaItem)
-
-      button.addTarget(self, action: action, for: .touchUpInside)
-    }
-    else {
-      let scale = localizer.getLocale() == "en" ? 52 : 36
-      button.frame = CGRect(x: 680+offset, y: 920, width: scale*title.characters.count, height: 80)
-
-      let action = #selector(self.tapped(_:))
-      let tapGesture = UITapGestureRecognizer(target: self, action: action)
-
-      tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
-
-      button.addGestureRecognizer(tapGesture)
-    }
-
-    return button
-  }
-
-  func createDetailsImage(path: String) -> UIImageView {
+  func createDetailsImage(path: String) -> UIImage {
     var image: UIImage
 
     if path.isEmpty {
@@ -162,13 +124,7 @@ class MediaItemDetailsController: UIViewController {
       image = UIImage(data: data as Data)!
     }
 
-    imageView.image = image
-
-    if let frame = adapter?.getDetailsImageFrame() {
-      imageView.frame = frame
-    }
-
-    return imageView
+    return image
   }
 
   func tapped(_ gesture: UITapGestureRecognizer) {
@@ -184,7 +140,7 @@ class MediaItemDetailsController: UIViewController {
       destination.mediaItem = mediaItem
       destination.adapter = adapter
 
-      let index = buttons.index(where: { $0 == sender as? UIButton })
+      let index = playButtonsView!.buttons.index(where: { $0 == sender as? UIButton })
 
       if let index = index {
         do {

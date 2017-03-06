@@ -196,7 +196,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceHorizontal="YES" indicatorStyle="black" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DeY-XA-L75">
-                                <rect key="frame" x="619" y="154" width="1301" height="633"/>
+                                <rect key="frame" x="619" y="154" width="1281" height="633"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -216,6 +216,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XIX-eO-9vP" customClass="PlayButtonsView" customModule="TVSetKit" customModuleProvider="target">
+                                <rect key="frame" x="61" y="891" width="1839" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </view>
                         </subviews>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -223,6 +227,7 @@
                         <outlet property="imageView" destination="Wv2-Ql-T1d" id="KNR-u9-xpR"/>
                         <outlet property="movieDescription" destination="DeY-XA-L75" id="O5o-6U-Jfe"/>
                         <outlet property="name" destination="fS9-S5-99n" id="mU3-fz-jm5"/>
+                        <outlet property="playButtonsView" destination="XIX-eO-9vP" id="Rh2-Xv-6uS"/>
                         <outlet property="rating" destination="ZM8-mM-BLc" id="yMW-cX-Agz"/>
                         <outlet property="tag" destination="YLt-Bj-zyI" id="eXc-ph-gzK"/>
                         <outlet property="watchStatus" destination="0XE-Ks-k3C" id="3DK-IU-Npz"/>
