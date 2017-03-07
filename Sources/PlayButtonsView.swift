@@ -16,7 +16,38 @@ class PlayButton: UIButton {
 class PlayButtonsView: UIView {
   let localizer = Localizer("com.rubikon.TVSetKit")
 
+  var xOffsets: [CGFloat] = []
+
   var buttons = [UIButton]()
+
+//  override func layoutSubviews() {
+//
+//    var width: CGFloat = 0
+//    var zeroWidthView: UIView?
+//
+//    for i in 0..<subviews.count {
+//      var view = subviews[i] as UIView
+//      width += xOffsets[i]
+//      if view.frame.width == 0 {
+//        zeroWidthView = view
+//      } else {
+//        width += view.frame.width
+//      }
+//    }
+//
+//    if width < superview!.frame.width && zeroWidthView != nil {
+//      zeroWidthView!.frame.size.width = superview!.frame.width - width
+//    }
+//
+//    super.layoutSubviews()
+//
+//  }
+
+  override func addSubview(_ view: UIView) {
+
+    xOffsets.append(view.frame.origin.x)
+    super.addSubview(view)
+  }
 
   func createPlayButtons(_ bitrates: [MediaName], mobile: Bool) {
     var currentOffset = 0
