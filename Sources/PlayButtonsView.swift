@@ -20,75 +20,34 @@ class PlayButtonsView: UIView {
 
   var buttons = [UIButton]()
 
-//  override func layoutSubviews() {
-//
-//    var width: CGFloat = 0
-//    var zeroWidthView: UIView?
-//
-//    for i in 0..<subviews.count {
-//      var view = subviews[i] as UIView
-//      width += xOffsets[i]
-//      if view.frame.width == 0 {
-//        zeroWidthView = view
-//      } else {
-//        width += view.frame.width
-//      }
-//    }
-//
-//    if width < superview!.frame.width && zeroWidthView != nil {
-//      zeroWidthView!.frame.size.width = superview!.frame.width - width
-//    }
-//
-//    super.layoutSubviews()
-//
-//  }
-
-  override func addSubview(_ view: UIView) {
-
-    xOffsets.append(view.frame.origin.x)
-    super.addSubview(view)
-  }
-
   func createPlayButtons(_ bitrates: [MediaName], mobile: Bool) {
-    var currentOffset = 0
+    let delta: CGFloat = (mobile == true) ? 0 : 70
 
-    for (index, bitrate) in bitrates.enumerated() {
-      if index > 0 {
-        if mobile == true {
-          currentOffset += Int(buttons[index - 1].frame.size.width / 2.5) + 40
-        } else {
-          currentOffset += Int(buttons[index - 1].frame.size.width) + 30
-        }
+    var width: CGFloat = 0
+
+    for bitrate in bitrates {
+      let title = localizer.localize(bitrate.name!)
+
+      let button = PlayButton(type: .system)
+
+      button.setTitle(title, for: .normal)
+      button.bitrate = bitrate
+
+      if mobile == true {
+        button.frame.size = CGSize(width: title.characters.count*10, height: 20)
+      }
+      else {
+        button.frame.size = CGSize(width: title.characters.count*50, height: 80)
       }
 
-      let button = createPlayButton(bitrate: bitrate, mobile: mobile, offset: currentOffset)
+      button.frame.origin = CGPoint(x: width+delta, y: 0)
 
       buttons.append(button)
 
       addSubview(button)
+
+      width += button.frame.size.width+delta
     }
-  }
-
-  func createPlayButton(bitrate: MediaName, mobile: Bool, offset: Int) -> PlayButton {
-    let title = localizer.localize(bitrate.name!)
-
-    let button = PlayButton(type: .system)
-
-    button.setTitle(title, for: .normal)
-    button.bitrate = bitrate
-
-    if mobile == true {
-      let scale = localizer.getLocale() == "en" ? 26 : 18
-
-      button.frame = CGRect(x: offset, y: 0, width: scale*title.characters.count, height: 20)
-    }
-    else {
-      let scale = localizer.getLocale() == "en" ? 52 : 36
-
-      button.frame = CGRect(x: offset, y: 0, width: scale*title.characters.count, height: 80)
-    }
-
-    return button
   }
 
 }
