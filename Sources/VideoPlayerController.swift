@@ -39,10 +39,12 @@ class VideoPlayerController: AVPlayerViewController {
 
     initialQualityLevel = QualityLevel(rawValue: bitrate!["name"] as! String)
 
+#if os(tvOS)
     let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
     doubleTapRecognizer.numberOfTapsRequired = 2
 
     self.view.addGestureRecognizer(doubleTapRecognizer)
+#endif
 
     _ = [UISwipeGestureRecognizerDirection.right, .left, .up, .down].map({ direction in
       let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped(_:)))
@@ -64,14 +66,33 @@ class VideoPlayerController: AVPlayerViewController {
   }
   
   func swiped(_ gesture: UISwipeGestureRecognizer) {
+#if os(iOS)
     switch gesture.direction {
       case UISwipeGestureRecognizerDirection.up:
         if prepareNextMediaItem() {
           play()
         }
-     default:
-      break
+      case UISwipeGestureRecognizerDirection.down:
+        if preparePreviousMediaItem() {
+          play()
+        }
+
+      default:
+        break
     }
+#endif
+
+#if os(tvOS)
+    switch gesture.direction {
+      case UISwipeGestureRecognizerDirection.up:
+        if prepareNextMediaItem() {
+          play()
+        }
+
+      default:
+        break
+    }
+#endif
   }
 
   func preparePreviousMediaItem() -> Bool {
