@@ -108,8 +108,8 @@ class MediaItemDetailsController: UIViewController {
     }
   }
 
-  func createDetailsImage(path: String) -> UIImage {
-    var image: UIImage
+  func createDetailsImage(path: String) -> UIImage? {
+    var image: UIImage?
 
     if path.isEmpty {
       let localizedName = localizer.localize(mediaItem.name!)
@@ -119,9 +119,11 @@ class MediaItemDetailsController: UIViewController {
     else {
       let url = NSURL(string: path)!
 
-      let data = NSData(contentsOf: url as URL)!
+      let data = NSData(contentsOf: url as URL)
 
-      image = UIImage(data: data as Data)!
+      if let data = data {
+        image = UIImage(data: data as Data)
+      }
     }
 
     return image
