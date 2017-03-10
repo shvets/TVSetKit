@@ -11,11 +11,11 @@ open class MediaItemsController: InfiniteCollectionViewController {
   var localizer = Localizer("com.rubikon.TVSetKit")
 
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
-    let bundle = Bundle(identifier: adapter.playerBundleId)!
-
-    let storyboard: UIStoryboard = UIStoryboard(name: adapter.playerStoryboardId, bundle: bundle)
-
-    return storyboard.instantiateViewController(withIdentifier: StoryboardControllerId)
+    return UIViewController.instantiate(
+      controllerId: MediaItemsController.StoryboardControllerId,
+      storyboardId: adapter.playerStoryboardId,
+      bundleId: adapter.playerBundleId
+    )
   }
 
   override open func viewDidLoad() {
@@ -98,9 +98,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
         performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
       }
       else {
-        var controller: UIViewController!
-
-        controller = MediaItemsController.instantiate(adapter)
+        let controller = MediaItemsController.instantiate(adapter)
 
         let destination = controller.getActionController() as! MediaItemsController
 
