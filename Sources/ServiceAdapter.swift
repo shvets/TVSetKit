@@ -37,8 +37,8 @@ open class ServiceAdapter {
     return ServiceAdapter()
   }
 
-  open func instantiateController(controllerId: String, storyboardId: String, bundleIdentifier: String) -> UIViewController {
-    return UIViewController.instantiate(controllerId: controllerId, storyboardId: storyboardId, bundleIdentifier: bundleIdentifier)
+  open func instantiateController(controllerId: String, storyboardId: String, bundleId: String) -> UIViewController {
+    return UIViewController.instantiate(controllerId: controllerId, storyboardId: storyboardId, bundleId: bundleId)
   }
 
   open func clear() {

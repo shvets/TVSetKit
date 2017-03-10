@@ -1,10 +1,6 @@
 import UIKit
 
 extension UIViewController {
-  public class var storyboardID : String {
-    return "\(self)"
-  }
-
   public func getActionController() -> UIViewController? {
     if let controller = self as? UINavigationController {
       return controller.visibleViewController
@@ -14,9 +10,8 @@ extension UIViewController {
     }
   }
 
-  public static func instantiate(controllerId: String, storyboardId: String,
-                                 bundleIdentifier: String) -> UIViewController {
-    let bundle = Bundle(identifier: bundleIdentifier)!
+  public static func instantiate(controllerId: String, storyboardId: String, bundleId: String) -> UIViewController {
+    let bundle = Bundle(identifier: bundleId)!
 
     let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: bundle)
 
