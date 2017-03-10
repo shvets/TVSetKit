@@ -277,7 +277,7 @@
                         </connections>
                     </collectionView>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="Collection" id="X5d-eS-dp6"/>
+                    <tabBarItem key="tabBarItem" title="Archive" id="X5d-eS-dp6"/>
                     <navigationItem key="navigationItem" title="Movies" id="CVx-KE-Uj2"/>
                 </collectionViewController>
             </objects>
