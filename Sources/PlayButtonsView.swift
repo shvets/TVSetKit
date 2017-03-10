@@ -16,8 +16,6 @@ class PlayButton: UIButton {
 class PlayButtonsView: UIView {
   let localizer = Localizer("com.rubikon.TVSetKit")
 
-  var xOffsets: [CGFloat] = []
-
   var buttons = [UIButton]()
 
   func createPlayButtons(_ bitrates: [MediaName], mobile: Bool) {
