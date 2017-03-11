@@ -50,6 +50,6 @@ open class BaseTableViewController: UITableViewController {
     navigate(from: tableView.cellForRow(at: indexPath)!)
   }
 
-  open func navigate(from cell: UITableViewCell) {}
+  open func navigate(from view: UITableViewCell) {}
 
 }

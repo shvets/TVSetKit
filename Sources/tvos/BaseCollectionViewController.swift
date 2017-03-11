@@ -56,7 +56,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     navigate(from: collectionView.cellForItem(at: indexPath)!)
   }
 
-  open func navigate(from cell: UICollectionViewCell, playImmediately: Bool=false) {}
+  open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {}
 
   // MARK: UICollectionViewDataSource
 

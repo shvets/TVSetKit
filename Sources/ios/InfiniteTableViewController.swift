@@ -42,4 +42,10 @@ open class InfiniteTableViewController: UITableViewController {
       self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
     }
   }
+
+  override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    navigate(from: tableView.cellForRow(at: indexPath)!)
+  }
+
+  open func navigate(from view: UITableViewCell) {}
 }
