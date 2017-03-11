@@ -53,7 +53,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
     cell.configureCell(item: item, localizedName: localizedName)
 
 #if os(tvOS)
-    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
+
+    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 #endif
 
     if adapter.mobile == false {
@@ -68,23 +70,17 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
 #if os(tvOS)
   func tapped(_ gesture: UITapGestureRecognizer) {
-    navigate(from: gesture.view as! UICollectionViewCell)
+    var playImmediately = false
+
+    if gesture.allowedPressTypes.contains(NSNumber(value: UIPressType.playPause.rawValue)) {
+      playImmediately = true
+    }
+
+    navigate(from: gesture.view as! UICollectionViewCell, playImmediately: playImmediately)
   }
 #endif
 
-  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let currentOffset = scrollView.contentOffset.y
-    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-    let deltaOffset = maximumOffset - currentOffset
-
-    if deltaOffset <= 0 {
-      if adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        loadMoreData(items.count-1)
-      }
-    }
-  }
-
-  override open func navigate(from view: UICollectionViewCell) {
+  override open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
     let mediaItem = getItem(for: view)
 
     let type = mediaItem.type
@@ -122,7 +118,26 @@ open class MediaItemsController: InfiniteCollectionViewController {
       }
     }
     else {
-      performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
+      if playImmediately {
+        performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+      }
+      else {
+        performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
+      }
+    }
+  }
+
+  // MARK: UIScrollViewDelegate
+
+  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentOffset = scrollView.contentOffset.y
+    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+    let deltaOffset = maximumOffset - currentOffset
+
+    if deltaOffset <= 0 {
+      if adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+        loadMoreData(items.count-1)
+      }
     }
   }
 

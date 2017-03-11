@@ -2,7 +2,7 @@ import UIKit
 import SwiftyJSON
 
 open class BaseCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
   public var adapter: ServiceAdapter!
 
@@ -52,6 +52,6 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     navigate(from: collectionView.cellForItem(at: indexPath)!)
   }
 
-  open func navigate(from cell: UICollectionViewCell) {}
+  open func navigate(from cell: UICollectionViewCell, playImmediately: Bool=false) {}
 
 }

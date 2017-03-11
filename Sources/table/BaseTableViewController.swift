@@ -2,7 +2,7 @@ import UIKit
 import SwiftyJSON
 
 open class BaseTableViewController: UITableViewController {
-  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
   public var adapter: ServiceAdapter!
 
