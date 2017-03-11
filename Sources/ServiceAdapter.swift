@@ -27,9 +27,6 @@ open class ServiceAdapter {
   public var mobile: Bool?
 
   public var playerStoryboardId: String?
-    //= "Player"
-  public var playerBundleId: String?
-    //= "com.rubikon.TVSetKit"
 
   public init(mobile: Bool=false) {
     self.mobile = mobile

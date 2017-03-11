@@ -12,7 +12,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
     return UIViewController.instantiate(
       controllerId: MediaItemsController.StoryboardControllerId,
       storyboardId: adapter.playerStoryboardId!,
-      bundleId: adapter.playerBundleId!
+      bundle: Bundle.main
     )
   }
 
