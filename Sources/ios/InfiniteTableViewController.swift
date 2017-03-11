@@ -1,11 +1,11 @@
 import UIKit
 
 open class InfiniteTableViewController: UITableViewController {
-  let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+  open let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
 
-  var adapter: ServiceAdapter!
+  open var adapter: ServiceAdapter!
 
-  var items = [MediaItem]()
+  open var items = [MediaItem]()
 
   var params = [String: Any]()
 
@@ -15,7 +15,7 @@ open class InfiniteTableViewController: UITableViewController {
     return items[indexPath!.row]
   }
 
-  func loadInitialData() {
+  public func loadInitialData() {
     adapter.loadData() { result in
       self.items = result
 
@@ -23,7 +23,7 @@ open class InfiniteTableViewController: UITableViewController {
     }
   }
 
-  func loadMoreData(_ index: Int) {
+  public func loadMoreData(_ index: Int) {
     adapter.loadData() { result in
       var indexPaths: [IndexPath] = []
 
