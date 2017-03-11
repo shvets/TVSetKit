@@ -6,7 +6,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     return ""
   }
 
-  public var localizer: Localizer?
+  public var localizer: Localizer!
 
   public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
