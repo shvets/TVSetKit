@@ -5,21 +5,21 @@ open class MediaItemsController: InfiniteCollectionViewController {
   public class var SegueIdentifier: String { return  "MediaItems" }
   public class var StoryboardControllerId: String { return "MediaItemsController" }
 
-  var CellIdentifier: String { return  "MediaItemCell" }
+  override open var CellIdentifier: String { return  "MediaItemCell" }
   var HeaderViewIdentifier: String { return  "MediaItemsHeader" }
-
-  var localizer = Localizer("com.rubikon.TVSetKit")
 
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
     return UIViewController.instantiate(
       controllerId: MediaItemsController.StoryboardControllerId,
-      storyboardId: adapter.playerStoryboardId,
-      bundleId: adapter.playerBundleId
+      storyboardId: adapter.playerStoryboardId!,
+      bundleId: adapter.playerBundleId!
     )
   }
 
   override open func viewDidLoad() {
     super.viewDidLoad()
+
+    localizer = Localizer("com.rubikon.TVSetKit")
 
     navigationItem.title = ""
 
@@ -48,9 +48,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     let item = items[indexPath.row]
 
-    let localizedName = localizer.localize(item.name!)
-
-    cell.configureCell(item: item, localizedName: localizedName)
+    if let localizedName = localizer?.localize(item.name!) {
+      cell.configureCell(item: item, localizedName: localizedName)
+    }
 
 #if os(tvOS)
     CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
@@ -208,7 +208,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
         withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as! MediaItemsHeaderView
 
-      headerView.sectionLabel.text = localizer.localize(getHeaderName())
+      headerView.sectionLabel.text = localizer?.localize(getHeaderName())
       
       return headerView
     }
@@ -262,8 +262,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
 
   func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = localizer.localize("BOOKMARK_WILL_BE_REMOVED")
-    let message = localizer.localize("CONFIRM_YOUR_CHOICE")
+    let title = localizer?.localize("BOOKMARK_WILL_BE_REMOVED")
+    let message = localizer?.localize("CONFIRM_YOUR_CHOICE")
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     
@@ -287,8 +287,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
   
   func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = localizer.localize("BOOKMARK_WILL_BE_ADDED")
-    let message = localizer.localize("CONFIRM_YOUR_CHOICE")
+    let title = localizer?.localize("BOOKMARK_WILL_BE_ADDED")
+    let message = localizer?.localize("CONFIRM_YOUR_CHOICE")
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     

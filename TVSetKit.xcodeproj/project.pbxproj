@@ -17,7 +17,6 @@
 		2DBA18F0D750A36C94390E7E /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1A58D4F09511463B51C9 /* BaseTableViewController.swift */; };
 		2DBA194E58FD9FE9CEA09A20 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA161608A7DAAC8E767860 /* Package.swift */; };
 		2DBA1AAD5746EFB32CE3EB96 /* MediaNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1118B30178E2519B8E54 /* MediaNameCell.swift */; };
-		2DBA1AB356CA8A29A6252AA7 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DBA12F93A56F01F374C9F6A /* Player.storyboard */; };
 		2DBA1C295B160F6AA8E37E3C /* InfiniteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1F4B44B800D86D754326 /* InfiniteTableViewController.swift */; };
 		2DBA1C394C44BD6ED2AEC49C /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
 		2DBA1C8528239065328A4621 /* MediaItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA167D960840D5893FFF5E /* MediaItemCell.swift */; };
@@ -68,7 +67,6 @@
 		2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IServiceAdapter.swift; sourceTree = "<group>"; };
 		2DBA1118B30178E2519B8E54 /* MediaNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameCell.swift; sourceTree = "<group>"; };
 		2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButtonsView.swift; sourceTree = "<group>"; };
-		2DBA12F93A56F01F374C9F6A /* Player.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Player.storyboard; sourceTree = "<group>"; };
 		2DBA13B4456078B90903EDEA /* PlainSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
 		2DBA140B06A6A92129BE33D8 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController-extension.swift"; sourceTree = "<group>"; };
@@ -134,7 +132,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2DBA11DB973B34579AD27E9B /* collection */ = {
+		2DBA11DB973B34579AD27E9B /* tvos */ = {
 			isa = PBXGroup;
 			children = (
 				2DBA1543A4143B7C41E78AD8 /* BaseCollectionViewController.swift */,
@@ -142,10 +140,10 @@
 				2DBA167D960840D5893FFF5E /* MediaItemCell.swift */,
 				2DBA1118B30178E2519B8E54 /* MediaNameCell.swift */,
 			);
-			path = collection;
+			path = tvos;
 			sourceTree = "<group>";
 		};
-		2DBA1C750A02BF4F2303EFAE /* table */ = {
+		2DBA1C750A02BF4F2303EFAE /* ios */ = {
 			isa = PBXGroup;
 			children = (
 				2DBA1A58D4F09511463B51C9 /* BaseTableViewController.swift */,
@@ -153,7 +151,7 @@
 				2DBA1A36D4E5D86929CF21B0 /* MediaItemTableCell.swift */,
 				2DBA173C1D258F854EDFFF8C /* MediaNameTableCell.swift */,
 			);
-			path = table;
+			path = ios;
 			sourceTree = "<group>";
 		};
 		FA35051B1E4663B3009BB40E = {
@@ -208,11 +206,10 @@
 				2DBA140B06A6A92129BE33D8 /* DataSource.swift */,
 				2DBA15DDDB290018615D87C2 /* RequestParams.swift */,
 				2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */,
-				2DBA12F93A56F01F374C9F6A /* Player.storyboard */,
 				FA9A18A11E58958E00DC0DCE /* Localizable.strings */,
 				2DBA10015F1A359BBBCE9565 /* Localizer.swift */,
-				2DBA1C750A02BF4F2303EFAE /* table */,
-				2DBA11DB973B34579AD27E9B /* collection */,
+				2DBA1C750A02BF4F2303EFAE /* ios */,
+				2DBA11DB973B34579AD27E9B /* tvos */,
 				2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */,
 			);
 			path = Sources;
@@ -332,7 +329,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2DBA1AB356CA8A29A6252AA7 /* Player.storyboard in Resources */,
 				FA9A189F1E58958E00DC0DCE /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

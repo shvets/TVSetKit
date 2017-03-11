@@ -2,6 +2,12 @@ import UIKit
 import SwiftyJSON
 
 open class BaseCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+  open var CellIdentifier: String {
+    return ""
+  }
+
+  public var localizer: Localizer?
+
   public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 
   public var adapter: ServiceAdapter!
@@ -52,4 +58,29 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   open func navigate(from cell: UICollectionViewCell, playImmediately: Bool=false) {}
 
+  // MARK: UICollectionViewDataSource
+
+  override open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+
+  override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return items.count
+  }
+
+  override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaNameCell
+
+    let item = items[indexPath.row]
+
+    if let localizer = localizer {
+      let localizedName = localizer.localize(item.name!)
+
+      cell.configureCell(item: item, localizedName: localizedName, target: self)
+    }
+
+    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+
+    return cell
+  }
 }
