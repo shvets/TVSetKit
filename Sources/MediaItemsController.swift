@@ -69,7 +69,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
   }
 
 #if os(tvOS)
-  func tapped(_ gesture: UITapGestureRecognizer) {
+  override open func tapped(_ gesture: UITapGestureRecognizer) {
     var playImmediately = false
 
     if gesture.allowedPressTypes.contains(NSNumber(value: UIPressType.playPause.rawValue)) {

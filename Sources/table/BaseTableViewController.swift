@@ -42,6 +42,10 @@ open class BaseTableViewController: UITableViewController {
     return items[indexPath!.row]
   }
 
+//  func tapped(_ gesture: UITapGestureRecognizer) {
+//    navigate(from: gesture.view as! UITableViewCell)
+//  }
+
   override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     navigate(from: tableView.cellForRow(at: indexPath)!)
   }
