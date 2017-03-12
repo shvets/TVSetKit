@@ -15,9 +15,13 @@ open class InfiniteTableViewController: UITableViewController {
     return items[indexPath!.row]
   }
 
-  public func loadInitialData() {
-    adapter.loadData() { result in
+  public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
+    return adapter.loadData() { result in
       self.items = result
+
+      if let onLoadCompleted = onLoadCompleted {
+        onLoadCompleted(self.items)
+      }
 
       self.tableView?.reloadData()
     }
