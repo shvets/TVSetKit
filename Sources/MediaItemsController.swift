@@ -11,7 +11,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
     return UIViewController.instantiate(
       controllerId: MediaItemsController.StoryboardControllerId,
-      storyboardId: adapter.playerStoryboardId!,
+      storyboardId: type(of: adapter).StoryboardId,
       bundle: Bundle.main
     )
   }
@@ -208,7 +208,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
       let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
         withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as! MediaItemsHeaderView
 
-      headerView.sectionLabel.text = localizer.localize(getHeaderName())
+      headerView.sectionLabel.text = getHeaderName()
       
       return headerView
     }
@@ -227,7 +227,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
       name = adapter.requestType!
     }
 
-    return name
+    let localizer = Localizer(type(of: adapter!).BundleId)
+
+    return localizer.localize(name)
   }
 
 #if os(tvOS)

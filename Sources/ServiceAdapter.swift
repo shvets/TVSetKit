@@ -26,7 +26,8 @@ open class ServiceAdapter {
 
   public var mobile: Bool?
 
-  public var playerStoryboardId: String?
+  open class var StoryboardId: String { return "" }
+  open class var BundleId: String { return "" }
 
   public init(mobile: Bool=false) {
     self.mobile = mobile
