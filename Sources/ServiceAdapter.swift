@@ -21,6 +21,7 @@ open class ServiceAdapter {
 
   public var pageSize: Int?
   public var rowSize: Int?
+  private var paginationDisabled = false
 
   private var configName: String?
 
@@ -56,8 +57,12 @@ open class ServiceAdapter {
     selectedItem = nil
   }
 
+  open func disablePagination() {
+    paginationDisabled = true
+  }
+
   open func nextPageAvailable(dataCount: Int, index: Int) -> Bool {
-    return dataCount - index <= self.rowSize! && !endOfData
+    return !paginationDisabled && dataCount - index <= self.rowSize! && !endOfData
   }
 
   open func loadData(onLoadCompleted: @escaping ([MediaItem]) -> Void) {
