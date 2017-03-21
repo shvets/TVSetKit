@@ -1,20 +1,6 @@
 import UIKit
 
-open class InfiniteTableViewController: UITableViewController {
-  open let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
-
-  open var adapter: ServiceAdapter!
-
-  open var items = [MediaItem]()
-
-  var params = [String: Any]()
-
-  public func getItem(for cell: UITableViewCell) -> MediaItem {
-    let indexPath = tableView?.indexPath(for: cell)!
-
-    return items[indexPath!.row]
-  }
-
+open class InfiniteTableViewController: BaseTableViewController {
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.loadData() { result in
       self.items = result
@@ -46,10 +32,4 @@ open class InfiniteTableViewController: UITableViewController {
       self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
     }
   }
-
-  override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    navigate(from: tableView.cellForRow(at: indexPath)!)
-  }
-
-  open func navigate(from view: UITableViewCell) {}
 }

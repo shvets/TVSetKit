@@ -73,11 +73,9 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
     let item = items[indexPath.row]
 
-    if let localizer = localizer {
-      let localizedName = localizer.localize(item.name!)
+    let localizedName = (localizer == nil) ? item.name! : localizer.localize(item.name!)
 
-      cell.configureCell(item: item, localizedName: localizedName, target: self)
-    }
+    cell.configureCell(item: item, localizedName: localizedName, target: self)
 
     CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 

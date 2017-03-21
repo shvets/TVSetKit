@@ -4,7 +4,7 @@ import AVKit
 
 class AudioItemsController: InfiniteTableViewController {
   static let SegueIdentifier = "AudioItems"
-  let CellIdentifier = "AudioItemCell"
+  override open var CellIdentifier: String { return "AudioItemCell" }
 
   var selectedCell: AudioItemCell?
   var mediaItem: MediaItem?
