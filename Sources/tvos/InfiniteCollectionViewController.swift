@@ -36,4 +36,22 @@ open class InfiniteCollectionViewController: BaseCollectionViewController {
     }
   }
 
+  override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaNameCell
+
+    if adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+      loadMoreData(indexPath.row)
+    }
+
+    let item = items[indexPath.row]
+
+    let localizedName = (localizer == nil) ? item.name! : localizer.localize(item.name!)
+
+    cell.configureCell(item: item, localizedName: localizedName, target: self)
+
+    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+
+    return cell
+  }
+
 }
