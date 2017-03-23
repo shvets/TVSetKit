@@ -38,8 +38,11 @@ class AudioItemsController: InfiniteTableViewController {
     let item = items[indexPath.row]
     
     cell.configureCell(item: item)
+
+#if os(tvOS)
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
-    
+#endif
+
     return cell
   }
 
@@ -54,9 +57,16 @@ class AudioItemsController: InfiniteTableViewController {
       }
     }
   }
-  
+
+#if os(iOS)
+  override open func navigate(from view: UITableViewCell) {
+    performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: view)
+  }
+#endif
+
   // MARK: - Table view data source
-  
+
+#if os(tvOS)
   func tapped(_ gesture: UITapGestureRecognizer) {
     if (gesture.view as? AudioItemCell) != nil {
 //        let cell = gesture.view as! AudioItemCell
@@ -105,6 +115,7 @@ class AudioItemsController: InfiniteTableViewController {
       performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: gesture.view)
     }
   }
+#endif
 
   // MARK: Navigation
 
