@@ -76,12 +76,4 @@ open class BaseTableViewController: UITableViewController {
     return cell
   }
 
-  override open func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle,
-                               forRowAtIndexPath indexPath: NSIndexPath) {
-    if (editingStyle == .delete) {
-      // Action to delete data
-    }
-  }
-
-
 }
