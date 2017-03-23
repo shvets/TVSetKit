@@ -8,12 +8,12 @@ open class CellHelper {
     return CellHelper()
   }()
   
-  public func addGestureRecognizer(view: UIView, target: Any?, action: Selector?, pressType: UIPressType = .select) {
+  public func addTapGestureRecognizer(view: UIView, target: Any?, action: Selector?, pressType: UIPressType = .select) {
     let tapGesture = UITapGestureRecognizer(target: target, action: action)
 
     tapGesture.allowedPressTypes = [NSNumber(value: pressType.rawValue)]
 
-    view.addGestureRecognizer(tapGesture)
+    view.addTapGestureRecognizer(tapGesture)
   }
   
   func loadImage(path: String, name: String="", imageView: UIImageView, width: Int=450, height: Int=150) {

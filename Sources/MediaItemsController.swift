@@ -53,10 +53,12 @@ open class MediaItemsController: InfiniteCollectionViewController {
     cell.configureCell(item: item, localizedName: localizedName)
 
 #if os(tvOS)
-    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
+    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
 
-    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
+    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 #endif
+
+    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 
     if adapter.mobile == false {
       let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
@@ -232,7 +234,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
     return localizer.localize(name)
   }
 
-#if os(tvOS)
+//#if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
     cellSelection.setIndexPath(indexPath)
 
@@ -244,7 +246,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     return true
   }
-#endif
+//#endif
 
   // MARK:- Add Cell
 

@@ -49,7 +49,7 @@ open class InfiniteCollectionViewController: BaseCollectionViewController {
 
     cell.configureCell(item: item, localizedName: localizedName, target: self)
 
-    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 
     return cell
   }

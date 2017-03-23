@@ -38,7 +38,7 @@ class AudioItemsController: InfiniteTableViewController {
     let item = items[indexPath.row]
     
     cell.configureCell(item: item)
-    CellHelper.shared.addGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
     
     return cell
   }
