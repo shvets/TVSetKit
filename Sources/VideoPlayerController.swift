@@ -35,7 +35,7 @@ class VideoPlayerController: AVPlayerViewController {
     let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
     doubleTapRecognizer.numberOfTapsRequired = 2
 
-    self.view.addTapGestureRecognizer(doubleTapRecognizer)
+    self.view.addGestureRecognizer(doubleTapRecognizer)
 #endif
 
     _ = [UISwipeGestureRecognizerDirection.right, .left, .up, .down].map({ direction in
@@ -43,7 +43,7 @@ class VideoPlayerController: AVPlayerViewController {
 
       recognizer.direction = direction
 
-      self.view.addTapGestureRecognizer(recognizer)
+      self.view.addGestureRecognizer(recognizer)
     })
 
     if playVideo {
@@ -51,7 +51,7 @@ class VideoPlayerController: AVPlayerViewController {
     }
   }
 
-  func doubleTapPressed(_ gesture: UILongPressGestureRecognizer) {
+  func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
     if preparePreviousMediaItem() {
       play()
     }

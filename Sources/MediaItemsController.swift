@@ -27,6 +27,11 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     clearsSelectionOnViewWillAppear = false
 
+#if os(iOS)
+    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
+    collectionView?.addGestureRecognizer(longPressRecognizer)
+#endif
+
     collectionView?.backgroundView = activityIndicatorView
     adapter.spinner = PlainSpinner(activityIndicatorView)
 
@@ -58,8 +63,6 @@ open class MediaItemsController: InfiniteCollectionViewController {
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 #endif
 
-    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
-
     if adapter.mobile == false {
       let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
 
@@ -69,6 +72,21 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     return cell
   }
+
+#if os(iOS)
+  func longPressed(_ gesture: UILongPressGestureRecognizer) {
+    if gesture.state == UIGestureRecognizerState.ended {
+      let point = gesture.location(in: collectionView)
+      let indexPath = collectionView!.indexPathForItem(at: point)
+
+      if let indexPath = indexPath {
+        cellSelection.setIndexPath(indexPath)
+
+        manageMovieBookmark()
+      }
+    }
+  }
+#endif
 
 #if os(tvOS)
   override open func tapped(_ gesture: UITapGestureRecognizer) {
@@ -234,7 +252,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
     return localizer.localize(name)
   }
 
-//#if os(tvOS)
+#if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
     cellSelection.setIndexPath(indexPath)
 
@@ -246,7 +264,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     return true
   }
-//#endif
+#endif
 
   // MARK:- Add Cell
 

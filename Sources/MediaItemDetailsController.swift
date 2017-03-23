@@ -58,7 +58,7 @@ class MediaItemDetailsController: UIViewController {
 
         tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
-        button.addTapGestureRecognizer(tapGesture)
+        button.addGestureRecognizer(tapGesture)
       }
     }
 

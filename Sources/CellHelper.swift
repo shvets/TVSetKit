@@ -13,7 +13,7 @@ open class CellHelper {
 
     tapGesture.allowedPressTypes = [NSNumber(value: pressType.rawValue)]
 
-    view.addTapGestureRecognizer(tapGesture)
+    view.addGestureRecognizer(tapGesture)
   }
   
   func loadImage(path: String, name: String="", imageView: UIImageView, width: Int=450, height: Int=150) {
