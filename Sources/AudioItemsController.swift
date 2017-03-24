@@ -3,7 +3,7 @@ import AVFoundation
 import AVKit
 
 class AudioItemsController: InfiniteTableViewController {
-  static let SegueIdentifier = "AudioItems"
+  static let SegueIdentifier = "Audio Items"
   override open var CellIdentifier: String { return "AudioItemCell" }
 
   var selectedCell: AudioItemCell?
