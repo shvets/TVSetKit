@@ -105,9 +105,13 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     let type = mediaItem.type
 
+    print(mediaItem)
+    print(type)
+
     if type != nil && type!.isEmpty {
       mediaItem.resolveType()
     }
+    print(type)
 
     if mediaItem.isContainer() {
       if mediaItem.isAudioContainer() {

@@ -4,7 +4,17 @@ import AVKit
 
 class AudioItemsController: InfiniteTableViewController {
   static let SegueIdentifier = "Audio Items"
+  public class var StoryboardControllerId: String { return "AudioItemsController" }
+
   override open var CellIdentifier: String { return "AudioItemCell" }
+
+  static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
+    return UIViewController.instantiate(
+      controllerId: AudioItemsController.StoryboardControllerId,
+      storyboardId: type(of: adapter).StoryboardId,
+      bundle: Bundle.main
+    )
+  }
 
   var selectedCell: AudioItemCell?
   var mediaItem: MediaItem?
@@ -60,7 +70,26 @@ class AudioItemsController: InfiniteTableViewController {
 
 #if os(iOS)
   override open func navigate(from view: UITableViewCell) {
+    //self.navigationController?.setNavigationBarHidden(true, animated: false)
+
     performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: view)
+
+//    let mediaItem = getItem(for: view)
+//
+//    let controller = AudioItemsController.instantiate(adapter)
+//
+//    let destination = controller.getActionController() as! AudioItemsController
+//
+//    let newAdapter = adapter.clone()
+//    newAdapter.selectedItem = mediaItem
+//
+//    newAdapter.parentId = mediaItem.id
+//    newAdapter.parentName = mediaItem.name
+//    newAdapter.isContainer = true
+//
+//    destination.adapter = newAdapter
+//
+//    navigationController!.pushViewController(destination, animated: true)
   }
 #endif
 
