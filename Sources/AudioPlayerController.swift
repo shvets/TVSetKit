@@ -3,7 +3,7 @@ import AVFoundation
 import AVKit
 
 class AudioPlayerController: AVPlayerViewController, AVPlayerViewControllerDelegate {
-  static let SegueIdentifier = "Audio Player"
+  static let SegueIdentifier = "Audio Player Controller"
 
   var mediaItem: MediaItem!
   var items: [MediaItem]!

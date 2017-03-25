@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2DBA10FAE71BFF1A8142DF8D /* AudioPlayerController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1604FB5433E447B0ABCF /* AudioPlayerController3.swift */; };
+		2DBA10FAE71BFF1A8142DF8D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1604FB5433E447B0ABCF /* AudioPlayer.swift */; };
 		2DBA11DB518E37517B3F551B /* UIViewController-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */; };
 		2DBA13FDC7753D0E2733ADF0 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13DAA1061AF17ECB9384 /* BaseTableViewController.swift */; };
 		2DBA150294DB0662E20E1092 /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13B4456078B90903EDEA /* PlainSpinner.swift */; };
@@ -24,7 +24,6 @@
 		2DBA1CDD9A27682B9075AC3F /* MediaItemTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */; };
 		2DBA1DA9AEB8CF5EC7807F7A /* PlayButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */; };
 		2DBA1F7DC52D7EBF5D2A276B /* AudioItemsWithPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1BBCED180B0175F79E1F /* AudioItemsWithPlayerController.swift */; };
-		2DBA1FBE230ED8DCF33CF1FA /* AudioPlayerController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA124FC822CADCA989541C /* AudioPlayerController2.swift */; };
 		FA35052F1E4663B4009BB40E /* TVSetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA3505251E4663B3009BB40E /* TVSetKit.framework */; };
 		FA3505341E4663B4009BB40E /* TVSetKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3505331E4663B4009BB40E /* TVSetKitTests.swift */; };
 		FA3505361E4663B4009BB40E /* TVSetKit.h in Headers */ = {isa = PBXBuildFile; fileRef = FA3505281E4663B3009BB40E /* TVSetKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,14 +66,13 @@
 		2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameCell.swift; sourceTree = "<group>"; };
 		2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IServiceAdapter.swift; sourceTree = "<group>"; };
 		2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButtonsView.swift; sourceTree = "<group>"; };
-		2DBA124FC822CADCA989541C /* AudioPlayerController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerController2.swift; sourceTree = "<group>"; };
 		2DBA13B4456078B90903EDEA /* PlainSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
 		2DBA13DAA1061AF17ECB9384 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		2DBA140B06A6A92129BE33D8 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController-extension.swift"; sourceTree = "<group>"; };
 		2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameTableCell.swift; sourceTree = "<group>"; };
 		2DBA15DDDB290018615D87C2 /* RequestParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParams.swift; sourceTree = "<group>"; };
-		2DBA1604FB5433E447B0ABCF /* AudioPlayerController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerController3.swift; sourceTree = "<group>"; };
+		2DBA1604FB5433E447B0ABCF /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		2DBA161608A7DAAC8E767860 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemCell.swift; sourceTree = "<group>"; };
 		2DBA1B2DB604DC568629D03C /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
@@ -192,9 +190,8 @@
 				2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */,
 				2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */,
 				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
-				2DBA124FC822CADCA989541C /* AudioPlayerController2.swift */,
 				2DBA1BBCED180B0175F79E1F /* AudioItemsWithPlayerController.swift */,
-				2DBA1604FB5433E447B0ABCF /* AudioPlayerController3.swift */,
+				2DBA1604FB5433E447B0ABCF /* AudioPlayer.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -366,9 +363,8 @@
 				2DBA1CDD9A27682B9075AC3F /* MediaItemTableCell.swift in Sources */,
 				2DBA1AED83261482BCD4CA1B /* MediaNameCell.swift in Sources */,
 				2DBA1527753567645111F70B /* MediaItemCell.swift in Sources */,
-				2DBA1FBE230ED8DCF33CF1FA /* AudioPlayerController2.swift in Sources */,
 				2DBA1F7DC52D7EBF5D2A276B /* AudioItemsWithPlayerController.swift in Sources */,
-				2DBA10FAE71BFF1A8142DF8D /* AudioPlayerController3.swift in Sources */,
+				2DBA10FAE71BFF1A8142DF8D /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -52,7 +52,7 @@ class AudioItemsController: BaseTableViewController {
   override open func navigate(from view: UITableViewCell) {
     //self.navigationController?.setNavigationBarHidden(true, animated: false)
 
-    performSegue(withIdentifier: AudioPlayerController3.SegueIdentifier, sender: view)
+    performSegue(withIdentifier: AudioPlayer.SegueIdentifier, sender: view)
 
 //    let mediaItem = getItem(for: view)
 //
@@ -121,7 +121,7 @@ class AudioItemsController: BaseTableViewController {
 //          }
 //        }
 
-      performSegue(withIdentifier: AudioPlayerController3.SegueIdentifier, sender: gesture.view)
+      performSegue(withIdentifier: AudioPlayer.SegueIdentifier, sender: gesture.view)
     }
   }
 #endif
@@ -131,12 +131,11 @@ class AudioItemsController: BaseTableViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let identifier = segue.identifier {
       switch identifier {
-        case AudioPlayerController3.SegueIdentifier:
-          if let destination = segue.destination as? AudioPlayerController3 {
+        case AudioPlayer.SegueIdentifier:
+          if let destination = segue.destination as? AudioPlayer {
 
-            destination.mediaItem = getItem(for: sender as! UITableViewCell)
             destination.items = items
-            destination.trackID = 1
+            destination.selectedItemId = tableView?.indexPath(for: sender as! UITableViewCell)!.row
           }
 
         default: break
