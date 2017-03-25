@@ -6,6 +6,7 @@ class AudioPlayerController: AVPlayerViewController, AVPlayerViewControllerDeleg
   static let SegueIdentifier = "Audio Player"
 
   var mediaItem: MediaItem!
+  var items: [MediaItem]!
 
   override func viewDidLoad() {
     super.viewDidLoad()

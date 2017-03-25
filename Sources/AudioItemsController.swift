@@ -1,6 +1,5 @@
 import UIKit
 import AVFoundation
-import AVKit
 
 class AudioItemsController: BaseTableViewController {
   static let SegueIdentifier = "Audio Items"
@@ -16,8 +15,6 @@ class AudioItemsController: BaseTableViewController {
     )
   }
 
-  var player: AVPlayer?
-  
 //  var currentTrack: String?
 
   override func viewDidLoad() {
@@ -80,7 +77,7 @@ class AudioItemsController: BaseTableViewController {
 
 #if os(tvOS)
   override open func tapped(_ gesture: UITapGestureRecognizer) {
-    if (gesture.view as? AudioItemCell) != nil {
+    if (gesture.view as? MediaItemCell) != nil {
 //        let cell = gesture.view as! AudioItemCell
 //        
 //        if selectedCell == nil {
@@ -138,6 +135,7 @@ class AudioItemsController: BaseTableViewController {
           if let destination = segue.destination as? AudioPlayerController {
 
             destination.mediaItem = getItem(for: sender as! UITableViewCell)
+            destination.items = items
           }
 
         default: break
