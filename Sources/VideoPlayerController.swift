@@ -4,7 +4,7 @@ import AVKit
 import SwiftyJSON
 
 class VideoPlayerController: AVPlayerViewController {
-  static let SegueIdentifier = "VideoPlayer"
+  static let SegueIdentifier = "Video Player"
   public class var StoryboardControllerId: String { return "videoPlayerController" }
 
 //class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {

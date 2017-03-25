@@ -69,11 +69,18 @@ open class BaseTableViewController: UITableViewController {
 
     let item = items[indexPath.row]
 
-    let localizedName = (localizer == nil) ? item.name! : localizer.localize(item.name!)
-
-    cell.configureCell(item: item, localizedName: localizedName)
+    cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
     return cell
+  }
+
+  open func getLocalizedName(_ name: String?) -> String {
+    if let localizer = localizer, let name = name {
+      return localizer.localize(name)
+    }
+    else {
+      return ""
+    }
   }
 
 }

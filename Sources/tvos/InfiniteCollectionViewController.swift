@@ -45,9 +45,7 @@ open class InfiniteCollectionViewController: BaseCollectionViewController {
 
     let item = items[indexPath.row]
 
-    let localizedName = (localizer == nil) ? item.name! : localizer.localize(item.name!)
-
-    cell.configureCell(item: item, localizedName: localizedName, target: self)
+    cell.configureCell(item: item, localizedName: getLocalizedName(item.name), target: self)
 
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 

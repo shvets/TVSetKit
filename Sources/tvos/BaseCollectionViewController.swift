@@ -14,7 +14,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   public var items = [MediaItem]()
 
-  var params = [String: Any]()
+  var params: [String: Any] = [:]
 
   let cellSelection = CellSelection()
 
@@ -73,12 +73,19 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
     let item = items[indexPath.row]
 
-    let localizedName = (localizer == nil) ? item.name! : localizer.localize(item.name!)
-
-    cell.configureCell(item: item, localizedName: localizedName, target: self)
+    cell.configureCell(item: item, localizedName: getLocalizedName(item.name), target: self)
 
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 
     return cell
+  }
+
+  open func getLocalizedName(_ name: String?) -> String {
+    if let localizer = localizer, let name = name {
+      return localizer.localize(name)
+    }
+    else {
+      return ""
+    }
   }
 }

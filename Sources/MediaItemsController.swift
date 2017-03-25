@@ -2,7 +2,7 @@ import UIKit
 import SwiftyJSON
 
 open class MediaItemsController: InfiniteCollectionViewController {
-  public class var SegueIdentifier: String { return "MediaItems" }
+  public class var SegueIdentifier: String { return "Media Items" }
   public class var StoryboardControllerId: String { return "MediaItemsController" }
 
   override open var CellIdentifier: String { return "MediaItemCell" }
@@ -105,13 +105,9 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     let type = mediaItem.type
 
-    print(mediaItem)
-    print(type)
-
     if type != nil && type!.isEmpty {
       mediaItem.resolveType()
     }
-    print(type)
 
     if mediaItem.isContainer() {
       if mediaItem.isAudioContainer() {

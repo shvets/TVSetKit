@@ -2,7 +2,7 @@ import UIKit
 import SwiftyJSON
 
 class MediaItemDetailsController: UIViewController {
-  static let SegueIdentifier = "MediaItemDetails"
+  static let SegueIdentifier = "Media Item Details"
   let CellIdentifier = "MediaItemDetailsCell"
 
   @IBOutlet weak var imageView: UIImageView!
