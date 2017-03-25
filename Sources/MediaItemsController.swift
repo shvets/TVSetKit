@@ -156,7 +156,7 @@ open class MediaItemsController: InfiniteCollectionViewController {
 
     if deltaOffset <= 0 {
       if adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        loadMoreData(items.count-1)
+        loadMoreData()
       }
     }
   }

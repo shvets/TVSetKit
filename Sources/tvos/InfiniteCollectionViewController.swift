@@ -16,7 +16,7 @@ open class InfiniteCollectionViewController: BaseCollectionViewController {
     }
   }
 
-  public func loadMoreData(_ index: Int) {
+  public func loadMoreData() {
     adapter.loadData() { result in
       var indexPaths: [IndexPath] = []
 
@@ -40,7 +40,7 @@ open class InfiniteCollectionViewController: BaseCollectionViewController {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaNameCell
 
     if adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-      loadMoreData(indexPath.row)
+      loadMoreData()
     }
 
     let item = items[indexPath.row]

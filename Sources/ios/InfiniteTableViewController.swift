@@ -13,7 +13,7 @@ open class InfiniteTableViewController: BaseTableViewController {
     }
   }
 
-  public func loadMoreData(_ index: Int) {
+  public func loadMoreData() {
     adapter.loadData() { result in
       var indexPaths: [IndexPath] = []
 
@@ -37,7 +37,7 @@ open class InfiniteTableViewController: BaseTableViewController {
     let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! MediaNameTableCell
 
     if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-      loadMoreData(indexPath.row)
+      loadMoreData()
     }
 
     let item = items[indexPath.row]
