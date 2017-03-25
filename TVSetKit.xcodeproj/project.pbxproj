@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DBA10FAE71BFF1A8142DF8D /* AudioPlayerController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1604FB5433E447B0ABCF /* AudioPlayerController3.swift */; };
 		2DBA11DB518E37517B3F551B /* UIViewController-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */; };
 		2DBA13FDC7753D0E2733ADF0 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13DAA1061AF17ECB9384 /* BaseTableViewController.swift */; };
 		2DBA150294DB0662E20E1092 /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13B4456078B90903EDEA /* PlainSpinner.swift */; };
@@ -73,6 +74,7 @@
 		2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController-extension.swift"; sourceTree = "<group>"; };
 		2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameTableCell.swift; sourceTree = "<group>"; };
 		2DBA15DDDB290018615D87C2 /* RequestParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParams.swift; sourceTree = "<group>"; };
+		2DBA1604FB5433E447B0ABCF /* AudioPlayerController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerController3.swift; sourceTree = "<group>"; };
 		2DBA161608A7DAAC8E767860 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemCell.swift; sourceTree = "<group>"; };
 		2DBA1B2DB604DC568629D03C /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
 				2DBA124FC822CADCA989541C /* AudioPlayerController2.swift */,
 				2DBA1BBCED180B0175F79E1F /* AudioItemsWithPlayerController.swift */,
+				2DBA1604FB5433E447B0ABCF /* AudioPlayerController3.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				2DBA1527753567645111F70B /* MediaItemCell.swift in Sources */,
 				2DBA1FBE230ED8DCF33CF1FA /* AudioPlayerController2.swift in Sources */,
 				2DBA1F7DC52D7EBF5D2A276B /* AudioItemsWithPlayerController.swift in Sources */,
+				2DBA10FAE71BFF1A8142DF8D /* AudioPlayerController3.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
