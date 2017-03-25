@@ -2,7 +2,7 @@ import UIKit
 import AVFoundation
 import AVKit
 
-class AudioItemsController: InfiniteTableViewController {
+class AudioItemsController: BaseTableViewController {
   static let SegueIdentifier = "Audio Items"
   public class var StoryboardControllerId: String { return "AudioItemsController" }
 

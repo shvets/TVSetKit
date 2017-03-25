@@ -1,7 +1,7 @@
 import UIKit
 import SwiftyJSON
 
-open class MediaItemsController: InfiniteCollectionViewController {
+open class MediaItemsController: BaseCollectionViewController {
   public class var SegueIdentifier: String { return "Media Items" }
   public class var StoryboardControllerId: String { return "MediaItemsController" }
 
@@ -26,6 +26,8 @@ open class MediaItemsController: InfiniteCollectionViewController {
     title = getHeaderName()
 
     clearsSelectionOnViewWillAppear = false
+
+    enablePagination()
 
 #if os(iOS)
     let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))

@@ -17,10 +17,8 @@
 		2DBA18F0D750A36C94390E7E /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1A58D4F09511463B51C9 /* BaseTableViewController.swift */; };
 		2DBA194E58FD9FE9CEA09A20 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA161608A7DAAC8E767860 /* Package.swift */; };
 		2DBA1AAD5746EFB32CE3EB96 /* MediaNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1118B30178E2519B8E54 /* MediaNameCell.swift */; };
-		2DBA1C295B160F6AA8E37E3C /* InfiniteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1F4B44B800D86D754326 /* InfiniteTableViewController.swift */; };
 		2DBA1C394C44BD6ED2AEC49C /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
 		2DBA1C8528239065328A4621 /* MediaItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA167D960840D5893FFF5E /* MediaItemCell.swift */; };
-		2DBA1CDF27C4F7D8F52D7893 /* InfiniteCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D1C5BBF79E24DD91EC6 /* InfiniteCollectionViewController.swift */; };
 		2DBA1D77C31D2B05E83A5454 /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1543A4143B7C41E78AD8 /* BaseCollectionViewController.swift */; };
 		2DBA1DA9AEB8CF5EC7807F7A /* PlayButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */; };
 		2DBA1FAA8464ECC4EB950DAB /* MediaItemTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1A36D4E5D86929CF21B0 /* MediaItemTableCell.swift */; };
@@ -77,8 +75,6 @@
 		2DBA173C1D258F854EDFFF8C /* MediaNameTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameTableCell.swift; sourceTree = "<group>"; };
 		2DBA1A36D4E5D86929CF21B0 /* MediaItemTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemTableCell.swift; sourceTree = "<group>"; };
 		2DBA1A58D4F09511463B51C9 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
-		2DBA1D1C5BBF79E24DD91EC6 /* InfiniteCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteCollectionViewController.swift; sourceTree = "<group>"; };
-		2DBA1F4B44B800D86D754326 /* InfiniteTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteTableViewController.swift; sourceTree = "<group>"; };
 		2DBA1FDFEACDB8AA7E909E35 /* Spinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spinner.swift; sourceTree = "<group>"; };
 		FA3505251E4663B3009BB40E /* TVSetKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TVSetKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3505281E4663B3009BB40E /* TVSetKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVSetKit.h; sourceTree = "<group>"; };
@@ -136,7 +132,6 @@
 			isa = PBXGroup;
 			children = (
 				2DBA1543A4143B7C41E78AD8 /* BaseCollectionViewController.swift */,
-				2DBA1D1C5BBF79E24DD91EC6 /* InfiniteCollectionViewController.swift */,
 				2DBA167D960840D5893FFF5E /* MediaItemCell.swift */,
 				2DBA1118B30178E2519B8E54 /* MediaNameCell.swift */,
 			);
@@ -147,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				2DBA1A58D4F09511463B51C9 /* BaseTableViewController.swift */,
-				2DBA1F4B44B800D86D754326 /* InfiniteTableViewController.swift */,
 				2DBA1A36D4E5D86929CF21B0 /* MediaItemTableCell.swift */,
 				2DBA173C1D258F854EDFFF8C /* MediaNameTableCell.swift */,
 			);
@@ -378,8 +372,6 @@
 				2DBA178BB767FED2892DDE57 /* Localizer.swift in Sources */,
 				2DBA18F0D750A36C94390E7E /* BaseTableViewController.swift in Sources */,
 				2DBA1D77C31D2B05E83A5454 /* BaseCollectionViewController.swift in Sources */,
-				2DBA1CDF27C4F7D8F52D7893 /* InfiniteCollectionViewController.swift in Sources */,
-				2DBA1C295B160F6AA8E37E3C /* InfiniteTableViewController.swift in Sources */,
 				2DBA1C8528239065328A4621 /* MediaItemCell.swift in Sources */,
 				2DBA1AAD5746EFB32CE3EB96 /* MediaNameCell.swift in Sources */,
 				2DBA1FAA8464ECC4EB950DAB /* MediaItemTableCell.swift in Sources */,
