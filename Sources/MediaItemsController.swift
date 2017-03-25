@@ -42,22 +42,12 @@ open class MediaItemsController: BaseCollectionViewController {
 
   // MARK: UICollectionViewDataSource
 
-  override open func numberOfSections(in collectionView: UICollectionView) -> Int {
-    return 1
-  }
-
-  override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return items.count
-  }
-
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaItemCell
 
     let item = items[indexPath.row]
 
-    let localizedName = localizer.localize(item.name!)
-
-    cell.configureCell(item: item, localizedName: localizedName)
+    cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
 #if os(tvOS)
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
@@ -149,20 +139,6 @@ open class MediaItemsController: BaseCollectionViewController {
     }
   }
 
-  // MARK: UIScrollViewDelegate
-
-  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let currentOffset = scrollView.contentOffset.y
-    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-    let deltaOffset = maximumOffset - currentOffset
-
-    if deltaOffset <= 0 {
-      if adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        loadMoreData()
-      }
-    }
-  }
-
   // MARK: Navigation
 
   override open func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -196,7 +172,6 @@ open class MediaItemsController: BaseCollectionViewController {
           }
         case AudioItemsController.SegueIdentifier:
           if let destination = segue.destination as? AudioItemsController {
-            destination.mediaItem = mediaItem
             destination.adapter = adapter
             destination.adapter.selectedItem = mediaItem
           }

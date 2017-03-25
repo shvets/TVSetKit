@@ -77,7 +77,29 @@ open class BaseTableViewController: UITableViewController {
 
     cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
+#if os(tvOS)
+    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+#endif
+
     return cell
+  }
+
+#if os(tvOS)
+  open func tapped(_ gesture: UITapGestureRecognizer) {}
+#endif
+
+  // MARK: UIScrollViewDelegate
+
+  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentOffset = scrollView.contentOffset.y
+    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+    let deltaOffset = maximumOffset - currentOffset
+
+    if deltaOffset <= 0 {
+      if paginationEnabled && adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+        loadMoreData()
+      }
+    }
   }
 
   func getSelectedItem() -> MediaItem? {

@@ -16,16 +16,15 @@ class AudioItemsController: BaseTableViewController {
     )
   }
 
-  var selectedCell: AudioItemCell?
-  var mediaItem: MediaItem?
-
   var player: AVPlayer?
   
-  var currentTrack: String?
+//  var currentTrack: String?
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
+    title = adapter.selectedItem!.name
+
     tableView?.backgroundView = activityIndicatorView
     adapter.spinner = PlainSpinner(activityIndicatorView)
 
@@ -34,38 +33,22 @@ class AudioItemsController: BaseTableViewController {
   
   // MARK: - Table view data source
   
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
-  }
-  
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return items.count
-  }
-  
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! AudioItemCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! MediaItemTableCell
 
     let item = items[indexPath.row]
-    
-    cell.configureCell(item: item)
+
+    cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
+
+    cell.layer.masksToBounds = true
+    cell.layer.borderWidth = 0.5
+    cell.layer.borderColor = UIColor( red: 0, green: 0, blue:0, alpha: 1.0 ).cgColor
 
 #if os(tvOS)
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 #endif
 
     return cell
-  }
-
-  override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let currentOffset = scrollView.contentOffset.y
-    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-    let deltaOffset = maximumOffset - currentOffset
-
-    if deltaOffset <= 0 {
-      if adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        loadMoreData()
-      }
-    }
   }
 
 #if os(iOS)
@@ -96,7 +79,7 @@ class AudioItemsController: BaseTableViewController {
   // MARK: - Table view data source
 
 #if os(tvOS)
-  func tapped(_ gesture: UITapGestureRecognizer) {
+  override open func tapped(_ gesture: UITapGestureRecognizer) {
     if (gesture.view as? AudioItemCell) != nil {
 //        let cell = gesture.view as! AudioItemCell
 //        
@@ -152,10 +135,9 @@ class AudioItemsController: BaseTableViewController {
     if let identifier = segue.identifier {
       switch identifier {
         case AudioPlayerController.SegueIdentifier:
-          if let destination = segue.destination as? AudioPlayerController,
-             let selectedCell = sender as? AudioItemCell {
+          if let destination = segue.destination as? AudioPlayerController {
 
-            destination.mediaItem = getItem(for: selectedCell)
+            destination.mediaItem = getItem(for: sender as! UITableViewCell)
           }
 
         default: break

@@ -82,6 +82,20 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     return cell
   }
 
+  // MARK: UIScrollViewDelegate
+
+  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentOffset = scrollView.contentOffset.y
+    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+    let deltaOffset = maximumOffset - currentOffset
+
+    if deltaOffset <= 0 {
+      if paginationEnabled && adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+        loadMoreData()
+      }
+    }
+  }
+
   func getSelectedItem() -> MediaItem? {
     var item: MediaItem?
 
