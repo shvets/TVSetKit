@@ -7,7 +7,9 @@ open class MediaItemTableCell: UITableViewCell {
   public func configureCell(item: MediaItem, localizedName: String) {
     self.title.text = item.getDetailedName()
 
-    CellHelper.shared.loadImage(path: item.getPosterPath(), name: localizedName, imageView: thumb)
+    if thumb != nil {
+      CellHelper.shared.loadImage(path: item.getPosterPath(), name: localizedName, imageView: thumb)
+    }
   }
 
 }
