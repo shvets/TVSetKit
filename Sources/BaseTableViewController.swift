@@ -2,9 +2,8 @@ import UIKit
 import SwiftyJSON
 
 open class BaseTableViewController: UITableViewController {
-  open var CellIdentifier: String {
-    return ""
-  }
+  open var CellIdentifier: String { return "" }
+  open var BundleId: String { return "" }
 
   public var localizer: Localizer!
 
@@ -17,6 +16,12 @@ open class BaseTableViewController: UITableViewController {
   var params = [String: Any]()
 
   let cellSelection = CellSelection()
+
+  override open func viewDidLoad() {
+    super.viewDidLoad()
+
+    localizer = Localizer(BundleId)
+  }
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.loadData() { result in
@@ -133,7 +138,7 @@ open class BaseTableViewController: UITableViewController {
   open func navigate(from view: UITableViewCell) {}
 
   open func getLocalizedName(_ name: String?) -> String {
-    if let localizer = localizer, let name = name {
+    if let name = name {
       return localizer.localize(name)
     }
     else {
