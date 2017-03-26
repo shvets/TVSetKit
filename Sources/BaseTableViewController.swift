@@ -13,7 +13,7 @@ open class BaseTableViewController: UITableViewController {
 
   public var items = [MediaItem]()
 
-  var params = [String: Any]()
+  var params: [String: Any] = [:]
 
   let cellSelection = CellSelection()
 
@@ -89,17 +89,17 @@ open class BaseTableViewController: UITableViewController {
 
   // MARK: UIScrollViewDelegate
 
-  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let currentOffset = scrollView.contentOffset.y
-    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-    let deltaOffset = maximumOffset - currentOffset
-
-    if deltaOffset <= 0 {
-      if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        loadMoreData()
-      }
-    }
-  }
+//  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    let currentOffset = scrollView.contentOffset.y
+//    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+//    let deltaOffset = maximumOffset - currentOffset
+//
+//    if deltaOffset <= 0 {
+//      if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+//        loadMoreData()
+//      }
+//    }
+//  }
 
   func getSelectedItem() -> MediaItem? {
     var item: MediaItem?

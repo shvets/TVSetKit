@@ -63,7 +63,7 @@ open class ServiceAdapter {
   }
 
   open func nextPageAvailable(dataCount: Int, index: Int) -> Bool {
-    return paginationEnabled && dataCount - index <= self.rowSize! && !endOfData
+    return paginationEnabled && !endOfData && dataCount - index <= self.rowSize!
   }
 
   open func loadData(onLoadCompleted: @escaping ([MediaItem]) -> Void) {
@@ -79,7 +79,7 @@ open class ServiceAdapter {
           self.endOfData = result.isEmpty || result.count < self.pageSize!
 
           OperationQueue.main.addOperation() {
-            if !result.isEmpty && result.count == self.pageSize {
+            if !result.isEmpty && result.count == self.pageSize! {
               self.currentPage = self.currentPage + 1
             }
 
