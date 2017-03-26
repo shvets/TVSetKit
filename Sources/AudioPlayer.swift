@@ -19,10 +19,7 @@ class AudioPlayer: UIViewController {
 
     let item = items[selectedItemId]
 
-    print(item)
-
     title = item.name
-    trackDescription.text = item.description
 
     if let audioPath = getMediaUrl(url: item.id!) {
       let asset = AVAsset(url: audioPath)
@@ -41,7 +38,7 @@ class AudioPlayer: UIViewController {
       playbackSlider.isContinuous = true
       playbackSlider.tintColor = UIColor.green
 
-      player.play()
+      _ = play()
     }
   }
 
@@ -55,9 +52,7 @@ class AudioPlayer: UIViewController {
 
     player!.seek(to: targetTime)
 
-    if player!.rate == 0 {
-      player?.play()
-    }
+    _ = play()
   }
 
   @IBAction func fastBackward(_ sender: AnyObject) {
@@ -73,23 +68,10 @@ class AudioPlayer: UIViewController {
 //    }
   }
 
-  @IBAction func pause(_ sender: AnyObject) {
-    player.pause()
-  }
 
-  @IBAction func play(_ sender: AnyObject) {
-    //if !player.isPlaying {
-     // player.play()
-    //}
-
-    if player.rate == 0 {
-      player.play()
-
-      playButton.setImage(UIImage(named: "Play"), for: .normal)
-    }
-    else {
-      player!.pause()
-      playButton.setImage(UIImage(named: "Stop"), for: .normal)
+  @IBAction func onPlayButtonClick(_ sender: AnyObject) {
+    if !play() {
+      pause()
     }
   }
 
@@ -103,6 +85,25 @@ class AudioPlayer: UIViewController {
 //    else {
 //      player.currentTime = time
 //    }
+  }
+
+  func play() -> Bool {
+    if player!.rate == 0 {
+      player.play()
+
+      playButton.setImage(UIImage(named: "Pause"), for: .normal)
+
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
+  func pause() {
+    player!.pause()
+
+    playButton.setImage(UIImage(named: "Play"), for: .normal)
   }
 
   private func getMediaUrl(url: String) -> URL? {
