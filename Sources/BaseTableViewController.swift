@@ -18,12 +18,6 @@ open class BaseTableViewController: UITableViewController {
 
   let cellSelection = CellSelection()
 
-  private var paginationEnabled = false
-
-  open func enablePagination() {
-    paginationEnabled = true
-  }
-
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.loadData() { result in
       self.items = result
@@ -69,7 +63,7 @@ open class BaseTableViewController: UITableViewController {
   override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! MediaNameTableCell
 
-    if paginationEnabled && adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+    if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
       loadMoreData()
     }
 
@@ -96,7 +90,7 @@ open class BaseTableViewController: UITableViewController {
     let deltaOffset = maximumOffset - currentOffset
 
     if deltaOffset <= 0 {
-      if paginationEnabled && adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+      if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
         loadMoreData()
       }
     }

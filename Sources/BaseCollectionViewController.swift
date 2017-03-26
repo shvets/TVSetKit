@@ -18,12 +18,6 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   let cellSelection = CellSelection()
 
-  private var paginationEnabled = false
-
-  open func enablePagination() {
-    paginationEnabled = true
-  }
-
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.loadData() { result in
       self.items = result
@@ -69,7 +63,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaNameCell
 
-    if paginationEnabled && adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+    if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
       loadMoreData()
     }
 
@@ -90,7 +84,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     let deltaOffset = maximumOffset - currentOffset
 
     if deltaOffset <= 0 {
-      if paginationEnabled && adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+      if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
         loadMoreData()
       }
     }

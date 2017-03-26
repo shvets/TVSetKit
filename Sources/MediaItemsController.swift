@@ -27,7 +27,7 @@ open class MediaItemsController: BaseCollectionViewController {
 
     clearsSelectionOnViewWillAppear = false
 
-    enablePagination()
+    adapter.enablePagination()
 
 #if os(iOS)
     let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))

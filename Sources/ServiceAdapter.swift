@@ -2,6 +2,9 @@ import UIKit
 import SwiftyJSON
 
 open class ServiceAdapter {
+  open class var StoryboardId: String { return "" }
+  open class var BundleId: String { return "" }
+
   public var spinner: Spinner?
 
   private let dispatchQueue = DispatchQueue(label: "Dispatch Queue", attributes: [], target: nil)
@@ -26,8 +29,11 @@ open class ServiceAdapter {
 
   public var mobile: Bool?
 
-  open class var StoryboardId: String { return "" }
-  open class var BundleId: String { return "" }
+  private var paginationEnabled = false
+
+  open func enablePagination() {
+    paginationEnabled = true
+  }
 
   public init(mobile: Bool=false) {
     self.mobile = mobile
@@ -57,7 +63,7 @@ open class ServiceAdapter {
   }
 
   open func nextPageAvailable(dataCount: Int, index: Int) -> Bool {
-    return dataCount - index <= self.rowSize! && !endOfData
+    return paginationEnabled && dataCount - index <= self.rowSize! && !endOfData
   }
 
   open func loadData(onLoadCompleted: @escaping ([MediaItem]) -> Void) {
