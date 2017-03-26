@@ -7,6 +7,8 @@ class AudioItemsController: BaseTableViewController {
 
   override open var CellIdentifier: String { return "AudioItemCell" }
 
+#if os(iOS)
+
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
     return UIViewController.instantiate(
       controllerId: AudioItemsController.StoryboardControllerId,
@@ -142,5 +144,6 @@ class AudioItemsController: BaseTableViewController {
       }
     }
   }
-
+#endif
+  
 }

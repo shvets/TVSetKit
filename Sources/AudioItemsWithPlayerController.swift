@@ -4,6 +4,7 @@ import AVFoundation
 import MediaPlayer
 
 class AudioItemsWithPlayerController: BaseTableViewController, AVAudioPlayerDelegate {
+#if os(iOS)
   static let SegueIdentifier = "Audio Items With Player"
   public class var StoryboardControllerId: String { return "AudioItemsWithPlayerController" }
 
@@ -258,5 +259,6 @@ class AudioItemsWithPlayerController: BaseTableViewController, AVAudioPlayerDele
       return nil
     }
   }
+#endif
 
 }

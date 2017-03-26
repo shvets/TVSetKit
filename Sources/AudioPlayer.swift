@@ -6,11 +6,12 @@ class AudioPlayer: UIViewController {
 
   var items: [MediaItem]!
   var selectedItemId: Int!
+  
+#if os(iOS)
 
   var player: AVPlayer!
 
-    @IBOutlet weak var playbackSlider: UISlider!
-
+  @IBOutlet weak var playbackSlider: UISlider!
   @IBOutlet weak var trackDescription: UITextView!
   @IBOutlet weak var playButton: UIButton!
 
@@ -116,5 +117,5 @@ class AudioPlayer: UIViewController {
       return nil
     }
   }
-
+  #endif
 }
