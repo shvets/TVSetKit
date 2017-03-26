@@ -172,7 +172,7 @@ open class MediaItemsController: BaseCollectionViewController {
           }
         case AudioItemsController.SegueIdentifier:
           if let destination = segue.destination as? AudioItemsController {
-            destination.adapter = adapter
+            destination.adapter = adapter.clone()
             destination.adapter.selectedItem = mediaItem
           }
         case VideoPlayerController.SegueIdentifier:
