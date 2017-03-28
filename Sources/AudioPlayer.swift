@@ -4,12 +4,15 @@ import AVFoundation
 #if os(iOS)
 
 class JukeboxPlayer: JukeboxDelegate {
-  var jukebox : Jukebox!
+  var player : Jukebox!
+  var playerUI: AudioPlayer!
 
-  var audioPlayerUI: AudioPlayer!
+  var items: [MediaItem]!
+  var selectedItemId: Int!
 
-  init(_ audioPlayerUI: AudioPlayer, items: [MediaItem]) {
-    self.audioPlayerUI = audioPlayerUI
+  init(_ playerUI: AudioPlayer, items: [MediaItem], selectedItemId: Int) {
+    self.playerUI = playerUI
+    self.selectedItemId = selectedItemId
 
     var playerItems: [JukeboxItem] = []
 
@@ -18,78 +21,122 @@ class JukeboxPlayer: JukeboxDelegate {
         playerItems.append(JukeboxItem(URL: url))
       }
     }
-    
-    jukebox = Jukebox(delegate: self, items: playerItems)!
+
+    player = Jukebox(delegate: self, items: playerItems)!
   }
+
+  func isPlaying() -> Bool {
+    return player.state == .playing
+  }
+
   func play() {
-    audioPlayerUI.resetUI()
+    playerUI.resetUI()
 
-    jukebox.play()
+    player.play()
 
-    audioPlayerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+    playerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+  }
+
+  func playPause() {
+    switch player.state {
+      case .ready:
+        playFromStart()
+
+      case .playing:
+        pause()
+
+      case .paused:
+        play()
+
+      default:
+        stop()
+    }
   }
 
   func playAt(index: Int) {
-    audioPlayerUI.resetUI()
+    playerUI.resetUI()
 
-    jukebox.play(atIndex: index)
+    player.play(atIndex: index)
 
-    audioPlayerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+    playerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
   }
 
   func playFromStart() {
-    audioPlayerUI.resetUI()
+    playerUI.resetUI()
 
-    jukebox.play(atIndex: 0)
+    player.play(atIndex: 0)
 
-    audioPlayerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+    playerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
   }
 
   func pause() {
-    jukebox.pause()
+    player.pause()
 
-    audioPlayerUI.playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+    playerUI.playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
   }
 
   func replay() {
-    audioPlayerUI.resetUI()
+    playerUI.resetUI()
 
-    jukebox.replay()
+    player.replay()
   }
 
   func stop() {
-    jukebox.stop()
+    player.stop()
 
-    audioPlayerUI.resetUI()
+    playerUI.resetUI()
   }
 
   func playNext() {
-    //audioPlayerUI.resetUI()
+    if selectedItemId < items.count-1 {
+      selectedItemId = selectedItemId+1
 
-    jukebox.playNext()
+      playerUI.titleLabel.text = items[selectedItemId].name
+
+      player.playNext()
+    }
   }
 
   func playPrevious() {
-    //audioPlayerUI.resetUI()
+    if let time = player.currentItem?.currentTime, time > 5.0 || player.playIndex == 0 {
+      player.replayCurrentItem()
+    }
+    else {
+      if selectedItemId > 0 {
+        selectedItemId = selectedItemId-1
 
-    jukebox.playPrevious()
+        playerUI.titleLabel.text = items[selectedItemId].name
+      }
+
+      player.playPrevious()
+    }
+  }
+
+  func changeVolume(_ volume: Float) {
+    player.volume = volume
+  }
+
+  func changePlayerPosition() {
+    if let duration = player.currentItem?.meta.duration {
+      player.seek(toSecond: Int(Double(playerUI.playbackSlider.value) * duration))
+    }
   }
 
   func jukeboxStateDidChange(_ player: Jukebox) {
     UIView.animate(withDuration: 0.3, animations: { [unowned self] () -> Void in
-      self.audioPlayerUI.indicator.alpha = self.jukebox.state == .loading ? 1 : 0
-      self.audioPlayerUI.playPauseButton.alpha = self.jukebox.state == .loading ? 0 : 1
-      self.audioPlayerUI.playPauseButton.isEnabled = self.jukebox.state == .loading ? false : true
+      self.playerUI.indicator.alpha = self.player.state == .loading ? 1 : 0
+      self.playerUI.playPauseButton.alpha = self.player.state == .loading ? 0 : 1
+      self.playerUI.playPauseButton.isEnabled = self.player.state == .loading ? false : true
     })
 
     if player.state == .ready {
-      audioPlayerUI.playPauseButton.setImage(UIImage(named: "Play"), for: UIControlState())
+      playerUI.playPauseButton.setImage(UIImage(named: "Play"), for: UIControlState())
     }
     else if player.state == .loading  {
-      audioPlayerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: UIControlState())
+      playerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: UIControlState())
     }
     else {
-      audioPlayerUI.volumeSlider.value = player.volume
+      playerUI.volumeSlider.value = player.volume
 
       let imageName: String
 
@@ -101,7 +148,7 @@ class JukeboxPlayer: JukeboxDelegate {
           imageName = "Play"
       }
 
-      audioPlayerUI.playPauseButton.setImage(UIImage(named: imageName), for: UIControlState())
+      playerUI.playPauseButton.setImage(UIImage(named: imageName), for: UIControlState())
     }
 
     print("Jukebox state changed to \(player.state)")
@@ -110,12 +157,12 @@ class JukeboxPlayer: JukeboxDelegate {
   func jukeboxPlaybackProgressDidChange(_ player: Jukebox) {
     if let currentTime = player.currentItem?.currentTime, let duration = player.currentItem?.meta.duration {
       let value = Float(currentTime / duration)
-      audioPlayerUI.playbackSlider.value = value
-      populateLabelWithTime(audioPlayerUI.currentTimeLabel, time: currentTime)
-      populateLabelWithTime(audioPlayerUI.durationLabel, time: duration)
+      playerUI.playbackSlider.value = value
+      populateLabelWithTime(playerUI.currentTimeLabel, time: currentTime)
+      populateLabelWithTime(playerUI.durationLabel, time: duration)
     }
     else {
-      audioPlayerUI.resetUI()
+      playerUI.resetUI()
     }
   }
 
@@ -170,52 +217,28 @@ class AudioPlayer: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    jukeboxPlayer = JukeboxPlayer(self, items: items)
+    jukeboxPlayer = JukeboxPlayer(self, items: items, selectedItemId: selectedItemId)
 
     configureUI()
 
-    playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+    UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
+
+    _ = jukeboxPlayer.playAt(index: selectedItemId)
+  }
+
+  func configureUI () {
+    resetUI()
 
     let item = items[selectedItemId]
 
     title = item.name
     titleLabel.text = item.name
 
-    //if let audioPath = getMediaUrl(url: item.id!) {
-
-    // begin receiving remote events
-    UIApplication.shared.beginReceivingRemoteControlEvents()
-
-//    var playerItems: [JukeboxItem] = []
-//
-//    for item in items {
-//      if let url = getMediaUrl(url: item.id!) {
-//        playerItems.append(JukeboxItem(URL: url))
-//      }
-//    }
-
-    //player = Jukebox(delegate: jukeboxPlayer, items: playerItems)!
-
-    _ = jukeboxPlayer.playAt(index: selectedItemId)
-    //}
-  }
-
-  func configureUI () {
-    resetUI()
-
-    let color = UIColor(red:0.84, green:0.09, blue:0.1, alpha:1)
-    //indicator.color = color
-
-    //playbackSlider.minimumValue = 0
-
-//      let duration : CMTime = playerItem.asset.duration
-//      let seconds : Float64 = CMTimeGetSeconds(duration)
-//
-//      playbackSlider.maximumValue = Float(seconds)
-//      playbackSlider.isContinuous = true
     playbackSlider.tintColor = UIColor.green
 
     //playbackSlider.setThumbImage(UIImage(named: "sliderThumb"), for: UIControlState())
+
+    playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -223,9 +246,7 @@ class AudioPlayer: UIViewController {
   }
 
   @IBAction func volumeSliderValueChanged() {
-    if let player = jukeboxPlayer.jukebox {
-      player.volume = volumeSlider.value
-    }
+    jukeboxPlayer.changeVolume(volumeSlider.value)
   }
 
   @IBAction func playbackSliderValueChanged(_ sender: UISlider) {
@@ -236,63 +257,44 @@ class AudioPlayer: UIViewController {
 //
 //    _ = play()
 
-    if let duration = jukeboxPlayer.jukebox.currentItem?.meta.duration {
-      jukeboxPlayer.jukebox.seek(toSecond: Int(Double(playbackSlider.value) * duration))
-    }
+    jukeboxPlayer.changePlayerPosition()
   }
 
 //  @IBAction func fastBackward(_ sender: AnyObject) {
-////    var time: TimeInterval = player.currentTime
-////
-////    time -= 5.0 // Go back by 5 seconds
-////
-////    if time < 0 {
-////      stop(self)
-////    }
-////    else {
-////      player.currentTime = time
-////    }
+//    var time: TimeInterval = player.currentTime
+//
+//    time -= 5.0 // Go back by 5 seconds
+//
+//    if time < 0 {
+//      stop(self)
+//    }
+//    else {
+//      player.currentTime = time
+//    }
+//  }
+
+//  @IBAction func fastForward(_ sender: AnyObject) {
+//    var time: TimeInterval = player.currentTime
+//    time += 5.0 // Go forward by 5 seconds
+//
+//    if time > player.duration {
+//      stop(self)
+//    }
+//    else {
+//      player.currentTime = time
+//    }
 //  }
 
   @IBAction func prevAction() {
-    if let time = jukeboxPlayer.jukebox.currentItem?.currentTime, time > 5.0 || jukeboxPlayer.jukebox.playIndex == 0 {
-      jukeboxPlayer.jukebox.replayCurrentItem()
-    }
-    else {
-      if selectedItemId > 0 {
-        selectedItemId = selectedItemId-1
-
-        titleLabel.text = items[selectedItemId].name
-      }
-
-      jukeboxPlayer.playPrevious()
-    }
+    jukeboxPlayer.playPrevious()
   }
 
   @IBAction func nextAction() {
-    if selectedItemId < items.count-1 {
-      selectedItemId = selectedItemId+1
-
-      titleLabel.text = items[selectedItemId].name
-    }
-
     jukeboxPlayer.playNext()
   }
 
   @IBAction func playPauseAction(_ sender: AnyObject) {
-    switch jukeboxPlayer.jukebox.state {
-    case .ready:
-      jukeboxPlayer.playFromStart()
-
-    case .playing:
-      jukeboxPlayer.pause()
-
-    case .paused:
-      jukeboxPlayer.play()
-
-    default:
-      jukeboxPlayer.jukebox.stop()
-    }
+    jukeboxPlayer.playPause()
   }
 
   @IBAction func replayAction() {
@@ -303,51 +305,34 @@ class AudioPlayer: UIViewController {
     jukeboxPlayer.stop()
   }
 
-//  @IBAction func fastForward(_ sender: AnyObject) {
-////    var time: TimeInterval = player.currentTime
-////    time += 5.0 // Go forward by 5 seconds
-////
-////    if time > player.duration {
-////      stop(self)
-////    }
-////    else {
-////      player.currentTime = time
-////    }
-//  }
+  override func remoteControlReceived(with event: UIEvent?) {
+    if event?.type == .remoteControl {
+      switch event!.subtype {
+      case .remoteControlPlay:
+        jukeboxPlayer.play()
+
+      case .remoteControlPause:
+        jukeboxPlayer.pause()
+
+      case .remoteControlNextTrack:
+        jukeboxPlayer.playNext()
+
+      case .remoteControlPreviousTrack:
+        jukeboxPlayer.playPrevious()
+
+      case .remoteControlTogglePlayPause:
+        jukeboxPlayer.playPause()
+
+      default:
+        break
+      }
+    }
+  }
 
   func resetUI() {
     durationLabel.text = "00:00"
     currentTimeLabel.text = "00:00"
     playbackSlider.value = 0
-  }
-
-  override func remoteControlReceived(with event: UIEvent?) {
-    if event?.type == .remoteControl {
-      switch event!.subtype {
-        case .remoteControlPlay:
-          jukeboxPlayer.play()
-  
-        case .remoteControlPause:
-          jukeboxPlayer.pause()
-  
-        case .remoteControlNextTrack:
-          jukeboxPlayer.playNext()
-  
-        case .remoteControlPreviousTrack:
-          jukeboxPlayer.playPrevious()
-  
-        case .remoteControlTogglePlayPause:
-          if jukeboxPlayer.jukebox.state == .playing {
-            jukeboxPlayer.pause()
-          }
-          else {
-            jukeboxPlayer.play()
-          }
-  
-        default:
-          break
-      }
-    }
   }
 
 #endif
