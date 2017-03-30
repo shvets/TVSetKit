@@ -5,13 +5,14 @@ import AVFoundation
 
 class JukeboxPlayer: JukeboxDelegate {
   var player : Jukebox!
-  var playerUI: AudioPlayer!
 
+  var playerUI: AudioPlayer!
   var items: [MediaItem]!
   var selectedItemId: Int!
 
   init(_ playerUI: AudioPlayer, items: [MediaItem], selectedItemId: Int) {
     self.playerUI = playerUI
+    self.items = items
     self.selectedItemId = selectedItemId
 
     var playerItems: [JukeboxItem] = []
@@ -197,7 +198,7 @@ class JukeboxPlayer: JukeboxDelegate {
 
 class AudioPlayer: UIViewController {
   static let SegueIdentifier = "Audio Player"
-  
+
   var items: [MediaItem]!
   var selectedItemId: Int!
 
@@ -211,7 +212,7 @@ class AudioPlayer: UIViewController {
   @IBOutlet weak var volumeSlider: UISlider!
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var indicator: UIActivityIndicatorView!
-  
+
   var jukeboxPlayer: JukeboxPlayer!
 
   override func viewDidLoad() {
