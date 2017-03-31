@@ -342,6 +342,9 @@ class APController: UIViewController {
 
 extension APController {
   override func remoteControlReceived(with event: UIEvent?) {
+    
+    #if os(iOS)
+      
     if event?.type == .remoteControl {
       switch event!.subtype {
       case .remoteControlPlay:
@@ -363,6 +366,8 @@ extension APController {
         break
       }
     }
+    
+  #endif
+  
   }
-
 }
