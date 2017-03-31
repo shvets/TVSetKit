@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2DBA10FAE71BFF1A8142DF8D /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1604FB5433E447B0ABCF /* AudioPlayer.swift */; };
+		2DBA10FAE71BFF1A8142DF8D /* APController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1604FB5433E447B0ABCF /* APController.swift */; };
 		2DBA11DB518E37517B3F551B /* UIViewController-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */; };
 		2DBA13FDC7753D0E2733ADF0 /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13DAA1061AF17ECB9384 /* BaseTableViewController.swift */; };
 		2DBA150294DB0662E20E1092 /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA13B4456078B90903EDEA /* PlainSpinner.swift */; };
@@ -33,6 +33,7 @@
 		FA67DC9E1E46933600734FB6 /* MediaName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9C1E46933600734FB6 /* MediaName.swift */; };
 		FA75747E1E5D2FA000C705C6 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA75747D1E5D2FA000C705C6 /* SwiftyJSON.framework */; };
 		FA9A189F1E58958E00DC0DCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA9A18A11E58958E00DC0DCE /* Localizable.strings */; };
+		FABA16E01E8DE899000AFD34 /* AudioPlayerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FABA16DF1E8DE899000AFD34 /* AudioPlayerSwift.framework */; };
 		FAE0094A1E469DE000941CAD /* ServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009491E469DE000941CAD /* ServiceAdapter.swift */; };
 		FAE009671E46A15300941CAD /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
 		FAE009691E46A15300941CAD /* AudioItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009541E46A15300941CAD /* AudioItemsController.swift */; };
@@ -74,7 +75,7 @@
 		2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController-extension.swift"; sourceTree = "<group>"; };
 		2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameTableCell.swift; sourceTree = "<group>"; };
 		2DBA15DDDB290018615D87C2 /* RequestParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParams.swift; sourceTree = "<group>"; };
-		2DBA1604FB5433E447B0ABCF /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		2DBA1604FB5433E447B0ABCF /* APController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APController.swift; sourceTree = "<group>"; };
 		2DBA161608A7DAAC8E767860 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemCell.swift; sourceTree = "<group>"; };
 		2DBA1B2DB604DC568629D03C /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		FA75747D1E5D2FA000C705C6 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../WebAPI/build/Release-appletvos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		FA9A18A01E58958E00DC0DCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FA9A18A21E58959A00DC0DCE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FABA16DF1E8DE899000AFD34 /* AudioPlayerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayerSwift.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphoneos/AudioPlayerSwift.framework"; sourceTree = "<group>"; };
 		FAE009491E469DE000941CAD /* ServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAdapter.swift; sourceTree = "<group>"; };
 		FAE009521E46A15300941CAD /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		FAE009541E46A15300941CAD /* AudioItemsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioItemsController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FABA16E01E8DE899000AFD34 /* AudioPlayerSwift.framework in Frameworks */,
 				FA75747E1E5D2FA000C705C6 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,7 +201,7 @@
 				2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */,
 				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
 				2DBA1BBCED180B0175F79E1F /* AudioItemsWithPlayerController.swift */,
-				2DBA1604FB5433E447B0ABCF /* AudioPlayer.swift */,
+				2DBA1604FB5433E447B0ABCF /* APController.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 		FA75747C1E5D2F9F00C705C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FABA16DF1E8DE899000AFD34 /* AudioPlayerSwift.framework */,
 				FA62DE951E886EBD00637BBA /* Jukebox.framework */,
 				FA75747D1E5D2FA000C705C6 /* SwiftyJSON.framework */,
 			);
@@ -374,7 +378,7 @@
 				2DBA1AED83261482BCD4CA1B /* MediaNameCell.swift in Sources */,
 				2DBA1527753567645111F70B /* MediaItemCell.swift in Sources */,
 				2DBA1F7DC52D7EBF5D2A276B /* AudioItemsWithPlayerController.swift in Sources */,
-				2DBA10FAE71BFF1A8142DF8D /* AudioPlayer.swift in Sources */,
+				2DBA10FAE71BFF1A8142DF8D /* APController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

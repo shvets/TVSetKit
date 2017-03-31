@@ -52,26 +52,7 @@ class AudioItemsController: BaseTableViewController {
 
 #if os(iOS)
   override open func navigate(from view: UITableViewCell) {
-    //self.navigationController?.setNavigationBarHidden(true, animated: false)
-
-    performSegue(withIdentifier: AudioPlayer.SegueIdentifier, sender: view)
-
-//    let mediaItem = getItem(for: view)
-//
-//    let controller = AudioItemsController.instantiate(adapter)
-//
-//    let destination = controller.getActionController() as! AudioItemsController
-//
-//    let newAdapter = adapter.clone()
-//    newAdapter.selectedItem = mediaItem
-//
-//    newAdapter.parentId = mediaItem.id
-//    newAdapter.parentName = mediaItem.name
-//    newAdapter.isContainer = true
-//
-//    destination.adapter = newAdapter
-//
-//    navigationController!.pushViewController(destination, animated: true)
+    performSegue(withIdentifier: APController.SegueIdentifier, sender: view)
   }
 #endif
 
@@ -80,50 +61,7 @@ class AudioItemsController: BaseTableViewController {
 #if os(tvOS)
   override open func tapped(_ gesture: UITapGestureRecognizer) {
     if (gesture.view as? MediaItemCell) != nil {
-//        let cell = gesture.view as! AudioItemCell
-//        
-//        if selectedCell == nil {
-//          cell.current.text = "->"
-//        }
-//        else if cell == selectedCell {
-//          cell.current.text = "->"
-//        }
-//        else {
-//          selectedCell?.current.text = ""
-//          cell.current.text = "->"
-//        }
-//        
-//        selectedCell = cell
-//        
-//        let mediaItem = selectedCell!.item!
-//        
-//        let track = mediaItem.id!
-//        
-//        if currentTrack == track {
-//          if status == "paused" || status == "init" {
-//            player?.play()
-//          }
-//          else {
-//            player?.pause()
-//          }
-//          
-//          status = (status == "paused") ? "resumed" : "paused"
-//        }
-//        else {
-//          currentTrack = track
-//          
-//          status = "init"
-//          
-//          if player != nil {
-//            player?.pause()
-//          }
-//          
-//          if let url = getMediaUrl() {
-//            playAudio(url)
-//          }
-//        }
-
-      performSegue(withIdentifier: AudioPlayer.SegueIdentifier, sender: gesture.view)
+      performSegue(withIdentifier: APController.SegueIdentifier, sender: gesture.view)
     }
   }
 #endif
@@ -133,10 +71,11 @@ class AudioItemsController: BaseTableViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let identifier = segue.identifier {
       switch identifier {
-        case AudioPlayer.SegueIdentifier:
-          if let destination = segue.destination as? AudioPlayer {
+        case APController.SegueIdentifier:
+          if let destination = segue.destination as? APController {
 
             destination.items = items
+            destination.parentName = adapter.selectedItem?.name!
             destination.selectedItemId = tableView?.indexPath(for: sender as! UITableViewCell)!.row
           }
 
