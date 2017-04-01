@@ -1,13 +1,13 @@
 import Foundation
 
-class CellSelection {
+open class CellSelection {
   var indexPath: IndexPath?
 
   func getIndexPath() -> IndexPath? {
     return indexPath
   }
 
-  func setIndexPath(_ indexPath: IndexPath) {
+  open func setIndexPath(_ indexPath: IndexPath) {
     self.indexPath = indexPath
   }
 

@@ -15,7 +15,7 @@ open class BaseTableViewController: UITableViewController {
 
   var params: [String: Any] = [:]
 
-  let cellSelection = CellSelection()
+  public let cellSelection = CellSelection()
 
   override open func viewDidLoad() {
     super.viewDidLoad()
@@ -101,7 +101,7 @@ open class BaseTableViewController: UITableViewController {
 //    }
 //  }
 
-  func getSelectedItem() -> MediaItem? {
+  open func getSelectedItem() -> MediaItem? {
     var item: MediaItem?
 
     if let indexPath = cellSelection.getIndexPath() {
@@ -111,7 +111,7 @@ open class BaseTableViewController: UITableViewController {
     return item
   }
 
-  func removeCell() {
+  open func removeCell() {
     if let indexPath = cellSelection.getIndexPath() {
       _ = items.remove(at: indexPath.row)
 

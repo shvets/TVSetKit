@@ -74,7 +74,7 @@ open class MediaItemsController: BaseCollectionViewController {
       if let indexPath = indexPath {
         cellSelection.setIndexPath(indexPath)
 
-        manageMovieBookmark()
+        handleBookmark()
       }
     }
   }
@@ -237,24 +237,28 @@ open class MediaItemsController: BaseCollectionViewController {
 
     navigationItem.title = item.name
 
-    manageMovieBookmark()
+    handleBookmark()
 
     return true
   }
 #endif
 
-  // MARK:- Add Cell
-
-  func manageMovieBookmark() {
+  func handleBookmark() {
     if adapter.requestType != "HISTORY" {
       let selectedItem = getSelectedItem()
 
       if let item = selectedItem {
+        var controller: UIAlertController?
+
         if adapter.requestType == "BOOKMARKS" {
-          present(buildRemoveBookmarkController(item), animated: false, completion: nil)
+          controller = buildRemoveBookmarkController(item)
         }
         else {
-          present(buildAddBookmarkController(item), animated: false, completion: nil)
+          controller = buildAddBookmarkController(item)
+        }
+
+        if let controller = controller {
+          present(controller, animated: false, completion: nil)
         }
       }
     }
@@ -263,12 +267,12 @@ open class MediaItemsController: BaseCollectionViewController {
   func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
     let title = localizer.localize("BOOKMARK_WILL_BE_REMOVED")
     let message = localizer.localize("CONFIRM_YOUR_CHOICE")
-    
+
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    
+
     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
       let result = self.adapter.removeBookmark(item: item)
-      
+
       if result {
         self.removeCell()
       }
@@ -276,33 +280,32 @@ open class MediaItemsController: BaseCollectionViewController {
         print("Bookmark already removed")
       }
     }
-    
+
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-    
+
     alertController.addAction(cancelAction)
     alertController.addAction(okAction)
-    
+
     return alertController
   }
-  
+
   func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
     let title = localizer.localize("BOOKMARK_WILL_BE_ADDED")
     let message = localizer.localize("CONFIRM_YOUR_CHOICE")
-    
+
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    
+
     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
       if self.adapter.addBookmark(item: item) {
         self.navigationItem.title = ""
       }
     }
-    
+
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-    
+
     alertController.addAction(cancelAction)
     alertController.addAction(okAction)
-    
+
     return alertController
   }
-
 }
