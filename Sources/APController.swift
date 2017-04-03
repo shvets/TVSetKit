@@ -3,9 +3,19 @@ import AVFoundation
 
 #if os(iOS)
 
-class AudioPlayer {
+class AudioPlayer: NSObject {
+  let defaultNotificationCenter = NotificationCenter.default
+
   var player: AVPlayer?
   var currentTrackIndex: Int=0
+
+  open var currentItem: MediaItem? {
+    guard currentTrackIndex >= 0 && currentTrackIndex < items.count else {
+      return nil
+    }
+
+    return items[currentTrackIndex]
+  }
 
   var playerUI: APController!
   var items: [MediaItem]!
@@ -24,6 +34,13 @@ class AudioPlayer {
     if let audioPath = getMediaUrl(path: path) {
       let asset = AVAsset(url: audioPath)
       let playerItem = AVPlayerItem(asset: asset)
+
+      if currentItem != nil {
+        defaultNotificationCenter.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
+      }
+
+      defaultNotificationCenter.addObserver(self, selector: #selector(self.playerItemDidPlayToEnd(_:)),
+        name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
 
       player = AVPlayer(playerItem: playerItem)
     }
@@ -63,6 +80,9 @@ class AudioPlayer {
         case .paused:
           play()
       }
+    }
+    else {
+      play()
     }
   }
 
@@ -117,6 +137,18 @@ class AudioPlayer {
     }
     else {
       replay()
+    }
+  }
+
+  func playerItemDidPlayToEnd(_ notification : Notification) {
+    if currentTrackIndex >= items.count-1 {
+      stop()
+    }
+    else {
+      currentTrackIndex = currentTrackIndex + 1
+      player = nil
+
+      play()
     }
   }
 
