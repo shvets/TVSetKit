@@ -16,6 +16,7 @@
 		2DBA158050670FDFEBDD9C19 /* RequestParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA15DDDB290018615D87C2 /* RequestParams.swift */; };
 		2DBA167B330DBB6999E37A01 /* IServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */; };
 		2DBA16C0052D90623BCA9AE3 /* MediaNameTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */; };
+		2DBA173CE901E76975C5B62C /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA19B560A85D3158B9A589 /* AudioPlayer.swift */; };
 		2DBA178BB767FED2892DDE57 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10015F1A359BBBCE9565 /* Localizer.swift */; };
 		2DBA194E58FD9FE9CEA09A20 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA161608A7DAAC8E767860 /* Package.swift */; };
 		2DBA1AA7A4AEB97D4F2ABEF1 /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1B2DB604DC568629D03C /* BaseCollectionViewController.swift */; };
@@ -79,6 +80,7 @@
 		2DBA1604FB5433E447B0ABCF /* APController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APController.swift; sourceTree = "<group>"; };
 		2DBA161608A7DAAC8E767860 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemCell.swift; sourceTree = "<group>"; };
+		2DBA19B560A85D3158B9A589 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		2DBA1B2DB604DC568629D03C /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
 		2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemTableCell.swift; sourceTree = "<group>"; };
 		2DBA1BBCED180B0175F79E1F /* AudioItemsWithPlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioItemsWithPlayerController.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
 				2DBA1BBCED180B0175F79E1F /* AudioItemsWithPlayerController.swift */,
 				2DBA1604FB5433E447B0ABCF /* APController.swift */,
+				2DBA19B560A85D3158B9A589 /* AudioPlayer.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				2DBA1527753567645111F70B /* MediaItemCell.swift in Sources */,
 				2DBA1F7DC52D7EBF5D2A276B /* AudioItemsWithPlayerController.swift in Sources */,
 				2DBA10FAE71BFF1A8142DF8D /* APController.swift in Sources */,
+				2DBA173CE901E76975C5B62C /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
