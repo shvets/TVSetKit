@@ -7,6 +7,7 @@ class AudioPlayer: NSObject {
   let audioSession = AVAudioSession.sharedInstance()
 
   var player: AVPlayer?
+  var timeObserver: AnyObject!
   var backgroundIdentifier = UIBackgroundTaskInvalid
   var currentTrackIndex: Int=0
 
@@ -17,8 +18,8 @@ class AudioPlayer: NSObject {
 //
 //    return items[currentTrackIndex]
 //  }
-  var currentItem: AVPlayerItem?
 
+  var currentItem: AVPlayerItem?
 
   var playerUI: APController!
   var items: [MediaItem]!
@@ -45,6 +46,10 @@ class AudioPlayer: NSObject {
       name: NSNotification.Name.AVAudioSessionInterruption, object: AVAudioSession.sharedInstance())
   }
 
+  deinit {
+    player!.removeTimeObserver(timeObserver)
+  }
+
   func newPlayer() -> AVPlayer? {
     var player: AVPlayer?
 
@@ -67,19 +72,18 @@ class AudioPlayer: NSObject {
 //      })
 
 
-      print(playerItem.asset.duration.seconds)
-      print(playerItem.currentTime().seconds)
-
       if currentItem != nil {
         notificationCenter.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
       }
+
+      currentItem = playerItem
 
       notificationCenter.addObserver(self, selector: #selector(self.handleAVPlayerItemDidPlayToEndTime(_:)),
         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
 
       player = AVPlayer(playerItem: playerItem)
 
-      startProgressTimer()
+      startProgressTimer(player!)
     }
 
     return player
@@ -114,14 +118,14 @@ class AudioPlayer: NSObject {
   func play() {
     if player == nil {
       player = newPlayer()
+
+      playerUI.resetUI()
+
+      backgroundIdentifier = UIApplication.shared.beginBackgroundTask (expirationHandler: { () -> Void in
+        UIApplication.shared.endBackgroundTask(self.backgroundIdentifier)
+        self.backgroundIdentifier = UIBackgroundTaskInvalid
+      })
     }
-
-    playerUI.resetUI()
-
-    backgroundIdentifier = UIApplication.shared.beginBackgroundTask (expirationHandler: { () -> Void in
-      UIApplication.shared.endBackgroundTask(self.backgroundIdentifier)
-      self.backgroundIdentifier = UIBackgroundTaskInvalid
-    })
 
     player?.play()
 
@@ -129,10 +133,13 @@ class AudioPlayer: NSObject {
   }
 
   func pause() {
-    player?.pause()
-    stopProgressTimer()
+    if let player = player {
+      stopProgressTimer(player)
 
-    playerUI.playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+      player.pause()
+
+      playerUI.playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+    }
   }
 
   func replay() {
@@ -192,6 +199,8 @@ class AudioPlayer: NSObject {
     }
     else {
       currentTrackIndex = currentTrackIndex + 1
+
+      playerUI.titleLabel.text = items[currentTrackIndex].name
       player = nil
 
       play()
@@ -230,57 +239,42 @@ class AudioPlayer: NSObject {
 
   // MARK: Progress tracking
 
-  var progressObserver: AnyObject!
-
-  func startProgressTimer() {
-    guard let player = player,
-          player.currentItem?.duration.isValid == true
-    else {
+  func startProgressTimer(_ player: AVPlayer) {
+    guard player.currentItem?.duration.isValid == true else {
       return
     }
 
-    progressObserver = player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(0.05, Int32(NSEC_PER_SEC)), queue: nil, using: { [unowned self] (time : CMTime) -> Void in
-      print("addPeriodicTimeObserver")
-      //self.timerAction()
-    }) as AnyObject!
+    let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
+
+    timeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval,
+      queue: DispatchQueue.main) { (elapsedTime: CMTime) -> Void in
+
+      print("elapsedTime now:", CMTimeGetSeconds(elapsedTime))
+      self.playbackProgressDidChange()
+    } as AnyObject
   }
 
-  func stopProgressTimer() {
+  func stopProgressTimer(_ player: AVPlayer) {
     print("stopProgressTimer")
 
-    guard let player = player,
-          let observer = progressObserver
-    else {
+    guard let observer = timeObserver else {
       return
     }
 
     player.removeTimeObserver(observer)
-    progressObserver = nil
+    timeObserver = nil
   }
 
   func changePlayerPosition() {
-//    if let duration = currentItem?.asset.duration.seconds {
-      //pause()
+    let duration = currentItem?.asset.duration.seconds
+    let requestedTime = Double(playerUI.playbackSlider.value)
 
-      //let seconds = Int(Double(playerUI.playbackSlider.value) * duration)
+    let seconds = Int(requestedTime * duration!)
 
-      let seconds = Int(playerUI.playbackSlider.value)
-      //let targetTime: CMTime = CMTimeMake(seconds, 1)
+    seek(toSeconds: seconds)
 
-      seek(toSeconds: seconds)
-
-      play()
-//    }
+    play()
   }
-
-//      let seconds : Int64 = Int64(playbackSlider.value)
-//    let targetTime:CMTime = CMTimeMake(seconds, 1)
-//
-//    player!.seek(to: targetTime)
-//
-//    _ = play()
-
-
 
 //  func jukeboxStateDidChange(_ player: Jukebox) {
 //    UIView.animate(withDuration: 0.3, animations: { [unowned self] () -> Void in
@@ -313,18 +307,20 @@ class AudioPlayer: NSObject {
 //
 //    print("Jukebox state changed to \(player.state)")
 //  }
-//
-//  func jukeboxPlaybackProgressDidChange(_ player: Jukebox) {
-//    if let currentTime = player.currentItem?.currentTime, let duration = player.currentItem?.meta.duration {
-//      let value = Float(currentTime / duration)
-//      playerUI.playbackSlider.value = value
-//      populateLabelWithTime(playerUI.currentTimeLabel, time: currentTime)
-//      populateLabelWithTime(playerUI.durationLabel, time: duration)
+
+  func playbackProgressDidChange() {
+    let currentTime = currentItem?.currentTime().seconds
+    let duration = currentItem?.asset.duration.seconds
+
+      let value = Float(currentTime! / duration!)
+      playerUI.playbackSlider.value = value
+      populateLabelWithTime(playerUI.currentTimeLabel, time: currentTime!)
+      populateLabelWithTime(playerUI.durationLabel, time: duration!-currentTime!)
 //    }
 //    else {
 //      playerUI.resetUI()
 //    }
-//  }
+  }
 
   func populateLabelWithTime(_ label : UILabel, time: Double) {
     let minutes = Int(time / 60)
