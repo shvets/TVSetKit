@@ -28,6 +28,10 @@ class AudioItemsController: BaseTableViewController {
     adapter.spinner = PlainSpinner(activityIndicatorView)
 
     loadInitialData()
+
+    if adapter?.requestType != "HISTORY" {
+      adapter?.addHistoryItem(adapter.selectedItem!)
+    }
   }
   
   // MARK: - Table view data source
