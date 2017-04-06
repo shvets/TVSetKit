@@ -35,6 +35,7 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
     collectionView?.backgroundView = activityIndicatorView
+    //activityIndicatorView.center = (collectionView?.center)!;
     adapter.spinner = PlainSpinner(activityIndicatorView)
 
     loadInitialData()

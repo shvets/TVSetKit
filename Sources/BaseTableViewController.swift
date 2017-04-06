@@ -7,7 +7,7 @@ open class BaseTableViewController: UITableViewController {
 
   public var localizer: Localizer!
 
-  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
   public var adapter: ServiceAdapter!
 

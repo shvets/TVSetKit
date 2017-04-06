@@ -25,6 +25,7 @@ class AudioItemsController: BaseTableViewController {
     title = adapter.selectedItem!.name
 
     tableView?.backgroundView = activityIndicatorView
+    activityIndicatorView.center = (tableView?.center)!;
     adapter.spinner = PlainSpinner(activityIndicatorView)
 
     loadInitialData()
