@@ -13,8 +13,8 @@ open class MediaItem: MediaName {
   public var seasonNumber: String?
   public var episodeNumber: String?
 
-  public override init(name: String, id: String? = nil) {
-    super.init(name: name, id: id)
+  public override init(name: String, id: String? = nil, imageName: String? = nil) {
+    super.init(name: name, id: id, imageName: imageName)
   }
 
   public init(data: JSON) {
