@@ -1,12 +1,7 @@
-BOOKMARKS="Bookmarks";
-HISTORY="History";
-
-HISTORY_WILL_BE_RESET="History will be Reset";
-BOOKMARKS_WILL_BE_RESET="Bookmarks will be Reset";
-CONFIRM_YOUR_CHOICE="Please Confirm Your Choice";
-BOOKMARK_WILL_BE_ADDED="Movie will be added";
-BOOKMARK_WILL_BE_REMOVED="Movie will be removed";
-CANNOT_FIND_SOURCE="Cannot find Source";
+"Confirm Your Choice" = "Please Confirm Your Choice";
+"Your Selection Will Be Added" = "Your Selection Will Be Added";
+"Your Selection Will Be Removed" = "Movie will be removed";
+"Cannot Find Source" = "Cannot Find Source";
 
 "Enter Query" = "Enter Query";
 "Search" = "Search";

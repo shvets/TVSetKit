@@ -245,13 +245,13 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   func handleBookmark() {
-    if adapter.requestType != "HISTORY" {
+    if adapter.requestType != "History" {
       let selectedItem = getSelectedItem()
 
       if let item = selectedItem {
         var controller: UIAlertController?
 
-        if adapter.requestType == "BOOKMARKS" {
+        if adapter.requestType == "Bookmarks" {
           controller = buildRemoveBookmarkController(item)
         }
         else {
@@ -266,8 +266,8 @@ open class MediaItemsController: BaseCollectionViewController {
   }
 
   func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = localizer.localize("BOOKMARK_WILL_BE_REMOVED")
-    let message = localizer.localize("CONFIRM_YOUR_CHOICE")
+    let title = localizer.localize("Your Selection Will Be Removed")
+    let message = localizer.localize("Confirm Your Choice")
 
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
@@ -291,8 +291,8 @@ open class MediaItemsController: BaseCollectionViewController {
   }
 
   func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = localizer.localize("BOOKMARK_WILL_BE_ADDED")
-    let message = localizer.localize("CONFIRM_YOUR_CHOICE")
+    let title = localizer.localize("Your Selection Will Be Added")
+    let message = localizer.localize("Confirm Your Choice")
 
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 

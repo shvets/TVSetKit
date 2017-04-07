@@ -150,8 +150,8 @@ class VideoPlayerController: AVPlayerViewController {
      // }
     }
     else {
-      let title = localizer.localize("CANNOT_FIND_SOURCE")
-      let message = localizer.localize("CANNOT_FIND_SOURCE")
+      let title = localizer.localize("Cannot Find Source")
+      let message = localizer.localize("Cannot Find Source")
       
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
       

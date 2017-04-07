@@ -30,7 +30,7 @@ class AudioItemsController: BaseTableViewController {
 
     loadInitialData()
 
-    if adapter?.requestType != "HISTORY" {
+    if adapter?.requestType != "History" {
       adapter?.addHistoryItem(adapter.selectedItem!)
     }
   }
