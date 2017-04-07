@@ -46,7 +46,7 @@ class APController: UIViewController {
 
     playbackSlider.tintColor = UIColor.green
 
-    //playbackSlider.setThumbImage(UIImage(named: "sliderThumb"), for: UIControlState())
+    playbackSlider.setThumbImage(UIImage(named: "sliderThumb"), for: UIControlState())
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -58,13 +58,6 @@ class APController: UIViewController {
   }
 
   @IBAction func playbackSliderValueChanged(_ sender: UISlider) {
-//    let seconds : Int64 = Int64(playbackSlider.value)
-//    let targetTime:CMTime = CMTimeMake(seconds, 1)
-//
-//    player!.seek(to: targetTime)
-//
-//    _ = play()
-
     audioPlayer.changePlayerPosition()
   }
 
@@ -109,8 +102,16 @@ class APController: UIViewController {
     audioPlayer.replay()
   }
 
-  @IBAction func stopAction() {
+  @IBAction func stopAction(_ sender: UIButton) {
     audioPlayer.stop()
+  }
+
+  @IBAction func tapeBack(_ sender: UIButton) {
+    audioPlayer.tapeBack()
+  }
+
+  @IBAction func tapeForward(_ sender: UIButton) {
+    audioPlayer.tapeForward()
   }
 
   func resetUI() {
@@ -126,31 +127,31 @@ class APController: UIViewController {
 extension APController {
   override func remoteControlReceived(with event: UIEvent?) {
     
-    #if os(iOS)
+#if os(iOS)
       
     if event?.type == .remoteControl {
       switch event!.subtype {
-      case .remoteControlPlay:
-        audioPlayer.play()
+        case .remoteControlPlay:
+          audioPlayer.play()
 
-      case .remoteControlPause:
-        audioPlayer.pause()
+        case .remoteControlPause:
+          audioPlayer.pause()
 
-      case .remoteControlNextTrack:
-        audioPlayer.playNext()
+        case .remoteControlNextTrack:
+          audioPlayer.playNext()
 
-      case .remoteControlPreviousTrack:
-        audioPlayer.playPrevious()
+        case .remoteControlPreviousTrack:
+          audioPlayer.playPrevious()
 
-      case .remoteControlTogglePlayPause:
-        audioPlayer.togglePlayPause()
+        case .remoteControlTogglePlayPause:
+          audioPlayer.togglePlayPause()
 
-      default:
-        break
+        default:
+          break
       }
     }
     
-  #endif
+#endif
   
   }
 }
