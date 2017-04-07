@@ -7,7 +7,13 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   public var localizer: Localizer!
 
+#if os(iOS)
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+#endif
+
+#if os(tvOS)
   public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+#endif
 
   public var adapter: ServiceAdapter!
 
@@ -16,12 +22,6 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   var params: [String: Any] = [:]
 
   let cellSelection = CellSelection()
-
-//  override open func viewDidLoad() {
-//    super.viewDidLoad()
-//
-//    localizer = Localizer(BundleId)
-//  }
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.loadData() { result in
