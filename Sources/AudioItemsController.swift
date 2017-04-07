@@ -57,7 +57,7 @@ class AudioItemsController: BaseTableViewController {
 
 #if os(iOS)
   override open func navigate(from view: UITableViewCell) {
-    performSegue(withIdentifier: APController.SegueIdentifier, sender: view)
+    performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: view)
   }
 #endif
 
@@ -66,7 +66,7 @@ class AudioItemsController: BaseTableViewController {
 #if os(tvOS)
   override open func tapped(_ gesture: UITapGestureRecognizer) {
     if (gesture.view as? MediaItemCell) != nil {
-      performSegue(withIdentifier: APController.SegueIdentifier, sender: gesture.view)
+      performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: gesture.view)
     }
   }
 #endif
@@ -76,8 +76,8 @@ class AudioItemsController: BaseTableViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let identifier = segue.identifier {
       switch identifier {
-        case APController.SegueIdentifier:
-          if let destination = segue.destination as? APController {
+        case AudioPlayerController.SegueIdentifier:
+          if let destination = segue.destination as? AudioPlayerController {
 
             destination.items = items
             destination.parentName = adapter.selectedItem?.name!

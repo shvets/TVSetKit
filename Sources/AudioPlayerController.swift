@@ -1,85 +1,132 @@
 import UIKit
-import AVFoundation
-import AVKit
 
-class AudioPlayerController: AVPlayerViewController, AVPlayerViewControllerDelegate {
-  static let SegueIdentifier = "Audio Player Controller"
+class AudioPlayerController: UIViewController {
+  static let SegueIdentifier = "Audio Player"
 
-  var mediaItem: MediaItem!
   var items: [MediaItem]!
+  var selectedItemId: Int!
+  var parentName: String!
+
+#if os(iOS)
+  @IBOutlet weak var playbackSlider: UISlider!
+  @IBOutlet weak var playPauseButton: UIButton!
+  @IBOutlet weak var replayButton: UIButton!
+  @IBOutlet weak var stopButton: UIButton!
+  @IBOutlet weak var currentTimeLabel: UILabel!
+  @IBOutlet weak var durationLabel: UILabel!
+  @IBOutlet weak var volumeSlider: UISlider!
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var indicator: UIActivityIndicatorView!
+
+  var audioPlayer: AudioPlayer!
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    if let url = getMediaUrl() {
-      playAudio(url)
+    do {
+      audioPlayer = try AudioPlayer(self, items: items, selectedItemId: selectedItemId)
+
+      configureUI()
+
+      UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
+
+      audioPlayer.play()
+    }
+    catch {
+      print("Cannot instantiate audio player")
     }
   }
 
-//  public func playerViewController(_ playerViewController: AVPlayerViewController, didPresent interstitial: AVInterstitialTimeRange) {
-//    print("finished")
-//
-////    if flag {
-////      counter += 1
-////    }
-////
-////    if ((counter + 1) == song.count) {
-////      counter = 0
-////    }
-////
-////    playAudio()
-//  }
+  func configureUI () {
+    title = parentName
 
-  func playAudio(_ url: URL) {
-    let asset = AVAsset(url: url)
+    resetUI()
 
-    let playerItem = AVPlayerItem(asset: asset)
+    titleLabel.text = items[selectedItemId].name
 
-    player = AVPlayer(playerItem: playerItem)
+    playbackSlider.tintColor = UIColor.green
 
-    let overlayView = UIView(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
-    overlayView.addSubview(UIImageView(image: UIImage(named: "tv-watermark")))
-
-    self.contentOverlayView?.addSubview(overlayView)
-    //playerViewController?.contentOverlayView?.addSubview(overlayView)
-
-    player?.play()
+    playbackSlider.setThumbImage(UIImage(named: "sliderThumb"), for: UIControlState())
   }
 
-//  func playAudio0(_ url: URL) {
-//    URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) -> Void in
-//        DispatchQueue.main.async {
-//          // you can use the data! here
-//          if data != nil {
-//            do {
-//              // this codes for making this app ready to takeover the device audio
-//              try AVAudioSession.shared().setCategory(AVAudioSessionCategoryPlayback)
-//              try AVAudioSession.shared().setActive(true)
-//
-//              self.player = try AVAudioPlayer(data: data!, fileTypeHint: AVFileTypeMPEGLayer3)
-//              // self.player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3)
-//
-////              self.status = "started"
-//              self.player?.play()
-//            }
-//            catch let error as NSError {
-//              print("error: \(error.localizedDescription)")
-//            }
-//          }
-//        }
-//      }).resume()
-//  }
+  override func viewWillDisappear(_ animated: Bool) {
+    audioPlayer.stop()
+  }
 
-  private func getMediaUrl() -> URL? {
-    let url = mediaItem.id!
+  @IBAction func volumeSliderValueChanged() {
+    audioPlayer.changeVolume(volumeSlider.value)
+  }
 
-    let link = url.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
+  @IBAction func playbackSliderValueChanged(_ sender: UISlider) {
+    audioPlayer.changePlayerPosition()
+  }
 
-    if link != "" {
-      return NSURL(string: link)! as URL
+  @IBAction func prevAction() {
+    audioPlayer.playPrevious()
+  }
+
+  @IBAction func nextAction() {
+    audioPlayer.playNext()
+  }
+
+  @IBAction func playPauseAction(_ sender: AnyObject) {
+    audioPlayer.togglePlayPause()
+  }
+
+  @IBAction func replayAction() {
+    audioPlayer.replay()
+  }
+
+  @IBAction func stopAction(_ sender: UIButton) {
+    audioPlayer.stop()
+  }
+
+  @IBAction func tapeBack(_ sender: UIButton) {
+    audioPlayer.tapeBack()
+  }
+
+  @IBAction func tapeForward(_ sender: UIButton) {
+    audioPlayer.tapeForward()
+  }
+
+  func resetUI() {
+    durationLabel.text = "00:00"
+    currentTimeLabel.text = "00:00"
+    playbackSlider.value = 0
+  }
+
+#endif
+
+}
+
+extension AudioPlayerController {
+  override func remoteControlReceived(with event: UIEvent?) {
+    
+#if os(iOS)
+      
+    if event?.type == .remoteControl {
+      switch event!.subtype {
+        case .remoteControlPlay:
+          audioPlayer.play()
+
+        case .remoteControlPause:
+          audioPlayer.pause()
+
+        case .remoteControlNextTrack:
+          audioPlayer.playNext()
+
+        case .remoteControlPreviousTrack:
+          audioPlayer.playPrevious()
+
+        case .remoteControlTogglePlayPause:
+          audioPlayer.togglePlayPause()
+
+        default:
+          break
+      }
     }
-    else {
-      return nil
-    }
+    
+#endif
+  
   }
 }

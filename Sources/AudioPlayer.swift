@@ -13,10 +13,10 @@ class AudioPlayer: NSObject {
 
   var currentItem: AVPlayerItem?
 
-  var playerUI: APController!
+  var playerUI: AudioPlayerController!
   var items: [MediaItem]!
 
-  init(_ playerUI: APController, items: [MediaItem], selectedItemId: Int) throws {
+  init(_ playerUI: AudioPlayerController, items: [MediaItem], selectedItemId: Int) throws {
     super.init()
 
     self.playerUI = playerUI
@@ -57,8 +57,6 @@ class AudioPlayer: NSObject {
 
       asset.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
         DispatchQueue.main.async {
-          print(asset)
-
           self.stopAnimate()
         }
       })
