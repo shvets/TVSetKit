@@ -1,5 +1,6 @@
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 class AudioPlayerController: UIViewController {
   static let SegueIdentifier = "Audio Player"
@@ -36,6 +37,8 @@ class AudioPlayerController: UIViewController {
     }
     audioPlayer.playbackHandler = playbackProgressDidChange
 
+    handleRemoteCenter()
+
     let isAnotherTrack = (audioPlayer.currentTrackIndex != selectedItemId)
     let isNewPlayer = (audioPlayer.currentTrackIndex == -1)
 
@@ -55,15 +58,25 @@ class AudioPlayerController: UIViewController {
     if isNewPlayer {
       play()
     }
-    else if isAnotherTrack {
-      stop()
-      play()
-    }
     else {
-      audioPlayer.startProgressTimer()
-      playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
-      startAnimate()
-      stopAnimate()
+//      let currentSongPosition = audioPlayer.currentSongPosition
+//
+//      if currentSongPosition != -1 {
+//        let playerPosition = audioPlayer.getPlayerPosition(currentSongPosition)
+//
+//        audioPlayer.seek(toSeconds: playerPosition)
+//      }
+
+      if isAnotherTrack {
+        stop()
+        play()
+      }
+      else {
+        audioPlayer.startProgressTimer()
+        playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+        startAnimate()
+        stopAnimate()
+      }
     }
   }
 
@@ -76,8 +89,10 @@ class AudioPlayerController: UIViewController {
       startAnimate()
 
       asset?.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [unowned self] in
           self.stopAnimate()
+
+          self.updateNowPlayingInfoCenter()
         }
       })
 
@@ -104,7 +119,7 @@ class AudioPlayerController: UIViewController {
   func pause() {
     audioPlayer.pause()
 
-    audioPlayer.stopProgressTimer()
+    //audioPlayer.stopProgressTimer()
 
     playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
   }
@@ -171,22 +186,22 @@ class AudioPlayerController: UIViewController {
     }
   }
 
-  func scrollForward() {
-    pause()
-
-    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
-
-    audioPlayer.seek(toSeconds: playerPosition + 30)
-
-    play()
-  }
-
-  func scrollBack() {
+  func skipBackward() {
     pause()
 
     let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
 
     audioPlayer.seek(toSeconds: playerPosition - 15)
+
+    play()
+  }
+
+  func skipForward() {
+    pause()
+
+    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
+
+    audioPlayer.seek(toSeconds: playerPosition + 15)
 
     play()
   }
@@ -258,7 +273,7 @@ class AudioPlayerController: UIViewController {
     })
   }
 
-  func playbackProgressDidChange() {
+  func playbackProgressDidChange() -> Float {
     if let playerItem = audioPlayer.player?.currentItem {
       let currentTime = playerItem.currentTime().seconds
       let duration = playerItem.asset.duration.seconds
@@ -266,8 +281,15 @@ class AudioPlayerController: UIViewController {
       playbackSlider.value =  Float(currentTime / duration)
 
       currentTimeLabel.text = formatTime(currentTime)
-      durationLabel.text = "-\(formatTime(duration-currentTime))"
+
+      let sign = (duration-currentTime == 0) ? "" : "-"
+
+      durationLabel.text = "\(sign)\(formatTime(duration-currentTime))"
+
+      updateNowPlayingInfoCenter()
     }
+
+    return playbackSlider.value
   }
 
   @IBAction func volumeSliderValueChanged() {
@@ -299,12 +321,12 @@ class AudioPlayerController: UIViewController {
     stop()
   }
 
-  @IBAction func scrollBack(_ sender: UIButton) {
-    scrollBack()
+  @IBAction func skipBackward(_ sender: UIButton) {
+    skipBackward()
   }
 
-  @IBAction func scrollForward(_ sender: UIButton) {
-    scrollForward()
+  @IBAction func skipForward(_ sender: UIButton) {
+    skipForward()
   }
 
   func update() {
@@ -361,33 +383,181 @@ class AudioPlayerController: UIViewController {
 }
 
 extension AudioPlayerController {
-  override func remoteControlReceived(with event: UIEvent?) {
-    
-#if os(iOS)
-      
-    if event?.type == .remoteControl {
-      switch event!.subtype {
-        case .remoteControlPlay:
-          play()
+  // MARK: MPNowPlayingInfoCenter
 
-        case .remoteControlPause:
-          pause()
+  func updateNowPlayingInfoCenter() {
+    if NSClassFromString("MPNowPlayingInfoCenter") != nil {
+      let defaultNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
 
-        case .remoteControlNextTrack:
-          playNext()
+      if let currentItem = audioPlayer.player?.currentItem {
+        let title = audioPlayer.currentMediaItem.name
+        let currentTime = currentItem.currentTime().seconds
+        let duration = currentItem.asset.duration.seconds
 
-        case .remoteControlPreviousTrack:
-          playPrevious()
+        let trackNumber = audioPlayer.currentTrackIndex
+        let trackCount = audioPlayer.items.count
 
-        case .remoteControlTogglePlayPause:
-          togglePlayPause()
+        var nowPlayingInfo: [String: AnyObject] = [
+          MPNowPlayingInfoPropertyPlaybackRate: 1.0 as AnyObject,
+          MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime as AnyObject,
+          MPMediaItemPropertyPlaybackDuration: duration as AnyObject,
+          MPMediaItemPropertyTitle: title as AnyObject,
+          MPNowPlayingInfoPropertyPlaybackQueueCount: trackCount as AnyObject,
+          MPNowPlayingInfoPropertyPlaybackQueueIndex: trackNumber as AnyObject
+        ]
 
-        default:
-          break
+        nowPlayingInfo[MPMediaItemPropertyMediaType] = MPMediaType.anyAudio.rawValue as AnyObject
+
+        // If is a live broadcast, you can set a newest property (iOS 10+): MPNowPlayingInfoPropertyIsLiveStream indicating that is a live broadcast
+//        if #available(iOS 10.0, *) {
+//          nowPlayingInfo[MPNowPlayingInfoPropertyIsLiveStream] = true as AnyObject
+//        }
+
+//      if let artist = item.meta.artist {
+//        nowPlayingInfo[MPMediaItemPropertyArtist] = artist as AnyObject?
+//      }
+//
+//      if let album = item.meta.album {
+//        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album as AnyObject?
+//      }
+
+//      if let img = currentItem?.meta.artwork {
+//        nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: img)
+//      }
+
+        defaultNowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
       }
     }
-    
-#endif
-  
+  }
+
+}
+
+extension AudioPlayerController {
+  // MARK: MPRemoteCommandCenter
+
+  func handleRemoteCenter() {
+    if #available(iOS 9.1, *) {
+      let rcc = MPRemoteCommandCenter.shared()
+
+      rcc.togglePlayPauseCommand.removeTarget(nil)
+      rcc.playCommand.removeTarget(nil)
+      rcc.pauseCommand.removeTarget(nil)
+
+//      rcc.skipBackwardCommand.removeTarget(nil)
+//      rcc.skipForwardCommand.removeTarget(nil)
+
+      rcc.previousTrackCommand.removeTarget(nil)
+      rcc.nextTrackCommand.removeTarget(nil)
+
+      rcc.togglePlayPauseCommand.addTarget(self, action: #selector(doPlayPause))
+      rcc.playCommand.addTarget(self, action:#selector(doPlayPause))
+      rcc.pauseCommand.addTarget(self, action:#selector(doPlayPause))
+
+//      rcc.skipBackwardCommand.addTarget(self, action:#selector(doSkipBackward))
+//      rcc.skipForwardCommand.addTarget(self, action:#selector(doSkipForward))
+
+      rcc.previousTrackCommand.addTarget(self, action:#selector(doPreviousTrack))
+      rcc.nextTrackCommand.addTarget(self, action:#selector(doNextTrack))
+
+      rcc.changePlaybackPositionCommand.addTarget(self, action:#selector(doPlaybackSliderValueChanged))
+
+      //delay(1) { // we somehow get disabled after removing our player v.c.
+        //rcc.togglePlayPauseCommand.isEnabled = true
+        rcc.playCommand.isEnabled = true
+        rcc.pauseCommand.isEnabled = true
+
+//        rcc.skipBackwardCommand.isEnabled = true
+//        rcc.skipForwardCommand.isEnabled = true
+
+        rcc.previousTrackCommand.isEnabled = true
+        rcc.nextTrackCommand.isEnabled = true
+      //}
+    }
+  }
+
+  func delay(_ delay: Double, closure: @escaping () -> ()) {
+    let when = DispatchTime.now() + delay
+
+    DispatchQueue.main.asyncAfter(deadline: when, execute: closure)
+  }
+
+  func doPlayPause(_ event:MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    playPauseAction(self)
+
+    return .success
+  }
+
+  func doPlay(_ event:MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    playPauseAction(self)
+
+    return .success
+  }
+  func doPause(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    playPauseAction(self)
+
+    return .success
+  }
+
+  func doSkipBackward(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    skipBackward()
+
+    return .success
+  }
+
+  func doSkipForward(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    skipForward()
+
+    return .success
+  }
+
+  func doPreviousTrack(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    prevAction()
+
+    return .success
+  }
+
+  func doNextTrack(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    nextAction()
+
+    return .success
+  }
+
+  func doPlaybackSliderValueChanged(_ event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
+    audioPlayer.seek(toSeconds: Int(event.positionTime))
+    _ = playbackProgressDidChange()
+
+    return .success
   }
 }
+
+//extension AudioPlayerController {
+//  override func remoteControlReceived(with event: UIEvent?) {
+//
+//#if os(iOS)
+//
+//    if event?.type == .remoteControl {
+//      switch event!.subtype {
+//        case .remoteControlPlay:
+//          play()
+//
+//        case .remoteControlPause:
+//          pause()
+//
+//        case .remoteControlNextTrack:
+//          playNext()
+//
+//        case .remoteControlPreviousTrack:
+//          playPrevious()
+//
+//        case .remoteControlTogglePlayPause:
+//          togglePlayPause()
+//
+//        default:
+//          break
+//      }
+//    }
+//
+//#endif
+//
+//  }
+//}

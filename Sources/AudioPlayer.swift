@@ -13,6 +13,7 @@ class AudioPlayer: NSObject {
 
   var player: AVPlayer?
   var currentTrackIndex: Int = -1
+  var currentSongPosition: Float = -1
 
   var timeControlStatus: AVPlayerTimeControlStatus? {
     return player?.timeControlStatus
@@ -22,7 +23,7 @@ class AudioPlayer: NSObject {
     return items[currentTrackIndex]
   }
 
-  var playbackHandler: (() -> Void)?
+  var playbackHandler: (() -> Float)?
 
   var name: String = ""
   var items: [MediaItem] = []
@@ -136,7 +137,8 @@ class AudioPlayer: NSObject {
         timeObserver = player?.addPeriodicTimeObserver(forInterval: timeInterval,
           queue: DispatchQueue.main) { (elapsedTime: CMTime) -> Void in
 
-          playbackHandler()
+          self.currentSongPosition = playbackHandler()
+          //print(self.currentSongPosition)
         } as AnyObject
       }
     }
