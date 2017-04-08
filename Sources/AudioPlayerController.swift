@@ -4,10 +4,9 @@ import AVFoundation
 class AudioPlayerController: UIViewController {
   static let SegueIdentifier = "Audio Player"
 
-  var items: [MediaItem]!
-
-  var selectedItemId: Int!
   var parentName: String!
+  var items: [MediaItem]!
+  var selectedItemId: Int!
 
 #if os(iOS)
   @IBOutlet weak var playbackSlider: UISlider!
@@ -20,36 +19,52 @@ class AudioPlayerController: UIViewController {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var indicator: UIActivityIndicatorView!
 
-  var audioPlayer: AudioPlayer!
+  var audioPlayer = AudioPlayer.shared
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    do {
-      audioPlayer = try AudioPlayer(items, selectedItemId: selectedItemId)
+    addNotifications()
 
-      audioPlayer.playbackHandler = playbackProgressDidChange
-
-      configureUI()
-
-      addNotifications()
-
-      reset()
-      play()
+    if audioPlayer.name != parentName {
+      audioPlayer.name = parentName
+      audioPlayer.items = items
     }
-    catch {
-      print("Cannot instantiate audio player")
-    }
-  }
 
-  func configureUI () {
+    if audioPlayer.playbackHandler != nil {
+      audioPlayer.playbackHandler = nil
+    }
+    audioPlayer.playbackHandler = playbackProgressDidChange
+
+    let isAnotherTrack = (audioPlayer.currentTrackIndex != selectedItemId)
+    let isNewPlayer = (audioPlayer.currentTrackIndex == -1)
+
+    if isAnotherTrack {
+      audioPlayer.currentTrackIndex = selectedItemId
+    }
+
     title = parentName
 
     titleLabel.text = audioPlayer.currentMediaItem.name
 
     playbackSlider.tintColor = UIColor.green
-
     playbackSlider.setThumbImage(UIImage(named: "sliderThumb"), for: UIControlState())
+
+    update()
+
+    if isNewPlayer {
+      play()
+    }
+    else if isAnotherTrack {
+      stop()
+      play()
+    }
+    else {
+      audioPlayer.startProgressTimer()
+      playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+      startAnimate()
+      stopAnimate()
+    }
   }
 
   func newPlayer() {
@@ -76,7 +91,7 @@ class AudioPlayerController: UIViewController {
     if audioPlayer.player == nil {
       newPlayer()
 
-      reset()
+      update()
     }
 
     audioPlayer.startProgressTimer()
@@ -113,7 +128,7 @@ class AudioPlayerController: UIViewController {
   }
 
   func replay() {
-    reset()
+    update()
 
     pause()
     audioPlayer.seek(toSeconds: 0)
@@ -125,7 +140,7 @@ class AudioPlayerController: UIViewController {
 
     audioPlayer.stop()
 
-    reset()
+    update()
 
     playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
   }
@@ -156,22 +171,22 @@ class AudioPlayerController: UIViewController {
     }
   }
 
-  func tapeBack() {
-    pause()
-
-    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
-
-    audioPlayer.seek(toSeconds: playerPosition - 30)
-
-    play()
-  }
-
-  func tapeForward() {
+  func scrollForward() {
     pause()
 
     let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
 
     audioPlayer.seek(toSeconds: playerPosition + 30)
+
+    play()
+  }
+
+  func scrollBack() {
+    pause()
+
+    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
+
+    audioPlayer.seek(toSeconds: playerPosition - 15)
 
     play()
   }
@@ -225,8 +240,6 @@ class AudioPlayerController: UIViewController {
     let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
 
     audioPlayer.seek(toSeconds: playerPosition)
-
-    play()
   }
 
   func startAnimate() {
@@ -246,26 +259,15 @@ class AudioPlayerController: UIViewController {
   }
 
   func playbackProgressDidChange() {
-    let playerItem = audioPlayer.player?.currentItem
+    if let playerItem = audioPlayer.player?.currentItem {
+      let currentTime = playerItem.currentTime().seconds
+      let duration = playerItem.asset.duration.seconds
 
-    let currentTime = playerItem?.currentTime().seconds
-    let duration = playerItem?.asset.duration.seconds
+      playbackSlider.value =  Float(currentTime / duration)
 
-    let value = Float(currentTime! / duration!)
-    playbackSlider.value = value
-    populateLabelWithTime(currentTimeLabel, time: currentTime!)
-    populateLabelWithTime(durationLabel, time: duration!-currentTime!)
-  }
-
-  func populateLabelWithTime(_ label : UILabel, time: Double) {
-    let minutes = Int(time / 60)
-    let seconds = Int(time) - minutes * 60
-
-    label.text = String(format: "%02d", minutes) + ":" + String(format: "%02d", seconds)
-  }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    stop()
+      currentTimeLabel.text = formatTime(currentTime)
+      durationLabel.text = "-\(formatTime(duration-currentTime))"
+    }
   }
 
   @IBAction func volumeSliderValueChanged() {
@@ -274,6 +276,7 @@ class AudioPlayerController: UIViewController {
 
   @IBAction func playbackSliderValueChanged(_ sender: UISlider) {
     changePlayerPosition()
+    play()
   }
 
   @IBAction func prevAction() {
@@ -296,18 +299,28 @@ class AudioPlayerController: UIViewController {
     stop()
   }
 
-  @IBAction func tapeBack(_ sender: UIButton) {
-    tapeBack()
+  @IBAction func scrollBack(_ sender: UIButton) {
+    scrollBack()
   }
 
-  @IBAction func tapeForward(_ sender: UIButton) {
-    tapeForward()
+  @IBAction func scrollForward(_ sender: UIButton) {
+    scrollForward()
   }
 
-  func reset() {
-    durationLabel.text = "00:00"
-    currentTimeLabel.text = "00:00"
-    playbackSlider.value = 0
+  func update() {
+    if let playerItem = audioPlayer.player?.currentItem {
+      let currentTime = playerItem.currentTime().seconds
+      let duration = playerItem.asset.duration.seconds
+
+      playbackSlider.value =  Float(currentTime / duration)
+      durationLabel.text = "-\(formatTime(duration-currentTime))"
+      currentTimeLabel.text = formatTime(currentTime)
+    }
+    else {
+      playbackSlider.value = 0
+      durationLabel.text = "00:00"
+      currentTimeLabel.text = "00:00"
+    }
   }
 
   // MARK: Handle Notifications
@@ -329,6 +342,18 @@ class AudioPlayerController: UIViewController {
 
     notificationCenter.addObserver(self, selector: #selector(self.handleAVPlayerItemDidPlayToEndTime),
       name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: object)
+  }
+
+  private func getMinutes(_ time: Double) -> Int {
+    return Int(time / 60)
+  }
+
+  private func getSeconds(_ time: Double) -> Int {
+    return Int(time) - getMinutes(time) * 60
+  }
+
+  private func formatTime(_ time: Double) -> String {
+    return String(format: "%02d", getMinutes(time)) + ":" + String(format: "%02d", getSeconds(time))
   }
 
 #endif

@@ -3,13 +3,16 @@ import AVFoundation
 #if os(iOS)
 
 class AudioPlayer: NSObject {
+  static let shared: AudioPlayer = {
+    return AudioPlayer()
+  }()
+
   let audioSession = AVAudioSession.sharedInstance()
 
   var timeObserver: AnyObject!
-  let notificationCenter = NotificationCenter.default
 
   var player: AVPlayer?
-  var currentTrackIndex: Int=0
+  var currentTrackIndex: Int = -1
 
   var timeControlStatus: AVPlayerTimeControlStatus? {
     return player?.timeControlStatus
@@ -21,32 +24,28 @@ class AudioPlayer: NSObject {
 
   var playbackHandler: (() -> Void)?
 
-  var items: [MediaItem]!
-  var selectedItemId: Int
+  var name: String = ""
+  var items: [MediaItem] = []
 
-  init(_ items: [MediaItem], selectedItemId: Int) throws {
-    self.items = items
-    self.selectedItemId = selectedItemId
+  override init() {
+    UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
 
-    currentTrackIndex = selectedItemId
-
-    super.init()
-
-    try self.configure()
-  }
-
-  deinit {
-    if let observer = timeObserver {
-      player?.removeTimeObserver(observer)
+    do {
+      try audioSession.setCategory(AVAudioSessionCategoryPlayback)
+      try audioSession.setMode(AVAudioSessionModeDefault)
+      try audioSession.setActive(true)
+    }
+    catch {
+      print("Cannot initialize audio session.")
     }
   }
 
-  func configure() throws {
-    try audioSession.setCategory(AVAudioSessionCategoryPlayback)
-    try audioSession.setMode(AVAudioSessionModeDefault)
-    try audioSession.setActive(true)
+  deinit {
+    UIApplication.shared.endReceivingRemoteControlEvents()
 
-    UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
+    if let observer = timeObserver {
+      player?.removeTimeObserver(observer)
+    }
   }
 
   func newPlayer() {
@@ -97,18 +96,14 @@ class AudioPlayer: NSObject {
   }
 
   func getPlayerPosition(_ value: Float) -> Int {
-    let duration = player?.currentItem?.asset.duration.seconds
-    let requestedTime = Double(value)
+    if let currentItem = player?.currentItem {
+      let duration = currentItem.asset.duration.seconds
 
-    return Int(requestedTime * duration!)
-  }
-
-  func previousTrack() {
-    currentTrackIndex = currentTrackIndex-1
-  }
-
-  func nextTrack() {
-    currentTrackIndex = currentTrackIndex+1
+      return Int(Double(value) * duration)
+    }
+    else {
+      return 0
+    }
   }
 
   func navigateToNextTrack() -> Bool {

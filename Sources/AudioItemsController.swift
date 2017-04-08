@@ -78,7 +78,6 @@ class AudioItemsController: BaseTableViewController {
       switch identifier {
         case AudioPlayerController.SegueIdentifier:
           if let destination = segue.destination as? AudioPlayerController {
-
             destination.items = items
             destination.parentName = adapter.selectedItem?.name!
             destination.selectedItemId = tableView?.indexPath(for: sender as! UITableViewCell)!.row
