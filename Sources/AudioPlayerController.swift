@@ -1,9 +1,11 @@
 import UIKit
+import AVFoundation
 
 class AudioPlayerController: UIViewController {
   static let SegueIdentifier = "Audio Player"
 
   var items: [MediaItem]!
+
   var selectedItemId: Int!
   var parentName: String!
 
@@ -24,13 +26,16 @@ class AudioPlayerController: UIViewController {
     super.viewDidLoad()
 
     do {
-      audioPlayer = try AudioPlayer(self, items: items, selectedItemId: selectedItemId)
+      audioPlayer = try AudioPlayer(items, selectedItemId: selectedItemId)
+
+      audioPlayer.playbackHandler = playbackProgressDidChange
 
       configureUI()
 
-      UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
+      addNotifications()
 
-      audioPlayer.play()
+      reset()
+      play()
     }
     catch {
       print("Cannot instantiate audio player")
@@ -40,59 +45,290 @@ class AudioPlayerController: UIViewController {
   func configureUI () {
     title = parentName
 
-    resetUI()
-
-    titleLabel.text = items[selectedItemId].name
+    titleLabel.text = audioPlayer.currentMediaItem.name
 
     playbackSlider.tintColor = UIColor.green
 
     playbackSlider.setThumbImage(UIImage(named: "sliderThumb"), for: UIControlState())
   }
 
-  override func viewWillDisappear(_ animated: Bool) {
+  func newPlayer() {
+    audioPlayer.newPlayer()
+
+    if let player = audioPlayer.player {
+      let asset = player.currentItem?.asset
+
+      startAnimate()
+
+      asset?.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
+        DispatchQueue.main.async {
+          self.stopAnimate()
+        }
+      })
+
+      if let currentItem = player.currentItem {
+        removeNotifications(currentItem)
+      }
+    }
+  }
+
+  func play() {
+    if audioPlayer.player == nil {
+      newPlayer()
+
+      reset()
+    }
+
+    audioPlayer.startProgressTimer()
+
+    audioPlayer.play()
+
+    playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+  }
+
+  func pause() {
+    audioPlayer.pause()
+
+    audioPlayer.stopProgressTimer()
+
+    playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+  }
+
+  func togglePlayPause() {
+    if let status = audioPlayer.timeControlStatus {
+      switch status {
+        case .waitingToPlayAtSpecifiedRate:
+          play()
+
+        case .playing:
+          pause()
+
+        case .paused:
+          play()
+      }
+    }
+    else {
+      play()
+    }
+  }
+
+  func replay() {
+    reset()
+
+    pause()
+    audioPlayer.seek(toSeconds: 0)
+    play()
+  }
+
+  func stop() {
+    pause()
+
     audioPlayer.stop()
+
+    reset()
+
+    playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+  }
+
+  func playNext() {
+    if audioPlayer.navigateToNextTrack() {
+      stop()
+
+      titleLabel.text = audioPlayer.currentMediaItem.name
+
+      play()
+    }
+    else {
+      replay()
+    }
+  }
+
+  func playPrevious() {
+    if audioPlayer.navigateToPreviousTrack() {
+      stop()
+
+      titleLabel.text = audioPlayer.currentMediaItem.name
+
+      play()
+    }
+    else {
+      replay()
+    }
+  }
+
+  func tapeBack() {
+    pause()
+
+    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
+
+    audioPlayer.seek(toSeconds: playerPosition - 30)
+
+    play()
+  }
+
+  func tapeForward() {
+    pause()
+
+    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
+
+    audioPlayer.seek(toSeconds: playerPosition + 30)
+
+    play()
+  }
+
+  func handleAVPlayerItemDidPlayToEndTime(notification : Notification) {
+    if audioPlayer.navigateToNextTrack() {
+      stop()
+
+      titleLabel.text = audioPlayer.currentMediaItem.name
+
+      audioPlayer.reset()
+
+      play()
+    }
+    else {
+      stop()
+    }
+  }
+
+  func handleAVPlayerItemPlaybackStalled() {
+    pause()
+
+    play()
+  }
+
+  func handleAVAudioSessionInterruption(_ notification : Notification) {
+    guard let userInfo = notification.userInfo as? [String: AnyObject] else { return }
+
+    guard let rawInterruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as? NSNumber else { return }
+    guard let interruptionType = AVAudioSessionInterruptionType(rawValue: rawInterruptionType.uintValue) else { return }
+
+    switch interruptionType {
+    case .began: //interruption started
+      self.pause()
+
+    case .ended: //interruption ended
+      if let rawInterruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
+        let interruptionOption = AVAudioSessionInterruptionOptions(rawValue: rawInterruptionOption.uintValue)
+        if interruptionOption == AVAudioSessionInterruptionOptions.shouldResume {
+          self.togglePlayPause()
+        }
+      }
+    }
+  }
+
+  func changeVolume(_ volume: Float) {
+    audioPlayer.changeVolume(volume)
+  }
+
+  func changePlayerPosition() {
+    let playerPosition = audioPlayer.getPlayerPosition(playbackSlider.value)
+
+    audioPlayer.seek(toSeconds: playerPosition)
+
+    play()
+  }
+
+  func startAnimate() {
+    UIView.animate(withDuration: 0.3, animations: { [unowned self] () -> Void in
+      self.indicator.alpha = 1
+      self.playPauseButton.alpha = 0
+      self.playPauseButton.isEnabled = false
+    })
+  }
+
+  func stopAnimate() {
+    UIView.animate(withDuration: 0.3, animations: { [unowned self] () -> Void in
+      self.indicator.alpha = 0
+      self.playPauseButton.alpha = 1
+      self.playPauseButton.isEnabled = true
+    })
+  }
+
+  func playbackProgressDidChange() {
+    let playerItem = audioPlayer.player?.currentItem
+
+    let currentTime = playerItem?.currentTime().seconds
+    let duration = playerItem?.asset.duration.seconds
+
+    let value = Float(currentTime! / duration!)
+    playbackSlider.value = value
+    populateLabelWithTime(currentTimeLabel, time: currentTime!)
+    populateLabelWithTime(durationLabel, time: duration!-currentTime!)
+  }
+
+  func populateLabelWithTime(_ label : UILabel, time: Double) {
+    let minutes = Int(time / 60)
+    let seconds = Int(time) - minutes * 60
+
+    label.text = String(format: "%02d", minutes) + ":" + String(format: "%02d", seconds)
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    stop()
   }
 
   @IBAction func volumeSliderValueChanged() {
-    audioPlayer.changeVolume(volumeSlider.value)
+    changeVolume(volumeSlider.value)
   }
 
   @IBAction func playbackSliderValueChanged(_ sender: UISlider) {
-    audioPlayer.changePlayerPosition()
+    changePlayerPosition()
   }
 
   @IBAction func prevAction() {
-    audioPlayer.playPrevious()
+    playPrevious()
   }
 
   @IBAction func nextAction() {
-    audioPlayer.playNext()
+    playNext()
   }
 
   @IBAction func playPauseAction(_ sender: AnyObject) {
-    audioPlayer.togglePlayPause()
+    togglePlayPause()
   }
 
   @IBAction func replayAction() {
-    audioPlayer.replay()
+    replay()
   }
 
   @IBAction func stopAction(_ sender: UIButton) {
-    audioPlayer.stop()
+    stop()
   }
 
   @IBAction func tapeBack(_ sender: UIButton) {
-    audioPlayer.tapeBack()
+    tapeBack()
   }
 
   @IBAction func tapeForward(_ sender: UIButton) {
-    audioPlayer.tapeForward()
+    tapeForward()
   }
 
-  func resetUI() {
+  func reset() {
     durationLabel.text = "00:00"
     currentTimeLabel.text = "00:00"
     playbackSlider.value = 0
+  }
+
+  // MARK: Handle Notifications
+
+  func addNotifications() {
+    let notificationCenter = NotificationCenter.default
+
+    notificationCenter.addObserver(self, selector: #selector(self.handleAVPlayerItemPlaybackStalled),
+      name: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil)
+
+    notificationCenter.addObserver(self, selector: #selector(self.handleAVAudioSessionInterruption),
+      name: NSNotification.Name.AVAudioSessionInterruption, object: AVAudioSession.sharedInstance())
+  }
+
+  func removeNotifications(_ object: Any) {
+    let notificationCenter = NotificationCenter.default
+
+    notificationCenter.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: object)
+
+    notificationCenter.addObserver(self, selector: #selector(self.handleAVPlayerItemDidPlayToEndTime),
+      name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: object)
   }
 
 #endif
@@ -107,19 +343,19 @@ extension AudioPlayerController {
     if event?.type == .remoteControl {
       switch event!.subtype {
         case .remoteControlPlay:
-          audioPlayer.play()
+          play()
 
         case .remoteControlPause:
-          audioPlayer.pause()
+          pause()
 
         case .remoteControlNextTrack:
-          audioPlayer.playNext()
+          playNext()
 
         case .remoteControlPreviousTrack:
-          audioPlayer.playPrevious()
+          playPrevious()
 
         case .remoteControlTogglePlayPause:
-          audioPlayer.togglePlayPause()
+          togglePlayPause()
 
         default:
           break

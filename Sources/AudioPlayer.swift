@@ -3,27 +3,42 @@ import AVFoundation
 #if os(iOS)
 
 class AudioPlayer: NSObject {
-  let notificationCenter = NotificationCenter.default
   let audioSession = AVAudioSession.sharedInstance()
 
-  var player: AVPlayer?
   var timeObserver: AnyObject!
-  var backgroundIdentifier = UIBackgroundTaskInvalid
+  let notificationCenter = NotificationCenter.default
+
+  var player: AVPlayer?
   var currentTrackIndex: Int=0
 
-  var currentItem: AVPlayerItem?
+  var timeControlStatus: AVPlayerTimeControlStatus? {
+    return player?.timeControlStatus
+  }
 
-  var playerUI: AudioPlayerController!
+  var currentMediaItem: MediaItem {
+    return items[currentTrackIndex]
+  }
+
+  var playbackHandler: (() -> Void)?
+
   var items: [MediaItem]!
+  var selectedItemId: Int
 
-  init(_ playerUI: AudioPlayerController, items: [MediaItem], selectedItemId: Int) throws {
+  init(_ items: [MediaItem], selectedItemId: Int) throws {
+    self.items = items
+    self.selectedItemId = selectedItemId
+
+    currentTrackIndex = selectedItemId
+
     super.init()
 
-    self.playerUI = playerUI
-    self.items = items
-    self.currentTrackIndex = selectedItemId
-
     try self.configure()
+  }
+
+  deinit {
+    if let observer = timeObserver {
+      player?.removeTimeObserver(observer)
+    }
   }
 
   func configure() throws {
@@ -31,49 +46,24 @@ class AudioPlayer: NSObject {
     try audioSession.setMode(AVAudioSessionModeDefault)
     try audioSession.setActive(true)
 
-    notificationCenter.addObserver(self, selector: #selector(handleAVPlayerItemPlaybackStalled),
-      name: NSNotification.Name.AVPlayerItemPlaybackStalled, object: nil)
-
-    notificationCenter.addObserver(self, selector: #selector(handleAVAudioSessionInterruption),
-      name: NSNotification.Name.AVAudioSessionInterruption, object: AVAudioSession.sharedInstance())
+    UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
   }
 
-  deinit {
-    player!.removeTimeObserver(timeObserver)
-  }
-
-  func newPlayer() -> AVPlayer? {
-    var player: AVPlayer?
-
+  func newPlayer() {
     let path = items[currentTrackIndex].id!
 
     if let audioPath = getMediaUrl(path: path) {
-      //let asset = AVAsset(url: audioPath)
       let asset = AVURLAsset(url: audioPath, options: nil)
-
-      startAnimate()
 
       let playerItem = AVPlayerItem(asset: asset)
 
-      asset.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
-        DispatchQueue.main.async {
-          self.stopAnimate()
-        }
-      })
-
-      if currentItem != nil {
-        notificationCenter.removeObserver(self, name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
-      }
-
-      currentItem = playerItem
-
-      notificationCenter.addObserver(self, selector: #selector(self.handleAVPlayerItemDidPlayToEndTime(_:)),
-        name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: playerItem)
-
       player = AVPlayer(playerItem: playerItem)
-    }
 
-    return player
+      startBackgroundTask()
+    }
+    else {
+      reset()
+    }
   }
 
   func seek(toSeconds seconds: Int) {
@@ -84,232 +74,101 @@ class AudioPlayer: NSObject {
     return player?.timeControlStatus == .playing
   }
 
-  func togglePlayPause() {
-    if let status = player?.timeControlStatus {
-      switch status {
-        case .waitingToPlayAtSpecifiedRate:
-          play()
-
-        case .playing:
-          pause()
-
-        case .paused:
-          play()
-      }
-    }
-    else {
-      play()
-    }
-  }
-
   func play() {
-    if player == nil {
-      player = newPlayer()
-
-      playerUI.resetUI()
-
-      backgroundIdentifier = UIApplication.shared.beginBackgroundTask (expirationHandler: { () -> Void in
-        UIApplication.shared.endBackgroundTask(self.backgroundIdentifier)
-        self.backgroundIdentifier = UIBackgroundTaskInvalid
-      })
-    }
-
-    startProgressTimer(player!)
-
     player?.play()
-
-    playerUI.playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
   }
 
   func pause() {
-    if let player = player {
-      stopProgressTimer(player)
-
-      player.pause()
-
-      playerUI.playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
-    }
-  }
-
-  func replay() {
-    playerUI.resetUI()
-
-    pause()
-    seek(toSeconds: 0)
-    play()
+    player?.pause()
   }
 
   func stop() {
-    pause()
+    reset()
 
+    stopBackgroundTask()
+  }
+
+  func reset() {
     player = nil
-
-    UIApplication.shared.endBackgroundTask(backgroundIdentifier)
-    backgroundIdentifier = UIBackgroundTaskInvalid
-
-    playerUI.resetUI()
-
-    playerUI.playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
-  }
-
-  func playNext() {
-    if currentTrackIndex < items.count-1 {
-      stop()
-
-      currentTrackIndex = currentTrackIndex+1
-
-      playerUI.titleLabel.text = items[currentTrackIndex].name
-
-      play()
-    }
-  }
-
-  func playPrevious() {
-    //    if let time = player.currentItem?.currentTime, time > 5.0 || player.playIndex == 0 {
-//      player.replayCurrentItem()
-//    }
-    if currentTrackIndex > 0 {
-      stop()
-
-      currentTrackIndex = currentTrackIndex-1
-
-      playerUI.titleLabel.text = items[currentTrackIndex].name
-
-      play()
-    }
-    else {
-      replay()
-    }
-  }
-
-  func tapeBack() {
-    pause()
-    seek(toSeconds: getPlayerPosition()-30)
-    play()
-  }
-
-  func tapeForward() {
-    pause()
-    seek(toSeconds: getPlayerPosition()+30)
-    play()
-  }
-
-  func handleAVPlayerItemDidPlayToEndTime(_ notification : Notification) {
-    if currentTrackIndex >= items.count-1 {
-      stop()
-    }
-    else {
-      currentTrackIndex = currentTrackIndex + 1
-
-      playerUI.titleLabel.text = items[currentTrackIndex].name
-      player = nil
-
-      play()
-    }
-  }
-
-  func handleAVPlayerItemPlaybackStalled() {
-    pause()
-
-    play()
-  }
-
-  func handleAVAudioSessionInterruption(_ notification : Notification) {
-    guard let userInfo = notification.userInfo as? [String: AnyObject] else { return }
-
-    guard let rawInterruptionType = userInfo[AVAudioSessionInterruptionTypeKey] as? NSNumber else { return }
-    guard let interruptionType = AVAudioSessionInterruptionType(rawValue: rawInterruptionType.uintValue) else { return }
-
-    switch interruptionType {
-      case .began: //interruption started
-        self.pause()
-
-      case .ended: //interruption ended
-        if let rawInterruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
-          let interruptionOption = AVAudioSessionInterruptionOptions(rawValue: rawInterruptionOption.uintValue)
-          if interruptionOption == AVAudioSessionInterruptionOptions.shouldResume {
-            self.togglePlayPause()
-          }
-        }
-    }
   }
 
   func changeVolume(_ volume: Float) {
     player?.volume = volume
   }
 
-  // MARK: Progress tracking
-
-  func startProgressTimer(_ player: AVPlayer) {
-    guard player.currentItem?.duration.isValid == true else {
-      return
-    }
-
-    let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
-
-    timeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval,
-      queue: DispatchQueue.main) { (elapsedTime: CMTime) -> Void in
-
-      //print("elapsedTime now:", CMTimeGetSeconds(elapsedTime))
-      self.playbackProgressDidChange()
-    } as AnyObject
-  }
-
-  func stopProgressTimer(_ player: AVPlayer) {
-    //print("stopProgressTimer")
-
-    guard let observer = timeObserver else {
-      return
-    }
-
-    player.removeTimeObserver(observer)
-    timeObserver = nil
-  }
-
-  func changePlayerPosition() {
-    seek(toSeconds: getPlayerPosition())
-
-    play()
-  }
-
-  func getPlayerPosition() -> Int {
-    let duration = currentItem?.asset.duration.seconds
-    let requestedTime = Double(playerUI.playbackSlider.value)
+  func getPlayerPosition(_ value: Float) -> Int {
+    let duration = player?.currentItem?.asset.duration.seconds
+    let requestedTime = Double(value)
 
     return Int(requestedTime * duration!)
   }
 
-  func startAnimate() {
-     UIView.animate(withDuration: 0.3, animations: { [unowned self] () -> Void in
-      self.playerUI.indicator.alpha = 1
-      self.playerUI.playPauseButton.alpha = 0
-      self.playerUI.playPauseButton.isEnabled = false
+  func previousTrack() {
+    currentTrackIndex = currentTrackIndex-1
+  }
+
+  func nextTrack() {
+    currentTrackIndex = currentTrackIndex+1
+  }
+
+  func navigateToNextTrack() -> Bool {
+    if currentTrackIndex < items.count-1 {
+      currentTrackIndex = currentTrackIndex+1
+
+      return true
+    }
+
+    return false
+  }
+
+  func navigateToPreviousTrack() -> Bool {
+    if currentTrackIndex > 0 {
+      currentTrackIndex = currentTrackIndex-1
+
+      return true
+    }
+
+    return false
+  }
+
+  // MARK: Progress tracking
+
+  func startProgressTimer() {
+    if let playbackHandler = playbackHandler {
+      if player?.currentItem?.duration.isValid == true {
+        let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
+
+        timeObserver = player?.addPeriodicTimeObserver(forInterval: timeInterval,
+          queue: DispatchQueue.main) { (elapsedTime: CMTime) -> Void in
+
+          playbackHandler()
+        } as AnyObject
+      }
+    }
+  }
+
+  func stopProgressTimer() {
+    if let observer = timeObserver {
+      player?.removeTimeObserver(observer)
+
+      timeObserver = nil
+    }
+  }
+
+  // MARK: Background task
+
+  var backgroundIdentifier = UIBackgroundTaskInvalid
+
+  func startBackgroundTask() {
+    backgroundIdentifier = UIApplication.shared.beginBackgroundTask (expirationHandler: { () -> Void in
+      UIApplication.shared.endBackgroundTask(self.backgroundIdentifier)
+      self.backgroundIdentifier = UIBackgroundTaskInvalid
     })
   }
 
-  func stopAnimate() {
-    UIView.animate(withDuration: 0.3, animations: { [unowned self] () -> Void in
-      self.playerUI.indicator.alpha = 0
-      self.playerUI.playPauseButton.alpha = 1
-      self.playerUI.playPauseButton.isEnabled = true
-    })
-  }
-
-  func playbackProgressDidChange() {
-    let currentTime = currentItem?.currentTime().seconds
-    let duration = currentItem?.asset.duration.seconds
-
-    let value = Float(currentTime! / duration!)
-    playerUI.playbackSlider.value = value
-    populateLabelWithTime(playerUI.currentTimeLabel, time: currentTime!)
-    populateLabelWithTime(playerUI.durationLabel, time: duration!-currentTime!)
-  }
-
-  func populateLabelWithTime(_ label : UILabel, time: Double) {
-    let minutes = Int(time / 60)
-    let seconds = Int(time) - minutes * 60
-
-    label.text = String(format: "%02d", minutes) + ":" + String(format: "%02d", seconds)
+  func stopBackgroundTask() {
+    UIApplication.shared.endBackgroundTask(backgroundIdentifier)
+    backgroundIdentifier = UIBackgroundTaskInvalid
   }
 
   private func getMediaUrl(path: String) -> URL? {
