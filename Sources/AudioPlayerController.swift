@@ -6,6 +6,7 @@ class AudioPlayerController: UIViewController {
   static let SegueIdentifier = "Audio Player"
 
   var parentName: String!
+  var coverImageUrl: String!
   var items: [MediaItem]!
   var selectedItemId: Int!
 
@@ -421,9 +422,9 @@ extension AudioPlayerController {
 //        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album as AnyObject?
 //      }
 
-//      if let img = currentItem?.meta.artwork {
-//        nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: img)
-//      }
+        if let img = UIImage(data: NSData(contentsOf: NSURL(string: coverImageUrl)! as URL)! as Data) {
+          nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: img)
+        }
 
         defaultNowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
       }

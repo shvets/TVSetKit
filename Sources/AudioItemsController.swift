@@ -80,6 +80,7 @@ class AudioItemsController: BaseTableViewController {
           if let destination = segue.destination as? AudioPlayerController {
             destination.items = items
             destination.parentName = adapter.selectedItem?.name!
+            destination.coverImageUrl = adapter.selectedItem?.thumb!
             destination.selectedItemId = tableView?.indexPath(for: sender as! UITableViewCell)!.row
           }
 
