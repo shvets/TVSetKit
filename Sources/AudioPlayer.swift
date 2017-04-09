@@ -4,16 +4,19 @@ import AVFoundation
 
 class AudioPlayer: NSObject {
   static let shared: AudioPlayer = {
-    return AudioPlayer()
+    let player = AudioPlayer()
+
+    player.load()
+
+    return player
   }()
+
+  static let audioPlayerSettingsFileName = NSHomeDirectory() + "/Library/Caches/audio-player-settings.json"
+  lazy var audioPlayerSettings = FileStorage(audioPlayerSettingsFileName)
 
   let audioSession = AVAudioSession.sharedInstance()
 
   var timeObserver: AnyObject!
-
-  var player: AVPlayer?
-  var currentTrackIndex: Int = -1
-  var currentSongPosition: Float = -1
 
   var timeControlStatus: AVPlayerTimeControlStatus? {
     return player?.timeControlStatus
@@ -23,10 +26,13 @@ class AudioPlayer: NSObject {
     return items[currentTrackIndex]
   }
 
-  var playbackHandler: (() -> Float)?
-
-  var name: String = ""
+  var player: AVPlayer?
+  var currentBookId: String = ""
+  var currentTrackIndex: Int = -1
+  var currentSongPosition: Float = -1
   var items: [MediaItem] = []
+
+  var playbackHandler: (() -> Float)?
 
   override init() {
     UIApplication.shared.beginReceivingRemoteControlEvents() // begin receiving remote events
@@ -166,6 +172,30 @@ class AudioPlayer: NSObject {
   func stopBackgroundTask() {
     UIApplication.shared.endBackgroundTask(backgroundIdentifier)
     backgroundIdentifier = UIBackgroundTaskInvalid
+  }
+
+  func load() {
+    audioPlayerSettings.load()
+
+    if let value = audioPlayerSettings.items["currentBookId"] {
+      currentBookId = value as! String
+    }
+
+    if let value = audioPlayerSettings.items["currentTrackIndex"] {
+      currentTrackIndex = (value as AnyObject).integerValue
+    }
+
+    if let value = audioPlayerSettings.items["currentSongPosition"] {
+      currentSongPosition = (value as AnyObject).floatValue
+    }
+  }
+
+  func save() {
+    audioPlayerSettings.add(key: "currentBookId", value: currentBookId)
+    audioPlayerSettings.add(key: "currentTrackIndex", value: currentTrackIndex)
+    audioPlayerSettings.add(key: "currentSongPosition", value: currentSongPosition)
+
+    audioPlayerSettings.save()
   }
 
   private func getMediaUrl(path: String) -> URL? {

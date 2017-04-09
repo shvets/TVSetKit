@@ -7,6 +7,8 @@ class AudioItemsController: BaseTableViewController {
 
   override open var CellIdentifier: String { return "AudioItemCell" }
 
+  var loaded = false
+
 #if os(iOS)
 
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
@@ -34,7 +36,40 @@ class AudioItemsController: BaseTableViewController {
       adapter?.addHistoryItem(adapter.selectedItem!)
     }
   }
-  
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    if loaded {
+      let currentTrackIndex = AudioPlayer.shared.currentTrackIndex
+
+      if isSameBook() && currentTrackIndex != -1 {
+        let indexPath = IndexPath(row: currentTrackIndex, section: 0)
+        tableView?.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+      }
+    }
+  }
+
+  func isSameBook() -> Bool {
+    return adapter.selectedItem?.id! == AudioPlayer.shared.currentBookId
+  }
+
+  func isSameTrack(_ row: Int) -> Bool {
+    let currentTrackIndex = AudioPlayer.shared.currentTrackIndex
+
+    return currentTrackIndex != -1 && row == currentTrackIndex
+  }
+
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if isSameBook() && isSameTrack(indexPath.row) {
+      cell.setSelected(true, animated: true)
+      //loaded = true
+    }
+    else if cell.isSelected {
+      cell.setSelected(false, animated: true)
+    }
+  }
+
   // MARK: - Table view data source
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -51,6 +86,8 @@ class AudioItemsController: BaseTableViewController {
 #if os(tvOS)
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 #endif
+
+    loaded = true
 
     return cell
   }
@@ -81,6 +118,7 @@ class AudioItemsController: BaseTableViewController {
             destination.items = items
             destination.parentName = adapter.selectedItem?.name!
             destination.coverImageUrl = adapter.selectedItem?.thumb!
+            destination.bookId = adapter.selectedItem?.id!
             destination.selectedItemId = tableView?.indexPath(for: sender as! UITableViewCell)!.row
           }
 

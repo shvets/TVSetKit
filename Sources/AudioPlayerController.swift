@@ -7,6 +7,7 @@ class AudioPlayerController: UIViewController {
 
   var parentName: String!
   var coverImageUrl: String!
+  var bookId: String!
   var items: [MediaItem]!
   var selectedItemId: Int!
 
@@ -28,11 +29,6 @@ class AudioPlayerController: UIViewController {
 
     addNotifications()
 
-    if audioPlayer.name != parentName {
-      audioPlayer.name = parentName
-      audioPlayer.items = items
-    }
-
     if audioPlayer.playbackHandler != nil {
       audioPlayer.playbackHandler = nil
     }
@@ -40,12 +36,24 @@ class AudioPlayerController: UIViewController {
 
     handleRemoteCenter()
 
-    let isAnotherTrack = (audioPlayer.currentTrackIndex != selectedItemId)
-    let isNewPlayer = (audioPlayer.currentTrackIndex == -1)
+    audioPlayer.items = items
 
-    if isAnotherTrack {
-      audioPlayer.currentTrackIndex = selectedItemId
+    let isAnotherBook = audioPlayer.currentBookId != bookId
+    let isAnotherTrack = audioPlayer.currentTrackIndex != selectedItemId
+    let isNewPlayer = audioPlayer.currentTrackIndex == -1
+
+    if isAnotherBook {
+      audioPlayer.currentBookId = bookId
     }
+
+    audioPlayer.currentTrackIndex = selectedItemId
+
+    if isAnotherBook || isAnotherTrack {
+      audioPlayer.currentTrackIndex = selectedItemId
+      audioPlayer.currentSongPosition = -1
+    }
+
+    audioPlayer.save()
 
     title = parentName
 
@@ -57,28 +65,67 @@ class AudioPlayerController: UIViewController {
     update()
 
     if isNewPlayer {
-      play()
+      let currentSongPosition = audioPlayer.currentSongPosition
+
+      var seconds = 0
+
+      if currentSongPosition != -1 {
+        seconds = audioPlayer.getPlayerPosition(currentSongPosition)
+      }
+
+      play(createNewPlayer: true, toSeconds: seconds)
+    }
+    else if isAnotherTrack {
+      stop()
+
+      play(createNewPlayer: true)
+    }
+    else if isAnotherBook {
+      stop()
+
+      let currentSongPosition = audioPlayer.currentSongPosition
+
+      var seconds = 0
+
+      if currentSongPosition != -1 {
+        seconds = audioPlayer.getPlayerPosition(currentSongPosition)
+      }
+
+      play(createNewPlayer: true, toSeconds: seconds)
     }
     else {
-//      let currentSongPosition = audioPlayer.currentSongPosition
-//
-//      if currentSongPosition != -1 {
-//        let playerPosition = audioPlayer.getPlayerPosition(currentSongPosition)
-//
-//        audioPlayer.seek(toSeconds: playerPosition)
-//      }
+      if audioPlayer.timeControlStatus != .playing {
+        newPlayer()
 
-      if isAnotherTrack {
-        stop()
-        play()
+        let currentSongPosition = audioPlayer.currentSongPosition
+
+        var seconds = 0
+
+        if currentSongPosition != -1 {
+          seconds = audioPlayer.getPlayerPosition(currentSongPosition)
+        }
+
+        audioPlayer.seek(toSeconds: seconds)
+
+        update()
+
+        audioPlayer.startProgressTimer()
+
+        audioPlayer.play()
+
+        playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
       }
       else {
-        audioPlayer.startProgressTimer()
-        playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
         startAnimate()
         stopAnimate()
       }
     }
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+
+    audioPlayer.save()
   }
 
   func newPlayer() {
@@ -103,9 +150,11 @@ class AudioPlayerController: UIViewController {
     }
   }
 
-  func play() {
-    if audioPlayer.player == nil {
+  func play(createNewPlayer: Bool=false, toSeconds: Int=0) {
+    if audioPlayer.player == nil || createNewPlayer {
       newPlayer()
+
+      audioPlayer.seek(toSeconds: toSeconds)
 
       update()
     }
@@ -120,7 +169,7 @@ class AudioPlayerController: UIViewController {
   func pause() {
     audioPlayer.pause()
 
-    //audioPlayer.stopProgressTimer()
+    audioPlayer.stopProgressTimer()
 
     playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
   }
@@ -383,6 +432,8 @@ class AudioPlayerController: UIViewController {
 
 }
 
+#if os(iOS)
+
 extension AudioPlayerController {
   // MARK: MPNowPlayingInfoCenter
 
@@ -530,6 +581,8 @@ extension AudioPlayerController {
     return .success
   }
 }
+
+#endif
 
 //extension AudioPlayerController {
 //  override func remoteControlReceived(with event: UIEvent?) {
