@@ -95,6 +95,8 @@ class AudioPlayerController: UIViewController {
     }
     else {
       if audioPlayer.timeControlStatus != .playing {
+        //let playerIsPlaying = avPlayer.rate > 0
+
         newPlayer()
 
         let currentSongPosition = audioPlayer.currentSongPosition
@@ -118,6 +120,7 @@ class AudioPlayerController: UIViewController {
       else {
         startAnimate()
         stopAnimate()
+        audioPlayer.startProgressTimer()
       }
     }
   }

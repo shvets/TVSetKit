@@ -19,8 +19,6 @@ class AudioItemsController: BaseTableViewController {
     )
   }
 
-//  var currentTrack: String?
-
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -63,7 +61,6 @@ class AudioItemsController: BaseTableViewController {
   override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if isSameBook() && isSameTrack(indexPath.row) {
       cell.setSelected(true, animated: true)
-      //loaded = true
     }
     else if cell.isSelected {
       cell.setSelected(false, animated: true)

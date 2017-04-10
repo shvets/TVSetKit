@@ -64,6 +64,7 @@ class AudioPlayer: NSObject {
       let playerItem = AVPlayerItem(asset: asset)
 
       player = AVPlayer(playerItem: playerItem)
+      //avPlayer.replaceCurrentItemWithPlayerItem(playerItem)
 
       startBackgroundTask()
     }
