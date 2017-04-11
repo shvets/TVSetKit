@@ -11,6 +11,13 @@ class AudioPlayer: NSObject {
     return player
   }()
 
+  public enum Status: Int {
+    case ready = 1
+    case playing
+    case paused
+    case loading
+  }
+
   static let audioPlayerSettingsFileName = NSHomeDirectory() + "/Library/Caches/audio-player-settings.json"
   lazy var audioPlayerSettings = FileStorage(audioPlayerSettingsFileName)
 
@@ -18,15 +25,13 @@ class AudioPlayer: NSObject {
 
   var timeObserver: AnyObject!
 
-  var timeControlStatus: AVPlayerTimeControlStatus? {
-    return player.timeControlStatus
-  }
-
   var currentMediaItem: MediaItem {
     return items[currentTrackIndex]
   }
 
   var player = AVPlayer()
+  var status = Status.ready
+
   var currentBookId: String = ""
   var currentTrackIndex: Int = -1
   var currentSongPosition: Float = -1
@@ -76,15 +81,13 @@ class AudioPlayer: NSObject {
     player.seek(to: CMTimeMake(Int64(seconds), 1))
   }
 
-  func isPlaying() -> Bool {
-    return player.timeControlStatus == .playing
-  }
-
   func play() {
+    status = Status.playing
     player.play()
   }
 
   func pause() {
+    status = Status.paused
     player.pause()
   }
 
@@ -92,6 +95,8 @@ class AudioPlayer: NSObject {
     reset()
 
     stopBackgroundTask()
+
+    status = Status.ready
   }
 
   func reset() {

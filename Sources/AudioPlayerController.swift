@@ -64,49 +64,67 @@ class AudioPlayerController: UIViewController {
 
     update()
 
+    if audioPlayer.player.timeControlStatus == .playing {
+      audioPlayer.status = .playing
+    }
+
     if isNewPlayer {
-      play(createNewPlayer: true)
+      createNewPlayer()
+      play()
     }
     else if !isAnotherBook && isAnotherTrack {
       stop()
 
-      play(createNewPlayer: true)
+      createNewPlayer()
+      play()
     }
     else if isAnotherBook {
       stop()
 
-      play(createNewPlayer: true)
+      createNewPlayer()
+      play()
     }
     else {
-      if audioPlayer.timeControlStatus == .playing {
-        // playerIsPlaying = audioPlayer.player.rate > 0
-        startAnimate()
-        stopAnimate()
-        audioPlayer.startProgressTimer()
-        playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
-      }
-      else {
-        newPlayer()
-
+      if audioPlayer.status == .ready {
         let currentSongPosition = audioPlayer.currentSongPosition
 
-        var seconds = 0
+        createNewPlayer()
 
-        if currentSongPosition != -1 {
-          seconds = audioPlayer.getPlayerPosition(currentSongPosition)
+        var seconds = getPlayedSeconds(currentSongPosition)
+
+        if seconds > 5 {
+          seconds = seconds - 5
         }
 
         audioPlayer.seek(toSeconds: seconds)
 
         update()
 
+        play()
+      }
+      else if audioPlayer.status == .paused {
+        startAnimate()
+        stopAnimate()
         audioPlayer.startProgressTimer()
-
-        audioPlayer.play()
-
+        playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+      }
+      else {
+        startAnimate()
+        stopAnimate()
+        audioPlayer.startProgressTimer()
         playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
       }
     }
+  }
+
+  func getPlayedSeconds(_ songPosition: Float) -> Int {
+    var seconds = 0
+
+    if songPosition != -1 {
+      seconds = audioPlayer.getPlayerPosition(songPosition)
+    }
+
+    return seconds
   }
 
   override func viewWillDisappear(_ animated: Bool) {
@@ -116,42 +134,34 @@ class AudioPlayerController: UIViewController {
   }
 
   func createNewPlayer(toSeconds: Int=0) {
-    newPlayer()
-
-    audioPlayer.seek(toSeconds: toSeconds)
-
-    update()
-  }
-
-  func newPlayer() {
     audioPlayer.newPlayer()
 
     let asset = audioPlayer.player.currentItem?.asset
 
     startAnimate()
 
+    audioPlayer.status = AudioPlayer.Status.loading
+
     asset?.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
       DispatchQueue.main.async { [unowned self] in
         self.stopAnimate()
 
         self.updateNowPlayingInfoCenter()
+
+        self.audioPlayer.status = AudioPlayer.Status.ready
       }
     })
 
     if let currentItem = audioPlayer.player.currentItem {
       removeNotifications(currentItem)
     }
+
+    audioPlayer.seek(toSeconds: toSeconds)
+
+    update()
   }
 
-  func play(createNewPlayer: Bool=false, toSeconds: Int=0) {
-    if createNewPlayer {
-      newPlayer()
-
-      audioPlayer.seek(toSeconds: toSeconds)
-
-      update()
-    }
-
+  func play() {
     audioPlayer.startProgressTimer()
 
     audioPlayer.play()
@@ -168,20 +178,17 @@ class AudioPlayerController: UIViewController {
   }
 
   func togglePlayPause() {
-    if let status = audioPlayer.timeControlStatus {
-      switch status {
-        case .waitingToPlayAtSpecifiedRate:
-          play()
+    let status = audioPlayer.player.timeControlStatus
 
-        case .playing:
-          pause()
+    switch status {
+      case .waitingToPlayAtSpecifiedRate:
+        play()
 
-        case .paused:
-          play()
-      }
-    }
-    else {
-      play()
+      case .playing:
+        pause()
+
+      case .paused:
+        play()
     }
   }
 
@@ -209,7 +216,8 @@ class AudioPlayerController: UIViewController {
 
       titleLabel.text = audioPlayer.currentMediaItem.name
 
-      play(createNewPlayer: true)
+      createNewPlayer()
+      play()
     }
     else {
       replay()
@@ -222,7 +230,8 @@ class AudioPlayerController: UIViewController {
 
       titleLabel.text = audioPlayer.currentMediaItem.name
 
-      play(createNewPlayer: true)
+      createNewPlayer()
+      play()
     }
     else {
       replay()
@@ -257,7 +266,8 @@ class AudioPlayerController: UIViewController {
 
       audioPlayer.reset()
 
-      play(createNewPlayer: true)
+      createNewPlayer()
+      play()
     }
     else {
       stop()
@@ -277,16 +287,16 @@ class AudioPlayerController: UIViewController {
     guard let interruptionType = AVAudioSessionInterruptionType(rawValue: rawInterruptionType.uintValue) else { return }
 
     switch interruptionType {
-    case .began: //interruption started
-      self.pause()
+      case .began: //interruption started
+        self.pause()
 
-    case .ended: //interruption ended
-      if let rawInterruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
-        let interruptionOption = AVAudioSessionInterruptionOptions(rawValue: rawInterruptionOption.uintValue)
-        if interruptionOption == AVAudioSessionInterruptionOptions.shouldResume {
-          self.togglePlayPause()
+      case .ended: //interruption ended
+        if let rawInterruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
+          let interruptionOption = AVAudioSessionInterruptionOptions(rawValue: rawInterruptionOption.uintValue)
+          if interruptionOption == AVAudioSessionInterruptionOptions.shouldResume {
+            self.togglePlayPause()
+          }
         }
-      }
     }
   }
 
@@ -466,8 +476,10 @@ extension AudioPlayerController {
 //        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = album as AnyObject?
 //      }
 
-        if let img = UIImage(data: NSData(contentsOf: NSURL(string: coverImageUrl)! as URL)! as Data) {
-          nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: img)
+        if let url = NSURL(string: coverImageUrl),
+           let data = NSData(contentsOf: url as URL),
+           let image = UIImage(data: data as Data) {
+          nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(image: image)
         }
 
         defaultNowPlayingInfoCenter.nowPlayingInfo = nowPlayingInfo
@@ -494,17 +506,17 @@ extension AudioPlayerController {
       rcc.previousTrackCommand.removeTarget(nil)
       rcc.nextTrackCommand.removeTarget(nil)
 
-      rcc.togglePlayPauseCommand.addTarget(self, action: #selector(doPlayPause))
-      rcc.playCommand.addTarget(self, action:#selector(doPlayPause))
-      rcc.pauseCommand.addTarget(self, action:#selector(doPlayPause))
+      rcc.togglePlayPauseCommand.addTarget(self, action: #selector(self.doPlayPause))
+      rcc.playCommand.addTarget(self, action:#selector(self.doPlayPause))
+      rcc.pauseCommand.addTarget(self, action:#selector(self.doPlayPause))
 
 //      rcc.skipBackwardCommand.addTarget(self, action:#selector(doSkipBackward))
 //      rcc.skipForwardCommand.addTarget(self, action:#selector(doSkipForward))
 
-      rcc.previousTrackCommand.addTarget(self, action:#selector(doPreviousTrack))
-      rcc.nextTrackCommand.addTarget(self, action:#selector(doNextTrack))
+      rcc.previousTrackCommand.addTarget(self, action:#selector(self.doPreviousTrack))
+      rcc.nextTrackCommand.addTarget(self, action:#selector(self.doNextTrack))
 
-      rcc.changePlaybackPositionCommand.addTarget(self, action:#selector(doPlaybackSliderValueChanged))
+      rcc.changePlaybackPositionCommand.addTarget(self, action:#selector(self.doPlaybackSliderValueChanged))
 
       //delay(1) { // we somehow get disabled after removing our player v.c.
         //rcc.togglePlayPauseCommand.isEnabled = true
