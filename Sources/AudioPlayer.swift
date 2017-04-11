@@ -19,14 +19,14 @@ class AudioPlayer: NSObject {
   var timeObserver: AnyObject!
 
   var timeControlStatus: AVPlayerTimeControlStatus? {
-    return player?.timeControlStatus
+    return player.timeControlStatus
   }
 
   var currentMediaItem: MediaItem {
     return items[currentTrackIndex]
   }
 
-  var player: AVPlayer?
+  var player = AVPlayer()
   var currentBookId: String = ""
   var currentTrackIndex: Int = -1
   var currentSongPosition: Float = -1
@@ -51,7 +51,7 @@ class AudioPlayer: NSObject {
     UIApplication.shared.endReceivingRemoteControlEvents()
 
     if let observer = timeObserver {
-      player?.removeTimeObserver(observer)
+      player.removeTimeObserver(observer)
     }
   }
 
@@ -63,8 +63,7 @@ class AudioPlayer: NSObject {
 
       let playerItem = AVPlayerItem(asset: asset)
 
-      player = AVPlayer(playerItem: playerItem)
-      //avPlayer.replaceCurrentItemWithPlayerItem(playerItem)
+      player.replaceCurrentItem(with: playerItem)
 
       startBackgroundTask()
     }
@@ -74,19 +73,19 @@ class AudioPlayer: NSObject {
   }
 
   func seek(toSeconds seconds: Int) {
-    player?.seek(to: CMTimeMake(Int64(seconds), 1))
+    player.seek(to: CMTimeMake(Int64(seconds), 1))
   }
 
   func isPlaying() -> Bool {
-    return player?.timeControlStatus == .playing
+    return player.timeControlStatus == .playing
   }
 
   func play() {
-    player?.play()
+    player.play()
   }
 
   func pause() {
-    player?.pause()
+    player.pause()
   }
 
   func stop() {
@@ -96,15 +95,15 @@ class AudioPlayer: NSObject {
   }
 
   func reset() {
-    player = nil
+    player.replaceCurrentItem(with: nil)
   }
 
   func changeVolume(_ volume: Float) {
-    player?.volume = volume
+    player.volume = volume
   }
 
   func getPlayerPosition(_ value: Float) -> Int {
-    if let currentItem = player?.currentItem {
+    if let currentItem = player.currentItem {
       let duration = currentItem.asset.duration.seconds
 
       return Int(Double(value) * duration)
@@ -138,14 +137,13 @@ class AudioPlayer: NSObject {
 
   func startProgressTimer() {
     if let playbackHandler = playbackHandler {
-      if player?.currentItem?.duration.isValid == true {
+      if player.currentItem?.duration.isValid == true {
         let timeInterval: CMTime = CMTimeMakeWithSeconds(1.0, 10)
 
-        timeObserver = player?.addPeriodicTimeObserver(forInterval: timeInterval,
+        timeObserver = player.addPeriodicTimeObserver(forInterval: timeInterval,
           queue: DispatchQueue.main) { (elapsedTime: CMTime) -> Void in
 
           self.currentSongPosition = playbackHandler()
-          //print(self.currentSongPosition)
         } as AnyObject
       }
     }
@@ -153,7 +151,7 @@ class AudioPlayer: NSObject {
 
   func stopProgressTimer() {
     if let observer = timeObserver {
-      player?.removeTimeObserver(observer)
+      player.removeTimeObserver(observer)
 
       timeObserver = nil
     }

@@ -65,17 +65,9 @@ class AudioPlayerController: UIViewController {
     update()
 
     if isNewPlayer {
-      let currentSongPosition = audioPlayer.currentSongPosition
-
-      var seconds = 0
-
-      if currentSongPosition != -1 {
-        seconds = audioPlayer.getPlayerPosition(currentSongPosition)
-      }
-
-      play(createNewPlayer: true, toSeconds: seconds)
+      play(createNewPlayer: true)
     }
-    else if isAnotherTrack {
+    else if !isAnotherBook && isAnotherTrack {
       stop()
 
       play(createNewPlayer: true)
@@ -83,20 +75,17 @@ class AudioPlayerController: UIViewController {
     else if isAnotherBook {
       stop()
 
-      let currentSongPosition = audioPlayer.currentSongPosition
-
-      var seconds = 0
-
-      if currentSongPosition != -1 {
-        seconds = audioPlayer.getPlayerPosition(currentSongPosition)
-      }
-
-      play(createNewPlayer: true, toSeconds: seconds)
+      play(createNewPlayer: true)
     }
     else {
-      if audioPlayer.timeControlStatus != .playing {
-        //let playerIsPlaying = avPlayer.rate > 0
-
+      if audioPlayer.timeControlStatus == .playing {
+        // playerIsPlaying = audioPlayer.player.rate > 0
+        startAnimate()
+        stopAnimate()
+        audioPlayer.startProgressTimer()
+        playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+      }
+      else {
         newPlayer()
 
         let currentSongPosition = audioPlayer.currentSongPosition
@@ -117,11 +106,6 @@ class AudioPlayerController: UIViewController {
 
         playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
       }
-      else {
-        startAnimate()
-        stopAnimate()
-        audioPlayer.startProgressTimer()
-      }
     }
   }
 
@@ -131,30 +115,36 @@ class AudioPlayerController: UIViewController {
     audioPlayer.save()
   }
 
+  func createNewPlayer(toSeconds: Int=0) {
+    newPlayer()
+
+    audioPlayer.seek(toSeconds: toSeconds)
+
+    update()
+  }
+
   func newPlayer() {
     audioPlayer.newPlayer()
 
-    if let player = audioPlayer.player {
-      let asset = player.currentItem?.asset
+    let asset = audioPlayer.player.currentItem?.asset
 
-      startAnimate()
+    startAnimate()
 
-      asset?.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
-        DispatchQueue.main.async { [unowned self] in
-          self.stopAnimate()
+    asset?.loadValuesAsynchronously(forKeys: ["duration"], completionHandler: { () -> Void in
+      DispatchQueue.main.async { [unowned self] in
+        self.stopAnimate()
 
-          self.updateNowPlayingInfoCenter()
-        }
-      })
-
-      if let currentItem = player.currentItem {
-        removeNotifications(currentItem)
+        self.updateNowPlayingInfoCenter()
       }
+    })
+
+    if let currentItem = audioPlayer.player.currentItem {
+      removeNotifications(currentItem)
     }
   }
 
   func play(createNewPlayer: Bool=false, toSeconds: Int=0) {
-    if audioPlayer.player == nil || createNewPlayer {
+    if createNewPlayer {
       newPlayer()
 
       audioPlayer.seek(toSeconds: toSeconds)
@@ -219,7 +209,7 @@ class AudioPlayerController: UIViewController {
 
       titleLabel.text = audioPlayer.currentMediaItem.name
 
-      play()
+      play(createNewPlayer: true)
     }
     else {
       replay()
@@ -232,7 +222,7 @@ class AudioPlayerController: UIViewController {
 
       titleLabel.text = audioPlayer.currentMediaItem.name
 
-      play()
+      play(createNewPlayer: true)
     }
     else {
       replay()
@@ -267,7 +257,7 @@ class AudioPlayerController: UIViewController {
 
       audioPlayer.reset()
 
-      play()
+      play(createNewPlayer: true)
     }
     else {
       stop()
@@ -326,8 +316,8 @@ class AudioPlayerController: UIViewController {
     })
   }
 
-  func playbackProgressDidChange() -> Float {
-    if let playerItem = audioPlayer.player?.currentItem {
+  @discardableResult func playbackProgressDidChange() -> Float {
+    if let playerItem = audioPlayer.player.currentItem {
       let currentTime = playerItem.currentTime().seconds
       let duration = playerItem.asset.duration.seconds
 
@@ -383,7 +373,7 @@ class AudioPlayerController: UIViewController {
   }
 
   func update() {
-    if let playerItem = audioPlayer.player?.currentItem {
+    if let playerItem = audioPlayer.player.currentItem {
       let currentTime = playerItem.currentTime().seconds
       let duration = playerItem.asset.duration.seconds
 
@@ -444,7 +434,7 @@ extension AudioPlayerController {
     if NSClassFromString("MPNowPlayingInfoCenter") != nil {
       let defaultNowPlayingInfoCenter = MPNowPlayingInfoCenter.default()
 
-      if let currentItem = audioPlayer.player?.currentItem {
+      if let currentItem = audioPlayer.player.currentItem {
         let title = audioPlayer.currentMediaItem.name
         let currentTime = currentItem.currentTime().seconds
         let duration = currentItem.asset.duration.seconds
@@ -577,44 +567,15 @@ extension AudioPlayerController {
     return .success
   }
 
-  func doPlaybackSliderValueChanged(_ event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
-    audioPlayer.seek(toSeconds: Int(event.positionTime))
-    _ = playbackProgressDidChange()
+  func doPlaybackSliderValueChanged(_ event: MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus {
+    if let playbackEvent = event as? MPChangePlaybackPositionCommandEvent {
+      audioPlayer.seek(toSeconds: Int(playbackEvent.positionTime))
+
+      playbackProgressDidChange()
+    }
 
     return .success
   }
 }
 
 #endif
-
-//extension AudioPlayerController {
-//  override func remoteControlReceived(with event: UIEvent?) {
-//
-//#if os(iOS)
-//
-//    if event?.type == .remoteControl {
-//      switch event!.subtype {
-//        case .remoteControlPlay:
-//          play()
-//
-//        case .remoteControlPause:
-//          pause()
-//
-//        case .remoteControlNextTrack:
-//          playNext()
-//
-//        case .remoteControlPreviousTrack:
-//          playPrevious()
-//
-//        case .remoteControlTogglePlayPause:
-//          togglePlayPause()
-//
-//        default:
-//          break
-//      }
-//    }
-//
-//#endif
-//
-//  }
-//}
