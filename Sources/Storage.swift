@@ -29,7 +29,7 @@ open class Storage {
     }
   }
 
-  public func save(_ items: [String: Any]?=nil) {
+  public func save(_ items: [String: Any]?=[:]) {
     if let localItems = items {
       self.items = localItems
     }

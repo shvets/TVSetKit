@@ -21,7 +21,7 @@ open class MediaItemsController: BaseCollectionViewController {
 
     localizer = Localizer("com.rubikon.TVSetKit")
 
-    navigationItem.title = ""
+    //navigationItem.title = ""
 
     title = getHeaderName()
 
@@ -297,7 +297,7 @@ open class MediaItemsController: BaseCollectionViewController {
 
     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
       if self.adapter.addBookmark(item: item) {
-        self.navigationItem.title = ""
+        //self.navigationItem.title = ""
       }
     }
 
