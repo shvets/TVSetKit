@@ -1,9 +1,9 @@
 import AVFoundation
 import MediaPlayer
 
-#if os(iOS)
-
 public protocol AudioPlayerUI: class {
+
+#if os(iOS)
   func startAnimate()
   func stopAnimate()
   func update()
@@ -12,9 +12,14 @@ public protocol AudioPlayerUI: class {
   func updateTitle(_ title: String?)
   func getPlayerValue() -> Float
   func playbackProgressDidChange(duration: Double, currentTime: Double)
+
+#endif
 }
 
 class AudioPlayer: NSObject {
+
+#if os(iOS)
+  
   static let shared: AudioPlayer = {
     let player = AudioPlayer()
 
@@ -210,8 +215,13 @@ class AudioPlayer: NSObject {
       return nil
     }
   }
+
+#endif
+  
 }
 
+#if os(iOS)
+  
 extension AudioPlayer {
   func setupPlayer() {
     let isAnotherBook = currentBookId != selectedBookId
@@ -654,7 +664,7 @@ extension AudioPlayer {
     notificationCenter.addObserver(self, selector: #selector(self.handleAVPlayerItemDidPlayToEndTime),
       name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: object)
   }
-
+  
 }
 
 #endif
