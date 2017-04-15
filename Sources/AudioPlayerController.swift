@@ -259,6 +259,8 @@ class AudioPlayerController: UIViewController {
   }
 
   func handleAVPlayerItemDidPlayToEndTime(notification : Notification) {
+    audioPlayer.save()
+
     if audioPlayer.navigateToNextTrack() {
       stop()
 
