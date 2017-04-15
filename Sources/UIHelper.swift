@@ -12,7 +12,7 @@ public class UIHelper {
     return textToImage(drawText: text, size: CGSize(width: width, height: height))
   }
 
-  public func textToImage(drawText text: String, size: CGSize) -> UIImage {
+  public func textToImage(drawText text: String, size: CGSize, drawImage: UIImage?=nil) -> UIImage {
     var image: UIImage?
     
     if let cachedImage = self.cache.object(forKey: text as NSString) {
@@ -36,11 +36,22 @@ public class UIHelper {
           NSParagraphStyleAttributeName: paragraphStyle
         ]
 
-        let width = size.width
-        let height = size.height
+        if let drawImage = drawImage {
+          let width = size.width-size.height
+          let height = size.height
 
-        text.draw(with: CGRect(x: 0, y: height/3, width: width, height: height), options: .usesLineFragmentOrigin,
-                  attributes: attrs, context: nil)
+          text.draw(with: CGRect(x: size.height, y: height/3, width: width, height: height), options: .usesLineFragmentOrigin,
+                    attributes: attrs, context: nil)
+
+          drawImage.draw(in: CGRect(x: 0, y: 0, width: height, height: height))
+        }
+        else {
+          let width = size.width
+          let height = size.height
+
+          text.draw(with: CGRect(x: 0, y: height/3, width: width, height: height), options: .usesLineFragmentOrigin,
+            attributes: attrs, context: nil)
+        }
       }
       
       self.cache.setObject(image!, forKey: text as NSString)

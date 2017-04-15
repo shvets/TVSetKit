@@ -8,7 +8,15 @@ open class MediaNameCell: UICollectionViewCell {
 
     let itemSize = UIHelper.shared.getItemSize(target as! UICollectionViewController)
 
-    thumb.image = UIHelper.shared.textToImage(drawText: localizedName, size: itemSize)
+    var icon: UIImage?
+
+    if item.imageName != nil {
+      icon = UIImage(named: item.imageName!)
+    }
+
+    let image = UIHelper.shared.textToImage(drawText: localizedName, size: itemSize, drawImage: icon)
+
+    thumb.image = image
   }
 
 #if os(tvOS)
