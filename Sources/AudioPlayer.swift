@@ -241,10 +241,10 @@ extension AudioPlayer {
       currentSongPosition = -1
     }
 
-    save()
+//    save()
 
     ui?.updateTitle(currentMediaItem.name)
-    ui?.update()
+//    ui?.update()
 
     if player.timeControlStatus == .playing {
       status = .playing
@@ -265,25 +265,8 @@ extension AudioPlayer {
     }
     else {
       if status == .ready {
-        createNewPlayer()
-
-        var seconds = getPlayerPosition(currentSongPosition)
-
-        if seconds > 5 {
-          seconds = seconds - 5
-        }
-
-        seek(toSeconds: seconds)
-
         ui?.update()
-
-        play()
-      }
-      else if status == .paused {
-        ui?.startAnimate()
-        ui?.stopAnimate()
-        startProgressTimer()
-        ui?.displayPlay()
+        play(newPlayer: true, songPosition: currentSongPosition)
       }
       else {
         ui?.startAnimate()
@@ -294,7 +277,7 @@ extension AudioPlayer {
     }
   }
 
-  func createNewPlayer(newPlayer: Bool=false, toSeconds: Int=0) {
+  func createNewPlayer(newPlayer: Bool=false, songPosition: Float=0) {
     if newPlayer || player.currentItem == nil {
       buildNewPlayer()
 
@@ -313,7 +296,9 @@ extension AudioPlayer {
             self.removeNotifications(currentItem)
           }
 
-          self.seek(toSeconds: toSeconds)
+          let seconds = self.getPlayerPosition(songPosition)
+
+          self.seek(toSeconds: seconds)
 
           self.ui?.update()
 
@@ -325,8 +310,8 @@ extension AudioPlayer {
     }
   }
 
-  func play(newPlayer: Bool=false) {
-    createNewPlayer(newPlayer: newPlayer)
+  func play(newPlayer: Bool=false, songPosition: Float=0) {
+    createNewPlayer(newPlayer: newPlayer, songPosition: songPosition)
 
     startProgressTimer()
 
