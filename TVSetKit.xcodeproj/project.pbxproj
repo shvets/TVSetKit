@@ -31,7 +31,6 @@
 		FA67DC9E1E46933600734FB6 /* MediaName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9C1E46933600734FB6 /* MediaName.swift */; };
 		FA88DC131E8EBF5200AD28D2 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA88DC121E8EBF5200AD28D2 /* SwiftyJSON.framework */; };
 		FA9A189F1E58958E00DC0DCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA9A18A11E58958E00DC0DCE /* Localizable.strings */; };
-		FAAFE5261EA6E41F0092387A /* AudioPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAFE5251EA6E41F0092387A /* AudioPlayer.framework */; };
 		FAE0094A1E469DE000941CAD /* ServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009491E469DE000941CAD /* ServiceAdapter.swift */; };
 		FAE009671E46A15300941CAD /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
 		FAE009691E46A15300941CAD /* AudioItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009541E46A15300941CAD /* AudioItemsController.swift */; };
@@ -125,7 +124,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAAFE5261EA6E41F0092387A /* AudioPlayer.framework in Frameworks */,
 				FA88DC131E8EBF5200AD28D2 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
