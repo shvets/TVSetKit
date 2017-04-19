@@ -33,6 +33,7 @@
 		FA67DC9E1E46933600734FB6 /* MediaName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9C1E46933600734FB6 /* MediaName.swift */; };
 		FA88DC131E8EBF5200AD28D2 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA88DC121E8EBF5200AD28D2 /* SwiftyJSON.framework */; };
 		FA9A189F1E58958E00DC0DCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA9A18A11E58958E00DC0DCE /* Localizable.strings */; };
+		FAAFE5261EA6E41F0092387A /* AudioPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAFE5251EA6E41F0092387A /* AudioPlayer.framework */; };
 		FAE0094A1E469DE000941CAD /* ServiceAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009491E469DE000941CAD /* ServiceAdapter.swift */; };
 		FAE009671E46A15300941CAD /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
 		FAE009691E46A15300941CAD /* AudioItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009541E46A15300941CAD /* AudioItemsController.swift */; };
@@ -101,6 +102,7 @@
 		FA88DC121E8EBF5200AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		FA9A18A01E58958E00DC0DCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FA9A18A21E58959A00DC0DCE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		FAAFE5251EA6E41F0092387A /* AudioPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayer.framework; path = "../AudioPlayer/build/Debug-iphoneos/AudioPlayer.framework"; sourceTree = "<group>"; };
 		FABA16DF1E8DE899000AFD34 /* AudioPlayerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayerSwift.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphoneos/AudioPlayerSwift.framework"; sourceTree = "<group>"; };
 		FAE009491E469DE000941CAD /* ServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAdapter.swift; sourceTree = "<group>"; };
 		FAE009521E46A15300941CAD /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAAFE5261EA6E41F0092387A /* AudioPlayer.framework in Frameworks */,
 				FA88DC131E8EBF5200AD28D2 /* SwiftyJSON.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,6 +226,7 @@
 		FA75747C1E5D2F9F00C705C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FAAFE5251EA6E41F0092387A /* AudioPlayer.framework */,
 				FA0604781E932E3D00E43709 /* AudioPlayerManager.framework */,
 				FA88DC121E8EBF5200AD28D2 /* SwiftyJSON.framework */,
 				FA88DC101E8EBF4100AD28D2 /* SwiftyJSON.framework */,
