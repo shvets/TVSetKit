@@ -79,6 +79,7 @@ class AudioItemsController: BaseTableViewController {
     cell.layer.masksToBounds = true
     cell.layer.borderWidth = 0.5
     cell.layer.borderColor = UIColor( red: 0, green: 0, blue:0, alpha: 1.0 ).cgColor
+    cell.setSelected(false, animated: false)
 
 #if os(tvOS)
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))

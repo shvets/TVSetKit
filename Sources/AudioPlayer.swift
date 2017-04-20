@@ -49,6 +49,8 @@ class AudioPlayer: NSObject {
   var player = AVPlayer()
   var status = Status.ready
 
+  var savePlayerPositionTimer: Timer?
+
   var currentBookId: String = ""
   var currentTrackIndex: Int = -1
   var currentSongPosition: Float = -1
@@ -79,6 +81,15 @@ class AudioPlayer: NSObject {
     handleRemoteCenter()
 
     addNotifications()
+
+//    savePlayerPositionTimer = Timer.scheduledTimer(timeInterval: 5, target: self,
+//        selector: #selector(self.save), userInfo: nil, repeats: true);
+
+    DispatchQueue.main.async {
+      self.savePlayerPositionTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { timer in
+        self.save()
+      }
+    }
   }
 
   deinit {
@@ -87,6 +98,8 @@ class AudioPlayer: NSObject {
     if let observer = timeObserver {
       player.removeTimeObserver(observer)
     }
+
+    savePlayerPositionTimer?.invalidate()
   }
 
   func buildNewPlayer() {
@@ -226,7 +239,7 @@ extension AudioPlayer {
   func setupPlayer() {
     let isAnotherBook = currentBookId != selectedBookId
     let isAnotherTrack = currentTrackIndex != selectedItemId
-    let isNewPlayer = currentTrackIndex == -1
+    let isNewPlayer = currentTrackIndex == -1 || isAnotherBook || isAnotherTrack
 
     if isAnotherBook {
       currentBookId = selectedBookId!
@@ -241,16 +254,17 @@ extension AudioPlayer {
       currentSongPosition = -1
     }
 
-//    save()
+    save()
 
     ui?.updateTitle(currentMediaItem.name)
-//    ui?.update()
 
     if player.timeControlStatus == .playing {
       status = .playing
     }
 
     if isNewPlayer {
+      stop()
+
       play()
     }
     else if !isAnotherBook && isAnotherTrack {
@@ -264,9 +278,22 @@ extension AudioPlayer {
       play()
     }
     else {
-      if status == .ready {
-        ui?.update()
+      ui?.update()
+
+      if status == .playing {
+        ui?.startAnimate()
+        ui?.stopAnimate()
+        startProgressTimer()
+        ui?.displayPause()
+      }
+      else if status == .ready {
         play(newPlayer: true, songPosition: currentSongPosition)
+      }
+      else if status == .paused {
+        ui?.startAnimate()
+        ui?.stopAnimate()
+        startProgressTimer()
+        ui?.displayPlay()
       }
       else {
         ui?.startAnimate()
@@ -311,6 +338,8 @@ extension AudioPlayer {
   }
 
   func play(newPlayer: Bool=false, songPosition: Float=0) {
+    ui?.displayPlay()
+
     createNewPlayer(newPlayer: newPlayer, songPosition: songPosition)
 
     startProgressTimer()
@@ -322,6 +351,8 @@ extension AudioPlayer {
   }
 
   func pause() {
+    ui?.displayPause()
+
     status = Status.paused
     player.pause()
 
@@ -374,6 +405,8 @@ extension AudioPlayer {
       ui?.updateTitle(currentMediaItem.name)
 
       play(newPlayer: true)
+
+      save()
     }
     else {
       replay()
@@ -387,6 +420,8 @@ extension AudioPlayer {
       ui?.updateTitle(currentMediaItem.name)
 
       play()
+
+      save()
     }
     else {
       replay()
@@ -443,16 +478,16 @@ extension AudioPlayer {
     guard let interruptionType = AVAudioSessionInterruptionType(rawValue: rawInterruptionType.uintValue) else { return }
 
     switch interruptionType {
-    case .began: //interruption started
-      self.pause()
+      case .began: //interruption started
+        self.pause()
 
-    case .ended: //interruption ended
-      if let rawInterruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
-        let interruptionOption = AVAudioSessionInterruptionOptions(rawValue: rawInterruptionOption.uintValue)
-        if interruptionOption == AVAudioSessionInterruptionOptions.shouldResume {
-          self.togglePlayPause()
+      case .ended: //interruption ended
+        if let rawInterruptionOption = userInfo[AVAudioSessionInterruptionOptionKey] as? NSNumber {
+          let interruptionOption = AVAudioSessionInterruptionOptions(rawValue: rawInterruptionOption.uintValue)
+          if interruptionOption == AVAudioSessionInterruptionOptions.shouldResume {
+            self.togglePlayPause()
+          }
         }
-      }
     }
   }
 
