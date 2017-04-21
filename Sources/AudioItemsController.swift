@@ -35,17 +35,21 @@ class AudioItemsController: BaseTableViewController {
     }
   }
 
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-
+  func navigateToSelectedRow() {
     if loaded {
       let currentTrackIndex = AudioPlayer.shared.currentTrackIndex
 
       if isSameBook() && currentTrackIndex != -1 {
         let indexPath = IndexPath(row: currentTrackIndex, section: 0)
-        tableView?.selectRow(at: indexPath, animated: true, scrollPosition: .bottom)
+        tableView?.selectRow(at: indexPath, animated: true, scrollPosition: .middle)
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
       }
     }
+  }
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    navigateToSelectedRow()
   }
 
   func isSameBook() -> Bool {
@@ -79,13 +83,17 @@ class AudioItemsController: BaseTableViewController {
     cell.layer.masksToBounds = true
     cell.layer.borderWidth = 0.5
     cell.layer.borderColor = UIColor( red: 0, green: 0, blue:0, alpha: 1.0 ).cgColor
-    cell.setSelected(false, animated: false)
+    //cell.setSelected(false, animated: false)
 
 #if os(tvOS)
     CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 #endif
 
-    loaded = true
+    if !loaded {
+      loaded = true
+
+      navigateToSelectedRow()
+    }
 
     return cell
   }

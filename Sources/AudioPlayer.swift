@@ -262,17 +262,7 @@ extension AudioPlayer {
       status = .playing
     }
 
-    if isNewPlayer {
-      stop()
-
-      play()
-    }
-    else if !isAnotherBook && isAnotherTrack {
-      stop()
-
-      play()
-    }
-    else if isAnotherBook {
+    if isNewPlayer || isAnotherBook || isAnotherTrack {
       stop()
 
       play()
