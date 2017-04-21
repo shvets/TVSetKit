@@ -8,17 +8,17 @@ class AudioItemsController: UITableViewController {
 
   open var CellIdentifier: String { return "AudioItemCell" }
 
+  public var adapter: ServiceAdapter!
+  
+#if os(iOS)
+  
   public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 
   public var localizer: Localizer!
 
   public var items = [AudioItem]()
 
-  public var adapter: ServiceAdapter!
-
   var loaded = false
-
-#if os(iOS)
 
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
     return UIViewController.instantiate(
