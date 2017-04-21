@@ -88,7 +88,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
     let deltaOffset = maximumOffset - currentOffset
 
-    if deltaOffset <= 0 {
+    if deltaOffset <= 1 { // approximately, close to zero
       if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
         loadMoreData()
       }
