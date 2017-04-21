@@ -1,11 +1,20 @@
 import UIKit
 import AVFoundation
+import AudioPlayer
 
-class AudioItemsController: BaseTableViewController {
+class AudioItemsController: UITableViewController {
   static let SegueIdentifier = "Audio Items"
   public class var StoryboardControllerId: String { return "AudioItemsController" }
 
-  override open var CellIdentifier: String { return "AudioItemCell" }
+  open var CellIdentifier: String { return "AudioItemCell" }
+
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+
+  public var localizer: Localizer!
+
+  public var items = [AudioItem]()
+
+  public var adapter: ServiceAdapter!
 
   var loaded = false
 
@@ -28,8 +37,13 @@ class AudioItemsController: BaseTableViewController {
     activityIndicatorView.center = (tableView?.center)!;
     adapter.spinner = PlainSpinner(activityIndicatorView)
 
-    loadInitialData()
+    adapter.loadData() { result in
+      for item in result {
+        self.items.append(AudioItem(name: item.name!, id: item.id!))
+      }
 
+      self.tableView?.reloadData()
+    }
     if adapter?.requestType != "History" {
       adapter?.addHistoryItem(adapter.selectedItem!)
     }
@@ -71,23 +85,28 @@ class AudioItemsController: BaseTableViewController {
     }
   }
 
-  // MARK: - Table view data source
-  
+  // MARK: UITableViewDataSource
+
+  override open func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+
+  override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return items.count
+  }
+
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! MediaItemTableCell
 
     let item = items[indexPath.row]
 
-    cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
+    //cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
+
+    cell.title.text = item.name
 
     cell.layer.masksToBounds = true
     cell.layer.borderWidth = 0.5
     cell.layer.borderColor = UIColor( red: 0, green: 0, blue:0, alpha: 1.0 ).cgColor
-    //cell.setSelected(false, animated: false)
-
-#if os(tvOS)
-    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
-#endif
 
     if !loaded {
       loaded = true
@@ -98,21 +117,14 @@ class AudioItemsController: BaseTableViewController {
     return cell
   }
 
-#if os(iOS)
-  override open func navigate(from view: UITableViewCell) {
+  override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    navigate(from: tableView.cellForRow(at: indexPath)!)
+    //performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: view)
+  }
+
+  open func navigate(from view: UITableViewCell) {
     performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: view)
   }
-#endif
-
-  // MARK: - Table view data source
-
-#if os(tvOS)
-  override open func tapped(_ gesture: UITapGestureRecognizer) {
-    if (gesture.view as? MediaItemCell) != nil {
-      performSegue(withIdentifier: AudioPlayerController.SegueIdentifier, sender: gesture.view)
-    }
-  }
-#endif
 
   // MARK: Navigation
 
@@ -130,6 +142,15 @@ class AudioItemsController: BaseTableViewController {
 
         default: break
       }
+    }
+  }
+
+  open func getLocalizedName(_ name: String?) -> String {
+    if let name = name {
+      return localizer.localize(name)
+    }
+    else {
+      return ""
     }
   }
 #endif
