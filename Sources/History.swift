@@ -52,7 +52,7 @@ open class History: FileStorage {
 
         //[String: Any]
 
-        //items = sortedItems[0..<HISTORY_SIZE]
+        //items = sortedItems[0 ..< HistorySize]
       }
 
       save()
