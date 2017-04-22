@@ -125,7 +125,7 @@ open class ServiceAdapter {
 
   open func retrieveExtraInfo(_ item: MediaItem) throws {}
   
-  open func addBookmark(item: MediaItem) -> Bool {
+  @discardableResult open func addBookmark(item: MediaItem) -> Bool {
     return true
   }
   
