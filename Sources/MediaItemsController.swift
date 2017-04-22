@@ -1,5 +1,6 @@
 import UIKit
 import SwiftyJSON
+import AudioPlayer
 
 open class MediaItemsController: BaseCollectionViewController {
   public class var SegueIdentifier: String { return "Media Items" }
@@ -172,8 +173,29 @@ open class MediaItemsController: BaseCollectionViewController {
           }
         case AudioItemsController.SegueIdentifier:
           if let destination = segue.destination as? AudioItemsController {
-            destination.adapter = adapter.clone()
-            destination.adapter.selectedItem = mediaItem
+            destination.name = mediaItem.name
+            destination.thumb = mediaItem.thumb
+            destination.id = mediaItem.id
+
+//            destination.tableView?.backgroundView = activityIndicatorView
+//            destination.activityIndicatorView.center = (destination.tableView?.center)!;
+
+            let newAdapter = adapter.clone()
+            newAdapter.selectedItem = mediaItem
+            newAdapter.requestType = "Tracks"
+            newAdapter.loadData() { result in
+              destination.items = []
+
+              for item in result {
+                destination.items.append(AudioItem(name: item.name!, id: item.id!))
+              }
+
+              destination.tableView?.reloadData()
+            }
+
+            if newAdapter.requestType != "History" {
+              newAdapter.addHistoryItem(mediaItem)
+            }
           }
         case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
@@ -296,9 +318,10 @@ open class MediaItemsController: BaseCollectionViewController {
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
-      if self.adapter.addBookmark(item: item) {
-        //self.navigationItem.title = ""
-      }
+      self.adapter.addBookmark(item: item)
+//      if self.adapter.addBookmark(item: item) {
+//        //self.navigationItem.title = ""
+//      }
     }
 
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
