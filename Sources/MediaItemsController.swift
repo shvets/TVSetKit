@@ -22,13 +22,11 @@ open class MediaItemsController: BaseCollectionViewController {
 
     localizer = Localizer("com.rubikon.TVSetKit")
 
-    //navigationItem.title = ""
-
     title = getHeaderName()
 
     clearsSelectionOnViewWillAppear = false
 
-    adapter.enablePagination()
+    adapter.pageLoader.enablePagination()
 
 #if os(iOS)
     let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
@@ -36,7 +34,7 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
     collectionView?.backgroundView = activityIndicatorView
-    adapter.spinner = PlainSpinner(activityIndicatorView)
+    adapter.pageLoader.spinner = PlainSpinner(activityIndicatorView)
 
     loadInitialData()
   }

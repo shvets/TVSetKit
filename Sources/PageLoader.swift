@@ -19,6 +19,12 @@ public class PageLoader {
 
   public init() {}
 
+  public func clear() {
+    currentPage = 1
+    loading = false
+    endOfData = false
+  }
+
   open func enablePagination() {
     paginationEnabled = true
   }
