@@ -24,8 +24,8 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   let cellSelection = CellSelection()
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
-    return adapter.loadData() { result in
-      self.items = result
+    return adapter.pageLoader.loadData() { result in
+      self.items = result as! [MediaItem]
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -36,7 +36,9 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   }
 
   public func loadMoreData() {
-    adapter.loadData() { result in
+    let pageLoader = adapter.pageLoader
+
+    pageLoader.loadData() { result in
       var indexPaths: [IndexPath] = []
 
       for (index, _) in result.enumerated() {
@@ -45,11 +47,11 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
         indexPaths.append(indexPath)
       }
 
-      self.items += result
+      self.items += result as! [MediaItem]
 
       self.collectionView?.insertItems(at: indexPaths)
 
-      let step = min(result.count, self.adapter.rowSize!)
+      let step = min(result.count, pageLoader.rowSize!)
 
       self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
     }
@@ -68,7 +70,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaNameCell
 
-    if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+    if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
       loadMoreData()
     }
 
@@ -89,7 +91,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     let deltaOffset = maximumOffset - currentOffset
 
     if deltaOffset <= 1 { // approximately, close to zero
-      if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+      if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: items.count-1) {
         loadMoreData()
       }
     }

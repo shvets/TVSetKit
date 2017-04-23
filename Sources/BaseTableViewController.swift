@@ -30,8 +30,8 @@ open class BaseTableViewController: UITableViewController {
   }
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
-    return adapter.loadData() { result in
-      self.items = result
+    return adapter.pageLoader.loadData() { result in
+      self.items = result as! [MediaItem]
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -42,7 +42,9 @@ open class BaseTableViewController: UITableViewController {
   }
 
   public func loadMoreData() {
-    adapter.loadData() { result in
+    let pageLoader = adapter.pageLoader
+
+    pageLoader.loadData() { result in
       var indexPaths: [IndexPath] = []
 
       for (index, _) in result.enumerated() {
@@ -51,11 +53,11 @@ open class BaseTableViewController: UITableViewController {
         indexPaths.append(indexPath)
       }
 
-      self.items += result
+      self.items += result as! [MediaItem]
 
       self.tableView?.insertRows(at: indexPaths, with: .none)
 
-      let step = min(result.count, self.adapter.rowSize!)
+      let step = min(result.count, pageLoader.rowSize!)
 
       self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
     }
@@ -74,7 +76,7 @@ open class BaseTableViewController: UITableViewController {
   override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! MediaNameTableCell
 
-    if adapter != nil && adapter.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+    if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
       loadMoreData()
     }
 

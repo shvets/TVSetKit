@@ -183,11 +183,12 @@ open class MediaItemsController: BaseCollectionViewController {
             let newAdapter = adapter.clone()
             newAdapter.selectedItem = mediaItem
             newAdapter.requestType = "Tracks"
-            newAdapter.loadData() { result in
+            newAdapter.pageLoader.loadData() { result in
               destination.items = []
 
               for item in result {
-                destination.items.append(AudioItem(name: item.name!, id: item.id!))
+                let mediaItem = item as! MediaItem
+                destination.items.append(AudioItem(name: mediaItem.name!, id: mediaItem.id!))
               }
 
               destination.tableView?.reloadData()
