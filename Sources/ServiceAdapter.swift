@@ -15,6 +15,7 @@ open class ServiceAdapter {
 
   public let pageLoader = PageLoader()
 
+  public var dataSource: DataSource?
   private var configName: String?
 
   public var mobile: Bool?
@@ -43,8 +44,13 @@ open class ServiceAdapter {
     selectedItem = nil
   }
 
-  open func load() throws -> [MediaItem] {
-    return []
+  open func load() throws -> [Any] {
+//    if let requestType = requestType, let dataSource = dataSource {
+//      return try dataSource.load(requestType, params: params, pageSize: pageLoader.pageSize!, currentPage: pageLoader.currentPage)
+//    }
+//    else {
+      return []
+    //}
   }
 
   open func buildLayout() -> UICollectionViewFlowLayout? {

@@ -181,16 +181,18 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
             destination.pageLoader.load = {
-              let newAdapter = self.adapter.clone()
-              newAdapter.selectedItem = mediaItem
-              newAdapter.requestType = "Tracks"
-
               var items: [AudioItem] = []
 
-              let mediaItems = try newAdapter.load()
+              var params = RequestParams()
+              params.selectedItem = mediaItem
+
+              let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
+                pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
 
               for mediaItem in mediaItems {
-                items.append(AudioItem(name: mediaItem.name!, id: mediaItem.id!))
+                let item = mediaItem as! [String: String]
+
+                items.append(AudioItem(name: item["name"]!, id: item["id"]!))
               }
 
               return items
@@ -319,9 +321,6 @@ open class MediaItemsController: BaseCollectionViewController {
 
     let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
       self.adapter.addBookmark(item: item)
-//      if self.adapter.addBookmark(item: item) {
-//        //self.navigationItem.title = ""
-//      }
     }
 
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
