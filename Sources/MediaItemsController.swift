@@ -163,39 +163,40 @@ open class MediaItemsController: BaseCollectionViewController {
               destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
             }
           }
+
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
             destination.collectionItems = items
             destination.mediaItem = mediaItem
             destination.adapter = adapter
           }
+
         case AudioItemsController.SegueIdentifier:
           if let destination = segue.destination as? AudioItemsController {
             destination.name = mediaItem.name
             destination.thumb = mediaItem.thumb
             destination.id = mediaItem.id
 
-//            destination.tableView?.backgroundView = activityIndicatorView
-//            destination.activityIndicatorView.center = (destination.tableView?.center)!;
+            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
+            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
-            let newAdapter = adapter.clone()
-            newAdapter.selectedItem = mediaItem
-            newAdapter.requestType = "Tracks"
-            newAdapter.pageLoader.loadData() { result in
-              destination.items = []
+            destination.pageLoader.load = {
+              let newAdapter = self.adapter.clone()
+              newAdapter.selectedItem = mediaItem
+              newAdapter.requestType = "Tracks"
 
-              for item in result {
-                let mediaItem = item as! MediaItem
-                destination.items.append(AudioItem(name: mediaItem.name!, id: mediaItem.id!))
+              var items: [AudioItem] = []
+
+              let mediaItems = try newAdapter.load()
+
+              for mediaItem in mediaItems {
+                items.append(AudioItem(name: mediaItem.name!, id: mediaItem.id!))
               }
 
-              destination.tableView?.reloadData()
-            }
-
-            if newAdapter.requestType != "History" {
-              newAdapter.addHistoryItem(mediaItem)
+              return items
             }
           }
+
         case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
             destination.playVideo = true
