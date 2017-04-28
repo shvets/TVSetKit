@@ -21,7 +21,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   var params: [String: Any] = [:]
 
-  let cellSelection = CellSelection()
+  public let cellSelection = CellSelection()
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.pageLoader.loadData() { result in
@@ -97,7 +97,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     }
   }
 
-  func getSelectedItem() -> MediaItem? {
+  open func getSelectedItem() -> MediaItem? {
     var item: MediaItem?
 
     if let indexPath = cellSelection.getIndexPath() {
@@ -107,7 +107,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     return item
   }
 
-  func removeCell() {
+  open func removeCell() {
     if let indexPath = cellSelection.getIndexPath() {
       _ = items.remove(at: indexPath.row)
 

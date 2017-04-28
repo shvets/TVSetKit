@@ -90,9 +90,10 @@ open class MediaItem: MediaName {
   }
 
   override open func toJson() -> [String: Any] {
-    var result: [String: Any] = ["type": type!, "parentName": parentName!, "thumb": thumb!, "tags": tags!, 
-                                 "description": description!, "rating": rating!.description, 
-                                 "seasonNumber": seasonNumber!]
+    var result: [String: Any] = ["type": type ?? "", "parentName": parentName ?? "", "thumb": thumb ?? "",
+                                 "tags": tags ?? "", "description": description ?? "",
+                                 "rating": rating?.description ?? "",
+                                 "seasonNumber": seasonNumber ?? ""]
 
     for (key, value) in super.toJson() {
       result[key] = value

@@ -2,10 +2,6 @@ import UIKit
 
 public protocol IServiceAdapter {
 
-  func nextPageAvailable(dataCount: Int, index: Int) -> Bool
-
-  func loadData(onLoadCompleted: @escaping ([MediaItem]) -> Void)
-
   func load() throws -> [MediaItem]
 
   func buildLayout() -> UICollectionViewFlowLayout?

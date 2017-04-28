@@ -14,4 +14,6 @@ public struct RequestParams {
   public var bookmarks: Bookmarks?
 
   public var history: History?
+
+  public var archiveChannelsBookmarks: Bookmarks?
 }
