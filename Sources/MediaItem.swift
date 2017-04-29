@@ -40,6 +40,10 @@ open class MediaItem: MediaName {
     return false
   }
 
+  open func hasMultipleVersions() -> Bool {
+    return false
+  }
+
   open func getDetailedName() -> String {
     return name!
   }

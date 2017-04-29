@@ -102,7 +102,12 @@ open class MediaItemsController: BaseCollectionViewController {
 
     if mediaItem.isContainer() {
       if mediaItem.isAudioContainer() {
-        performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
+        if mediaItem.hasMultipleVersions() {
+          performSegue(withIdentifier: AudioVersionsController.SegueIdentifier, sender: view)
+        }
+        else {
+          performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
+        }
       }
       else {
         let controller = MediaItemsController.instantiate(adapter)
@@ -171,6 +176,53 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.adapter = adapter
           }
 
+        case AudioVersionsController.SegueIdentifier:
+          if let destination = segue.destination as? AudioVersionsController {
+            destination.name = mediaItem.name
+            destination.thumb = mediaItem.thumb
+            destination.id = mediaItem.id
+
+            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
+            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
+
+            destination.pageLoader.load = {
+              var items: [AudioItem] = []
+
+              var params = RequestParams()
+              params.selectedItem = mediaItem
+
+              let mediaItems = try self.adapter.dataSource!.load("Versions", params: params,
+                pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
+
+              for mediaItem in mediaItems {
+                let item = mediaItem as! [String: String]
+
+                items.append(AudioItem(name: item["name"]!, id: item["id"]!))
+              }
+
+              return items
+            }
+
+            destination.audioItemsLoad = {
+              var items: [AudioItem] = []
+
+              var params = RequestParams()
+              params.selectedItem = mediaItem
+              params.version = destination.version
+
+              let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
+                pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
+
+              for mediaItem in mediaItems {
+                let item = mediaItem as! [String: String]
+
+                items.append(AudioItem(name: item["name"]!, id: item["id"]!))
+              }
+
+              return items
+            }
+          }
+
         case AudioItemsController.SegueIdentifier:
           if let destination = segue.destination as? AudioItemsController {
             destination.name = mediaItem.name
@@ -185,6 +237,7 @@ open class MediaItemsController: BaseCollectionViewController {
 
               var params = RequestParams()
               params.selectedItem = mediaItem
+              //params.identifier = mediaItem.id
 
               let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
                 pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
