@@ -10,22 +10,20 @@ open class ServiceAdapter {
   public var parentId: String?
   public var parentName: String?
   public var query: String?
-
   public var selectedItem: MediaItem?
 
   public let pageLoader = PageLoader()
+  public var dataSource: DataSource!
 
-  public var dataSource: DataSource?
-  private var configName: String?
+  public var mobile: Bool!
 
-  public var mobile: Bool?
-
-  public init(mobile: Bool=false) {
+  public init(dataSource: DataSource, mobile: Bool=false) {
+    self.dataSource = dataSource
     self.mobile = mobile
   }
   
   open func clone() -> ServiceAdapter {
-    return ServiceAdapter()
+    return ServiceAdapter(dataSource: dataSource, mobile: mobile)
   }
 
   open func instantiateController(controllerId: String, storyboardId: String, bundleId: String) -> UIViewController {
