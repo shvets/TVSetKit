@@ -232,6 +232,10 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.pageSize = adapter.pageLoader.pageSize
             destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
+            if adapter.requestType != "History" {
+              adapter.addHistoryItem(mediaItem)
+            }
+
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
