@@ -62,7 +62,7 @@ class MediaItemDetailsController: UIViewController {
       }
     }
 
-    if adapter?.params.requestType != "History" {
+    if adapter?.params["requestType"] as! String != "History" {
       adapter?.addHistoryItem(mediaItem)
     }
 

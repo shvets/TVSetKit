@@ -1,16 +1,11 @@
 import UIKit
 import SwiftyJSON
 
+public typealias RequestParams = [String: Any]
+
 open class ServiceAdapter {
   open class var StoryboardId: String { return "" }
   open class var BundleId: String { return "" }
-
-//  public var requestType: String?
-//  public var isContainer = false
-//  public var parentId: String?
-//  public var parentName: String?
-//  public var query: String?
-//  public var selectedItem: MediaItem?
 
   public let pageLoader = PageLoader()
   public var params = RequestParams()
@@ -34,13 +29,12 @@ open class ServiceAdapter {
   open func clear() {
     pageLoader.clear()
 
-    params.requestType = ""
-    params.isContainer = false
-    params.parentId = ""
-    params.parentName = ""
-    params.query = ""
-
-    params.selectedItem = nil
+    params["requestType"] = ""
+    params["isContainer"] = false
+    params["parentId"] = ""
+    params["parentName"] = ""
+    params["query"] = ""
+    params["selectedItem"] = nil
   }
 
   open func load() throws -> [Any] {
@@ -61,7 +55,7 @@ open class ServiceAdapter {
   }
 
   open func getParentName() -> String? {
-    return (params.parentName != nil) ? params.parentName : params.selectedItem?.name
+    return (params["parentName"] != nil) ? params["parentName"] as! String : (params["selectedItem"] as! MediaItem).name
   }
 
   open func getUrl(_ params: [String: Any]) throws -> String? {

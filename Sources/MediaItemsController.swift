@@ -115,11 +115,11 @@ open class MediaItemsController: BaseCollectionViewController {
         let destination = controller.getActionController() as! MediaItemsController
 
         let newAdapter = adapter.clone()
-        newAdapter.params.selectedItem = mediaItem
+        newAdapter.params["selectedItem"] = mediaItem
 
-        newAdapter.params.parentId = mediaItem.id
-        newAdapter.params.parentName = mediaItem.name
-        newAdapter.params.isContainer = true
+        newAdapter.params["parentId"] = mediaItem.id
+        newAdapter.params["parentName"] = mediaItem.name
+        newAdapter.params["isContainer"] = true
 
         destination.adapter = newAdapter
 
@@ -156,11 +156,11 @@ open class MediaItemsController: BaseCollectionViewController {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
             let newAdapter = adapter.clone()
-            newAdapter.params.selectedItem = mediaItem
+            newAdapter.params["selectedItem"] = mediaItem
 
-            newAdapter.params.parentId = mediaItem.id
-            newAdapter.params.parentName = mediaItem.name
-            newAdapter.params.isContainer = true
+            newAdapter.params["parentId"] = mediaItem.id
+            newAdapter.params["parentName"] = mediaItem.name
+            newAdapter.params["isContainer"] = true
 
             destination.adapter = newAdapter
 
@@ -189,7 +189,7 @@ open class MediaItemsController: BaseCollectionViewController {
               var items: [AudioItem] = []
 
               var params = RequestParams()
-              params.selectedItem = mediaItem
+              params["selectedItem"] = mediaItem
 
               let mediaItems = try self.adapter.dataSource!.load("Versions", params: params,
                 pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
@@ -207,8 +207,8 @@ open class MediaItemsController: BaseCollectionViewController {
               var items: [AudioItem] = []
 
               var params = RequestParams()
-              params.selectedItem = mediaItem
-              params.version = destination.version
+              params["selectedItem"] = mediaItem
+              params["version"] = destination.version
 
               let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
                 pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
@@ -232,7 +232,7 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.pageSize = adapter.pageLoader.pageSize
             destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
-            if adapter.params.requestType != "History" {
+            if adapter.params["requestType"] as! String != "History" {
               adapter.addHistoryItem(mediaItem)
             }
 
@@ -240,7 +240,7 @@ open class MediaItemsController: BaseCollectionViewController {
               var items: [AudioItem] = []
 
               var params = RequestParams()
-              params.selectedItem = mediaItem
+              params["selectedItem"] = mediaItem
 
               let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
                 pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
@@ -301,7 +301,7 @@ open class MediaItemsController: BaseCollectionViewController {
       name = adapter.getParentName()!
     }
     else {
-      name = adapter.params.requestType!
+      name = adapter.params["requestType"] as! String
     }
 
     let localizer = Localizer(type(of: adapter!).BundleId)
@@ -324,13 +324,13 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   func handleBookmark() {
-    if adapter.params.requestType != "History" {
+    if adapter.params["requestType"] as! String != "History" {
       let selectedItem = getSelectedItem()
 
       if let item = selectedItem {
         var controller: UIAlertController?
 
-        if adapter.params.requestType == "Bookmarks" {
+        if adapter.params["requestType"] as! String == "Bookmarks" {
           controller = buildRemoveBookmarkController(item)
         }
         else {
