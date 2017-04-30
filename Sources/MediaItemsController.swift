@@ -192,7 +192,7 @@ open class MediaItemsController: BaseCollectionViewController {
               params.selectedItem = mediaItem
 
               let mediaItems = try self.adapter.dataSource!.load("Versions", params: params,
-                pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
+                pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -211,7 +211,7 @@ open class MediaItemsController: BaseCollectionViewController {
               params.version = destination.version
 
               let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
-                pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
+                pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -237,10 +237,9 @@ open class MediaItemsController: BaseCollectionViewController {
 
               var params = RequestParams()
               params.selectedItem = mediaItem
-              //params.identifier = mediaItem.id
 
               let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
-                pageSize: self.adapter.pageLoader.pageSize!, currentPage: self.adapter.pageLoader.rowSize!, convert: false)
+                pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]

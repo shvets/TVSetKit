@@ -8,8 +8,8 @@ public class PageLoader {
   private var loading = false
   private var endOfData = false
 
-  public var pageSize: Int?
-  public var rowSize: Int?
+  public var pageSize: Int = 0
+  public var rowSize: Int = 0
 
   private var paginationEnabled = false
 
@@ -39,10 +39,10 @@ public class PageLoader {
         do {
           let result = try self.load()
 
-          self.endOfData = result.isEmpty || result.count < self.pageSize!
+          self.endOfData = result.isEmpty || (self.pageSize != 0 && result.count < self.pageSize)
 
           OperationQueue.main.addOperation() {
-            if !result.isEmpty && result.count == self.pageSize! {
+            if !result.isEmpty && (self.pageSize != 0 && result.count == self.pageSize) {
               self.currentPage = self.currentPage + 1
             }
 
@@ -67,6 +67,11 @@ public class PageLoader {
   }
 
   open func nextPageAvailable(dataCount: Int, index: Int) -> Bool {
-    return paginationEnabled && !endOfData && dataCount - index <= self.rowSize!
+    if rowSize > 0 {
+      return paginationEnabled && !endOfData && dataCount - index <= rowSize
+    }
+    else {
+      return false
+    }
   }
 }

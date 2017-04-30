@@ -51,7 +51,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
       self.collectionView?.insertItems(at: indexPaths)
 
-      let step = min(result.count, pageLoader.rowSize!)
+      let step = min(result.count, pageLoader.rowSize)
 
       self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
     }

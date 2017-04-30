@@ -57,7 +57,7 @@ open class BaseTableViewController: UITableViewController {
 
       self.tableView?.insertRows(at: indexPaths, with: .none)
 
-      let step = min(result.count, pageLoader.rowSize!)
+      let step = min(result.count, pageLoader.rowSize)
 
       self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
     }
