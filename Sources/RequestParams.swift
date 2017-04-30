@@ -1,6 +1,8 @@
 public struct RequestParams {
   public init() {}
 
+  public var requestType: String?
+
   public var identifier: String?
 
   public var isContainer: Bool?
@@ -8,6 +10,10 @@ public struct RequestParams {
   public var selectedItem: MediaItem?
 
   public var parentName: String?
+
+  public var parentId: String?
+
+  public var query: String?
 
   public var document: Any?
 

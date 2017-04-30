@@ -5,14 +5,15 @@ open class ServiceAdapter {
   open class var StoryboardId: String { return "" }
   open class var BundleId: String { return "" }
 
-  public var requestType: String?
-  public var isContainer = false
-  public var parentId: String?
-  public var parentName: String?
-  public var query: String?
-  public var selectedItem: MediaItem?
+//  public var requestType: String?
+//  public var isContainer = false
+//  public var parentId: String?
+//  public var parentName: String?
+//  public var query: String?
+//  public var selectedItem: MediaItem?
 
   public let pageLoader = PageLoader()
+  public var params = RequestParams()
   public var dataSource: DataSource!
 
   public var mobile: Bool!
@@ -33,13 +34,13 @@ open class ServiceAdapter {
   open func clear() {
     pageLoader.clear()
 
-    requestType = ""
-    isContainer = false
-    parentId = ""
-    parentName = ""
-    query = ""
+    params.requestType = ""
+    params.isContainer = false
+    params.parentId = ""
+    params.parentName = ""
+    params.query = ""
 
-    selectedItem = nil
+    params.selectedItem = nil
   }
 
   open func load() throws -> [Any] {
@@ -60,7 +61,7 @@ open class ServiceAdapter {
   }
 
   open func getParentName() -> String? {
-    return (parentName != nil) ? parentName : selectedItem?.name
+    return (params.parentName != nil) ? params.parentName : params.selectedItem?.name
   }
 
   open func getUrl(_ params: [String: Any]) throws -> String? {

@@ -115,11 +115,11 @@ open class MediaItemsController: BaseCollectionViewController {
         let destination = controller.getActionController() as! MediaItemsController
 
         let newAdapter = adapter.clone()
-        newAdapter.selectedItem = mediaItem
+        newAdapter.params.selectedItem = mediaItem
 
-        newAdapter.parentId = mediaItem.id
-        newAdapter.parentName = mediaItem.name
-        newAdapter.isContainer = true
+        newAdapter.params.parentId = mediaItem.id
+        newAdapter.params.parentName = mediaItem.name
+        newAdapter.params.isContainer = true
 
         destination.adapter = newAdapter
 
@@ -156,11 +156,11 @@ open class MediaItemsController: BaseCollectionViewController {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
             let newAdapter = adapter.clone()
-            newAdapter.selectedItem = mediaItem
+            newAdapter.params.selectedItem = mediaItem
 
-            newAdapter.parentId = mediaItem.id
-            newAdapter.parentName = mediaItem.name
-            newAdapter.isContainer = true
+            newAdapter.params.parentId = mediaItem.id
+            newAdapter.params.parentName = mediaItem.name
+            newAdapter.params.isContainer = true
 
             destination.adapter = newAdapter
 
@@ -232,7 +232,7 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.pageSize = adapter.pageLoader.pageSize
             destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
-            if adapter.requestType != "History" {
+            if adapter.params.requestType != "History" {
               adapter.addHistoryItem(mediaItem)
             }
 
@@ -301,7 +301,7 @@ open class MediaItemsController: BaseCollectionViewController {
       name = adapter.getParentName()!
     }
     else {
-      name = adapter.requestType!
+      name = adapter.params.requestType!
     }
 
     let localizer = Localizer(type(of: adapter!).BundleId)
@@ -324,13 +324,13 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   func handleBookmark() {
-    if adapter.requestType != "History" {
+    if adapter.params.requestType != "History" {
       let selectedItem = getSelectedItem()
 
       if let item = selectedItem {
         var controller: UIAlertController?
 
-        if adapter.requestType == "Bookmarks" {
+        if adapter.params.requestType == "Bookmarks" {
           controller = buildRemoveBookmarkController(item)
         }
         else {
