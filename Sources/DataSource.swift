@@ -1,5 +1,10 @@
-public protocol DataSource {
+open class DataSource {
+  public var params = RequestParams()
 
-  func load(_ requestType: String, params: RequestParams, pageSize: Int, currentPage: Int, convert: Bool) throws -> [Any]
+  public init() {}
+
+  open func load(_ requestType: String, params: RequestParams, pageSize: Int, currentPage: Int, convert: Bool) throws -> [Any] {
+    return []
+  }
 
 }
