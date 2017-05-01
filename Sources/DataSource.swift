@@ -1,10 +1,7 @@
 open class DataSource {
-  public var params = RequestParams()
-
   public init() {}
 
-  open func load(convert: Bool) throws -> [Any] {
+  open func load(params: RequestParams) throws -> [Any] {
     return []
   }
-
 }

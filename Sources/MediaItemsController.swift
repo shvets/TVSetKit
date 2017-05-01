@@ -193,10 +193,9 @@ open class MediaItemsController: BaseCollectionViewController {
               params["selectedItem"] = mediaItem
               params["pageSize"] = self.adapter.pageLoader.pageSize
 //              params["currentPage"] = self.adapter.pageLoader.rowSize
+              params["convert"] = false
 
-              self.adapter.dataSource.params = params
-
-              let mediaItems = try self.adapter.dataSource!.load(convert: false)
+              let mediaItems = try self.adapter.dataSource!.load(params: params)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -216,10 +215,9 @@ open class MediaItemsController: BaseCollectionViewController {
               params["version"] = destination.version
               params["pageSize"] = self.adapter.pageLoader.pageSize
 //              params["currentPage"] = self.adapter.pageLoader.rowSize
+              params["convert"] = false
 
-              self.adapter.dataSource.params = params
-
-              let mediaItems = try self.adapter.dataSource!.load(convert: false)
+              let mediaItems = try self.adapter.dataSource!.load(params: params)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -252,10 +250,9 @@ open class MediaItemsController: BaseCollectionViewController {
               params["selectedItem"] = mediaItem
               params["pageSize"] = self.adapter.pageLoader.pageSize
 //              params["currentPage"] = self.adapter.pageLoader.rowSize
+              params["convert"] = false
 
-              self.adapter.dataSource.params = params
-
-              let mediaItems = try self.adapter.dataSource!.load( convert: false)
+              let mediaItems = try self.adapter.dataSource!.load(params: params)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
