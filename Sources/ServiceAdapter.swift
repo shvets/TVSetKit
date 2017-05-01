@@ -37,15 +37,6 @@ open class ServiceAdapter {
     params["selectedItem"] = nil
   }
 
-  open func load() throws -> [Any] {
-//    if let requestType = requestType, let dataSource = dataSource {
-//      return try dataSource.load(requestType, params: params, pageSize: pageLoader.pageSize!, currentPage: pageLoader.currentPage)
-//    }
-//    else {
-      return []
-    //}
-  }
-
   open func buildLayout() -> UICollectionViewFlowLayout? {
     return nil
   }
