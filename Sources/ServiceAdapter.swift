@@ -16,6 +16,28 @@ open class ServiceAdapter {
   public init(dataSource: DataSource, mobile: Bool=false) {
     self.dataSource = dataSource
     self.mobile = mobile
+
+    pageLoader.load = {
+      return try self.load()
+    }
+  }
+
+  open func load() throws -> [Any] {
+    if let requestType = params["requestType"] as? String {
+      var newParams = RequestParams()
+
+      for (key, value) in params {
+        newParams[key] = value
+      }
+
+      newParams["pageSize"] = pageLoader.pageSize
+      newParams["currentPage"] = pageLoader.currentPage
+
+      return try dataSource.load(params: newParams)
+    }
+    else {
+      return []
+    }
   }
   
   open func clone() -> ServiceAdapter {
