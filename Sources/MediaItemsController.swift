@@ -189,10 +189,13 @@ open class MediaItemsController: BaseCollectionViewController {
               var items: [AudioItem] = []
 
               var params = RequestParams()
+              params["requestType"] = "Versions"
               params["selectedItem"] = mediaItem
 
-              let mediaItems = try self.adapter.dataSource!.load("Versions", params: params,
-                pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
+              self.adapter.dataSource.params = params
+
+              let mediaItems = try self.adapter.dataSource!.load(pageSize: self.adapter.pageLoader.pageSize,
+                currentPage: self.adapter.pageLoader.rowSize, convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -207,11 +210,14 @@ open class MediaItemsController: BaseCollectionViewController {
               var items: [AudioItem] = []
 
               var params = RequestParams()
+              params["requestType"] = "Tracks"
               params["selectedItem"] = mediaItem
               params["version"] = destination.version
 
-              let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
-                pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
+              self.adapter.dataSource.params = params
+
+              let mediaItems = try self.adapter.dataSource!.load(pageSize: self.adapter.pageLoader.pageSize,
+                currentPage: self.adapter.pageLoader.rowSize, convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -240,10 +246,13 @@ open class MediaItemsController: BaseCollectionViewController {
               var items: [AudioItem] = []
 
               var params = RequestParams()
+              params["requestType"] = "Tracks"
               params["selectedItem"] = mediaItem
 
-              let mediaItems = try self.adapter.dataSource!.load("Tracks", params: params,
-                pageSize: self.adapter.pageLoader.pageSize, currentPage: self.adapter.pageLoader.rowSize, convert: false)
+              self.adapter.dataSource.params = params
+
+              let mediaItems = try self.adapter.dataSource!.load(pageSize: self.adapter.pageLoader.pageSize,
+                currentPage: self.adapter.pageLoader.rowSize, convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
