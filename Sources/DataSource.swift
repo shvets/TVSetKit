@@ -3,7 +3,7 @@ open class DataSource {
 
   public init() {}
 
-  open func load(pageSize: Int, currentPage: Int, convert: Bool) throws -> [Any] {
+  open func load(convert: Bool) throws -> [Any] {
     return []
   }
 

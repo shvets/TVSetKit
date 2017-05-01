@@ -191,11 +191,12 @@ open class MediaItemsController: BaseCollectionViewController {
               var params = RequestParams()
               params["requestType"] = "Versions"
               params["selectedItem"] = mediaItem
+              params["pageSize"] = self.adapter.pageLoader.pageSize
+//              params["currentPage"] = self.adapter.pageLoader.rowSize
 
               self.adapter.dataSource.params = params
 
-              let mediaItems = try self.adapter.dataSource!.load(pageSize: self.adapter.pageLoader.pageSize,
-                currentPage: self.adapter.pageLoader.rowSize, convert: false)
+              let mediaItems = try self.adapter.dataSource!.load(convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -213,11 +214,12 @@ open class MediaItemsController: BaseCollectionViewController {
               params["requestType"] = "Tracks"
               params["selectedItem"] = mediaItem
               params["version"] = destination.version
+              params["pageSize"] = self.adapter.pageLoader.pageSize
+//              params["currentPage"] = self.adapter.pageLoader.rowSize
 
               self.adapter.dataSource.params = params
 
-              let mediaItems = try self.adapter.dataSource!.load(pageSize: self.adapter.pageLoader.pageSize,
-                currentPage: self.adapter.pageLoader.rowSize, convert: false)
+              let mediaItems = try self.adapter.dataSource!.load(convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
@@ -248,11 +250,12 @@ open class MediaItemsController: BaseCollectionViewController {
               var params = RequestParams()
               params["requestType"] = "Tracks"
               params["selectedItem"] = mediaItem
+              params["pageSize"] = self.adapter.pageLoader.pageSize
+//              params["currentPage"] = self.adapter.pageLoader.rowSize
 
               self.adapter.dataSource.params = params
 
-              let mediaItems = try self.adapter.dataSource!.load(pageSize: self.adapter.pageLoader.pageSize,
-                currentPage: self.adapter.pageLoader.rowSize, convert: false)
+              let mediaItems = try self.adapter.dataSource!.load( convert: false)
 
               for mediaItem in mediaItems {
                 let item = mediaItem as! [String: String]
