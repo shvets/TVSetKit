@@ -1,14 +1,12 @@
 import UIKit
 import SwiftyJSON
 
-public typealias RequestParams = [String: Any]
-
 open class ServiceAdapter {
   open class var StoryboardId: String { return "" }
   open class var BundleId: String { return "" }
 
   public let pageLoader = PageLoader()
-  public var params = RequestParams()
+  public var params = Parameters()
   public var dataSource: DataSource!
 
   public var mobile: Bool!
@@ -24,7 +22,7 @@ open class ServiceAdapter {
 
   open func load() throws -> [Any] {
     if let requestType = params["requestType"] as? String {
-      var newParams = RequestParams()
+      var newParams = Parameters()
 
       for (key, value) in params {
         newParams[key] = value

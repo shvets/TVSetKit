@@ -188,7 +188,7 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
-              var params = RequestParams()
+              var params = Parameters()
               params["requestType"] = "Versions"
               params["selectedItem"] = mediaItem
               params["pageSize"] = self.adapter.pageLoader.pageSize
@@ -209,7 +209,7 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.audioItemsLoad = {
               var items: [AudioItem] = []
 
-              var params = RequestParams()
+              var params = Parameters()
               params["requestType"] = "Tracks"
               params["selectedItem"] = mediaItem
               params["version"] = destination.version
@@ -245,7 +245,7 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
-              var params = RequestParams()
+              var params = Parameters()
               params["requestType"] = "Tracks"
               params["selectedItem"] = mediaItem
               params["pageSize"] = self.adapter.pageLoader.pageSize
