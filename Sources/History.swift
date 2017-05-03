@@ -2,7 +2,7 @@ import Foundation
 import SwiftyJSON
 
 open class History: FileStorage {
-  let HistorySize = 60;
+  let HistorySize = 60
 
   public func getHistoryItems(pageSize: Int, page: Int) -> [Any] {
     var data: [Any] = []
@@ -37,7 +37,7 @@ open class History: FileStorage {
       if items.count > HistorySize {
         let sortedItems = items.sorted { element1, element2 in
           let (_, value1) = element1
-          let (_, value2) = element1
+          let (_, value2) = element2
 
           let data1 = value1 as! [String: Any]
           let data2 = value2 as! [String: Any]

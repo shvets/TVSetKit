@@ -1,7 +1,7 @@
 import UIKit
 
 open class MediaNameCell: UICollectionViewCell {
-  @IBOutlet weak var thumb: UIImageView!
+  @IBOutlet private weak var thumb: UIImageView!
 
   public func configureCell(item: MediaName, localizedName: String, target: Any?) {
     thumb.backgroundColor = UIColor(rgb: 0x00BFFF)

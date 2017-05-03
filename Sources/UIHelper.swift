@@ -24,7 +24,7 @@ public class UIHelper {
       
       let renderer = UIGraphicsImageRenderer(size: size)
       
-      image = renderer.image { ctx in
+      image = renderer.image { _ in
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
         

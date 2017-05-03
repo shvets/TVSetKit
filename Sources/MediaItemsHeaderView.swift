@@ -2,7 +2,6 @@ import UIKit
 
 class MediaItemsHeaderView: UICollectionReusableView {
   
-  @IBOutlet weak var sectionLabel: UILabel!
+  @IBOutlet private weak var sectionLabel: UILabel!
 
 }
-

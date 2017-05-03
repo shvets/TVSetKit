@@ -21,4 +21,3 @@ public protocol IServiceAdapter {
   func addHistoryItem(_ item: MediaItem)
 
 }
-

@@ -350,7 +350,7 @@ open class MediaItemsController: BaseCollectionViewController {
 
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
       let result = self.adapter.removeBookmark(item: item)
 
       if result {
@@ -375,7 +375,7 @@ open class MediaItemsController: BaseCollectionViewController {
 
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-    let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
+    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
       self.adapter.addBookmark(item: item)
     }
 

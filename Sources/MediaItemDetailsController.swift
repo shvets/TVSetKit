@@ -5,16 +5,16 @@ class MediaItemDetailsController: UIViewController {
   static let SegueIdentifier = "Media Item Details"
   let CellIdentifier = "MediaItemDetailsCell"
 
-  @IBOutlet weak var imageView: UIImageView!
-  @IBOutlet weak var movieDescription: UITextView!
-  @IBOutlet weak var name: UILabel!
-  @IBOutlet weak var tag: UILabel!
-  @IBOutlet weak var rating: UILabel!
-  @IBOutlet weak var watchStatus: UILabel!
+  @IBOutlet private weak var imageView: UIImageView!
+  @IBOutlet private weak var movieDescription: UITextView!
+  @IBOutlet private weak var name: UILabel!
+  @IBOutlet private weak var tag: UILabel!
+  @IBOutlet private weak var rating: UILabel!
+  @IBOutlet private weak var watchStatus: UILabel!
 
   let localizer = Localizer("com.rubikon.TVSetKit")
 
-  @IBOutlet weak var playButtonsView: PlayButtonsView!
+  @IBOutlet private weak var playButtonsView: PlayButtonsView!
 
   var adapter: ServiceAdapter?
   var collectionItems: [MediaItem]!

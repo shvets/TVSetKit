@@ -41,7 +41,7 @@ public class PageLoader {
 
           self.endOfData = result.isEmpty || (self.pageSize != 0 && result.count < self.pageSize)
 
-          OperationQueue.main.addOperation() {
+          OperationQueue.main.addOperation {
             if !result.isEmpty && (self.pageSize != 0 && result.count == self.pageSize) {
               self.currentPage = self.currentPage + 1
             }

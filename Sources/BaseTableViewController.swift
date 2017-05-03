@@ -30,7 +30,7 @@ open class BaseTableViewController: UITableViewController {
   }
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
-    return adapter.pageLoader.loadData() { result in
+    return adapter.pageLoader.loadData { result in
       self.items = result as! [MediaItem]
 
       if let onLoadCompleted = onLoadCompleted {
@@ -44,7 +44,7 @@ open class BaseTableViewController: UITableViewController {
   public func loadMoreData() {
     let pageLoader = adapter.pageLoader
 
-    pageLoader.loadData() { result in
+    pageLoader.loadData { result in
       var indexPaths: [IndexPath] = []
 
       for (index, _) in result.enumerated() {

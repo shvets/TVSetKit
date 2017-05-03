@@ -155,7 +155,7 @@ class VideoPlayerController: AVPlayerViewController {
       
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
       
-      let closeAction = UIAlertAction(title: "Close", style: .default) { (action) in
+      let closeAction = UIAlertAction(title: "Close", style: .default) { _ in
         // redirect to previous page
       }
       

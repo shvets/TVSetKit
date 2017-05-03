@@ -21,7 +21,7 @@ open class ServiceAdapter {
   }
 
   open func load() throws -> [Any] {
-    if let requestType = params["requestType"] as? String {
+    if params["requestType"] as? String != nil {
       var newParams = Parameters()
 
       for (key, value) in params {
@@ -86,4 +86,3 @@ open class ServiceAdapter {
   open func addHistoryItem(_ item: MediaItem) {}
 
 }
-
