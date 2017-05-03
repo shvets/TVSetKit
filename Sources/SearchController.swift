@@ -39,6 +39,12 @@ open class SearchController: UIViewController {
     query.placeholder = localizer.localize(query.placeholder!)
 
     query.addTarget(self, action: #selector(self.textFieldDidChange(textField:)), for: UIControlEvents.editingChanged)
+
+    if localizer.getLocale() == "en" {
+      transcodedQuery.isHidden = true
+      useRunglishLabel.isHidden = true
+      useRunglish.isHidden = true
+    }
   }
 
   func textFieldDidChange(textField: UITextField) {
@@ -61,7 +67,7 @@ open class SearchController: UIViewController {
       switch identifier {
       case MediaItemsController.SegueIdentifier:
         if let destination = segue.destination.getActionController() as? MediaItemsController {
-          if isChecked {
+          if localizer.getLocale() == "ru" && isChecked {
             let transcoded = LatToRusConverter().transliterate(query.text!)
 
             adapter.params["query"] = transcoded

@@ -51,6 +51,12 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
     query.delegate = self
 
     useRunglish.addTarget(self, action: #selector(self.onUseRunglish), for: .touchUpInside)
+
+    if localizer.getLocale() == "en" {
+      transcodedQuery.isHidden = true
+      useRunglishLabel.isHidden = true
+      useRunglish.isHidden = true
+    }
   }
 
   func textFieldModified(textField: UITextField) {
@@ -79,7 +85,7 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
       switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
-            if isChecked {
+            if localizer.getLocale() == "ru" && isChecked {
               let transcoded = LatToRusConverter().transliterate(query.text!)
 
               adapter.params["query"] = transcoded
