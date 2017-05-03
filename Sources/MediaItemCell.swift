@@ -1,8 +1,8 @@
 import UIKit
 
 open class MediaItemCell: UICollectionViewCell {
-  @IBOutlet private weak var title: UILabel!
-  @IBOutlet private weak var thumb: UIImageView!
+  @IBOutlet weak var title: UILabel!
+  @IBOutlet weak var thumb: UIImageView!
 
   public func configureCell(item: MediaItem, localizedName: String) {
     self.title.text = item.getDetailedName()
