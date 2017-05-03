@@ -20,16 +20,26 @@ open class Localizer {
   }
 
   public func setLocale(langCode: String) {
-    config.saveStorage(["langCode": langCode])
+    do {
+      try config.saveStorage(["langCode": langCode])
+    }
+    catch {
+      print("Error saving locale")
+    }
   }
 
   public func getLocale() -> String {
     var locale = Localizer.DefaultLocale
 
-    if let data = config.loadStorage() {
+    do {
+      let data = try config.loadStorage()
+
       if let langCode = data["langCode"] as? String {
         locale = langCode
       }
+    }
+    catch {
+      print("Error loading locale")
     }
 
     return locale

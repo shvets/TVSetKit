@@ -1,7 +1,20 @@
-import Foundation
+//import Unbox
+//import Wrap
+//
+//public struct StorageProperty: Unboxable {
+//  let value: String
+//
+//  public init(value: String) throws {
+//    self.value = value
+//  }
+//
+//  public init(unboxer: Unboxer) throws {
+//    self.value = try unboxer.unbox(key: "value")
+//  }
+//}
 
 open class Storage {
-  public var items = [String: Any]()
+  public var items: [String: Any] = [:]
 
   public func clear() {
     items.removeAll()
@@ -19,24 +32,22 @@ open class Storage {
     return items.removeValue(forKey: key) != nil
   }
 
-  public func load() {
+  public func load() throws {
     clear()
-    
+
     if exist() {
-      if let items = loadStorage() {
-        self.items = items
-      }
+      items = try loadStorage()
     }
   }
 
-  public func save() {
-    saveStorage(self.items)
+  public func save() throws {
+    try saveStorage(self.items)
   }
 
-  func loadStorage() -> [String: Any]? {
+  func loadStorage() throws -> [String: Any] {
     return [:]
   }
-  
-  func saveStorage(_ items: [String: Any]) {}
-  
+
+  func saveStorage(_ items: [String: Any]) throws {}
+
 }

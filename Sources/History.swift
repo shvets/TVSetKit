@@ -4,6 +4,24 @@ import SwiftyJSON
 open class History: FileStorage {
   let HistorySize = 60
 
+  override public func load() {
+    do {
+      try super.load()
+    }
+    catch {
+      print("Error loading history")
+    }
+  }
+
+  override public func save() {
+    do {
+      try super.save()
+    }
+    catch {
+      print("Error saving history")
+    }
+  }
+
   public func getHistoryItems(pageSize: Int, page: Int) -> [Any] {
     var data: [Any] = []
 

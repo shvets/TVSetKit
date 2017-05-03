@@ -3,6 +3,24 @@ import SwiftyJSON
 
 open class Bookmarks: FileStorage {
 
+  override public func load() {
+    do {
+      try super.load()
+    }
+    catch {
+      print("Error loading bookmarks")
+    }
+  }
+
+  override public func save() {
+    do {
+      try super.save()
+    }
+    catch {
+      print("Error saving bookmarks")
+    }
+  }
+
   public func getBookmarks(pageSize: Int, page: Int) -> [Any] {
     var data: [Any] = []
 
@@ -39,7 +57,12 @@ open class Bookmarks: FileStorage {
     if found == nil {
       add(key: id, value: ["item": item.toJson()])
 
-      save()
+      do {
+        try save()
+      }
+      catch {
+        print("Error saving bookmarks")
+      }
 
       return true
     }
@@ -51,7 +74,12 @@ open class Bookmarks: FileStorage {
     let result = remove(item.id!)
 
     if result {
-      save()
+      do {
+        try save()
+      }
+      catch {
+        print("Error saving bookmarks")
+      }
     }
 
     return result
