@@ -3,6 +3,11 @@
 "Your Selection Will Be Removed" = "Ваш Выбор Будет Удален из Очереди";
 "Cannot Find Source" = "Источник Не Существует";
 
+"Search" = "Поиск";
+"Search Results" = "Результаты Поиска";
+"Use Runglish?" = "Использовать Runglish?";
+"Enter Query" = "Введите Запрос";
+
 "Low" = "Низкое";
 "Medium" = "Среднее";
 "Normal" = "Нормальное";

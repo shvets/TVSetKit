@@ -20,7 +20,7 @@ open class FileStorage: Storage {
       }
     }
     else {
-      print("File does not exist")
+      //print("File does not exist: \(fileName)")
       contents = Data()
     }
 
