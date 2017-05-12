@@ -41,6 +41,19 @@ open class MediaItemsController: BaseCollectionViewController {
 
   // MARK: UICollectionViewDataSource
 
+  
+#if os(iOS)  
+  override open func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+    collectionViewLayout.invalidateLayout()
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
+    
+    return CGSize(width: collectionView.bounds.width, height: itemSize.height)
+  }
+#endif
+  
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaItemCell
 
