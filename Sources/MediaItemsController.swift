@@ -41,7 +41,6 @@ open class MediaItemsController: BaseCollectionViewController {
 
   // MARK: UICollectionViewDataSource
 
-  
 #if os(iOS)  
   override open func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
     collectionViewLayout.invalidateLayout()
