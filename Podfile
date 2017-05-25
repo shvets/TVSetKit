@@ -21,7 +21,7 @@ target 'TVSetKit_tvOS' do
 end
 
 target 'TVSetKit_macOS' do
-  platform :macos, '10.10'
+  platform :osx, '10.10'
 
   podspec :path => 'TVSetKit.podspec'
 
