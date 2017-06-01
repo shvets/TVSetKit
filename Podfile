@@ -1,7 +1,7 @@
 use_frameworks!
 
 def project_dependencies
-  pod 'SwiftyJSON', '~> 3.1.4'
+  pod 'Runglish',  path: '../Runglish'
   pod 'AudioPlayer', path: '../AudioPlayer'
 end
 
