@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TVSetKit"
-  s.version      = "1.0.9"
+  s.version      = "1.0.10"
   s.summary      = "Framework for representing movies as collection and playing them"
   s.description  = "Framework for representing movies as collection and playing them."
 
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.source_files = "Sources/**/*.swift"
 
   s.resource_bundles = {
-    'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings}']
+    'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings,lproj}', ]
   }
 
   s.dependency 'SwiftyJSON', '~> 3.1.4'
