@@ -20,7 +20,7 @@ open class MediaItemsController: BaseCollectionViewController {
   override open func viewDidLoad() {
     super.viewDidLoad()
 
-    localizer = Localizer("com.rubikon.TVSetKit", TVSetKit.self)
+    localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
     title = getHeaderName()
 
