@@ -8,7 +8,7 @@ open class Localizer {
 
   public var bundle: Bundle?
 
-  public init(_ identifier: String="", bundleClass: AnyClass=nil) {
+  public init(_ identifier: String="", bundleClass: AnyClass?=nil) {
     if identifier.isEmpty {
       bundle = Bundle.main
     }
@@ -17,10 +17,12 @@ open class Localizer {
     }
 
     if bundle == nil {
-      let podBundle = Bundle(for: bundleClass.self)
+      if let bundleClass = bundleClass {
+        let podBundle = Bundle(for: bundleClass)
 
-      if let bundleURL = podBundle.url(forResource: identifier, withExtension: "bundle") {
-        bundle = Bundle(url: bundleURL)!
+        if let bundleURL = podBundle.url(forResource: identifier, withExtension: "bundle") {
+          bundle = Bundle(url: bundleURL)!
+        }
       }
     }
 
