@@ -316,7 +316,7 @@ open class MediaItemsController: BaseCollectionViewController {
       name = adapter.params["requestType"] as! String
     }
 
-    let localizer = Localizer(type(of: adapter!).BundleId, TVSetKit.self)
+    let localizer = Localizer(type(of: adapter!).BundleId, bundleClass: TVSetKit.self)
 
     return localizer.localize(name)
   }

@@ -14,7 +14,7 @@ class PlayButton: UIButton {
 }
 
 class PlayButtonsView: UIView {
-  let localizer = Localizer("com.rubikon.TVSetKit", TVSetKit.self)
+  let localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
   var buttons = [UIButton]()
 

@@ -12,7 +12,7 @@ class MediaItemDetailsController: UIViewController {
   @IBOutlet private weak var rating: UILabel!
   @IBOutlet private weak var watchStatus: UILabel!
 
-  let localizer = Localizer("com.rubikon.TVSetKit", TVSetKit.self)
+  let localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
   @IBOutlet private weak var playButtonsView: PlayButtonsView!
 
