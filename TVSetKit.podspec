@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
   s.name         = "TVSetKit"
-  s.version      = "1.0.4"
+  s.version      = "1.0.5"
   s.summary      = "Framework for representing movies as collection and playing them"
-  s.description  = "Framework for representing movies as collection and playing them"
+  s.description  = "Framework for representing movies as collection and playing them."
 
   s.homepage     = "https://github.com/shvets/TVSetKit"
   s.authors = { "Alexander Shvets" => "alexander.shvets@gmail.com" }
@@ -16,6 +16,10 @@ Pod::Spec.new do |s|
 
   s.source = { :git => "https://github.com/shvets/TVSetKit.git", :tag => s.version }
   s.source_files = "Sources/**/*.swift"
+
+  s.resource_bundles = {
+    'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings}']
+  }
 
   s.dependency 'SwiftyJSON', '~> 3.1.4'
   s.dependency 'Runglish', '~> 1.0.0'
