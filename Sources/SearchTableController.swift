@@ -12,7 +12,7 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
 
   public var adapter: ServiceAdapter!
 
-  var localizer = Localizer("com.rubikon.TVSetKit")
+  var localizer = Localizer("com.rubikon.TVSetKit", TVSetKit.self)
 
   var params = [String: Any]()
 

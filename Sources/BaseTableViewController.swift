@@ -26,7 +26,7 @@ open class BaseTableViewController: UITableViewController {
   override open func viewDidLoad() {
     super.viewDidLoad()
 
-    localizer = Localizer(BundleId)
+    localizer = Localizer(BundleId, TVSetKit.self)
   }
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
