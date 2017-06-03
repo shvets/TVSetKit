@@ -8,7 +8,7 @@ open class Localizer {
 
   public var bundle: Bundle?
 
-  public init(_ identifier: String="", bundleClass: Any) {
+  public init(_ identifier: String="", bundleClass: Any=nil) {
     if identifier.isEmpty {
       bundle = Bundle.main
     }
