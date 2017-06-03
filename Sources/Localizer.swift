@@ -6,14 +6,22 @@ open class Localizer {
 
   let config: FileStorage!
 
-  let bundle: Bundle!
+  public var bundle: Bundle?
 
-  public init(_ identifier: String="") {
+  public init(_ identifier: String="", bundleClass: Any) {
     if identifier.isEmpty {
       bundle = Bundle.main
     }
     else {
       bundle = Bundle(identifier: identifier)
+    }
+
+    if bundle == nil {
+      let podBundle = Bundle(for: bundleClass.self)
+
+      if let bundleURL = podBundle.url(forResource: identifier, withExtension: "bundle") {
+        bundle = Bundle(url: bundleURL)!
+      }
     }
 
     config = FileStorage(Localizer.configName)
@@ -49,9 +57,14 @@ open class Localizer {
     let locale = getLocale()
 
     let lang = locale
-    let path = bundle.path(forResource: lang, ofType: "lproj")
 
-    return NSLocalizedString(key, bundle: Bundle(path: path!)!, comment: comment)
+    if let path = bundle?.path(forResource: lang, ofType: "lproj") {
+      return NSLocalizedString(key, bundle: Bundle(path: path)!, comment: comment)
+    }
+    else {
+      return comment
+    }
+
   }
 
 }
