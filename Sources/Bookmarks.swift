@@ -57,12 +57,7 @@ open class Bookmarks: FileStorage {
     if found == nil {
       add(key: id, value: ["item": item.toJson()])
 
-      do {
-        try save()
-      }
-      catch {
-        print("Error saving bookmarks")
-      }
+      save()
 
       return true
     }
@@ -74,12 +69,7 @@ open class Bookmarks: FileStorage {
     let result = remove(item.id!)
 
     if result {
-      do {
-        try save()
-      }
-      catch {
-        print("Error saving bookmarks")
-      }
+      save()
     }
 
     return result

@@ -66,7 +66,8 @@ open class ServiceAdapter {
   }
 
   open func getParentName() -> String? {
-    return (params["parentName"] != nil) ? params["parentName"] as! String : (params["selectedItem"] as! MediaItem).name
+    //return (params["parentName"] != nil) ? params["parentName"] as! String : (params["selectedItem"] as! MediaItem).name
+    return params["parentName"] as! String
   }
 
   open func getUrl(_ params: [String: Any]) throws -> String? {

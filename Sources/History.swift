@@ -53,7 +53,7 @@ open class History: FileStorage {
       add(key: id, value: ["time": time, "item": item.toJson()])
 
       if items.count > HistorySize {
-        let sortedItems = items.sorted { element1, element2 in
+        let _ = items.sorted { element1, element2 in
           let (_, value1) = element1
           let (_, value2) = element2
 
