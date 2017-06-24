@@ -47,40 +47,50 @@ open class MediaItemsController: BaseCollectionViewController {
   }
   
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
-    
-    return CGSize(width: collectionView.bounds.width, height: itemSize.height)
+    if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+      let itemSize = layout.itemSize
+
+      return CGSize(width: collectionView.bounds.width, height: itemSize.height)
+    }
+    else {
+      return CGSize(width: 0, height: 0)
+    }
   }
 #endif
   
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaItemCell
+    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
+      let item = items[indexPath.row]
 
-    let item = items[indexPath.row]
-
-    cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
+      cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
 #if os(tvOS)
-    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
+      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
 
-    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
+      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 #endif
 
-    if adapter.mobile == false {
-      let itemSize = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize
+      if adapter.mobile == false,
+         let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+        let itemSize = layout.itemSize
 
-      cell.thumb.frame = CGRect(x: 10, y: 0, width: itemSize.width, height: itemSize.height)
-      cell.title.frame = CGRect(x: 10, y: itemSize.height, width: itemSize.width, height: 100)
+        cell.thumb.frame = CGRect(x: 10, y: 0, width: itemSize.width, height: itemSize.height)
+        cell.title.frame = CGRect(x: 10, y: itemSize.height, width: itemSize.width, height: 100)
+      }
+
+      return cell
     }
-
-    return cell
+    else {
+      return UICollectionViewCell()
+    }
   }
 
 #if os(iOS)
   func longPressed(_ gesture: UILongPressGestureRecognizer) {
-    if gesture.state == UIGestureRecognizerState.ended {
+    if gesture.state == UIGestureRecognizerState.ended,
+       let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
-      let indexPath = collectionView!.indexPathForItem(at: point)
+      let indexPath = collectionView.indexPathForItem(at: point)
 
       if let indexPath = indexPath {
         cellSelection.setIndexPath(indexPath)
@@ -99,17 +109,19 @@ open class MediaItemsController: BaseCollectionViewController {
       playImmediately = true
     }
 
-    navigate(from: gesture.view as! UICollectionViewCell, playImmediately: playImmediately)
+    if location = gesture.view as? UICollectionViewCell {
+      navigate(from: location, playImmediately: playImmediately)
+    }
   }
 #endif
 
   override open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
     let mediaItem = getItem(for: view)
 
-    let type = mediaItem.type
-
-    if type != nil && type!.isEmpty {
-      mediaItem.resolveType()
+    if let type = mediaItem.type {
+      if type.isEmpty {
+        mediaItem.resolveType()
+      }
     }
 
     if mediaItem.isContainer() {
@@ -124,24 +136,26 @@ open class MediaItemsController: BaseCollectionViewController {
       else {
         let controller = MediaItemsController.instantiate(adapter)
 
-        let destination = controller.getActionController() as! MediaItemsController
+        if let destination = controller.getActionController() as? MediaItemsController {
+          let newAdapter = adapter.clone()
+          newAdapter.params["selectedItem"] = mediaItem
 
-        let newAdapter = adapter.clone()
-        newAdapter.params["selectedItem"] = mediaItem
+          newAdapter.params["parentId"] = mediaItem.id
+          newAdapter.params["parentName"] = mediaItem.name
+          newAdapter.params["isContainer"] = true
 
-        newAdapter.params["parentId"] = mediaItem.id
-        newAdapter.params["parentName"] = mediaItem.name
-        newAdapter.params["isContainer"] = true
+          destination.adapter = newAdapter
 
-        destination.adapter = newAdapter
+          if adapter.mobile == false {
+            if let layout = adapter.buildLayout() {
+              destination.collectionView?.collectionViewLayout = layout
+            }
 
-        if adapter.mobile == false {
-          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
-
-          present(destination, animated: true)
-        }
-        else {
-          navigationController!.pushViewController(destination, animated: true)
+            present(destination, animated: true)
+          }
+          else {
+            navigationController?.pushViewController(destination, animated: true)
+          }
         }
       }
     }
@@ -158,13 +172,13 @@ open class MediaItemsController: BaseCollectionViewController {
   // MARK: Navigation
 
   override open func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let identifier = segue.identifier {
-      let selectedCell = sender as! MediaItemCell
+    if let identifier = segue.identifier,
+       let selectedCell = sender as? MediaItemCell {
 
-      let indexPath = collectionView?.indexPath(for: selectedCell)!
-      let mediaItem = items[indexPath!.row]
+      if let indexPath = collectionView?.indexPath(for: selectedCell) {
+        let mediaItem = items[indexPath.row]
 
-      switch identifier {
+        switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
             let newAdapter = adapter.clone()
@@ -177,7 +191,9 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.adapter = newAdapter
 
             if adapter.mobile == false {
-              destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+              if let layout = adapter.buildLayout() {
+                destination.collectionView?.collectionViewLayout = layout
+              }
             }
           }
 
@@ -207,9 +223,11 @@ open class MediaItemsController: BaseCollectionViewController {
               let mediaItems = try self.adapter.load()
 
               for mediaItem in mediaItems {
-                let item = mediaItem as! [String: String]
-
-                items.append(AudioItem(name: item["name"]!, id: item["id"]!))
+                if let item = mediaItem as? [String: String],
+                  let name = item["name"],
+                  let id = item["id"] {
+                  items.append(AudioItem(name: name, id: id))
+                }
               }
 
               return items
@@ -226,9 +244,11 @@ open class MediaItemsController: BaseCollectionViewController {
               let mediaItems = try self.adapter.load()
 
               for mediaItem in mediaItems {
-                let item = mediaItem as! [String: String]
-
-                items.append(AudioItem(name: item["name"]!, id: item["id"]!))
+                if let item = mediaItem as? [String: String],
+                   let name = item["name"],
+                   let id = item["id"] {
+                  items.append(AudioItem(name: name, id: id))
+                }
               }
 
               return items
@@ -244,8 +264,10 @@ open class MediaItemsController: BaseCollectionViewController {
             destination.pageLoader.pageSize = adapter.pageLoader.pageSize
             destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
-            if adapter.params["requestType"] as! String != "History" {
-              adapter.addHistoryItem(mediaItem)
+            if let requestType = adapter.params["requestType"] as? String {
+              if requestType != "History" {
+                adapter.addHistoryItem(mediaItem)
+              }
             }
 
             destination.pageLoader.load = {
@@ -258,9 +280,12 @@ open class MediaItemsController: BaseCollectionViewController {
               let mediaItems = try self.adapter.load()
 
               for mediaItem in mediaItems {
-                let item = mediaItem as! [String: String]
+                if let item = mediaItem as? [String: String] {
+                  let name = item["name"] ?? ""
+                  let id = item["id"] ?? ""
 
-                items.append(AudioItem(name: item["name"]!, id: item["id"]!))
+                  items.append(AudioItem(name: name, id: id))
+                }
               }
 
               return items
@@ -286,6 +311,7 @@ open class MediaItemsController: BaseCollectionViewController {
             }
           }
         default: break
+        }
       }
     }
   }
@@ -294,12 +320,12 @@ open class MediaItemsController: BaseCollectionViewController {
   override open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
                                at indexPath: IndexPath) -> UICollectionReusableView {
     if kind == "UICollectionElementKindSectionHeader" {
-      let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-        withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as! MediaItemsHeaderView
+      if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+        withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as? MediaItemsHeaderView {
+        headerView.sectionLabel.text = getHeaderName()
 
-      headerView.sectionLabel.text = getHeaderName()
-      
-      return headerView
+        return headerView
+      }
     }
 
     return UICollectionReusableView()
@@ -310,10 +336,10 @@ open class MediaItemsController: BaseCollectionViewController {
     var name = ""
 
     if adapter.getParentName() != nil {
-      name = adapter.getParentName()!
+      name = adapter.getParentName() ?? ""
     }
     else {
-      name = adapter.params["requestType"] as! String
+      name = adapter.params["requestType"] as? String ?? ""
     }
 
     let localizer = Localizer(type(of: adapter!).BundleId, bundleClass: TVSetKit.self)
@@ -336,13 +362,14 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   func handleBookmark() {
-    if adapter.params["requestType"] as! String != "History" {
+    if let requestType = adapter.params["requestType"] as? String,
+       requestType != "History" {
       let selectedItem = getSelectedItem()
 
       if let item = selectedItem {
         var controller: UIAlertController?
 
-        if adapter.params["requestType"] as! String == "Bookmarks" {
+        if requestType == "Bookmarks" {
           controller = buildRemoveBookmarkController(item)
         }
         else {

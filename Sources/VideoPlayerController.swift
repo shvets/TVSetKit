@@ -29,7 +29,9 @@ class VideoPlayerController: AVPlayerViewController {
 
     navigator = MediaItemsNavigator(collectionItems)
 
-    initialQualityLevel = QualityLevel(rawValue: bitrate!["name"] as! String)
+    if let bitrate = bitrate, let name = bitrate["name"] as? String {
+      initialQualityLevel = QualityLevel(rawValue: name)
+    }
 
 #if os(tvOS)
     let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
@@ -88,45 +90,51 @@ class VideoPlayerController: AVPlayerViewController {
   }
 
   func preparePreviousMediaItem() -> Bool {
-    let currentId = mediaItem?.id
-    
-    let previousId = navigator?.getPreviousId(currentId!)
-    
-    if previousId != currentId {
-      let previousItem = navigator?.items?.filter { item in item.id == previousId }.first
-      
-      mediaItem = previousItem
+    if let currentId = mediaItem?.id {
+      let previousId = navigator?.getPreviousId(currentId)
+
+      if previousId != currentId {
+        let previousItem = navigator?.items?.filter { item in item.id == previousId }.first
+
+        mediaItem = previousItem
+      }
+
+      return previousId != currentId
     }
-    
-    return previousId != currentId
+    else {
+      return false
+    }
   }
   
   func prepareNextMediaItem() -> Bool {
-    let currentId = mediaItem?.id
-    
-    let nextId = navigator?.getNextId(currentId!)
-    
-    if nextId != currentId {
-      let nextItem = navigator?.items?.filter { item in item.id == nextId }.first
+    if let currentId = mediaItem?.id {
+      let nextId = navigator?.getNextId(currentId)
 
-      mediaItem = nextItem
+      if nextId != currentId {
+        let nextItem = navigator?.items?.filter { item in item.id == nextId }.first
+
+        mediaItem = nextItem
+      }
+
+      return nextId != currentId
     }
-    
-    return nextId != currentId
+    else {
+      return false
+    }
   }
   
   func play() {
-    let name = mediaItem?.name
-    let description = mediaItem?.description!
+    if let url = getMediaUrl(),
+       let name = mediaItem?.name,
+       let description = mediaItem?.description {
 
-    if let url = getMediaUrl() {
       let asset = AVAsset(url: url)
 
       let playerItem = AVPlayerItem(asset: asset)
 
-      #if os(tvOS)
-        playerItem.externalMetadata = externalMetaData(title: name!, description: description!)
-      #endif
+#if os(tvOS)
+      playerItem.externalMetadata = externalMetaData(title: name, description: description)
+#endif
 
       // playerViewController?.delegate = self
 
@@ -147,7 +155,7 @@ class VideoPlayerController: AVPlayerViewController {
       //   been presented.
       //   */
       //  player.play()
-     // }
+      // }
     }
     else {
       let title = localizer.localize("Cannot Find Source")
@@ -185,23 +193,26 @@ class VideoPlayerController: AVPlayerViewController {
     var url: String?
 
     do {
-      let qualityLevel = initialQualityLevel!.nearestLevel(qualityLevels: try mediaItem!.getQualityLevels())
+      if let mediaItem = mediaItem,
+         let initialQualityLevel = initialQualityLevel {
+        let qualityLevel = initialQualityLevel.nearestLevel(qualityLevels: try mediaItem.getQualityLevels())
 
-      let bitrate = try mediaItem!.getBitrate(qualityLevel: qualityLevel!)
+        let bitrate = try mediaItem.getBitrate(qualityLevel: qualityLevel!)
 
-      var params = [String: Any]()
-      params["bitrate"] = bitrate
-      params["id"] = mediaItem?.id
-      params["item"] = mediaItem
+        var params = [String: Any]()
+        params["bitrate"] = bitrate
+        params["id"] = mediaItem.id
+        params["item"] = mediaItem
 
-      url = try adapter!.getUrl(params)
+        url = try adapter!.getUrl(params)
+      }
     }
     catch {
       print("Cannot get urls.")
     }
 
-    if url != nil {
-      return NSURL(string: url!)! as URL
+    if let url = url {
+      return NSURL(string: url) as URL?
     }
     else {
       return nil

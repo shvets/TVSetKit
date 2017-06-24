@@ -32,7 +32,10 @@ open class Bookmarks: FileStorage {
       let parentName = item["parentName"]
 
       if parentName != JSON.null {
-        item["name"] = JSON("\(parentName.rawString()!) (\(item["name"].rawString()!))")
+        let pname = parentName.rawString() ?? ""
+        let name = item["name"].rawString() ?? ""
+
+        item["name"] = JSON("\(pname) (\(name))")
       }
 
       data.append(item)
@@ -50,29 +53,33 @@ open class Bookmarks: FileStorage {
   }
 
   public func addBookmark(item: MediaItem) -> Bool {
-    let id = item.id!
+    if let id = item.id {
+      let found = items.filter { (key, _) in key == id }.first
 
-    let found = items.filter { (key, _) in key == id }.first
+      if found == nil {
+        add(key: id, value: ["item": item.toJson()])
 
-    if found == nil {
-      add(key: id, value: ["item": item.toJson()])
+        save()
 
-      save()
-
-      return true
+        return true
+      }
     }
 
     return false
   }
 
   public func removeBookmark(item: MediaItem) -> Bool {
-    let result = remove(item.id!)
+    if let id = item.id {
+      let result = remove(id)
 
-    if result {
-      save()
+      if result {
+        save()
+      }
+
+      return result
     }
 
-    return result
+    return false
   }
   
 }

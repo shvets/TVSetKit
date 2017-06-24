@@ -25,7 +25,9 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
-      self.items = result as! [MediaItem]
+      if let items = result as? [MediaItem] {
+        self.items = items
+      }
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -47,13 +49,15 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
         indexPaths.append(indexPath)
       }
 
-      self.items += result as! [MediaItem]
+      if let items = result as? [MediaItem] {
+        self.items += items
 
-      self.collectionView?.insertItems(at: indexPaths)
+        self.collectionView?.insertItems(at: indexPaths)
 
-      let step = min(result.count, pageLoader.rowSize)
+        let step = min(result.count, pageLoader.rowSize)
 
-      self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
+        self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
+      }
     }
   }
 
@@ -68,19 +72,22 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   }
 
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as! MediaNameCell
+    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaNameCell {
+      if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+        loadMoreData()
+      }
 
-    if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-      loadMoreData()
+      let item = items[indexPath.row]
+
+      cell.configureCell(item: item, localizedName: getLocalizedName(item.name), target: self)
+
+      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+
+      return cell
     }
-
-    let item = items[indexPath.row]
-
-    cell.configureCell(item: item, localizedName: getLocalizedName(item.name), target: self)
-
-    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
-
-    return cell
+    else {
+      return UICollectionViewCell()
+    }
   }
 
   // MARK: UIScrollViewDelegate
@@ -122,17 +129,24 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   }
 
   public func getItem(for cell: UICollectionViewCell) -> MediaItem {
-    let indexPath = collectionView?.indexPath(for: cell)!
-
-    return items[indexPath!.row]
+    if let indexPath = collectionView?.indexPath(for: cell) {
+      return items[indexPath.row]
+    }
+    else {
+      return MediaItem(data: JSON.null)
+    }
   }
 
   open func tapped(_ gesture: UITapGestureRecognizer) {
-    navigate(from: gesture.view as! UICollectionViewCell)
+    if let location = gesture.view as? UICollectionViewCell {
+      navigate(from: location)
+    }
   }
 
   override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    navigate(from: collectionView.cellForItem(at: indexPath)!)
+    if let location = collectionView.cellForItem(at: indexPath) {
+      navigate(from: location)
+    }
   }
 
   open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {}

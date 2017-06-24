@@ -23,5 +23,5 @@ Pod::Spec.new do |s|
 
   s.dependency 'SwiftyJSON', '~> 3.1.4'
   s.dependency 'Runglish', '~> 1.0.0'
-  s.dependency 'AudioPlayer', '~> 1.0.7'
+  s.dependency 'AudioPlayer', '~> 1.0.8'
 end

@@ -6,17 +6,19 @@ open class MediaNameCell: UICollectionViewCell {
   public func configureCell(item: MediaName, localizedName: String, target: Any?) {
     thumb.backgroundColor = UIColor(rgb: 0x00BFFF)
 
-    let itemSize = UIHelper.shared.getItemSize(target as! UICollectionViewController)
+    if let controller = target as? UICollectionViewController {
+      let itemSize = UIHelper.shared.getItemSize(controller)
 
-    var icon: UIImage?
+      var icon: UIImage?
 
-    if item.imageName != nil {
-      icon = UIImage(named: item.imageName!)
+      if item.imageName != nil {
+        icon = UIImage(named: item.imageName!)
+      }
+
+      let image = UIHelper.shared.textToImage(drawText: localizedName, size: itemSize, drawImage: icon)
+
+      thumb.image = image
     }
-
-    let image = UIHelper.shared.textToImage(drawText: localizedName, size: itemSize, drawImage: icon)
-
-    thumb.image = image
   }
 
 #if os(tvOS)

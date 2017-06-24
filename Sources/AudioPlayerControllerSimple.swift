@@ -5,8 +5,8 @@ import AVKit
 class AudioPlayerControllerSimple: AVPlayerViewController, AVPlayerViewControllerDelegate {
   static let SegueIdentifier = "Audio Player Controller"
 
-  var mediaItem: MediaItem!
-  var items: [MediaItem]!
+  var mediaItem: MediaItem?
+  var items: [MediaItem]?
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -71,11 +71,9 @@ class AudioPlayerControllerSimple: AVPlayerViewController, AVPlayerViewControlle
 //  }
 
   private func getMediaUrl() -> URL? {
-    let url = mediaItem.id!
-
-    let link = url.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!
-
-    if link != "" {
+    if let mediaItem = mediaItem,
+       let url = mediaItem.id,
+       let link = url.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed) {
       return NSURL(string: link)! as URL
     }
     else {

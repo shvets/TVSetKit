@@ -18,6 +18,9 @@ open class MediaName {
   }
 
   public func toJson() -> [String: Any] {
-    return ["name": name!, "id": id == nil ? "" : id!, "imageName": imageName == nil ? "" : imageName!]
+    return [
+      "name": name ?? "",
+      "id": id ?? "",
+      "imageName": imageName ?? ""]
   }
 }

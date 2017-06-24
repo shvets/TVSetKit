@@ -31,7 +31,9 @@ open class BaseTableViewController: UITableViewController {
 
   public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
-      self.items = result as! [MediaItem]
+      if let items = result as? [MediaItem] {
+        self.items = items
+      }
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -53,7 +55,9 @@ open class BaseTableViewController: UITableViewController {
         indexPaths.append(indexPath)
       }
 
-      self.items += result as! [MediaItem]
+      if let items = result as? [MediaItem] {
+        self.items += items
+      }
 
       self.tableView?.insertRows(at: indexPaths, with: .none)
 
@@ -74,21 +78,24 @@ open class BaseTableViewController: UITableViewController {
   }
 
   override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as! MediaNameTableCell
+    if let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier, for: indexPath) as? MediaNameTableCell {
+      if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+        loadMoreData()
+      }
 
-    if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-      loadMoreData()
-    }
+      let item = items[indexPath.row]
 
-    let item = items[indexPath.row]
-
-    cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
+      cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
 #if os(tvOS)
-    CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
 #endif
 
-    return cell
+      return cell
+    }
+    else {
+      return UITableViewCell()
+    }
   }
 
 #if os(tvOS)
@@ -134,13 +141,18 @@ open class BaseTableViewController: UITableViewController {
   }
 
   public func getItem(for cell: UITableViewCell) -> MediaItem {
-    let indexPath = tableView?.indexPath(for: cell)!
-
-    return items[indexPath!.row]
+    if let indexPath = tableView?.indexPath(for: cell) {
+      return items[indexPath.row]
+    }
+    else {
+      return MediaItem(data: JSON.null)
+    }
   }
 
   override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    navigate(from: tableView.cellForRow(at: indexPath)!)
+    if let location = tableView.cellForRow(at: indexPath) {
+      navigate(from: location)
+    }
   }
 
   open func navigate(from view: UITableViewCell) {}

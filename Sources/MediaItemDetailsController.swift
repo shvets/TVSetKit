@@ -40,30 +40,36 @@ class MediaItemDetailsController: UIViewController {
       print("Error loading data.")
     }
 
-    playButtonsView.createPlayButtons(bitrates, mobile: adapter!.mobile!)
+    if let adapter = adapter, let mobile = adapter.mobile {
+      playButtonsView.createPlayButtons(bitrates, mobile: mobile)
+    }
 
-    for button in playButtonsView!.buttons {
-      let playButton = button as! PlayButton
+    if let view = playButtonsView {
+      for button in view.buttons {
+        let playButton = button as! PlayButton
 
-      playButton.controller = self
+        playButton.controller = self
 
-      if adapter?.mobile == true {
-        let action = #selector(self.playMediaItem)
+        if adapter?.mobile == true {
+          let action = #selector(self.playMediaItem)
 
-        button.addTarget(self, action: action, for: .touchUpInside)
-      }
-      else {
-        let action = #selector(self.tapped(_:))
-        let tapGesture = UITapGestureRecognizer(target: self, action: action)
+          button.addTarget(self, action: action, for: .touchUpInside)
+        }
+        else {
+          let action = #selector(self.tapped(_:))
+          let tapGesture = UITapGestureRecognizer(target: self, action: action)
 
-        tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
+          tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
-        button.addGestureRecognizer(tapGesture)
+          button.addGestureRecognizer(tapGesture)
+        }
       }
     }
 
-    if adapter?.params["requestType"] as! String != "History" {
-      adapter?.addHistoryItem(mediaItem)
+    if let requestType = adapter?.params["requestType"] as? String {
+      if requestType != "History" {
+        adapter?.addHistoryItem(mediaItem)
+      }
     }
 
     movieDescription.text = mediaItem.description
@@ -75,9 +81,7 @@ class MediaItemDetailsController: UIViewController {
       watchStatus.text = ws
     }
 
-    let rt = mediaItem.rating!
-
-    if rt > 0 {
+    if let rt = mediaItem.rating, rt > 0 {
       rating.text = String(describing: "Rating: \(rt)")
     }
 
@@ -97,10 +101,11 @@ class MediaItemDetailsController: UIViewController {
   func loadData() throws {
     do {
       for bitrate in try mediaItem.getBitrates() {
-        let name = bitrate["name"] as! String
-        let id = bitrate["id"] as? String
+        if let name = bitrate["name"] as? String {
+          let id = bitrate["id"] as? String ?? ""
 
-        bitrates.append(MediaName(name: name, id: id))
+          bitrates.append(MediaName(name: name, id: id))
+        }
       }
     }
     catch {
@@ -112,17 +117,19 @@ class MediaItemDetailsController: UIViewController {
     var image: UIImage?
 
     if path.isEmpty {
-      let localizedName = localizer.localize(mediaItem.name!)
+      if let name = mediaItem.name {
+        let localizedName = localizer.localize(name)
 
-      image = UIHelper.shared.textToImage(drawText: localizedName, width: 450, height: 150)
+        image = UIHelper.shared.textToImage(drawText: localizedName, width: 450, height: 150)
+      }
     }
     else {
-      let url = NSURL(string: path)!
+      if let url = NSURL(string: path) {
+        let data = NSData(contentsOf: url as URL)
 
-      let data = NSData(contentsOf: url as URL)
-
-      if let data = data {
-        image = UIImage(data: data as Data)
+        if let data = data {
+          image = UIImage(data: data as Data)
+        }
       }
     }
 
@@ -130,7 +137,9 @@ class MediaItemDetailsController: UIViewController {
   }
 
   func tapped(_ gesture: UITapGestureRecognizer) {
-    playMediaItem(sender: gesture.view!)
+    if let sender = gesture.view {
+      playMediaItem(sender: sender)
+    }
   }
 
   func playMediaItem(sender: UIView) {
@@ -146,17 +155,19 @@ class MediaItemDetailsController: UIViewController {
       destination.mediaItem = mediaItem
       destination.adapter = adapter
 
-      let index = playButtonsView!.buttons.index(where: { $0 == sender as? UIButton })
+      if let view = playButtonsView {
+        let index = view.buttons.index(where: { $0 == sender as? UIButton })
 
-      if let index = index {
-        do {
-          let bitrates = try mediaItem.getBitrates()
+        if let index = index {
+          do {
+            let bitrates = try mediaItem.getBitrates()
 
-          if !bitrates.isEmpty {
-            destination.bitrate = bitrates[index]
+            if !bitrates.isEmpty {
+              destination.bitrate = bitrates[index]
+            }
+          } catch {
+            print("Error getting bitrate")
           }
-        } catch {
-          print("Error getting bitrate")
         }
       }
 

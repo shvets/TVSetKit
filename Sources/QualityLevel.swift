@@ -28,7 +28,7 @@ public enum QualityLevel {
     var nearestLevel: QualityLevel?
 
     if qualityLevels.count == 1 {
-      nearestLevel = qualityLevels.first!
+      nearestLevel = qualityLevels.first
     }
     else if qualityLevels.contains(self) {
       nearestLevel = self
@@ -36,7 +36,7 @@ public enum QualityLevel {
     else {
       switch self {
       case .low:
-        nearestLevel = qualityLevels.first!
+        nearestLevel = qualityLevels.first
 
       case .medium:
         nearestLevel = qualityLevels.contains(.normal) ? .normal : .high
@@ -45,7 +45,7 @@ public enum QualityLevel {
         nearestLevel = .high
 
       default:
-        nearestLevel = qualityLevels.first!
+        nearestLevel = qualityLevels.first
       }
     }
 

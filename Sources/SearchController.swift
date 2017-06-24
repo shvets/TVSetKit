@@ -34,9 +34,9 @@ open class SearchController: UIViewController {
 
     isChecked = true
 
-    useRunglishLabel.text = localizer.localize(useRunglishLabel.text!)
-    searchButton.setTitle(localizer.localize(searchButton.title(for: .normal)!), for: .normal)
-    query.placeholder = localizer.localize(query.placeholder!)
+    useRunglishLabel.text = localizer.localize(useRunglishLabel.text ?? "")
+    searchButton.setTitle(localizer.localize(searchButton.title(for: .normal) ?? ""), for: .normal)
+    query.placeholder = localizer.localize(query.placeholder ?? "")
 
     query.addTarget(self, action: #selector(self.textFieldDidChange(textField:)), for: UIControlEvents.editingChanged)
 
@@ -49,7 +49,7 @@ open class SearchController: UIViewController {
 
   func textFieldDidChange(textField: UITextField) {
     if isChecked {
-      let transcoded = LatToRusConverter().transliterate(query.text!)
+      let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
       transcodedQuery.text = transcoded
     }
@@ -68,7 +68,7 @@ open class SearchController: UIViewController {
       case MediaItemsController.SegueIdentifier:
         if let destination = segue.destination.getActionController() as? MediaItemsController {
           if localizer.getLocale() == "ru" && isChecked {
-            let transcoded = LatToRusConverter().transliterate(query.text!)
+            let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
             adapter.params["query"] = transcoded
             transcodedQuery.text = transcoded
@@ -79,7 +79,9 @@ open class SearchController: UIViewController {
 
           destination.adapter = adapter
 
-          destination.collectionView?.collectionViewLayout = adapter.buildLayout()!
+          if let layout = adapter.buildLayout() {
+            destination.collectionView?.collectionViewLayout = layout
+          }
         }
 
       default: break

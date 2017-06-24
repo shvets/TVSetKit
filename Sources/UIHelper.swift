@@ -27,11 +27,15 @@ public class UIHelper {
       image = renderer.image { _ in
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        
-        let textFont = UIFont(name: "Menlo", size: 36)!
-        
+
+        var textFont = UIFont(name: "Menlo", size: 36)
+
+        if textFont == nil {
+          textFont = UIFont.systemFont(ofSize: 36)
+        }
+
         let attrs = [
-          NSFontAttributeName: textFont,
+          NSFontAttributeName: textFont!,
           NSForegroundColorAttributeName: UIColor.black,
           NSParagraphStyleAttributeName: paragraphStyle
         ]
@@ -53,8 +57,10 @@ public class UIHelper {
             attributes: attrs, context: nil)
         }
       }
-      
-      self.cache.setObject(image!, forKey: text as NSString)
+
+      if let image = image {
+        self.cache.setObject(image, forKey: text as NSString)
+      }
     }
 
     return image!

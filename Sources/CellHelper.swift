@@ -51,15 +51,13 @@ open class CellHelper {
         // draw image
 
         DispatchQueue.global().async {
-          let url = NSURL(string: path)!
+          if let url = NSURL(string: path),
+             let data = NSData(contentsOf: url as URL),
+             let image = UIImage(data: data as Data) {
+            self.cache.setObject(image, forKey: path as NSString)
 
-          if let data = NSData(contentsOf: url as URL) {
-            if let image = UIImage(data: data as Data) {
-              self.cache.setObject(image, forKey: path as NSString)
-
-              DispatchQueue.main.async {
-                imageView.image = image
-              }
+            DispatchQueue.main.async {
+              imageView.image = image
             }
           }
         }

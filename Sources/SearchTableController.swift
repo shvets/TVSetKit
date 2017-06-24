@@ -37,8 +37,8 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
 
     title = localizer.localize("Search")
 
-    useRunglishLabel.text = localizer.localize(useRunglishLabel.text!)
-    searchButton.setTitle(localizer.localize(searchButton.title(for: .normal)!), for: .normal)
+    useRunglishLabel.text = localizer.localize(useRunglishLabel.text ?? "")
+    searchButton.setTitle(localizer.localize(searchButton.title(for: .normal) ?? ""), for: .normal)
 
     searchButton.addTarget(self, action: #selector(self.search(_:)), for: .touchUpInside)
 
@@ -61,7 +61,7 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
 
   func textFieldModified(textField: UITextField) {
     if isChecked {
-      let transcoded = LatToRusConverter().transliterate(query.text!)
+      let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
       transcodedQuery.text = transcoded
     }
@@ -86,7 +86,7 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
             if localizer.getLocale() == "ru" && isChecked {
-              let transcoded = LatToRusConverter().transliterate(query.text!)
+              let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
               adapter.params["query"] = transcoded
               transcodedQuery.text = transcoded

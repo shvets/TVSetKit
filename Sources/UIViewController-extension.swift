@@ -11,11 +11,14 @@ extension UIViewController {
   }
 
   public static func instantiate(controllerId: String, storyboardId: String, bundleId: String) -> UIViewController {
-    let bundle = Bundle(identifier: bundleId)!
+    if let bundle = Bundle(identifier: bundleId) {
+      let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: bundle)
 
-    let storyboard: UIStoryboard = UIStoryboard(name: storyboardId, bundle: bundle)
-
-    return storyboard.instantiateViewController(withIdentifier: controllerId)
+      return storyboard.instantiateViewController(withIdentifier: controllerId)
+    }
+    else {
+      return UIViewController()
+    }
   }
 
   public static func instantiate(controllerId: String, storyboardId: String, bundle: Bundle=Bundle.main) -> UIViewController {

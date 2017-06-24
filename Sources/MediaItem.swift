@@ -45,13 +45,17 @@ open class MediaItem: MediaName {
   }
 
   open func getDetailedName() -> String {
-    return name!
+    if let name = name {
+      return name
+    }
+
+    return ""
   }
 
   open func resolveType() {}
 
   open func getPosterPath(isBetterQuality: Bool = false) -> String {
-    return thumb!
+    return thumb ?? ""
   }
   
   open func getWatchStatus() -> String {
@@ -68,7 +72,8 @@ open class MediaItem: MediaName {
     var selectedIndex = -1
 
     for (index, bitrate) in bitrates.enumerated() {
-      if (bitrate["name"] as! String) == qualityLevel.rawValue {
+      if let bitrate = bitrate["name"] as? String,
+         bitrate == qualityLevel.rawValue {
         selectedIndex = index
       }
     }
@@ -87,7 +92,10 @@ open class MediaItem: MediaName {
     let bitrates = try getBitrates()
 
     for bitrate in bitrates {
-      qualityLevels.append(QualityLevel(rawValue: bitrate["name"] as! String)!)
+      if let name = bitrate["name"] as? String,
+         let qualityLevel = QualityLevel(rawValue: name) {
+        qualityLevels.append(qualityLevel)
+      }
     }
 
     return qualityLevels

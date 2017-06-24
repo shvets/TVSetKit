@@ -24,7 +24,7 @@ class PlayButtonsView: UIView {
     var width: CGFloat = 0
 
     for bitrate in bitrates {
-      let title = localizer.localize(bitrate.name!)
+      let title = localizer.localize(bitrate.name ?? "")
 
       let button = PlayButton(type: .system)
 
