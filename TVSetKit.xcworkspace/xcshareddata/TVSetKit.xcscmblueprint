@@ -1,0 +1,37 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7" : 9223372036854775807,
+    "E0AF33D0DC2DF6E05B85E39682757D42216257C0" : 9223372036854775807,
+    "7753260C4535CFA7BC8319DE142DC7085FADE8D9" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9C82B49C-72DC-487F-900D-A2AFF0DC41D9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7" : "TVSetKit\/",
+    "E0AF33D0DC2DF6E05B85E39682757D42216257C0" : "AudioPlayer\/",
+    "7753260C4535CFA7BC8319DE142DC7085FADE8D9" : "WebAPI\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TVSetKit",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TVSetKit.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:shvets\/WebAPI.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7753260C4535CFA7BC8319DE142DC7085FADE8D9"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:shvets\/AudioPlayer.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E0AF33D0DC2DF6E05B85E39682757D42216257C0"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:shvets\/TVSetKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E40D1825F5562D55D3E47CE5BED1647AC3AAF6C7"
+    }
+  ]
+}

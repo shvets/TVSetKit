@@ -2,7 +2,7 @@
 //  TVSetKit_tvOS.h
 //  TVSetKit_tvOS
 //
-//  Created by Alexander Shvets on 3/31/17.
+//  Created by Alexander Shvets on 6/24/17.
 //  Copyright © 2017 Alexander Shvets. All rights reserved.
 //
 

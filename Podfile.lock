@@ -1,0 +1,19 @@
+PODS:
+  - AudioPlayer (1.0.8):
+    - SwiftyJSON (~> 3.1.4)
+  - Runglish (1.0.1)
+  - SwiftyJSON (3.1.4)
+
+DEPENDENCIES:
+  - AudioPlayer (~> 1.0.8)
+  - Runglish (~> 1.0.0)
+  - SwiftyJSON (~> 3.1.4)
+
+SPEC CHECKSUMS:
+  AudioPlayer: b947047202f338e06a86ce213b406fb5ae26e5fa
+  Runglish: ca180daeffe03ee928e44fe021963e29ce81ec3d
+  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+
+PODFILE CHECKSUM: 310dd60e8ac62a6eb5588d150e3c604cf5e62f67
+
+COCOAPODS: 1.2.1
