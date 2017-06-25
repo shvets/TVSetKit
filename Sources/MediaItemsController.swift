@@ -109,7 +109,7 @@ open class MediaItemsController: BaseCollectionViewController {
       playImmediately = true
     }
 
-    if location = gesture.view as? UICollectionViewCell {
+    if let location = gesture.view as? UICollectionViewCell {
       navigate(from: location, playImmediately: playImmediately)
     }
   }
