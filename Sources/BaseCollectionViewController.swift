@@ -23,7 +23,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   public let cellSelection = CellSelection()
 
-  public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
+  open func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
       if let items = result as? [MediaItem] {
         self.items = items
@@ -37,7 +37,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     }
   }
 
-  public func loadMoreData() {
+  open func loadMoreData() {
     let pageLoader = adapter.pageLoader
 
     pageLoader.loadData { result in

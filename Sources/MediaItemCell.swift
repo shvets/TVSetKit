@@ -16,4 +16,8 @@ open class MediaItemCell: UICollectionViewCell {
   }
 #endif
 
+  public func setTitle(title: String) {
+    self.title.text = title
+  }
+
 }

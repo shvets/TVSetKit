@@ -3,10 +3,11 @@ import SwiftyJSON
 import AudioPlayer
 
 open class MediaItemsController: BaseCollectionViewController {
-  public class var SegueIdentifier: String { return "Media Items" }
-  public class var StoryboardControllerId: String { return "MediaItemsController" }
+  open class var SegueIdentifier: String { return "Media Items" }
+  open class var StoryboardControllerId: String { return "MediaItemsController" }
 
   override open var CellIdentifier: String { return "MediaItemCell" }
+
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
   static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
@@ -335,16 +336,27 @@ open class MediaItemsController: BaseCollectionViewController {
   func getHeaderName() -> String {
     var name = ""
 
-    if adapter.getParentName() != nil {
-      name = adapter.getParentName() ?? ""
-    }
-    else {
-      name = adapter.params["requestType"] as? String ?? ""
+    if let adapter = adapter {
+      if let parentName = adapter.getParentName() {
+        name = parentName
+      }
+      else if let requestType = adapter.params["requestType"] as? String {
+        name = requestType
+      }
+      else {
+        name = ""
+      }
+
+      let localizer = Localizer(type(of: adapter).BundleId, bundleClass: TVSetKit.self)
+
+      let localizedName = localizer.localize(name)
+
+      if !localizedName.isEmpty {
+        name = localizedName
+      }
     }
 
-    let localizer = Localizer(type(of: adapter!).BundleId, bundleClass: TVSetKit.self)
-
-    return localizer.localize(name)
+    return name
   }
 
 #if os(tvOS)

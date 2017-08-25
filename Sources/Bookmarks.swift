@@ -35,7 +35,12 @@ open class Bookmarks: FileStorage {
         let pname = parentName.rawString() ?? ""
         let name = item["name"].rawString() ?? ""
 
-        item["name"] = JSON("\(pname) (\(name))")
+        if pname.isEmpty {
+          item["name"] = JSON("\(name)")
+        }
+        else {
+          item["name"] = JSON("\(pname) (\(name))")
+        }
       }
 
       data.append(item)

@@ -1,7 +1,7 @@
 import UIKit
 
-class MediaItemsHeaderView: UICollectionReusableView {
+open class MediaItemsHeaderView: UICollectionReusableView {
   
-  @IBOutlet weak var sectionLabel: UILabel!
+  @IBOutlet public weak var sectionLabel: UILabel!
 
 }
