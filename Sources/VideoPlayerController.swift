@@ -59,7 +59,7 @@ class VideoPlayerController: AVPlayerViewController {
     }
   }
   
-  func swiped(_ gesture: UISwipeGestureRecognizer) {
+  @objc func swiped(_ gesture: UISwipeGestureRecognizer) {
 #if os(iOS)
     switch gesture.direction {
       case UISwipeGestureRecognizerDirection.up:
@@ -177,12 +177,12 @@ class VideoPlayerController: AVPlayerViewController {
 
   private func externalMetaData(title: String, description: String) -> [AVMetadataItem] {
     let titleItem = AVMutableMetadataItem()
-    titleItem.identifier = AVMetadataCommonIdentifierTitle
+    //todo titleItem.identifier = AVMetadataIdentifier.commonIdentifierTitle
     titleItem.value = title as NSString
     titleItem.extendedLanguageTag = "und"
 
     let descriptionItem = AVMutableMetadataItem()
-    descriptionItem.identifier = AVMetadataCommonIdentifierDescription
+    //todo descriptionItem.identifier = AVMetadataIdentifier.commonIdentifierDescription
     descriptionItem.value = description as NSString
     descriptionItem.extendedLanguageTag = "und"
 

@@ -137,7 +137,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     }
   }
 
-  open func tapped(_ gesture: UITapGestureRecognizer) {
+  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
     if let location = gesture.view as? UICollectionViewCell {
       navigate(from: location)
     }

@@ -136,13 +136,13 @@ class MediaItemDetailsController: UIViewController {
     return image
   }
 
-  func tapped(_ gesture: UITapGestureRecognizer) {
+  @objc func tapped(_ gesture: UITapGestureRecognizer) {
     if let sender = gesture.view {
       playMediaItem(sender: sender)
     }
   }
 
-  func playMediaItem(sender: UIView) {
+  @objc func playMediaItem(sender: UIView) {
     let controller = UIViewController.instantiate(
       controllerId: VideoPlayerController.StoryboardControllerId,
       storyboardId: type(of: adapter!).StoryboardId,

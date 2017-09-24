@@ -47,7 +47,7 @@ open class SearchController: UIViewController {
     }
   }
 
-  func textFieldDidChange(textField: UITextField) {
+  @objc func textFieldDidChange(textField: UITextField) {
     if isChecked {
       let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 

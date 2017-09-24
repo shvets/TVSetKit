@@ -87,7 +87,7 @@ open class MediaItemsController: BaseCollectionViewController {
   }
 
 #if os(iOS)
-  func longPressed(_ gesture: UILongPressGestureRecognizer) {
+  @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended,
        let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
