@@ -430,6 +430,7 @@
 					FAFF2F321EFEEF92002B7C0C = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = Y63DEDERL2;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					FAFF2F461EFEEFAA002B7C0C = {
@@ -869,7 +870,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rubikon.TVSetKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -885,7 +887,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rubikon.TVSetKit-iOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -986,6 +989,7 @@
 				FAFF2F3E1EFEEF92002B7C0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FAFF2F3F1EFEEF92002B7C0C /* Build configuration list for PBXNativeTarget "TVSetKit_iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -994,6 +998,7 @@
 				FAFF2F411EFEEF92002B7C0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FAFF2F581EFEEFAA002B7C0C /* Build configuration list for PBXNativeTarget "TVSetKit_tvOS" */ = {
 			isa = XCConfigurationList;
@@ -1002,6 +1007,7 @@
 				FAFF2F5A1EFEEFAA002B7C0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FAFF2F5B1EFEEFAA002B7C0C /* Build configuration list for PBXNativeTarget "TVSetKit_tvOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1010,6 +1016,7 @@
 				FAFF2F5D1EFEEFAA002B7C0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
