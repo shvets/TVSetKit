@@ -34,10 +34,10 @@ public class UIHelper {
           textFont = UIFont.systemFont(ofSize: 36)
         }
 
-        let attrs: [String: Any] = [
-          NSFontAttributeName: textFont!,
-          NSForegroundColorAttributeName: UIColor.black,
-          NSParagraphStyleAttributeName: paragraphStyle,
+        let attrs: [NSAttributedStringKey: Any] = [
+            NSAttributedStringKey.font: textFont!,
+            NSAttributedStringKey.foregroundColor: UIColor.black,
+            NSAttributedStringKey.paragraphStyle: paragraphStyle,
         ]
 
         if let drawImage = drawImage {

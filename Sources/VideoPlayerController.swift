@@ -178,12 +178,12 @@ class VideoPlayerController: AVPlayerViewController {
   private func externalMetaData(title: String, description: String) -> [AVMetadataItem] {
     let titleItem = AVMutableMetadataItem()
     
-    titleItem.identifier = AVMetadataCommonIdentifierTitle
+    titleItem.identifier = AVMetadataIdentifier.commonIdentifierTitle
     titleItem.value = title as NSString
     titleItem.extendedLanguageTag = "und"
 
     let descriptionItem = AVMutableMetadataItem()
-    descriptionItem.identifier = AVMetadataCommonIdentifierDescription
+    descriptionItem.identifier = AVMetadataIdentifier.commonIdentifierDescription
     descriptionItem.value = description as NSString
     descriptionItem.extendedLanguageTag = "und"
 
