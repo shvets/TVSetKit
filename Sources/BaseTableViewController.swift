@@ -99,7 +99,7 @@ open class BaseTableViewController: UITableViewController {
   }
 
 #if os(tvOS)
-  open func tapped(_ gesture: UITapGestureRecognizer) {}
+  @objc open func tapped(_ gesture: UITapGestureRecognizer) {}
 #endif
 
   // MARK: UIScrollViewDelegate
