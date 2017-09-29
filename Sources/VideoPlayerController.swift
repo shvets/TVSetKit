@@ -53,7 +53,7 @@ class VideoPlayerController: AVPlayerViewController {
     }
   }
 
-  func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
+  @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
     if preparePreviousMediaItem() {
       play()
     }
