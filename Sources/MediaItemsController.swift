@@ -287,6 +287,9 @@ open class MediaItemsController: BaseCollectionViewController {
 
                   items.append(AudioItem(name: name, id: id))
                 }
+                else if let item = mediaItem as? AudioItem {
+                  items.append(item)
+                }
               }
 
               return items
