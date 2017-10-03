@@ -11,6 +11,8 @@
 		65BA5E9DBDD122076E3770A1 /* Pods_TVSetKit_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC119240780A7AA660B89057 /* Pods_TVSetKit_iOSTests.framework */; };
 		78751435CE1BC36D2EC1257D /* Pods_TVSetKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3F2946F6D4283B54822F6C5 /* Pods_TVSetKit_iOS.framework */; };
 		C94976DBB971042954E91E0F /* Pods_TVSetKit_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC458D63330A17812B574E /* Pods_TVSetKit_tvOS.framework */; };
+		FA477CB41F8448330040E7CF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB31F8448320040E7CF /* Config.swift */; };
+		FA477CB61F8448660040E7CF /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB51F8448660040E7CF /* Files.swift */; };
 		FAFF2F341EFEEF92002B7C0C /* TVSetKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFF2F2B1EFEEF92002B7C0C /* TVSetKit_iOS.framework */; };
 		FAFF2F391EFEEF92002B7C0C /* TVSetKit_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFF2F381EFEEF92002B7C0C /* TVSetKit_iOSTests.swift */; };
 		FAFF2F3B1EFEEF92002B7C0C /* TVSetKit_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFF2F2D1EFEEF92002B7C0C /* TVSetKit_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -73,6 +75,8 @@
 		FA3505291E4663B3009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FA3505331E4663B4009BB40E /* TVSetKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSetKitTests.swift; sourceTree = "<group>"; };
 		FA3505351E4663B4009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		FA477CB31F8448320040E7CF /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		FA477CB51F8448660040E7CF /* Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
 		FA62DE951E886EBD00637BBA /* Jukebox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Jukebox.framework; path = "../Jukebox/build/Debug-iphoneos/Jukebox.framework"; sourceTree = "<group>"; };
 		FA67DC9B1E46933600734FB6 /* MediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
 		FA67DC9C1E46933600734FB6 /* MediaName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaName.swift; sourceTree = "<group>"; };
@@ -199,6 +203,8 @@
 		FA3505271E4663B3009BB40E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FA477CB51F8448660040E7CF /* Files.swift */,
+				FA477CB31F8448320040E7CF /* Config.swift */,
 				FAE009521E46A15300941CAD /* UIHelper.swift */,
 				FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */,
 				FAE009571E46A15300941CAD /* Bookmarks.swift */,
@@ -425,6 +431,7 @@
 					FAFF2F2A1EFEEF92002B7C0C = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = Y63DEDERL2;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					FAFF2F321EFEEF92002B7C0C = {
@@ -655,6 +662,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA477CB41F8448330040E7CF /* Config.swift in Sources */,
+				FA477CB61F8448660040E7CF /* Files.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -828,6 +837,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -841,6 +851,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.rubikon.TVSetKit-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -852,6 +863,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
@@ -874,7 +886,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04B0BC3309BC59D32E617C2F /* Pods-TVSetKit_iOSTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Y63DEDERL2;
@@ -891,7 +903,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 786F5572C2BC2123747BD64B /* Pods-TVSetKit_iOSTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = Y63DEDERL2;

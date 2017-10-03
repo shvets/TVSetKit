@@ -1,7 +1,6 @@
 import AVFoundation
 import UIKit
 import AVKit
-import SwiftyJSON
 
 class VideoPlayerController: AVPlayerViewController {
   static let SegueIdentifier = "Video Player"

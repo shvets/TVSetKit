@@ -4,7 +4,7 @@ open class Localizer {
   public static let DefaultLocale = "ru"
   private static let configName = NSHomeDirectory() + "/Library/Caches/localizer.json"
 
-  let config: FileStorage!
+  let config: Config!
 
   public var bundle: Bundle?
 
@@ -26,7 +26,7 @@ open class Localizer {
       }
     }
 
-    config = FileStorage(Localizer.configName)
+    config = Config(configName: Localizer.configName)
   }
 
   public func setLocale(langCode: String) {
@@ -44,7 +44,7 @@ open class Localizer {
     do {
       let data = try config.loadStorage()
 
-      if let langCode = data["langCode"] as? String {
+      if let langCode = data["langCode"] {
         locale = langCode
       }
     }

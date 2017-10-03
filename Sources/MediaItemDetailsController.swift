@@ -1,5 +1,4 @@
 import UIKit
-import SwiftyJSON
 
 class MediaItemDetailsController: UIViewController {
   static let SegueIdentifier = "Media Item Details"
@@ -81,7 +80,7 @@ class MediaItemDetailsController: UIViewController {
       watchStatus.text = ws
     }
 
-    if let rt = mediaItem.rating, rt > 0 {
+    if let rt = Int(mediaItem.rating!), rt > 0 {
       rating.text = String(describing: "Rating: \(rt)")
     }
 

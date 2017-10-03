@@ -8,7 +8,7 @@ open class MediaItem: MediaName {
   public var thumb: String?
   public var tags: String?
   public var description: String?
-  public var rating: Int?
+  public var rating: String?
   public var watchStatus: String?
   public var seasonNumber: String?
   public var episodeNumber: String?
@@ -22,7 +22,7 @@ open class MediaItem: MediaName {
     self.thumb = data["thumb"].stringValue
     self.tags = data["tags"].stringValue
     self.description = data["description"].stringValue
-    self.rating = data["rating"].intValue
+    self.rating = data["rating"].stringValue
     self.parentName = data["parentName"].stringValue
     self.parentId = data["parentId"].stringValue
     self.watchStatus = data["watchStatus"].stringValue

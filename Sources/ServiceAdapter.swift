@@ -1,5 +1,4 @@
 import UIKit
-import SwiftyJSON
 
 open class ServiceAdapter {
   open class var StoryboardId: String { return "" }
