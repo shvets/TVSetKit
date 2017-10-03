@@ -1,5 +1,4 @@
 import UIKit
-import SwiftyJSON
 
 open class BaseTableViewController: UITableViewController {
   open var CellIdentifier: String { return "" }
@@ -145,7 +144,7 @@ open class BaseTableViewController: UITableViewController {
       return items[indexPath.row]
     }
     else {
-      return MediaItem(data: JSON.null)
+      return MediaItem(data: [:])
     }
   }
 

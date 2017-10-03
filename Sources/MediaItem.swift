@@ -32,6 +32,29 @@ open class MediaItem: MediaName {
     super.init(name: data["name"].stringValue, id: data["id"].stringValue)
   }
 
+  public init(data: [String: String]) {
+    self.type = data["type"]
+    self.thumb = data["thumb"]
+    self.tags = data["tags"]
+    self.description = data["description"]
+    self.rating = data["rating"]
+    self.parentName = data["parentName"]
+    self.parentId = data["parentId"]
+    self.watchStatus = data["watchStatus"]
+    self.seasonNumber = data["seasonNumber"]
+    self.episodeNumber = data["episodeNumber"]
+
+    super.init(name: data["name"]!, id: data["id"])
+  }
+  
+//  required init(from decoder: Decoder) throws {
+//    fatalError("init(from:) has not been implemented")
+//  }
+//
+//  required init(from decoder: Decoder) throws {
+//    fatalError("init(from:) has not been implemented")
+//  }
+//
   open func isContainer() -> Bool {
     return false
   }

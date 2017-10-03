@@ -1,5 +1,4 @@
 import UIKit
-import SwiftyJSON
 
 open class BaseCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
   open var CellIdentifier: String { return "" }
@@ -133,7 +132,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
       return items[indexPath.row]
     }
     else {
-      return MediaItem(data: JSON.null)
+      return MediaItem(data: [:])
     }
   }
 
