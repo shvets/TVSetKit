@@ -1,26 +1,55 @@
 import UIKit
 
-open class MediaName {
+open class MediaName: Codable {
   public var name: String?
   public var id: String?
   public var imageName: String?
 
-  public init(name: String, id: String? = nil, imageName: String? = nil) {
+  public init(name: String?=nil, id: String?=nil, imageName: String?=nil) {
     self.name = name
-        
-    if id != nil {
-      self.id = id
-    }
-
-    if imageName != nil {
-      self.imageName = imageName
-    }
+    self.id = id
+    self.imageName = imageName
   }
 
-  public func toJson() -> [String: Any] {
+  private enum CodingKeys: String, CodingKey {
+    case name
+    case id
+    case imageName
+  }
+
+  public required convenience init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+    let name = try container.decodeIfPresent(String.self, forKey: .name)
+    let id = try container.decodeIfPresent(String.self, forKey: .id)
+    let imageName = try container.decodeIfPresent(String.self, forKey: .imageName)
+
+    self.init(name: name ?? "",
+      id: id ?? "",
+      imageName: imageName ?? ""
+    )
+  }
+
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+
+    try container.encode(name, forKey: .name)
+    try container.encode(id, forKey: .id)
+    try container.encode(imageName, forKey: .imageName)
+  }
+
+  public func toDictionary() -> [String: Any] {
     return [
       "name": name ?? "",
       "id": id ?? "",
-      "imageName": imageName ?? ""]
+      "imageName": imageName ?? ""
+    ]
+  }
+
+  public func toData() throws -> Data {
+    let encoder = JSONEncoder()
+
+    return try encoder.encode(self)
   }
 }
+

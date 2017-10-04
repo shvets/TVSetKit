@@ -13,7 +13,20 @@ open class MediaItem: MediaName {
   public var seasonNumber: String?
   public var episodeNumber: String?
 
-  public override init(name: String, id: String? = nil, imageName: String? = nil) {
+  private enum CodingKeys: String, CodingKey {
+    case type
+    case parentName
+    case parentId
+    case thumb
+    case tags
+    case description
+    case rating
+    case watchStatus
+    case seasonNumber
+    case episodeNumber
+  }
+
+  public override init(name: String?, id: String? = nil, imageName: String? = nil) {
     super.init(name: name, id: id, imageName: imageName)
   }
 
@@ -47,14 +60,24 @@ open class MediaItem: MediaName {
     super.init(name: data["name"]!, id: data["id"])
   }
   
-//  required init(from decoder: Decoder) throws {
-//    fatalError("init(from:) has not been implemented")
-//  }
-//
-//  required init(from decoder: Decoder) throws {
-//    fatalError("init(from:) has not been implemented")
-//  }
-//
+  override public func encode(to encoder: Encoder) throws {
+    try super.encode(to: encoder)
+
+    var container = encoder.container(keyedBy: CodingKeys.self)
+
+    try container.encode(type, forKey: .type)
+    try container.encode(parentName, forKey: .parentName)
+    try container.encode(parentId, forKey: .parentId)
+    try container.encode(thumb, forKey: .thumb)
+    try container.encode(tags, forKey: .tags)
+    try container.encode(description, forKey: .description)
+    try container.encode(rating, forKey: .rating)
+    try container.encode(watchStatus, forKey: .watchStatus)
+
+    try container.encode(seasonNumber, forKey: .seasonNumber)
+    try container.encode(episodeNumber, forKey: .episodeNumber)
+  }
+
   open func isContainer() -> Bool {
     return false
   }
@@ -124,16 +147,22 @@ open class MediaItem: MediaName {
     return qualityLevels
   }
 
-  override open func toJson() -> [String: Any] {
+  override open func toDictionary() -> [String: Any] {
     var result: [String: Any] = ["type": type ?? "", "parentName": parentName ?? "", "thumb": thumb ?? "",
                                  "tags": tags ?? "", "description": description ?? "",
                                  "rating": rating?.description ?? "",
                                  "seasonNumber": seasonNumber ?? ""]
 
-    for (key, value) in super.toJson() {
+    for (key, value) in super.toDictionary() {
       result[key] = value
     }
 
     return result
+  }
+
+  override public func toData() throws -> Data {
+    let encoder = JSONEncoder()
+
+    return try encoder.encode(self)
   }
 }

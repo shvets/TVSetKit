@@ -50,7 +50,17 @@ open class History: FileStorage {
     if found == nil {
       let time = String(Int(Date().timeIntervalSince1970))
 
-      add(key: id, value: ["time": time, "item": item.toJson()])
+      do {
+//        print(item.toDictionary())
+//
+//        print(String(data: try item.toData(), encoding: .utf8))
+      
+        //add(key: id, value: ["time": time, "item": try item.toData()])
+
+        add(key: id, value: ["time": time, "item": item.toDictionary()])
+      }
+      catch {}
+    
 
       if items.count > HistorySize {
         let _ = items.sorted { element1, element2 in

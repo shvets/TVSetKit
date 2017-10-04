@@ -62,7 +62,7 @@ open class Bookmarks: FileStorage {
       let found = items.filter { (key, _) in key == id }.first
 
       if found == nil {
-        add(key: id, value: ["item": item.toJson()])
+        add(key: id, value: ["item": item.toDictionary()])
 
         save()
 
