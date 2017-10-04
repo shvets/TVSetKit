@@ -13,6 +13,7 @@
 		C94976DBB971042954E91E0F /* Pods_TVSetKit_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC458D63330A17812B574E /* Pods_TVSetKit_tvOS.framework */; };
 		FA477CB41F8448330040E7CF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB31F8448320040E7CF /* Config.swift */; };
 		FA477CB61F8448660040E7CF /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB51F8448660040E7CF /* Files.swift */; };
+		FA477CBA1F858FCC0040E7CF /* PlainConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB91F858FCC0040E7CF /* PlainConfig.swift */; };
 		FAFF2F341EFEEF92002B7C0C /* TVSetKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAFF2F2B1EFEEF92002B7C0C /* TVSetKit_iOS.framework */; };
 		FAFF2F391EFEEF92002B7C0C /* TVSetKit_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAFF2F381EFEEF92002B7C0C /* TVSetKit_iOSTests.swift */; };
 		FAFF2F3B1EFEEF92002B7C0C /* TVSetKit_iOS.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFF2F2D1EFEEF92002B7C0C /* TVSetKit_iOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,6 +78,7 @@
 		FA3505351E4663B4009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FA477CB31F8448320040E7CF /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		FA477CB51F8448660040E7CF /* Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
+		FA477CB91F858FCC0040E7CF /* PlainConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainConfig.swift; sourceTree = "<group>"; };
 		FA62DE951E886EBD00637BBA /* Jukebox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Jukebox.framework; path = "../Jukebox/build/Debug-iphoneos/Jukebox.framework"; sourceTree = "<group>"; };
 		FA67DC9B1E46933600734FB6 /* MediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
 		FA67DC9C1E46933600734FB6 /* MediaName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaName.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 		FA3505271E4663B3009BB40E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FA477CB91F858FCC0040E7CF /* PlainConfig.swift */,
 				FA477CB51F8448660040E7CF /* Files.swift */,
 				FA477CB31F8448320040E7CF /* Config.swift */,
 				FAE009521E46A15300941CAD /* UIHelper.swift */,
@@ -663,6 +666,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA477CB41F8448330040E7CF /* Config.swift in Sources */,
+				FA477CBA1F858FCC0040E7CF /* PlainConfig.swift in Sources */,
 				FA477CB61F8448660040E7CF /* Files.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
