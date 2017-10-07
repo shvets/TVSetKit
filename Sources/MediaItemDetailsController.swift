@@ -80,8 +80,10 @@ class MediaItemDetailsController: UIViewController {
       watchStatus.text = ws
     }
 
-    if let rt = Int(mediaItem.rating!), rt > 0 {
-      rating.text = String(describing: "Rating: \(rt)")
+    if let rating = mediaItem.rating {
+      if let rt = Int(rating), rt > 0 {
+        self.rating.text = String(describing: "Rating: \(rt)")
+      }
     }
 
     tag.text = mediaItem.tags

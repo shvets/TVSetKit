@@ -124,8 +124,8 @@ class VideoPlayerController: AVPlayerViewController {
   
   func play() {
     if let url = getMediaUrl(),
-       let name = mediaItem?.name,
-       let description = mediaItem?.description {
+       let name = mediaItem?.name {
+       let description = mediaItem?.description ?? name
 
       let asset = AVAsset(url: url)
 
