@@ -87,4 +87,28 @@ open class Bookmarks: FileStorage {
     return false
   }
   
+  public func addChannel(name: String, id: String) -> Bool {
+    let found = items.filter { (key, _) in key == id }.first
+    
+    if found == nil {
+      add(key: id, value: ["item":["name": name,  "id": id]])
+      
+      save()
+      
+      return true
+    }
+    
+    return false
+  }
+  
+  public func removeChannel(id: String) -> Bool {
+    let result = remove(id)
+    
+    if result {
+      save()
+    }
+    
+    return result
+  }
+  
 }
