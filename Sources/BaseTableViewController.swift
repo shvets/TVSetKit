@@ -16,7 +16,7 @@ open class BaseTableViewController: UITableViewController {
 
   public var adapter: ServiceAdapter!
 
-  public var items = [MediaItem]()
+  public var items = [Any]()
 
   var params: [String: Any] = [:]
 
@@ -28,11 +28,11 @@ open class BaseTableViewController: UITableViewController {
     localizer = Localizer(BundleId, bundleClass: TVSetKit.self)
   }
 
-  public func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
+  public func loadInitialData(_ onLoadCompleted: (([Any]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
-      if let items = result as? [MediaItem] {
-        self.items = items
-      }
+      //if let items = result as? [MediaItem] {
+        self.items = result
+      //}
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -54,9 +54,9 @@ open class BaseTableViewController: UITableViewController {
         indexPaths.append(indexPath)
       }
 
-      if let items = result as? [MediaItem] {
-        self.items += items
-      }
+      //if let items = result as? [MediaItem] {
+        self.items += result
+      //}
 
       self.tableView?.insertRows(at: indexPaths, with: .none)
 
@@ -82,7 +82,7 @@ open class BaseTableViewController: UITableViewController {
         loadMoreData()
       }
 
-      let item = items[indexPath.row]
+      let item = items[indexPath.row] as! MediaName
 
       cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
@@ -115,8 +115,8 @@ open class BaseTableViewController: UITableViewController {
 //    }
 //  }
 
-  open func getSelectedItem() -> MediaItem? {
-    var item: MediaItem?
+  open func getSelectedItem() -> Any? {
+    var item: Any?
 
     if let indexPath = cellSelection.getIndexPath() {
       item = items[indexPath.row]
@@ -139,7 +139,7 @@ open class BaseTableViewController: UITableViewController {
     }
   }
 
-  public func getItem(for cell: UITableViewCell) -> MediaItem {
+  public func getItem(for cell: UITableViewCell) -> Any {
     if let indexPath = tableView?.indexPath(for: cell) {
       return items[indexPath.row]
     }

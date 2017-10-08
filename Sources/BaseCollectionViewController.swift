@@ -16,17 +16,17 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   public var adapter: ServiceAdapter!
 
-  public var items = [MediaItem]()
+  public var items = [Any]()
 
   var params: [String: Any] = [:]
 
   public let cellSelection = CellSelection()
 
-  open func loadInitialData(_ onLoadCompleted: (([MediaItem]) -> Void)?=nil) {
+  open func loadInitialData(_ onLoadCompleted: (([Any]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
-      if let items = result as? [MediaItem] {
-        self.items = items
-      }
+      //if let items = result as? [MediaItem] {
+        self.items = result
+      //}
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -48,15 +48,15 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
         indexPaths.append(indexPath)
       }
 
-      if let items = result as? [MediaItem] {
-        self.items += items
+      //if let items = result as? [MediaItem] {
+        self.items += result
 
         self.collectionView?.insertItems(at: indexPaths)
 
         let step = min(result.count, pageLoader.rowSize)
 
         self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
-      }
+      //}
     }
   }
 
@@ -76,7 +76,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
         loadMoreData()
       }
 
-      let item = items[indexPath.row]
+      let item = items[indexPath.row] as! MediaName
 
       cell.configureCell(item: item, localizedName: getLocalizedName(item.name), target: self)
 
@@ -103,8 +103,8 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     }
   }
 
-  open func getSelectedItem() -> MediaItem? {
-    var item: MediaItem?
+  open func getSelectedItem() -> Any? {
+    var item: Any?
 
     if let indexPath = cellSelection.getIndexPath() {
       item = items[indexPath.row]
@@ -127,7 +127,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
     }
   }
 
-  public func getItem(for cell: UICollectionViewCell) -> MediaItem {
+  public func getItem(for cell: UICollectionViewCell) -> Any {
     if let indexPath = collectionView?.indexPath(for: cell) {
       return items[indexPath.row]
     }

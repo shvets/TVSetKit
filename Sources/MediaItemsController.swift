@@ -60,7 +60,7 @@ open class MediaItemsController: BaseCollectionViewController {
   
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
-      let item = items[indexPath.row]
+      let item = items[indexPath.row] as! MediaItem
 
       cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
@@ -116,7 +116,7 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   override open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
-    let mediaItem = getItem(for: view)
+    let mediaItem = getItem(for: view) as! MediaItem
 
     if let type = mediaItem.type {
       if type.isEmpty {
@@ -176,7 +176,7 @@ open class MediaItemsController: BaseCollectionViewController {
        let selectedCell = sender as? MediaItemCell {
 
       if let indexPath = collectionView?.indexPath(for: selectedCell) {
-        let mediaItem = items[indexPath.row]
+        let mediaItem = items[indexPath.row] as! MediaItem
 
         switch identifier {
         case MediaItemsController.SegueIdentifier:
@@ -199,8 +199,8 @@ open class MediaItemsController: BaseCollectionViewController {
 
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
-            destination.collectionItems = items
-            destination.mediaItem = mediaItem
+            destination.collectionItems = items as! [MediaItem]
+            destination.mediaItem = mediaItem as! MediaItem
             destination.adapter = adapter
           }
 
@@ -298,7 +298,7 @@ open class MediaItemsController: BaseCollectionViewController {
         case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
             destination.playVideo = true
-            destination.collectionItems = items
+            destination.collectionItems = items  as! [MediaItem]
             destination.mediaItem = mediaItem
             destination.adapter = adapter
 
@@ -380,7 +380,7 @@ open class MediaItemsController: BaseCollectionViewController {
        requestType != "History" {
       let selectedItem = getSelectedItem()
 
-      if let item = selectedItem {
+      if let item = selectedItem as? MediaItem {
         var controller: UIAlertController?
 
         if requestType == "Bookmarks" {

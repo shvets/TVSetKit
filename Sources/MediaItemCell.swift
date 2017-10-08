@@ -4,10 +4,12 @@ open class MediaItemCell: UICollectionViewCell {
   @IBOutlet weak var title: UILabel!
   @IBOutlet weak var thumb: UIImageView!
 
-  public func configureCell(item: MediaItem, localizedName: String) {
-    self.title.text = item.getDetailedName()
-
-    CellHelper.shared.loadImage(path: item.getPosterPath(), name: localizedName, imageView: thumb)
+  public func configureCell(item: Any, localizedName: String) {
+    if let item = item as? MediaItem {
+      self.title.text = item.getDetailedName()
+      
+      CellHelper.shared.loadImage(path: item.getPosterPath(), name: localizedName, imageView: thumb)
+    }
   }
 
 #if os(tvOS)
