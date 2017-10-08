@@ -57,7 +57,7 @@ open class Bookmarks: FileStorage {
     return newData
   }
 
-  public func addBookmark(item: MediaItem) -> Bool {
+  public func addBookmark(item: Item) -> Bool {
     if let id = item.id {
       let found = items.filter { (key, _) in key == id }.first
 
@@ -73,7 +73,7 @@ open class Bookmarks: FileStorage {
     return false
   }
 
-  public func removeBookmark(item: MediaItem) -> Bool {
+  public func removeBookmark(item: Item) -> Bool {
     if let id = item.id {
       let result = remove(id)
 

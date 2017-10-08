@@ -42,7 +42,7 @@ open class History: FileStorage {
     return newData
   }
 
-  public func add(item: MediaItem) {
+  public func add(item: Item) {
     let id = item.id!
 
     let found = items.filter { (key, _) in key == id }.first

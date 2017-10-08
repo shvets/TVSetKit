@@ -65,7 +65,7 @@ open class ServiceAdapter {
   }
 
   open func getParentName() -> String? {
-    if let selectedItem = params["selectedItem"] as? MediaItem {
+    if let selectedItem = params["selectedItem"] as? Item {
       return selectedItem.name
     }
     else if let parentName = params["parentName"] as? String {
@@ -82,14 +82,14 @@ open class ServiceAdapter {
 
   open func retrieveExtraInfo(_ item: MediaItem) throws {}
   
-  @discardableResult open func addBookmark(item: MediaItem) -> Bool {
+  @discardableResult open func addBookmark(item: Item) -> Bool {
     return true
   }
   
-  open func removeBookmark(item: MediaItem) -> Bool {
+  open func removeBookmark(item: Item) -> Bool {
     return true
   }
 
-  open func addHistoryItem(_ item: MediaItem) {}
+  open func addHistoryItem(_ item: Item) {}
 
 }
