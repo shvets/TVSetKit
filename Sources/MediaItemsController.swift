@@ -60,7 +60,7 @@ open class MediaItemsController: BaseCollectionViewController {
   
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
-      let item = items[indexPath.row] as! MediaItem
+      let item = items[indexPath.row]
 
       cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
@@ -200,7 +200,7 @@ open class MediaItemsController: BaseCollectionViewController {
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
             destination.collectionItems = items as! [MediaItem]
-            destination.mediaItem = mediaItem as! MediaItem
+            destination.mediaItem = mediaItem
             destination.adapter = adapter
           }
 
