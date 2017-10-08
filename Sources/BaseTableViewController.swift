@@ -16,7 +16,7 @@ open class BaseTableViewController: UITableViewController {
 
   public var adapter: ServiceAdapter!
 
-  public var items = [Any]()
+  public var items = [Item]()
 
   var params: [String: Any] = [:]
 
@@ -28,11 +28,11 @@ open class BaseTableViewController: UITableViewController {
     localizer = Localizer(BundleId, bundleClass: TVSetKit.self)
   }
 
-  public func loadInitialData(_ onLoadCompleted: (([Any]) -> Void)?=nil) {
+  public func loadInitialData(_ onLoadCompleted: (([Item]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
-      //if let items = result as? [MediaItem] {
-        self.items = result
-      //}
+      if let items = result as? [Item] {
+        self.items = items
+      }
 
       if let onLoadCompleted = onLoadCompleted {
         onLoadCompleted(self.items)
@@ -54,15 +54,15 @@ open class BaseTableViewController: UITableViewController {
         indexPaths.append(indexPath)
       }
 
-      //if let items = result as? [MediaItem] {
-        self.items += result
-      //}
+      if let items = result as? [Item] {
+        self.items += items
 
-      self.tableView?.insertRows(at: indexPaths, with: .none)
+        self.tableView?.insertRows(at: indexPaths, with: .none)
 
-      let step = min(result.count, pageLoader.rowSize)
+        let step = min(result.count, pageLoader.rowSize)
 
-      self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
+        self.tableView?.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
+      }
     }
   }
 
@@ -82,7 +82,7 @@ open class BaseTableViewController: UITableViewController {
         loadMoreData()
       }
 
-      let item = items[indexPath.row] as! MediaName
+      let item = items[indexPath.row]
 
       cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
 
@@ -115,8 +115,8 @@ open class BaseTableViewController: UITableViewController {
 //    }
 //  }
 
-  open func getSelectedItem() -> Any? {
-    var item: Any?
+  open func getSelectedItem() -> Item? {
+    var item: Item?
 
     if let indexPath = cellSelection.getIndexPath() {
       item = items[indexPath.row]
@@ -139,7 +139,7 @@ open class BaseTableViewController: UITableViewController {
     }
   }
 
-  public func getItem(for cell: UITableViewCell) -> Any {
+  public func getItem(for cell: UITableViewCell) -> Item {
     if let indexPath = tableView?.indexPath(for: cell) {
       return items[indexPath.row]
     }

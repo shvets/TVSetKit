@@ -160,9 +160,9 @@ open class MediaItem: MediaName {
     return result
   }
 
-  override public func toData() throws -> Data {
-    let encoder = JSONEncoder()
-
-    return try encoder.encode(self)
-  }
+//  override public func toData() throws -> Data {
+//    let encoder = JSONEncoder()
+//
+//    return try encoder.encode(self)
+//  }
 }

@@ -1,13 +1,14 @@
 import UIKit
 
-open class MediaName: Codable {
-  public var name: String?
-  public var id: String?
+open class MediaName: Item {
+//  public var name: String?
+//  public var id: String?
   public var imageName: String?
 
   public init(name: String?=nil, id: String?=nil, imageName: String?=nil) {
-    self.name = name
-    self.id = id
+    super.init(name: name, id: id)
+//    self.name = name
+//    self.id = id
     self.imageName = imageName
   }
 
@@ -30,7 +31,7 @@ open class MediaName: Codable {
     )
   }
 
-  public func encode(to encoder: Encoder) throws {
+  public override func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
 
     try container.encode(name, forKey: .name)
@@ -38,7 +39,7 @@ open class MediaName: Codable {
     try container.encode(imageName, forKey: .imageName)
   }
 
-  public func toDictionary() -> [String: Any] {
+  public override func toDictionary() -> [String: Any] {
     return [
       "name": name ?? "",
       "id": id ?? "",
@@ -46,10 +47,10 @@ open class MediaName: Codable {
     ]
   }
 
-  public func toData() throws -> Data {
-    let encoder = JSONEncoder()
-
-    return try encoder.encode(self)
-  }
+//  public func toData() throws -> Data {
+//    let encoder = JSONEncoder()
+//
+//    return try encoder.encode(self)
+//  }
 }
 
