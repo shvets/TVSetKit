@@ -144,7 +144,7 @@ open class BaseTableViewController: UITableViewController {
       return items[indexPath.row]
     }
     else {
-      return MediaItem(data: [:])
+      return Item()
     }
   }
 

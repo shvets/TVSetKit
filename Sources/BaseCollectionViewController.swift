@@ -132,7 +132,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
       return items[indexPath.row]
     }
     else {
-      return MediaItem(data: [:])
+      return Item()
     }
   }
 

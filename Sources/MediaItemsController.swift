@@ -380,7 +380,7 @@ open class MediaItemsController: BaseCollectionViewController {
        requestType != "History" {
       let selectedItem = getSelectedItem()
 
-      if let item = selectedItem as? MediaItem {
+      if let item = selectedItem as? Item {
         var controller: UIAlertController?
 
         if requestType == "Bookmarks" {
@@ -397,7 +397,7 @@ open class MediaItemsController: BaseCollectionViewController {
     }
   }
 
-  func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
+  func buildRemoveBookmarkController(_ item: Item) -> UIAlertController {
     let title = localizer.localize("Your Selection Will Be Removed")
     let message = localizer.localize("Confirm Your Choice")
 
@@ -422,7 +422,7 @@ open class MediaItemsController: BaseCollectionViewController {
     return alertController
   }
 
-  func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
+  func buildAddBookmarkController(_ item: Item) -> UIAlertController {
     let title = localizer.localize("Your Selection Will Be Added")
     let message = localizer.localize("Confirm Your Choice")
 

@@ -45,7 +45,6 @@
 		06DC458D63330A17812B574E /* Pods_TVSetKit_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TVSetKit_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DBA10015F1A359BBBCE9565 /* Localizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
 		2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaNameCell.swift; sourceTree = "<group>"; };
-		2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IServiceAdapter.swift; sourceTree = "<group>"; };
 		2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayButtonsView.swift; sourceTree = "<group>"; };
 		2DBA13B4456078B90903EDEA /* PlainSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
 		2DBA13DAA1061AF17ECB9384 /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
@@ -236,7 +235,6 @@
 				2DBA13B4456078B90903EDEA /* PlainSpinner.swift */,
 				2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */,
 				2DBA140B06A6A92129BE33D8 /* DataSource.swift */,
-				2DBA10A0DC2BD59AA3A9FB55 /* IServiceAdapter.swift */,
 				FA9A18A11E58958E00DC0DCE /* Localizable.strings */,
 				2DBA10015F1A359BBBCE9565 /* Localizer.swift */,
 				2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */,
