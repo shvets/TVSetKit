@@ -76,7 +76,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
         loadMoreData()
       }
 
-      let item = items[indexPath.row]
+      let item = items[indexPath.row] as! MediaName
 
       cell.configureCell(item: item, localizedName: getLocalizedName(item.name), target: self)
 

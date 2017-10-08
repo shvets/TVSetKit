@@ -3,7 +3,7 @@ import UIKit
 open class MediaNameCell: UICollectionViewCell {
   @IBOutlet private weak var thumb: UIImageView!
 
-  public func configureCell(item: Any, localizedName: String, target: Any?) {
+  public func configureCell(item: MediaName, localizedName: String, target: Any?) {
     thumb.backgroundColor = UIColor(rgb: 0x00BFFF)
 
     if let controller = target as? UICollectionViewController {
@@ -11,8 +11,8 @@ open class MediaNameCell: UICollectionViewCell {
 
       var icon: UIImage?
 
-      if let item = item as? MediaName, item.imageName != nil {
-        icon = UIImage(named: item.imageName!)
+      if let imageName = item.imageName {
+        icon = UIImage(named: imageName)
       }
 
       let image = UIHelper.shared.textToImage(drawText: localizedName, size: itemSize, drawImage: icon)
