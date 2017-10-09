@@ -376,14 +376,11 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   func handleBookmark() {
-    if let requestType = adapter.params["requestType"] as? String,
-       requestType != "History" {
-      let selectedItem = getSelectedItem()
-
-      if let item = selectedItem as? MediaItem {
+    if let requestType = adapter.params["requestType"] as? String {
+      if let item = getSelectedItem() as? MediaItem {
         var controller: UIAlertController?
 
-        if requestType == "Bookmarks" {
+        if adapter.isBookmark(requestType) {
           controller = buildRemoveBookmarkController(item)
         }
         else {

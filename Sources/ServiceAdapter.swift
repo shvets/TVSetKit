@@ -92,4 +92,8 @@ open class ServiceAdapter {
 
   open func addHistoryItem(_ item: MediaItem) {}
 
+  open func isBookmark(_ requestType: String) -> Bool {
+    return requestType != "History" && requestType == "Bookmarks"
+  }
+
 }
