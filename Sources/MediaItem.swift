@@ -52,20 +52,20 @@ open class MediaItem: MediaName {
     super.init(name: name, id: id, imageName: imageName)
   }
 
-  public init(data: JSON) {
-    self.type = data["type"].stringValue
-    self.thumb = data["thumb"].stringValue
-    self.tags = data["tags"].stringValue
-    self.description = data["description"].stringValue
-    self.rating = data["rating"].stringValue
-    self.parentName = data["parentName"].stringValue
-    self.parentId = data["parentId"].stringValue
-    self.watchStatus = data["watchStatus"].stringValue
-    self.seasonNumber = data["seasonNumber"].stringValue
-    self.episodeNumber = data["episodeNumber"].stringValue
-
-    super.init(name: data["name"].stringValue, id: data["id"].stringValue)
-  }
+//  public init(data: JSON) {
+//    self.type = data["type"].stringValue
+//    self.thumb = data["thumb"].stringValue
+//    self.tags = data["tags"].stringValue
+//    self.description = data["description"].stringValue
+//    self.rating = data["rating"].stringValue
+//    self.parentName = data["parentName"].stringValue
+//    self.parentId = data["parentId"].stringValue
+//    self.watchStatus = data["watchStatus"].stringValue
+//    self.seasonNumber = data["seasonNumber"].stringValue
+//    self.episodeNumber = data["episodeNumber"].stringValue
+//
+//    super.init(name: data["name"].stringValue, id: data["id"].stringValue)
+//  }
 
   public init(data: [String: String]) {
     self.type = data["type"]
