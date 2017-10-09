@@ -1,68 +1,144 @@
 import Foundation
-import SwiftyJSON
+//import SwiftyJSON
 
-open class Bookmarks: FileStorage {
+public struct BookmarkItem: Codable {
+  public var item: MediaItem?
+  public var type: String?
 
-  override public func load() {
+  private enum CodingKeys: String, CodingKey {
+    case item
+    case type
+  }
+
+  public init(item: MediaItem?=nil, type: String?=nil) {
+    self.item = item
+    self.type = type
+  }
+  
+  public init(from decoder: Decoder) throws {
+    self.init()
+    
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    
+    item = try container.decodeIfPresent(MediaItem.self, forKey: .item)
+    type = try container.decodeIfPresent(String.self, forKey: .type)
+  }
+  
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    
+    try container.encode(item, forKey: .item)
+    try container.encode(type, forKey: .type)
+  }
+
+  
+//  public func getName() -> String {
+//    if let item = item {
+//      if let name = item.name {
+//        if let parentName = item.parentName {
+//          if parentName.isEmpty {
+//            return name
+//          }
+//          else {
+//            return "\(parentName) (\(name))"
+//          }
+//        }
+//      }
+//    }
+//
+//    return ""
+//  }
+}
+
+open class Bookmarks {
+
+  public var items: [BookmarkItem] = []
+
+  var fileName: String = ""
+
+  let encoder = JSONEncoder()
+  let decoder = JSONDecoder()
+
+  public init(_ fileName: String) {
+    self.fileName = fileName
+  }
+
+  public func clear() {
+    items.removeAll()
+  }
+
+  public func exist() -> Bool {
+    return Files.exist(fileName)
+  }
+
+  public func load() {
+    clear()
+
     do {
-      try super.load()
+      if let data = Files.readFile(fileName) {
+        items = try decoder.decode([BookmarkItem].self, from: data)
+      }
     }
-    catch {
-      print("Error loading bookmarks")
+    catch let e {
+      print("Error: \(e)")
     }
   }
 
-  override public func save() {
+  public func save() {
     do {
-      try super.save()
+      let data = try encoder.encode(items)
+
+      if !Files.createFile(fileName, data: data) {
+        print("Error writing to file")
+      }
     }
-    catch {
-      print("Error saving bookmarks")
+    catch let e {
+      print("Error: \(e)")
     }
   }
 
-  public func getBookmarks(pageSize: Int, page: Int) -> [Any] {
-    var data: [Any] = []
+  public func getBookmarks(pageSize: Int, page: Int) -> [BookmarkItem] {
+//    var data: [Any] = []
+//
+//    for (_, item) in items {
+////      var json = JSON(item)
+////
+////      var item = json["item"]
+////
+////      let parentName = item["parentName"]
+////
+////      if parentName != JSON.null {
+////        let pname = parentName.rawString() ?? ""
+////        let name = item["name"].rawString() ?? ""
+////
+////        if pname.isEmpty {
+////          item["name"] = JSON("\(name)")
+////        }
+////        else {
+////          item["name"] = JSON("\(pname) (\(name))")
+////        }
+//      }
+//
+//      data.append(item)
+//    }
 
-    for (_, item) in items {
-      var json = JSON(item)
-
-      var item = json["item"]
-
-      let parentName = item["parentName"]
-
-      if parentName != JSON.null {
-        let pname = parentName.rawString() ?? ""
-        let name = item["name"].rawString() ?? ""
-
-        if pname.isEmpty {
-          item["name"] = JSON("\(name)")
-        }
-        else {
-          item["name"] = JSON("\(pname) (\(name))")
+    var newData: [BookmarkItem] = []
+    
+      for index in (page-1)*pageSize ..< page*pageSize {
+        if index < items.count {
+          newData.append(items[index])
         }
       }
-
-      data.append(item)
-    }
-
-    var newData: [Any] = []
-
-    for index in (page-1)*pageSize ..< page*pageSize {
-      if index < data.count {
-        newData.append(data[index])
-      }
-    }
 
     return newData
   }
 
-  public func addBookmark(item: Item) -> Bool {
+  public func addBookmark(item: MediaItem, type: String="bookmark") -> Bool {
     if let id = item.id {
-      let found = items.filter { (key, _) in key == id }.first
+      let found = items.filter { item in item.item?.id! == id }.first
 
       if found == nil {
-        add(key: id, value: ["item": item.toDictionary()])
+        items.append(BookmarkItem(item: item, type: type))
 
         save()
 
@@ -73,42 +149,22 @@ open class Bookmarks: FileStorage {
     return false
   }
 
-  public func removeBookmark(item: Item) -> Bool {
-    if let id = item.id {
-      let result = remove(id)
-
-      if result {
-        save()
-      }
-
-      return result
-    }
-
-    return false
-  }
-  
-  public func addChannel(name: String, id: String) -> Bool {
-    let found = items.filter { (key, _) in key == id }.first
-    
-    if found == nil {
-      add(key: id, value: ["item":["name": name,  "id": id]])
-      
-      save()
+  public func removeBookmark(id: String, type: String="bookmark") -> Bool {
+    if let index = items.index(where: {$0.item?.id == id && $0.type == type}) {
+      items.remove(at: index)
       
       return true
     }
     
     return false
   }
-  
+
+  public func addChannel(item: MediaItem) -> Bool {
+    return addBookmark(item: item, type: "channel")
+  }
+
   public func removeChannel(id: String) -> Bool {
-    let result = remove(id)
-    
-    if result {
-      save()
-    }
-    
-    return result
+    return removeBookmark(id: id, type: "channel")
   }
   
 }

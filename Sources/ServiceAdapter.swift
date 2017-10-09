@@ -82,14 +82,14 @@ open class ServiceAdapter {
 
   open func retrieveExtraInfo(_ item: MediaItem) throws {}
   
-  @discardableResult open func addBookmark(item: Item) -> Bool {
+  @discardableResult open func addBookmark(item: MediaItem) -> Bool {
     return true
   }
   
-  open func removeBookmark(item: Item) -> Bool {
+  open func removeBookmark(item: MediaItem) -> Bool {
     return true
   }
 
-  open func addHistoryItem(_ item: Item) {}
+  open func addHistoryItem(_ item: MediaItem) {}
 
 }

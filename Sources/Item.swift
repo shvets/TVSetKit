@@ -2,7 +2,7 @@ import Foundation
 
 import UIKit
 
-open class Item {
+open class Item: Codable {
   public var name: String?
   public var id: String?
 

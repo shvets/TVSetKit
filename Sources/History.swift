@@ -1,90 +1,107 @@
 import Foundation
-import SwiftyJSON
 
-open class History: FileStorage {
+public struct HistoryItem: Codable {
+  public let time: String
+  public let item: MediaItem
+}
+
+open class History {
   let HistorySize = 60
-
-  override public func load() {
-    do {
-      try super.load()
-    }
-    catch {
-      print("Error loading history")
-    }
+  
+  public var items: [HistoryItem] = []
+  
+  var fileName: String
+  
+  let encoder = JSONEncoder()
+  let decoder = JSONDecoder()
+  
+  public init(_ fileName: String) {
+    self.fileName = fileName
+  }
+  
+  public func clear() {
+    items.removeAll()
   }
 
-  override public func save() {
-    do {
-      try super.save()
-    }
-    catch {
-      print("Error saving history")
-    }
+  public func exist() -> Bool {
+    return Files.exist(fileName)
   }
-
-  public func getHistoryItems(pageSize: Int, page: Int) -> [Any] {
-    var data: [Any] = []
-
-    for (_, item) in items {
-      var json = JSON(item)
-
-      data.append(json["item"])
-    }
-
-    var newData: [Any] = []
-
-    for index in (page-1)*pageSize ..< page*pageSize {
-      if index < data.count {
-        newData.append(data[index])
-      }
-    }
-
-    return newData
-  }
-
-  public func add(item: Item) {
-    let id = item.id!
-
-    let found = items.filter { (key, _) in key == id }.first
-
-    if found == nil {
-      let time = String(Int(Date().timeIntervalSince1970))
-
-      do {
-//        print(item.toDictionary())
-//
-//        print(String(data: try item.toData(), encoding: .utf8))
+  
+  public func add(item: MediaItem) {
+    if let id = item.id {
+      let found = items.filter { item in item.item.id == id }.first
       
-        //add(key: id, value: ["time": time, "item": try item.toData()])
+      if found == nil {
+        let time = String(Int(Date().timeIntervalSince1970))
 
-        add(key: id, value: ["time": time, "item": item.toDictionary()])
-      }
-      catch {}
-    
+        items.append(HistoryItem(time: time, item: item))
 
-      if items.count > HistorySize {
-        let _ = items.sorted { element1, element2 in
-          let (_, value1) = element1
-          let (_, value2) = element2
+        if items.count > HistorySize {
+          let _ = items.sorted { value1, value2 in
+            let time1 = Double(value1.time)!
+            let time2 = Double(value2.time)!
 
-          let data1 = value1 as! [String: Any]
-          let data2 = value2 as! [String: Any]
+            return time1 < time2
+          }
 
-          let time1 = Double(data1["time"] as! String)!
-          let time2 = Double(data2["time"] as! String)!
+          //print(sortedItems)
 
-          return time1 < time2
+          //[String: Any]
+
+          //items = sortedItems[0 ..< HistorySize]
         }
-
-        //print(sortedItems)
-
-        //[String: Any]
-
-        //items = sortedItems[0 ..< HistorySize]
+        
+        save()
       }
-
-      save()
     }
+  }
+  
+  public func remove(_ id: String) -> Bool {
+    if let index = items.index(where: {$0.item.id == id}) {
+      items.remove(at: index)
+      
+      return true
+    }
+    
+    return false
+  }
+  
+  public func load() {
+    clear()
+    
+    do {
+      if let data = Files.readFile(fileName) {
+        items = try decoder.decode([HistoryItem].self, from: data)
+      }
+    }
+    catch let e {
+      print("Error: \(e)")
+    }
+  }
+  
+  public func save() {
+    do {
+      let data = try encoder.encode(items)
+      
+      if !Files.createFile(fileName, data: data) {
+        print("Error writing to file")
+      }
+    }
+    catch let e {
+      print("Error: \(e)")
+    }
+  }
+  
+  public func getHistoryItems(pageSize: Int, page: Int) -> [HistoryItem] {
+    var newData: [HistoryItem] = []
+    
+      for index in (page-1)*pageSize ..< page*pageSize {
+        if index < items.count {
+          newData.append(items[index])
+        }
+      }
+    
+    return newData
   }
 
 }

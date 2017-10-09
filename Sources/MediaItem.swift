@@ -14,6 +14,10 @@ open class MediaItem: MediaName {
   public var episodeNumber: String?
 
   private enum CodingKeys: String, CodingKey {
+    case name
+    case id
+    case imageName
+    
     case type
     case parentName
     case parentId
@@ -27,6 +31,24 @@ open class MediaItem: MediaName {
   }
 
   public override init(name: String?, id: String? = nil, imageName: String? = nil) {
+    super.init(name: name, id: id, imageName: imageName)
+  }
+
+  public init(name: String?, id: String? = nil, imageName: String? = nil,
+              type: String?, parentName: String?, parentId: String?, thumb: String?, tags: String?,
+              description: String?, rating: String?, watchStatus: String?, seasonNumber: String?,
+              episodeNumber: String?) {
+    self.type = type
+    self.thumb = thumb
+    self.tags = tags
+    self.description = description
+    self.rating = rating
+    self.parentName = parentName
+    self.parentId = parentId
+    self.watchStatus = watchStatus
+    self.seasonNumber = seasonNumber
+    self.episodeNumber = episodeNumber
+
     super.init(name: name, id: id, imageName: imageName)
   }
 
@@ -57,7 +79,28 @@ open class MediaItem: MediaName {
     self.seasonNumber = data["seasonNumber"]
     self.episodeNumber = data["episodeNumber"]
 
-    super.init(name: data["name"]!, id: data["id"])
+    super.init(name: data["name"], id: data["id"])
+  }
+  
+  public required convenience init(from decoder: Decoder) throws {
+    self.init(data: [:])
+    
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+
+    name = try container.decodeIfPresent(String.self, forKey: .name)
+    id = try container.decodeIfPresent(String.self, forKey: .id)
+    imageName = try container.decodeIfPresent(String.self, forKey: .imageName)
+
+    type = try container.decodeIfPresent(String.self, forKey: .type)
+    thumb = try container.decodeIfPresent(String.self, forKey: .thumb)
+    tags = try container.decodeIfPresent(String.self, forKey: .tags)
+    description = try container.decodeIfPresent(String.self, forKey: .description)
+    rating = try container.decodeIfPresent(String.self, forKey: .rating)
+    parentName = try container.decodeIfPresent(String.self, forKey: .parentName)
+    parentId = try container.decodeIfPresent(String.self, forKey: .parentId)
+    watchStatus = try container.decodeIfPresent(String.self, forKey: .watchStatus)
+    seasonNumber = try container.decodeIfPresent(String.self, forKey: .seasonNumber)
+    episodeNumber = try container.decodeIfPresent(String.self, forKey: .episodeNumber)  
   }
   
   override public func encode(to encoder: Encoder) throws {
@@ -159,10 +202,4 @@ open class MediaItem: MediaName {
 
     return result
   }
-
-//  override public func toData() throws -> Data {
-//    let encoder = JSONEncoder()
-//
-//    return try encoder.encode(self)
-//  }
 }
