@@ -1,27 +1,26 @@
 import Foundation
-//import SwiftyJSON
 
 public struct BookmarkItem: Codable {
-  public var item: MediaItem?
-  public var type: String?
+  public var item: MediaItem
+  public var type: String
 
   private enum CodingKeys: String, CodingKey {
     case item
     case type
   }
 
-  public init(item: MediaItem?=nil, type: String?=nil) {
+  public init(item: MediaItem, type: String) {
     self.item = item
     self.type = type
   }
   
   public init(from decoder: Decoder) throws {
-    self.init()
+    self.init(item: try MediaItem(from: decoder), type: "bookmark")
     
     let container = try decoder.container(keyedBy: CodingKeys.self)
     
-    item = try container.decodeIfPresent(MediaItem.self, forKey: .item)
-    type = try container.decodeIfPresent(String.self, forKey: .type)
+    item = try container.decodeIfPresent(MediaItem.self, forKey: .item)!
+    type = try container.decodeIfPresent(String.self, forKey: .type)!
   }
   
   public func encode(to encoder: Encoder) throws {
@@ -31,23 +30,18 @@ public struct BookmarkItem: Codable {
     try container.encode(type, forKey: .type)
   }
 
-  
-//  public func getName() -> String {
-//    if let item = item {
-//      if let name = item.name {
-//        if let parentName = item.parentName {
-//          if parentName.isEmpty {
-//            return name
-//          }
-//          else {
-//            return "\(parentName) (\(name))"
-//          }
-//        }
-//      }
-//    }
-//
-//    return ""
-//  }
+  public func getName() -> String {
+    if let name = item.name, let parentName = item.parentName {
+      if parentName.isEmpty {
+        return name
+      }
+      else {
+        return "\(parentName) (\(name))"
+      }
+    }
+
+    return ""
+  }
 }
 
 open class Bookmarks {
@@ -135,7 +129,7 @@ open class Bookmarks {
 
   public func addBookmark(item: MediaItem, type: String="bookmark") -> Bool {
     if let id = item.id {
-      let found = items.filter { item in item.item?.id! == id }.first
+      let found = items.filter { item in item.item.id! == id }.first
 
       if found == nil {
         items.append(BookmarkItem(item: item, type: type))
@@ -150,7 +144,7 @@ open class Bookmarks {
   }
 
   public func removeBookmark(id: String, type: String="bookmark") -> Bool {
-    if let index = items.index(where: {$0.item?.id == id && $0.type == type}) {
+    if let index = items.index(where: {$0.item.id == id && $0.type == type}) {
       items.remove(at: index)
       
       return true
