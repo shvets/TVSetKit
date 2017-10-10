@@ -9,12 +9,12 @@ open class MediaItemsController: BaseCollectionViewController {
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
-  static public func instantiate(_ adapter: ServiceAdapter) -> UIViewController {
+  static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
     return UIViewController.instantiate(
       controllerId: MediaItemsController.StoryboardControllerId,
       storyboardId: type(of: adapter).StoryboardId,
       bundle: Bundle.main
-    )
+      ).getActionController() as? MediaItemsController
   }
 
   override open func viewDidLoad() {
@@ -134,9 +134,7 @@ open class MediaItemsController: BaseCollectionViewController {
         }
       }
       else {
-        let controller = MediaItemsController.instantiate(adapter)
-
-        if let destination = controller.getActionController() as? MediaItemsController {
+        if let destination = MediaItemsController.instantiateController(adapter) {
           let newAdapter = adapter.clone()
           newAdapter.params["selectedItem"] = mediaItem
 
