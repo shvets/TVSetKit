@@ -9,6 +9,8 @@ open class MediaItemsController: BaseCollectionViewController {
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
+  var bookmarkHelper: BookmarkHelper!
+  
   static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
     return UIViewController.instantiate(
       controllerId: MediaItemsController.StoryboardControllerId,
@@ -21,6 +23,8 @@ open class MediaItemsController: BaseCollectionViewController {
     super.viewDidLoad()
 
     localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
+    
+    bookmarkHelper = BookmarkHelper(localizer: localizer)
 
     title = getHeaderName()
 
@@ -95,7 +99,7 @@ open class MediaItemsController: BaseCollectionViewController {
       if let indexPath = indexPath {
         cellSelection.setIndexPath(indexPath)
 
-        handleBookmark()
+        processBookmark()
       }
     }
   }
@@ -367,71 +371,35 @@ open class MediaItemsController: BaseCollectionViewController {
 
     navigationItem.title = item.name
 
-    handleBookmark()
+    processBookmark()
 
     return true
   }
 #endif
 
-  func handleBookmark() {
-    if let requestType = adapter.params["requestType"] as? String {
-      if let item = getSelectedItem() as? MediaItem {
-        var controller: UIAlertController?
+  func processBookmark() {
+    if let selectedItem = getSelectedItem() as? MediaItem {
+      func addCallback() {
+        self.adapter.addBookmark(item: selectedItem)
+      }
 
-        if adapter.isBookmark(requestType) {
-          controller = buildRemoveBookmarkController(item)
+      func removeCallback() {
+        let result = self.adapter.removeBookmark(item: selectedItem)
+
+        if result {
+          self.removeCell()
         }
         else {
-          controller = buildAddBookmarkController(item)
-        }
-
-        if let controller = controller {
-          present(controller, animated: false, completion: nil)
+          print("Bookmark already removed")
         }
       }
-    }
-  }
 
-  func buildRemoveBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = localizer.localize("Your Selection Will Be Removed")
-    let message = localizer.localize("Confirm Your Choice")
+      let isBookmark = adapter.isBookmark((adapter.params["requestType"] as? String)!)
 
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-      let result = self.adapter.removeBookmark(item: item)
-
-      if result {
-        self.removeCell()
-      }
-      else {
-        print("Bookmark already removed")
+      if let alert = bookmarkHelper.handleBookmark(isBookmark: isBookmark, addCallback: addCallback, removeCallback: removeCallback) {
+        present(alert, animated: false, completion: nil)
       }
     }
-
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-    alertController.addAction(cancelAction)
-    alertController.addAction(okAction)
-
-    return alertController
   }
 
-  func buildAddBookmarkController(_ item: MediaItem) -> UIAlertController {
-    let title = localizer.localize("Your Selection Will Be Added")
-    let message = localizer.localize("Confirm Your Choice")
-
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-
-    let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-      self.adapter.addBookmark(item: item)
-    }
-
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-    alertController.addAction(cancelAction)
-    alertController.addAction(okAction)
-
-    return alertController
-  }
 }
