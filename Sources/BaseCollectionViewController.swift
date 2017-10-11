@@ -22,6 +22,12 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
 
   public let cellSelection = CellSelection()
 
+   override open func viewDidLoad() {
+     super.viewDidLoad()
+
+     localizer = Localizer(BundleId, bundleClass: TVSetKit.self)
+   }
+
   open func loadInitialData(_ onLoadCompleted: (([Item]) -> Void)?=nil) {
     return adapter.pageLoader.loadData { result in
       if let items = result as? [Item] {
@@ -151,7 +157,7 @@ open class BaseCollectionViewController: UICollectionViewController, UICollectio
   open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {}
 
   open func getLocalizedName(_ name: String?) -> String {
-    if let localizer = localizer, let name = name {
+    if let name = name {
       return localizer.localize(name)
     }
     else {

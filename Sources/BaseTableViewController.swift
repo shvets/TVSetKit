@@ -97,10 +97,6 @@ open class BaseTableViewController: UITableViewController {
     }
   }
 
-#if os(tvOS)
-  @objc open func tapped(_ gesture: UITapGestureRecognizer) {}
-#endif
-
   // MARK: UIScrollViewDelegate
 
 //  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -148,6 +144,14 @@ open class BaseTableViewController: UITableViewController {
     }
   }
 
+#if os(tvOS)
+  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
+    if let location = tableView.cellForRow(at: indexPath) {
+      navigate(from: location)
+    }
+  }
+#endif
+
   override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if let location = tableView.cellForRow(at: indexPath) {
       navigate(from: location)
@@ -164,5 +168,4 @@ open class BaseTableViewController: UITableViewController {
       return ""
     }
   }
-
 }
