@@ -146,7 +146,7 @@ open class BaseTableViewController: UITableViewController {
 
 #if os(tvOS)
   @objc open func tapped(_ gesture: UITapGestureRecognizer) {
-    if let location = tableView.cellForRow(at: indexPath) {
+    if let location = gesture.view as? UICollectionViewCell {
       navigate(from: location)
     }
   }

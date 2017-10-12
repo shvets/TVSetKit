@@ -58,5 +58,14 @@ open class Localizer {
       return comment
     }
   }
+  
+  public func getLocalizedName(_ name: String?) -> String {
+    if let name = name {
+      return localize(name)
+    }
+    else {
+      return ""
+    }
+  }
 
 }

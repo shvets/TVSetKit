@@ -3,7 +3,9 @@ import Foundation
 open class CellSelection {
   var indexPath: IndexPath?
 
-  func getIndexPath() -> IndexPath? {
+  public init() {}
+
+  open func getIndexPath() -> IndexPath? {
     return indexPath
   }
 
@@ -11,7 +13,7 @@ open class CellSelection {
     self.indexPath = indexPath
   }
 
-  func resetIndexPath() {
+  open func resetIndexPath() {
     self.indexPath = nil
   }
 
