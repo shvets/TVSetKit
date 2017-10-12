@@ -19,7 +19,9 @@ public class PageLoader {
     return []
   }
 
-  public init() {}
+  public init() {
+    clear()
+  }
 
   public func clear() {
     currentPage = 1
