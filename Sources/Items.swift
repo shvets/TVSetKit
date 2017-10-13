@@ -1,7 +1,7 @@
 import Foundation
 
 open class Items {
-  public let pageLoader = PageLoader()
+  public var pageLoader = PageLoader()
   public let cellSelection = CellSelection()
   
   public var items: [Item] = []

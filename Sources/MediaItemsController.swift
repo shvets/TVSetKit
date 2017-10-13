@@ -54,8 +54,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       return try self.adapter.load()
     }
 
-    items.pageLoader.pageSize = adapter.pageLoader.pageSize
-    items.pageLoader.rowSize = adapter.pageLoader.rowSize
+//    items.pageLoader.pageSize = adapter.pageLoader.pageSize
+//    items.pageLoader.rowSize = adapter.pageLoader.rowSize
+    items.pageLoader = adapter.pageLoader
     
     items.pageLoader.enablePagination()
     items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
@@ -74,26 +75,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaNameCell {
-      if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-        loadMoreData(collectionView)
+    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
+      if items.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+        items.loadMoreData(collectionView)
       }
 
-      let item = items[indexPath.row] as! MediaName
-
-      cell.configureCell(item: item, localizedName: localizer.getLocalizedName(item.name), target: self)
-
-      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
-
-      return cell
-    }
-    else {
-      return UICollectionViewCell()
-    }
-  }
-
-  override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
       let item = items[indexPath.row]
 
       cell.configureCell(item: item, localizedName: localizer.getLocalizedName(item.name))

@@ -4,7 +4,7 @@ open class ServiceAdapter {
   open class var StoryboardId: String { return "" }
   open class var BundleId: String { return "" }
 
-  public let pageLoader = PageLoader()
+  public var pageLoader = PageLoader()
   public var params = Parameters()
   public var dataSource: DataSource!
 
@@ -14,7 +14,7 @@ open class ServiceAdapter {
     self.dataSource = dataSource
     self.mobile = mobile
 
-    pageLoader.load = {
+    self.pageLoader.load = {
       return try self.load()
     }
   }
