@@ -55,6 +55,13 @@ open class Items {
 //        let step = min(result.count, self.pageLoader.rowSize)
 //
 //        self.tableView.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
+
+//        self.collectionView?.insertItems(at: indexPaths)
+//
+//        let step = min(result.count, pageLoader.rowSize)
+//
+//        self.collectionView?.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
+//
       }
 
       if let onLoadCompleted = onLoadCompleted {
@@ -67,7 +74,7 @@ open class Items {
     return pageLoader.nextPageAvailable(dataCount: dataCount, index: index)
   }
 
-  open func getSelectedItem() -> Item? {
+  public func getSelectedItem() -> Item? {
     var item: Item?
 
     if let indexPath = cellSelection.getIndexPath() {
@@ -77,7 +84,7 @@ open class Items {
     return item
   }
 
-  open func removeCell() {
+  public func removeCell() {
     if let indexPath = cellSelection.getIndexPath() {
       _ = items.remove(at: indexPath.row)
 
