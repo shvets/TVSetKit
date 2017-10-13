@@ -1,6 +1,6 @@
 import Foundation
 
-open class CellSelection {
+public class CellSelection {
   var indexPath: IndexPath?
 
   public init() {}

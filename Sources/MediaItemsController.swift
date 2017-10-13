@@ -1,11 +1,12 @@
 import UIKit
 import AudioPlayer
 
-open class MediaItemsController: BaseCollectionViewController {
-  open class var SegueIdentifier: String { return "Media Items" }
-  open class var StoryboardControllerId: String { return "MediaItemsController" }
-
-  override open var CellIdentifier: String { return "MediaItemCell" }
+open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout  {
+  open static let SegueIdentifier = "Media Items"
+  open static let StoryboardControllerId = "MediaItemsController"
+  static let BundleId = "com.rubikon.TVSetKit"
+  
+  let CellIdentifier = "MediaItemCell"
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
@@ -19,54 +20,83 @@ open class MediaItemsController: BaseCollectionViewController {
       ).getActionController() as? MediaItemsController
   }
 
-  override open func viewDidLoad() {
-    super.viewDidLoad()
-
-    localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
-    
-    bookmarkHelper = BookmarkHelper(localizer: localizer)
-
-    title = getHeaderName()
-
-    clearsSelectionOnViewWillAppear = false
-
-    adapter.pageLoader.enablePagination()
+  let localizer = Localizer(MediaItemsController.BundleId, bundleClass: TVSetKit.self)
 
 #if os(iOS)
-    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
-    collectionView?.addGestureRecognizer(longPressRecognizer)
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
 #endif
 
-    collectionView?.backgroundView = activityIndicatorView
-    adapter.pageLoader.spinner = PlainSpinner(activityIndicatorView)
+#if os(tvOS)
+  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+#endif
 
-    loadInitialData()
+  public var adapter: ServiceAdapter!
+
+  private var items: Items!
+
+  override open func viewDidLoad() {
+    super.viewDidLoad()
+    
+    bookmarkHelper = BookmarkHelper(localizer: localizer)
+    
+    title = getHeaderName()
+    
+    clearsSelectionOnViewWillAppear = false
+
+    #if os(iOS)
+      let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
+      collectionView?.addGestureRecognizer(longPressRecognizer)
+    #endif
+    
+    collectionView?.backgroundView = activityIndicatorView
+
+    items = Items() {
+      return try self.adapter.load()
+    }
+
+    items.pageLoader.pageSize = adapter.pageLoader.pageSize
+    items.pageLoader.rowSize = adapter.pageLoader.rowSize
+    
+    items.pageLoader.enablePagination()
+    items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
+
+    items.loadInitialData(self.collectionView)
   }
 
   // MARK: UICollectionViewDataSource
 
-#if os(iOS)  
-  override open func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-    collectionViewLayout.invalidateLayout()
+  override open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
   }
-  
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-      let itemSize = layout.itemSize
 
-      return CGSize(width: collectionView.bounds.width, height: itemSize.height)
+  override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return items.count
+  }
+
+  override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaNameCell {
+      if adapter != nil && adapter.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+        loadMoreData(collectionView)
+      }
+
+      let item = items[indexPath.row] as! MediaName
+
+      cell.configureCell(item: item, localizedName: localizer.getLocalizedName(item.name), target: self)
+
+      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)))
+
+      return cell
     }
     else {
-      return CGSize(width: 0, height: 0)
+      return UICollectionViewCell()
     }
   }
-#endif
-  
+
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
       let item = items[indexPath.row]
 
-      cell.configureCell(item: item, localizedName: getLocalizedName(item.name))
+      cell.configureCell(item: item, localizedName: localizer.getLocalizedName(item.name))
 
 #if os(tvOS)
       CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
@@ -89,6 +119,51 @@ open class MediaItemsController: BaseCollectionViewController {
     }
   }
 
+  // MARK: UIScrollViewDelegate
+
+  override open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    let currentOffset = scrollView.contentOffset.y
+    let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+    let deltaOffset = maximumOffset - currentOffset
+
+    if deltaOffset <= 1 { // approximately, close to zero
+      if items.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+        items.loadMoreData(self.collectionView)
+      }
+    }
+  }
+
+  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
+    if let location = gesture.view as? UICollectionViewCell {
+      navigate(from: location)
+    }
+  }
+
+  override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    if let location = collectionView.cellForItem(at: indexPath) {
+      navigate(from: location)
+    }
+  }
+
+  // MARK: UICollectionViewDataSource
+
+#if os(iOS)  
+  override open func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+    collectionViewLayout.invalidateLayout()
+  }
+  
+  public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+      let itemSize = layout.itemSize
+
+      return CGSize(width: collectionView.bounds.width, height: itemSize.height)
+    }
+    else {
+      return CGSize(width: 0, height: 0)
+    }
+  }
+#endif
+
 #if os(iOS)
   @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended,
@@ -97,7 +172,7 @@ open class MediaItemsController: BaseCollectionViewController {
       let indexPath = collectionView.indexPathForItem(at: point)
 
       if let indexPath = indexPath {
-        cellSelection.setIndexPath(indexPath)
+        items.cellSelection.setIndexPath(indexPath)
 
         processBookmark()
       }
@@ -119,54 +194,55 @@ open class MediaItemsController: BaseCollectionViewController {
   }
 #endif
 
-  override open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
-    let mediaItem = getItem(for: view) as! MediaItem
-
-    if let type = mediaItem.type {
-      if type.isEmpty {
-        mediaItem.resolveType()
-      }
-    }
-
-    if mediaItem.isContainer() {
-      if mediaItem.isAudioContainer() {
-        if mediaItem.hasMultipleVersions() {
-          performSegue(withIdentifier: AudioVersionsController.SegueIdentifier, sender: view)
-        }
-        else {
-          performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
+  func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
+    if let indexPath = collectionView?.indexPath(for: view),
+      let mediaItem = items.getItem(for: indexPath) as? MediaItem {
+      if let type = mediaItem.type {
+        if type.isEmpty {
+          mediaItem.resolveType()
         }
       }
-      else {
-        if let destination = MediaItemsController.instantiateController(adapter) {
-          let newAdapter = adapter.clone()
-          newAdapter.params["selectedItem"] = mediaItem
-
-          newAdapter.params["parentId"] = mediaItem.id
-          newAdapter.params["parentName"] = mediaItem.name
-          newAdapter.params["isContainer"] = true
-
-          destination.adapter = newAdapter
-
-          if adapter.mobile == false {
-            if let layout = adapter.buildLayout() {
-              destination.collectionView?.collectionViewLayout = layout
-            }
-
-            present(destination, animated: true)
+      
+      if mediaItem.isContainer() {
+        if mediaItem.isAudioContainer() {
+          if mediaItem.hasMultipleVersions() {
+            performSegue(withIdentifier: AudioVersionsController.SegueIdentifier, sender: view)
           }
           else {
-            navigationController?.pushViewController(destination, animated: true)
+            performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
+          }
+        }
+        else {
+          if let destination = MediaItemsController.instantiateController(adapter) {
+            let newAdapter = adapter.clone()
+            newAdapter.params["selectedItem"] = mediaItem
+            
+            newAdapter.params["parentId"] = mediaItem.id
+            newAdapter.params["parentName"] = mediaItem.name
+            newAdapter.params["isContainer"] = true
+            
+            destination.adapter = newAdapter
+            
+            if adapter.mobile == false {
+              if let layout = adapter.buildLayout() {
+                destination.collectionView?.collectionViewLayout = layout
+              }
+              
+              present(destination, animated: true)
+            }
+            else {
+              navigationController?.pushViewController(destination, animated: true)
+            }
           }
         }
       }
-    }
-    else {
-      if playImmediately {
-        performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
-      }
       else {
-        performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
+        if playImmediately {
+          performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+        }
+        else {
+          performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
+        }
       }
     }
   }
@@ -378,7 +454,7 @@ open class MediaItemsController: BaseCollectionViewController {
 #endif
 
   func processBookmark() {
-    if let selectedItem = getSelectedItem() as? MediaItem {
+    if let selectedItem = items.getSelectedItem() as? MediaItem {
       func addCallback() {
         self.adapter.addBookmark(item: selectedItem)
       }
@@ -387,7 +463,7 @@ open class MediaItemsController: BaseCollectionViewController {
         let result = self.adapter.removeBookmark(item: selectedItem)
 
         if result {
-          self.removeCell()
+          items.removeCell()
         }
         else {
           print("Bookmark already removed")
