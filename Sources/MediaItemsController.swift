@@ -263,7 +263,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
-            destination.collectionItems = items as! [MediaItem]
+            destination.collectionItems = items.items as! [MediaItem]
             destination.mediaItem = mediaItem
             destination.adapter = adapter
           }
@@ -362,7 +362,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
             destination.playVideo = true
-            destination.collectionItems = items  as! [MediaItem]
+            destination.collectionItems = items.items  as! [MediaItem]
             destination.mediaItem = mediaItem
             destination.adapter = adapter
 
