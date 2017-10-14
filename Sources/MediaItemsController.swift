@@ -119,11 +119,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
   }
 
-  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
-    if let location = gesture.view as? UICollectionViewCell {
-      navigate(from: location)
-    }
-  }
+//  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
+//    if let location = gesture.view as? UICollectionViewCell {
+//      navigate(from: location)
+//    }
+//  }
 
   override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if let location = collectionView.cellForItem(at: indexPath) {
@@ -167,7 +167,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 #endif
 
 #if os(tvOS)
-  override open func tapped(_ gesture: UITapGestureRecognizer) {
+  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
     var playImmediately = false
 
     if gesture.allowedPressTypes.contains(NSNumber(value: UIPressType.playPause.rawValue)) {
@@ -427,7 +427,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
 #if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-    cellSelection.setIndexPath(indexPath)
+    items.cellSelection.setIndexPath(indexPath)
 
     let item = items[indexPath.row]
 
