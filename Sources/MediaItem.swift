@@ -161,8 +161,7 @@ open class MediaItem: MediaName {
     var selectedIndex = -1
 
     for (index, bitrate) in bitrates.enumerated() {
-      if let bitrate = bitrate["name"] as? String,
-         bitrate == qualityLevel.rawValue {
+      if let bitrate = bitrate["name"], bitrate == qualityLevel.rawValue {
         selectedIndex = index
       }
     }
@@ -181,8 +180,7 @@ open class MediaItem: MediaName {
     let bitrates = try getBitrates()
 
     for bitrate in bitrates {
-      if let name = bitrate["name"] as? String,
-         let qualityLevel = QualityLevel(rawValue: name) {
+      if let name = bitrate["name"], let qualityLevel = QualityLevel(rawValue: name) {
         qualityLevels.append(qualityLevel)
       }
     }
@@ -223,4 +221,6 @@ open class MediaItem: MediaName {
   open func getUrl(_ bitrate: [String: String]) throws -> String? {
     return bitrate["url"]
   }
+
+  open func retrieveExtraInfo() throws {}
 }

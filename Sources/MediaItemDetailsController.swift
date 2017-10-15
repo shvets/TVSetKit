@@ -25,7 +25,7 @@ class MediaItemDetailsController: UIViewController {
     super.viewDidLoad()
 
     do {
-      try adapter?.retrieveExtraInfo(mediaItem)
+      try mediaItem.retrieveExtraInfo()
     }
     catch {
       print("Error getting extra data.")
@@ -38,9 +38,13 @@ class MediaItemDetailsController: UIViewController {
       print("Error loading data.")
     }
 
-    if let adapter = adapter, let mobile = adapter.mobile {
-      playButtonsView.createPlayButtons(bitrates, mobile: mobile)
-    }
+    var mobile = false
+
+#if os(iOS)
+    mobile = true
+#endif
+
+    playButtonsView.createPlayButtons(bitrates, mobile: mobile)
 
     if let view = playButtonsView {
       for button in view.buttons {
@@ -48,18 +52,20 @@ class MediaItemDetailsController: UIViewController {
 
         playButton.controller = self
 
-        if adapter?.mobile == true {
+        if mobile {
           let action = #selector(self.playMediaItem)
 
           button.addTarget(self, action: action, for: .touchUpInside)
         }
         else {
+#if os(tvOS)
           let action = #selector(self.tapped(_:))
           let tapGesture = UITapGestureRecognizer(target: self, action: action)
 
           tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
           button.addGestureRecognizer(tapGesture)
+#endif
         }
       }
     }
@@ -101,8 +107,8 @@ class MediaItemDetailsController: UIViewController {
   func loadData() throws {
     do {
       for bitrate in try mediaItem.getBitrates() {
-        if let name = bitrate["name"] as? String {
-          let id = bitrate["id"] as? String ?? ""
+        if let name = bitrate["name"] {
+          let id = bitrate["id"] ?? ""
 
           bitrates.append(MediaName(name: name, id: id))
         }
@@ -159,7 +165,7 @@ class MediaItemDetailsController: UIViewController {
 
         if let index = index {
           func getMediaUrl() throws -> URL? {
-            return try mediaItem.getMediaUrl(index: index)
+            return mediaItem.getMediaUrl(index: index)
           }
             
           destination.getMediaUrl = getMediaUrl
