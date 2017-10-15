@@ -18,6 +18,8 @@ class MediaItemDetailsController: UIViewController {
   var adapter: ServiceAdapter?
   var collectionItems: [MediaItem]!
 
+  var historyManager = HistoryManager(History(""))
+    
   var mediaItem: MediaItem!
   var bitrates = [MediaName]()
 
@@ -71,7 +73,7 @@ class MediaItemDetailsController: UIViewController {
     }
 
     if let requestType = adapter?.params["requestType"] as? String, requestType != "History" {
-      adapter?.addHistoryItem(mediaItem)
+      historyManager.addHistoryItem(mediaItem)
     }
 
     movieDescription.text = mediaItem.description

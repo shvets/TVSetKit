@@ -76,18 +76,4 @@ open class ServiceAdapter {
     }
   }
 
-  @discardableResult open func addBookmark(item: MediaItem) -> Bool {
-    return true
-  }
-  
-  open func removeBookmark(item: MediaItem) -> Bool {
-    return true
-  }
-
-  open func addHistoryItem(_ item: MediaItem) {}
-
-  open func isBookmark(_ requestType: String) -> Bool {
-    return requestType != "History" && requestType == "Bookmarks"
-  }
-
 }

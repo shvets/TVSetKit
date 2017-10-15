@@ -10,6 +10,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
+  var bookmarksManager = BookmarksManager(Bookmarks(""))
+  var historyManager = HistoryManager(History(""))
   var bookmarkHelper: BookmarkHelper!
   
   static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
@@ -342,7 +344,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
             if let requestType = adapter.params["requestType"] as? String {
               if requestType != "History" {
-                adapter.addHistoryItem(mediaItem)
+                historyManager.addHistoryItem(mediaItem)
               }
             }
 
@@ -442,11 +444,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   func processBookmark() {
     if let selectedItem = items.getSelectedItem() as? MediaItem {
       func addCallback() {
-        self.adapter.addBookmark(item: selectedItem)
+        self.bookmarksManager.addBookmark(item: selectedItem)
       }
 
       func removeCallback() {
-        let result = self.adapter.removeBookmark(item: selectedItem)
+        let result = self.bookmarksManager.removeBookmark(item: selectedItem)
 
         if result {
           items.removeCell()
@@ -456,7 +458,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         }
       }
 
-      let isBookmark = adapter.isBookmark((adapter.params["requestType"] as? String)!)
+      let isBookmark = BookmarksManager.isBookmark((adapter.params["requestType"] as? String)!)
 
       if let alert = bookmarkHelper.handleBookmark(isBookmark: isBookmark, addCallback: addCallback, removeCallback: removeCallback) {
         present(alert, animated: false, completion: nil)
