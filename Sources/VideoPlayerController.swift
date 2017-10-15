@@ -15,22 +15,18 @@ class VideoPlayerController: AVPlayerViewController {
   var params = [String: Any]()
 
   var navigator: MediaItemsNavigator?
-  var initialQualityLevel: QualityLevel?
 
   var mode: String?
   var playVideo: Bool = false
   var collectionItems: [MediaItem] = []
   var mediaItem: MediaItem?
-  var bitrate: [String: Any]?
+
+  var getMediaUrl: (() throws -> URL?)?
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
     navigator = MediaItemsNavigator(collectionItems)
-
-    if let bitrate = bitrate, let name = bitrate["name"] as? String {
-      initialQualityLevel = QualityLevel(rawValue: name)
-    }
 
 #if os(tvOS)
     let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
@@ -121,9 +117,18 @@ class VideoPlayerController: AVPlayerViewController {
       return false
     }
   }
-  
+
   func play() {
-    if let url = getMediaUrl(),
+    var mediaUrl: URL?
+
+    do {
+      mediaUrl = try getMediaUrl!()
+    }
+    catch let e {
+      print("Error: \(e)")
+    }
+
+    if let url = mediaUrl,
        let name = mediaItem?.name {
        let description = mediaItem?.description ?? name
 
@@ -188,34 +193,5 @@ class VideoPlayerController: AVPlayerViewController {
 
     return [titleItem, descriptionItem]
   }
-  
-  private func getMediaUrl() -> URL? {
-    var url: String?
 
-    do {
-      if let mediaItem = mediaItem,
-         let initialQualityLevel = initialQualityLevel {
-        let qualityLevel = initialQualityLevel.nearestLevel(qualityLevels: try mediaItem.getQualityLevels())
-
-        let bitrate = try mediaItem.getBitrate(qualityLevel: qualityLevel!)
-
-        var params = [String: Any]()
-        params["bitrate"] = bitrate
-        params["id"] = mediaItem.id
-        params["item"] = mediaItem
-
-        url = try adapter!.getUrl(params)
-      }
-    }
-    catch {
-      print("Cannot get urls.")
-    }
-
-    if let url = url {
-      return NSURL(string: url) as URL?
-    }
-    else {
-      return nil
-    }
-  }
 }

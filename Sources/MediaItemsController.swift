@@ -364,18 +364,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.playVideo = true
             destination.collectionItems = items.items  as! [MediaItem]
             destination.mediaItem = mediaItem
-            destination.adapter = adapter
-
-            do {
-              let bitrates = try mediaItem.getBitrates()
-
-              if !bitrates.isEmpty {
-                destination.bitrate = bitrates[0]
-              }
-            }
-            catch {
-              print("Error getting bitrate")
-            }
           }
         default: break
         }

@@ -19,7 +19,6 @@ class MediaItemDetailsController: UIViewController {
   var collectionItems: [MediaItem]!
 
   var mediaItem: MediaItem!
-
   var bitrates = [MediaName]()
 
   override func viewDidLoad() {
@@ -154,21 +153,16 @@ class MediaItemDetailsController: UIViewController {
       destination.playVideo = true
       destination.collectionItems = collectionItems
       destination.mediaItem = mediaItem
-      destination.adapter = adapter
 
       if let view = playButtonsView {
         let index = view.buttons.index(where: { $0 == sender as? UIButton })
 
         if let index = index {
-          do {
-            let bitrates = try mediaItem.getBitrates()
-
-            if !bitrates.isEmpty {
-              destination.bitrate = bitrates[index]
-            }
-          } catch {
-            print("Error getting bitrate")
+          func getMediaUrl() throws -> URL? {
+            return try mediaItem.getMediaUrl(bitrateIndex: index, serviceAdapter: adapter!)
           }
+            
+          destination.getMediaUrl = getMediaUrl
         }
       }
 
