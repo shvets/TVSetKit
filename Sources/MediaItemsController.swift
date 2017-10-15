@@ -12,7 +12,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var bookmarksManager = BookmarksManager(Bookmarks(""))
   var historyManager = HistoryManager(History(""))
-  var bookmarkHelper: BookmarkHelper!
   
   static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
     return UIViewController.instantiate(
@@ -41,8 +40,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   override open func viewDidLoad() {
     super.viewDidLoad()
-    
-    bookmarkHelper = BookmarkHelper(localizer: localizer)
     
     title = getHeaderName()
     
@@ -460,7 +457,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
       let isBookmark = BookmarksManager.isBookmark((adapter.params["requestType"] as? String)!)
 
-      if let alert = bookmarkHelper.handleBookmark(isBookmark: isBookmark, addCallback: addCallback, removeCallback: removeCallback) {
+        if let alert = bookmarksManager.handleBookmark(isBookmark: isBookmark, localizer: localizer, addCallback: addCallback, removeCallback: removeCallback) {
         present(alert, animated: false, completion: nil)
       }
     }
