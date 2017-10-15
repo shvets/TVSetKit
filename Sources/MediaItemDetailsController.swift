@@ -159,7 +159,7 @@ class MediaItemDetailsController: UIViewController {
 
         if let index = index {
           func getMediaUrl() throws -> URL? {
-            return try mediaItem.getMediaUrl(bitrateIndex: index, serviceAdapter: adapter!)
+            return try mediaItem.getMediaUrl(index: index)
           }
             
           destination.getMediaUrl = getMediaUrl

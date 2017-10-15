@@ -76,10 +76,6 @@ open class ServiceAdapter {
     }
   }
 
-  open func getUrl(_ params: [String: Any]) throws -> String? {
-    return ""
-  }
-
   open func retrieveExtraInfo(_ item: MediaItem) throws {}
   
   @discardableResult open func addBookmark(item: MediaItem) -> Bool {

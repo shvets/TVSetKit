@@ -151,7 +151,7 @@ open class MediaItem: MediaName {
     return ""
   }
   
-  open func getBitrates() throws -> [[String: Any]] {
+  open func getBitrates() throws -> [[String: String]] {
     return []
   }
 
@@ -203,49 +203,24 @@ open class MediaItem: MediaName {
     return result
   }
 
-  open func getMediaUrl(bitrateIndex index: Int, serviceAdapter: ServiceAdapter) -> URL? {
-    var url: String?
-
+  open func getMediaUrl(index: Int) -> URL? {
     do {
-        let bitrates = try getBitrates()
-        
-        var bitrate: [String: Any]?
-        var qualityLevel: QualityLevel?
-        
-        if !bitrates.isEmpty {
-            bitrate = bitrates[index]
-            
-//            if let bitrate = bitrate, let name = bitrate["name"] as? String {
-//                qualityLevel = QualityLevel(rawValue: name)
-//            }
-        }
-        
-//        if let qualityLevel = qualityLevel {
-//
-//        let bitrate = try getBitrate(qualityLevel: qualityLevel)
+      let bitrates = try getBitrates()
 
-        var params = [String: Any]()
-        params["bitrate"] = bitrate
-        params["id"] = id
-        params["item"] = self
-
-        do {
-          url = try serviceAdapter.getUrl(params)
+      if !bitrates.isEmpty {
+        if let url = try getUrl(bitrates[index]) {
+          return NSURL(string: url) as URL?
         }
-        catch let e {
-          print("Error: \(e)")
-        }
-      //}
+      }
     }
     catch {
-      print("Cannot get urls.")
+      print("Cannot get bitrates.")
     }
 
-    if let url = url {
-      return NSURL(string: url) as URL?
-    }
-    else {
-      return nil
-    }
+    return nil
+  }
+
+  open func getUrl(_ bitrate: [String: String]) throws -> String? {
+    return bitrate["url"]
   }
 }
