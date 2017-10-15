@@ -34,7 +34,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public var adapter: ServiceAdapter!
 
   public var params = [String: Any]()
-    public var configuration: [String: Any]?
+  public var configuration: [String: Any]?
 
   private var items: Items!
 
@@ -63,6 +63,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     if let configuration = configuration {
       items.pageLoader.pageSize = configuration["pageSize"] as! Int
       items.pageLoader.rowSize = configuration["rowSize"] as! Int
+
+      bookmarksManager = configuration["bookmarksManager"] as! BookmarksManager
     }
 
     //items.pageLoader = adapter.pageLoader
