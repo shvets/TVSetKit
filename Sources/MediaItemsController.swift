@@ -32,6 +32,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   public var adapter: ServiceAdapter!
 
+  public var params = [String: Any]()
+
   private var items: Items!
 
   override open func viewDidLoad() {
@@ -49,6 +51,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     #endif
     
     collectionView?.backgroundView = activityIndicatorView
+
+    if let query = params["query"] {
+        adapter.params["query"] = query
+    }
 
     items = Items() {
       return try self.adapter.load()

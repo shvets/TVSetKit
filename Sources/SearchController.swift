@@ -70,11 +70,11 @@ open class SearchController: UIViewController {
           if localizer.getLocale() == "ru" && isChecked {
             let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
-            adapter.params["query"] = transcoded
+            destination.params["query"] = transcoded
             transcodedQuery.text = transcoded
           }
           else {
-            adapter.params["query"] = query.text
+            destination.params["query"] = query.text
           }
 
           destination.adapter = adapter

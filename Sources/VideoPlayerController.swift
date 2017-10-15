@@ -9,7 +9,6 @@ class VideoPlayerController: AVPlayerViewController {
 //class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {
 
   //let playerViewController: AVPlayerViewController? = AVPlayerViewController()
-  var adapter: ServiceAdapter!
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
   var params = [String: Any]()

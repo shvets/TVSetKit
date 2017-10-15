@@ -70,10 +70,8 @@ class MediaItemDetailsController: UIViewController {
       }
     }
 
-    if let requestType = adapter?.params["requestType"] as? String {
-      if requestType != "History" {
-        adapter?.addHistoryItem(mediaItem)
-      }
+    if let requestType = adapter?.params["requestType"] as? String, requestType != "History" {
+      adapter?.addHistoryItem(mediaItem)
     }
 
     movieDescription.text = mediaItem.description
