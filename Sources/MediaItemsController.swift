@@ -34,7 +34,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public var adapter: ServiceAdapter!
 
   public var params = [String: Any]()
-  public var configuration: Configuration?
+    public var configuration: [String: Any]?
 
   private var items: Items!
 
@@ -61,8 +61,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
 
     if let configuration = configuration {
-      items.pageLoader.pageSize = configuration.pageSize!
-      items.pageLoader.rowSize = configuration.rowSize!
+      items.pageLoader.pageSize = configuration["pageSize"] as! Int
+      items.pageLoader.rowSize = configuration["rowSize"] as! Int
     }
 
     //items.pageLoader = adapter.pageLoader
