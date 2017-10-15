@@ -455,7 +455,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         }
       }
 
-      let isBookmark = BookmarksManager.isBookmark((adapter.params["requestType"] as? String)!)
+      let isBookmark = bookmarksManager.isBookmark((adapter.params["requestType"] as? String)!)
 
         if let alert = bookmarksManager.handleBookmark(isBookmark: isBookmark, localizer: localizer, addCallback: addCallback, removeCallback: removeCallback) {
         present(alert, animated: false, completion: nil)

@@ -15,7 +15,7 @@ open class BookmarksManager {
     return bookmarks.removeBookmark(id: item.id!)
   }
 
-  open static func isBookmark(_ requestType: String) -> Bool {
+  open func isBookmark(_ requestType: String) -> Bool {
     return requestType != "History" && requestType == "Bookmarks"
   }
 
