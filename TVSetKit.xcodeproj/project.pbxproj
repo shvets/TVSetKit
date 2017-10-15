@@ -13,6 +13,7 @@
 		C94976DBB971042954E91E0F /* Pods_TVSetKit_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC458D63330A17812B574E /* Pods_TVSetKit_tvOS.framework */; };
 		FA2786751F92C7030088F553 /* ServiceAdapterNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2786741F92C7030088F553 /* ServiceAdapterNew.swift */; };
 		FA2786761F92C7030088F553 /* ServiceAdapterNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2786741F92C7030088F553 /* ServiceAdapterNew.swift */; };
+		FA2786781F93D9610088F553 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2786771F93D9610088F553 /* Configuration.swift */; };
 		FA477CB41F8448330040E7CF /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB31F8448320040E7CF /* Config.swift */; };
 		FA477CB61F8448660040E7CF /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB51F8448660040E7CF /* Files.swift */; };
 		FA477CBA1F858FCC0040E7CF /* PlainConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB91F858FCC0040E7CF /* PlainConfig.swift */; };
@@ -75,6 +76,7 @@
 		F3F2946F6D4283B54822F6C5 /* Pods_TVSetKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TVSetKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA0604781E932E3D00E43709 /* AudioPlayerManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayerManager.framework; path = "../AudioPlayerManager/AudioPlayerManager/build/Debug-iphoneos/AudioPlayerManager.framework"; sourceTree = "<group>"; };
 		FA2786741F92C7030088F553 /* ServiceAdapterNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAdapterNew.swift; sourceTree = "<group>"; };
+		FA2786771F93D9610088F553 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		FA3505281E4663B3009BB40E /* TVSetKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVSetKit.h; sourceTree = "<group>"; };
 		FA3505291E4663B3009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FA3505331E4663B4009BB40E /* TVSetKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSetKitTests.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				2DBA1D3147AF9FAFBDFEC554 /* TVSetKit.swift */,
 				FABAC2DB1F8C520B00BE6308 /* BookmarkHelper.swift */,
 				FA2786741F92C7030088F553 /* ServiceAdapterNew.swift */,
+				FA2786771F93D9610088F553 /* Configuration.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -701,6 +704,7 @@
 				FA4CDDD11F90EEFF00AF4DCE /* Items.swift in Sources */,
 				FABAC2DC1F8C520B00BE6308 /* BookmarkHelper.swift in Sources */,
 				FA477CBA1F858FCC0040E7CF /* PlainConfig.swift in Sources */,
+				FA2786781F93D9610088F553 /* Configuration.swift in Sources */,
 				FA477CB61F8448660040E7CF /* Files.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

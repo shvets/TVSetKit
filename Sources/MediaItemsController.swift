@@ -33,6 +33,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public var adapter: ServiceAdapter!
 
   public var params = [String: Any]()
+  public var configuration: Configuration?
 
   private var items: Items!
 
@@ -53,16 +54,19 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     collectionView?.backgroundView = activityIndicatorView
 
     if let query = params["query"] {
-        adapter.params["query"] = query
+      adapter.params["query"] = query
     }
 
     items = Items() {
       return try self.adapter.load()
     }
 
-//    items.pageLoader.pageSize = adapter.pageLoader.pageSize
-//    items.pageLoader.rowSize = adapter.pageLoader.rowSize
-    items.pageLoader = adapter.pageLoader
+    if let configuration = configuration {
+      items.pageLoader.pageSize = configuration.pageSize!
+      items.pageLoader.rowSize = configuration.rowSize!
+    }
+
+    //items.pageLoader = adapter.pageLoader
     
     items.pageLoader.enablePagination()
     items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
@@ -214,6 +218,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             newAdapter.params["isContainer"] = true
             
             destination.adapter = newAdapter
+            destination.configuration = configuration
             
             if adapter.mobile == false {
               if let layout = adapter.buildLayout() {
@@ -259,6 +264,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             newAdapter.params["isContainer"] = true
 
             destination.adapter = newAdapter
+            destination.configuration = configuration
 
             if adapter.mobile == false {
               if let layout = adapter.buildLayout() {
