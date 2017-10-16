@@ -10,8 +10,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
-  var bookmarksManager = BookmarksManager(Bookmarks(""))
-  var historyManager = HistoryManager(History(""))
+  var bookmarksManager: BookmarksManager?
+  var historyManager: HistoryManager?
   
   static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
     return UIViewController.instantiate(
@@ -64,7 +64,13 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       items.pageLoader.pageSize = configuration["pageSize"] as! Int
       items.pageLoader.rowSize = configuration["rowSize"] as! Int
 
-      bookmarksManager = configuration["bookmarksManager"] as! BookmarksManager
+      if let bookmarksManager = configuration["bookmarksManager"] as? BookmarksManager {
+        self.bookmarksManager = bookmarksManager
+      }
+
+      if let historyManager = configuration["historyManager"] as? HistoryManager {
+        self.historyManager = historyManager
+      }
     }
 
     //items.pageLoader = adapter.pageLoader
@@ -279,6 +285,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.collectionItems = items.items as! [MediaItem]
             destination.mediaItem = mediaItem
             destination.adapter = adapter
+            destination.historyManager = historyManager
           }
 
         case AudioVersionsController.SegueIdentifier:
@@ -343,7 +350,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
             if let requestType = adapter.params["requestType"] as? String {
               if requestType != "History" {
-                historyManager.addHistoryItem(mediaItem)
+                historyManager?.addHistoryItem(mediaItem)
               }
             }
 
@@ -443,13 +450,13 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   func processBookmark() {
     if let selectedItem = items.getSelectedItem() as? MediaItem {
       func addCallback() {
-        self.bookmarksManager.addBookmark(item: selectedItem)
+        self.bookmarksManager?.addBookmark(item: selectedItem)
       }
 
       func removeCallback() {
-        let result = self.bookmarksManager.removeBookmark(item: selectedItem)
+        let result = self.bookmarksManager?.removeBookmark(item: selectedItem)
 
-        if result {
+        if result! {
           items.removeCell() {
             DispatchQueue.main.async {
               self.collectionView?.reloadData()
@@ -461,9 +468,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         }
       }
 
-      let isBookmark = bookmarksManager.isBookmark((adapter.params["requestType"] as? String)!)
+      let isBookmark = bookmarksManager?.isBookmark((adapter.params["requestType"] as? String)!)
 
-        if let alert = bookmarksManager.handleBookmark(isBookmark: isBookmark, localizer: localizer, addCallback: addCallback, removeCallback: removeCallback) {
+      if let alert = bookmarksManager?.handleBookmark(isBookmark: isBookmark!, localizer: localizer, addCallback: addCallback, removeCallback: removeCallback) {
         present(alert, animated: false, completion: nil)
       }
     }
