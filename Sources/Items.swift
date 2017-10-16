@@ -93,17 +93,15 @@ open class Items {
     return item
   }
 
-  public func removeCell() {
+  public func removeCell(_ onRemoveCompleted: (() -> Void)?=nil) {
     if let indexPath = cellSelection.getIndexPath() {
       _ = items.remove(at: indexPath.row)
 
       cellSelection.resetIndexPath()
 
-      //navigationItem.title = ""
-
-//      DispatchQueue.main.async {
-//        self.tableView.reloadData()
-//      }
+      if let onRemoveCompleted = onRemoveCompleted {
+        onRemoveCompleted()
+      }
     }
   }
 

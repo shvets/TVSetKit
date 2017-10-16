@@ -152,13 +152,5 @@ open class Bookmarks {
     
     return false
   }
-
-  public func addChannel(item: MediaItem) -> Bool {
-    return addBookmark(item: item, type: "channel")
-  }
-
-  public func removeChannel(id: String) -> Bool {
-    return removeBookmark(id: id, type: "channel")
-  }
   
 }

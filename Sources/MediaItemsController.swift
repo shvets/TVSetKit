@@ -450,7 +450,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         let result = self.bookmarksManager.removeBookmark(item: selectedItem)
 
         if result {
-          items.removeCell()
+          items.removeCell() {
+            DispatchQueue.main.async {
+              self.collectionView?.reloadData()
+            }
+          }
         }
         else {
           print("Bookmark already removed")
