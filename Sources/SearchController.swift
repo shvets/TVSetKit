@@ -13,6 +13,7 @@ open class SearchController: UIViewController {
   public var adapter: ServiceAdapter!
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
+  public var configuration: [String: Any]?
   public var params = [String: Any]()
 
   let checkedImage = UIImage(named: "ic_check_box")! as UIImage
@@ -67,6 +68,8 @@ open class SearchController: UIViewController {
       switch identifier {
       case MediaItemsController.SegueIdentifier:
         if let destination = segue.destination.getActionController() as? MediaItemsController {
+          destination.params["requestType"] = "Search"
+          
           if localizer.getLocale() == "ru" && isChecked {
             let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
@@ -77,7 +80,8 @@ open class SearchController: UIViewController {
             destination.params["query"] = query.text
           }
 
-          destination.adapter = adapter
+          destination.configuration = configuration
+/         destination.adapter = adapter
 
           if let layout = adapter.buildLayout() {
             destination.collectionView?.collectionViewLayout = layout

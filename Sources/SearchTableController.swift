@@ -14,6 +14,7 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
 
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
+  public var configuration: [String: Any]?
   public var params = [String: Any]()
 
   let checkedImage = UIImage(named: "ic_check_box")! as UIImage
@@ -85,6 +86,8 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
       switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
+            destination.params["requestType"] = "Search"
+            
             if localizer.getLocale() == "ru" && isChecked {
               let transcoded = LatToRusConverter().transliterate(query.text ?? "")
 
@@ -95,6 +98,7 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
               destination.params["query"] = query.text
             }
 
+            destination.configuration = configuration
             destination.adapter = adapter
           }
 

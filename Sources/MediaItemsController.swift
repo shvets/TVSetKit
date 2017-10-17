@@ -245,13 +245,17 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
           if let destination = MediaItemsController.instantiateController(adapter) {
             let newAdapter = adapter.clone()
             newAdapter.params["selectedItem"] = mediaItem
-            
             newAdapter.params["parentId"] = mediaItem.id
             newAdapter.params["parentName"] = mediaItem.name
             newAdapter.params["isContainer"] = true
             
             destination.adapter = newAdapter
             destination.configuration = configuration
+            
+            destination.params["selectedItem"] = mediaItem
+            destination.params["parentId"] = mediaItem.id
+            destination.params["parentName"] = mediaItem.name
+            destination.params["isContainer"] = true
             
             if mobile == false {
               if let layout = adapter.buildLayout() {
@@ -296,6 +300,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             newAdapter.params["parentName"] = mediaItem.name
             newAdapter.params["isContainer"] = true
 
+            destination.params["parentId"] = mediaItem.id
+            destination.params["parentName"] = mediaItem.name
+            destination.params["isContainer"] = true
+            
             destination.adapter = newAdapter
             destination.configuration = configuration
 
