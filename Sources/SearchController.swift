@@ -81,7 +81,7 @@ open class SearchController: UIViewController {
           }
 
           destination.configuration = configuration
-/         destination.adapter = adapter
+          destination.adapter = adapter
 
           if let layout = adapter.buildLayout() {
             destination.collectionView?.collectionViewLayout = layout
