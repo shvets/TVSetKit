@@ -6,6 +6,8 @@ open class Items {
   
   public var items: [Item] = []
 
+  public init() {}
+
   public var count: Int {
     return items.count
   }
@@ -19,11 +21,11 @@ open class Items {
     }
   }
 
-  public init(_ load: @escaping () throws -> [Any] ) {
-    pageLoader.load = {
-      return try load()
-    }
-  }
+//  public init(_ load: @escaping () throws -> [Any] ) {
+//    pageLoader.load = {
+//      return try load()
+//    }
+//  }
   
   public func loadInitialData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
     return self.pageLoader.loadData { result in

@@ -12,6 +12,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var bookmarksManager: BookmarksManager?
   var historyManager: HistoryManager?
+  var dataSource: DataSource?
   
   static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
     return UIViewController.instantiate(
@@ -33,10 +34,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   public var adapter: ServiceAdapter!
 
-  public var params = [String: Any]()
   public var configuration: [String: Any]?
+  public var params = Parameters()
 
-  private var items: Items!
+  private var items = Items()
 
   override open func viewDidLoad() {
     super.viewDidLoad()
@@ -52,12 +53,49 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     
     collectionView?.backgroundView = activityIndicatorView
 
-    if let query = params["query"] {
-      adapter.params["query"] = query
-    }
+//    if let query = params["query"] {
+//      adapter.params["query"] = query
+//    }
 
-    items = Items() {
-      return try self.adapter.load()
+    items = Items()
+     //{
+//      var newParams = Parameters()
+//
+//      for (key, value) in self.params {
+//        newParams[key] = value
+//      }
+//
+//      newParams["pageSize"] = self.items.pageLoader.pageSize
+//      newParams["currentPage"] = self.items.pageLoader.currentPage
+//
+//      if let data = try self.dataSource?.load(params: newParams) {
+//        return data
+//      }
+//      else {
+//        return []
+//      }
+//
+////      return try self.adapter.load()
+//    }
+
+    items.pageLoader.load = {
+      var newParams = Parameters()
+
+      for (key, value) in self.params {
+        newParams[key] = value
+      }
+
+      newParams["pageSize"] = self.items.pageLoader.pageSize
+      newParams["currentPage"] = self.items.pageLoader.currentPage
+
+      if let data = try self.dataSource?.load(params: newParams) {
+        return data
+      }
+      else {
+        return []
+      }
+
+//      return try self.adapter.load()
     }
 
     if let configuration = configuration {
@@ -70,6 +108,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
       if let historyManager = configuration["historyManager"] as? HistoryManager {
         self.historyManager = historyManager
+      }
+      
+      if let dataSource = configuration["dataSource"] as? DataSource {
+        self.dataSource = dataSource
       }
     }
 
@@ -411,11 +453,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   func getHeaderName() -> String {
     var name = ""
 
-    if let adapter = adapter {
-      if let parentName = adapter.getParentName() {
-        name = parentName
-      }
-      else if let requestType = adapter.params["requestType"] as? String {
+//    if let adapter = adapter {
+//      if let parentName = adapter.getParentName() {
+//        name = parentName
+//      }
+//      else
+      if let requestType = params["requestType"] as? String {
         name = requestType
       }
       else {
@@ -429,7 +472,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       if !localizedName.isEmpty {
         name = localizedName
       }
-    }
+    //}
 
     return name
   }
@@ -469,9 +512,16 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         }
       }
 
-      let isBookmark = bookmarksManager?.isBookmark((adapter.params["requestType"] as? String)!)
+      let isBookmark: Bool
 
-      if let alert = bookmarksManager?.handleBookmark(isBookmark: isBookmark!, localizer: localizer, addCallback: addCallback, removeCallback: removeCallback) {
+      if let requestType = params["requestType"] as? String, let bookmarksManager = bookmarksManager {
+        isBookmark = bookmarksManager.isBookmark(requestType)
+      }
+      else {
+        isBookmark = false
+      }
+
+      if let alert = bookmarksManager?.handleBookmark(isBookmark: isBookmark, localizer: localizer, addCallback: addCallback, removeCallback: removeCallback) {
         present(alert, animated: false, completion: nil)
       }
     }
