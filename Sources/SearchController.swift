@@ -13,7 +13,7 @@ open class SearchController: UIViewController {
   public var adapter: ServiceAdapter!
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
-  var params = [String: Any]()
+  public var params = [String: Any]()
 
   let checkedImage = UIImage(named: "ic_check_box")! as UIImage
   let uncheckedImage = UIImage(named: "ic_check_box_outline_blank")! as UIImage

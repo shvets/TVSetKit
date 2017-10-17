@@ -15,6 +15,7 @@ class MediaItemDetailsController: UIViewController {
 
   @IBOutlet private weak var playButtonsView: PlayButtonsView!
 
+  var storyboardId: String?
   var adapter: ServiceAdapter?
   var collectionItems: [MediaItem]!
 
@@ -151,7 +152,7 @@ class MediaItemDetailsController: UIViewController {
   @objc func playMediaItem(sender: UIView) {
     let controller = UIViewController.instantiate(
       controllerId: VideoPlayerController.StoryboardControllerId,
-      storyboardId: type(of: adapter!).StoryboardId,
+      storyboardId: storyboardId!,
       bundle: Bundle.main
     )
 

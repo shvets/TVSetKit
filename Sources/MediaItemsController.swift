@@ -13,6 +13,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   var bookmarksManager: BookmarksManager?
   var historyManager: HistoryManager?
   var dataSource: DataSource?
+  var storyboardId: String?
+  var mobile: Bool?
   
   static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
     return UIViewController.instantiate(
@@ -53,31 +55,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     
     collectionView?.backgroundView = activityIndicatorView
 
-//    if let query = params["query"] {
-//      adapter.params["query"] = query
-//    }
-
-    items = Items()
-     //{
-//      var newParams = Parameters()
-//
-//      for (key, value) in self.params {
-//        newParams[key] = value
-//      }
-//
-//      newParams["pageSize"] = self.items.pageLoader.pageSize
-//      newParams["currentPage"] = self.items.pageLoader.currentPage
-//
-//      if let data = try self.dataSource?.load(params: newParams) {
-//        return data
-//      }
-//      else {
-//        return []
-//      }
-//
-////      return try self.adapter.load()
-//    }
-
     items.pageLoader.load = {
       var newParams = Parameters()
 
@@ -94,8 +71,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       else {
         return []
       }
-
-//      return try self.adapter.load()
     }
 
     if let configuration = configuration {
@@ -113,10 +88,18 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       if let dataSource = configuration["dataSource"] as? DataSource {
         self.dataSource = dataSource
       }
+
+      if let storyboardId = configuration["storyboardId"] as? String {
+        self.storyboardId = storyboardId
+      }
+
+      if let mobile = configuration["mobile"] as? Bool {
+        self.mobile = mobile
+      }
     }
 
     //items.pageLoader = adapter.pageLoader
-    adapter.pageLoader = items.pageLoader
+    //adapter.pageLoader = items.pageLoader
     
     items.pageLoader.enablePagination()
     items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
@@ -150,7 +133,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 #endif
 
-      if adapter.mobile == false,
+      if mobile == false,
          let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
         let itemSize = layout.itemSize
 
@@ -270,7 +253,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.adapter = newAdapter
             destination.configuration = configuration
             
-            if adapter.mobile == false {
+            if mobile == false {
               if let layout = adapter.buildLayout() {
                 destination.collectionView?.collectionViewLayout = layout
               }
@@ -316,7 +299,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.adapter = newAdapter
             destination.configuration = configuration
 
-            if adapter.mobile == false {
+            if mobile == false {
               if let layout = adapter.buildLayout() {
                 destination.collectionView?.collectionViewLayout = layout
               }
@@ -329,6 +312,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.mediaItem = mediaItem
             destination.adapter = adapter
             destination.historyManager = historyManager
+            destination.storyboardId = storyboardId
           }
 
         case AudioVersionsController.SegueIdentifier:
@@ -450,29 +434,40 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 #endif
 
+  open func getParentName() -> String? {
+    if let selectedItem = params["selectedItem"] as? Item {
+      return selectedItem.name
+    }
+    else if let parentName = params["parentName"] as? String {
+      return parentName
+    }
+    else {
+      return ""
+    }
+  }
+
   func getHeaderName() -> String {
     var name = ""
 
-//    if let adapter = adapter {
-//      if let parentName = adapter.getParentName() {
-//        name = parentName
-//      }
-//      else
+    if let parentName = getParentName() {
+      name = parentName
+    }
+    else {
       if let requestType = params["requestType"] as? String {
         name = requestType
       }
       else {
         name = ""
       }
-
+      
       let localizer = Localizer(type(of: adapter).BundleId, bundleClass: TVSetKit.self)
-
+      
       let localizedName = localizer.localize(name)
-
+      
       if !localizedName.isEmpty {
         name = localizedName
       }
-    //}
+    }
 
     return name
   }
