@@ -74,6 +74,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
 
     //items.pageLoader = adapter.pageLoader
+    adapter.pageLoader = items.pageLoader
     
     items.pageLoader.enablePagination()
     items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
@@ -456,7 +457,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       func removeCallback() {
         let result = self.bookmarksManager?.removeBookmark(item: selectedItem)
 
-        if result! {
+        if let result = result, result {
           items.removeCell() {
             DispatchQueue.main.async {
               self.collectionView?.reloadData()

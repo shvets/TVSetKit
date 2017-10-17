@@ -45,7 +45,6 @@ public struct BookmarkItem: Codable {
 }
 
 open class Bookmarks {
-
   public var items: [BookmarkItem] = []
 
   var fileName: String = ""
@@ -146,7 +145,9 @@ open class Bookmarks {
   public func removeBookmark(id: String, type: String="bookmark") -> Bool {
     if let index = items.index(where: {$0.item.id == id && $0.type == type}) {
       items.remove(at: index)
-      
+
+      save()
+
       return true
     }
     

@@ -5,6 +5,8 @@ open class BookmarksManager {
 
   public init(_ bookmarks: Bookmarks) {
     self.bookmarks = bookmarks
+
+    bookmarks.load()
   }
 
   @discardableResult open func addBookmark(item: MediaItem) -> Bool {

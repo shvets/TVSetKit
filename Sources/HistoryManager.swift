@@ -5,6 +5,8 @@ open class HistoryManager {
 
   public init(_ history: History) {
     self.history = history
+
+    history.load()
   }
 
   open func addHistoryItem(_ item: MediaItem) {
