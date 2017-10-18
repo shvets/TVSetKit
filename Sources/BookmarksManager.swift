@@ -1,7 +1,7 @@
 import Foundation
 
 open class BookmarksManager {
-  let bookmarks: Bookmarks!
+  public var bookmarks: Bookmarks!
 
   public init(_ bookmarks: Bookmarks) {
     self.bookmarks = bookmarks

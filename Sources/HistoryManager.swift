@@ -1,7 +1,7 @@
 import Foundation
 
 open class HistoryManager {
-  let history: History!
+  public let history: History!
 
   public init(_ history: History) {
     self.history = history
