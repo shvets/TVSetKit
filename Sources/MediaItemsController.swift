@@ -318,9 +318,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
           if let destination = segue.destination as? MediaItemDetailsController {
             destination.collectionItems = items.items as! [MediaItem]
             destination.mediaItem = mediaItem
-            destination.adapter = adapter
             destination.historyManager = historyManager
             destination.storyboardId = storyboardId
+            destination.configuration = configuration
           }
 
         case AudioVersionsController.SegueIdentifier:

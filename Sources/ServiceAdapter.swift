@@ -60,10 +60,6 @@ open class ServiceAdapter {
     return nil
   }
 
-  open func getDetailsImageFrame() -> CGRect? {
-    return nil
-  }
-
   open func getParentName() -> String? {
     if let selectedItem = params["selectedItem"] as? Item {
       return selectedItem.name

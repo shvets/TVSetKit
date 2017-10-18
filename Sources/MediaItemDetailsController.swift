@@ -16,7 +16,10 @@ class MediaItemDetailsController: UIViewController {
   @IBOutlet private weak var playButtonsView: PlayButtonsView!
 
   var storyboardId: String?
-  var adapter: ServiceAdapter?
+
+  public var params = Parameters()
+  public var configuration: [String: Any]?
+
   var collectionItems: [MediaItem]!
 
   var historyManager: HistoryManager?
@@ -73,7 +76,7 @@ class MediaItemDetailsController: UIViewController {
       }
     }
 
-    if let requestType = adapter?.params["requestType"] as? String, requestType != "History" {
+    if let requestType = params["requestType"] as? String, requestType != "History" {
       historyManager?.addHistoryItem(mediaItem)
     }
 
@@ -100,8 +103,8 @@ class MediaItemDetailsController: UIViewController {
 
     imageView.image = image
 
-    if let frame = adapter?.getDetailsImageFrame() {
-      imageView.frame = frame
+    if let frame = configuration?["getailsImageFrame"] {
+      imageView.frame = frame as! CGRect
     }
   }
 
