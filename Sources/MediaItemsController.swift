@@ -34,7 +34,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 #endif
 
-  public var configuration: [String: Any]?
+  public var configuration: Configuration?
   public var params = Parameters()
 
   private var items = Items()
@@ -75,7 +75,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     if let configuration = configuration {
       items.pageLoader.pageSize = configuration["pageSize"] as! Int
-      items.pageLoader.rowSize = configuration["rowSize"] as! Int
+      items.pageLoader.rowSize = configuration["rowSize"] as? Int ?? 1
 
       if let bookmarksManager = configuration["bookmarksManager"] as? BookmarksManager {
         self.bookmarksManager = bookmarksManager
@@ -240,13 +240,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         }
         else {
           if let destination = MediaItemsController.instantiateController(configuration?["storyboardId"] as! String) {
-//            let newAdapter = adapter.clone()
-//            newAdapter.params["selectedItem"] = mediaItem
-//            newAdapter.params["parentId"] = mediaItem.id
-//            newAdapter.params["parentName"] = mediaItem.name
-//            newAdapter.params["isContainer"] = true
-//
-//            destination.adapter = newAdapter
             destination.configuration = configuration
 
             for (key, value) in self.params {
@@ -326,9 +319,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.thumb = mediaItem.thumb
             destination.id = mediaItem.id
 
-//            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
-//            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
-
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
@@ -398,9 +388,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.name = mediaItem.name
             destination.thumb = mediaItem.thumb
             destination.id = mediaItem.id
-
-//            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
-//            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
             if let requestType = params["requestType"] as? String {
               if requestType != "History" {
