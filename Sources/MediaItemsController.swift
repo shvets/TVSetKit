@@ -294,18 +294,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
-//            let newAdapter = adapter.clone()
-//            newAdapter.params["selectedItem"] = mediaItem
-//
-//            newAdapter.params["parentId"] = mediaItem.id
-//            newAdapter.params["parentName"] = mediaItem.name
-//            newAdapter.params["isContainer"] = true
-
             destination.params["parentId"] = mediaItem.id
             destination.params["parentName"] = mediaItem.name
             destination.params["isContainer"] = true
-
-//            destination.adapter = newAdapter
             
             for (key, value) in self.params {
               destination.params[key] = value
@@ -338,21 +329,14 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 //            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
 //            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
-
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
-//              self.adapter.params["requestType"] = "Versions"
-//              self.adapter.params["selectedItem"] = mediaItem
-//              self.adapter.params["convert"] = false
-
-              //let mediaItems = try self.adapter.load()
-
               var newParams = Parameters()
 
-              for (key, value) in self.params {
-                newParams[key] = value
-              }
+//              for (key, value) in self.params {
+//                newParams[key] = value
+//              }
 
               newParams["pageSize"] = self.items.pageLoader.pageSize
               newParams["currentPage"] = self.items.pageLoader.currentPage
@@ -380,11 +364,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.audioItemsLoad = {
               var items: [AudioItem] = []
 
-//              self.adapter.params["requestType"] = "Tracks"
-//              self.adapter.params["selectedItem"] = mediaItem
-//              self.adapter.params["version"] = destination.version
-//              self.adapter.params["convert"] = false
-
               var newParams = Parameters()
 
               for (key, value) in self.params {
@@ -401,8 +380,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
               if let data = try self.dataSource?.load(params: newParams) {
                 mediaItems = data
               }
-
-//              let mediaItems = try self.adapter.load()
 
               for mediaItem in mediaItems {
                 if let item = mediaItem as? [String: String],
@@ -434,11 +411,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
-//              self.adapter.params["requestType"] = "Tracks"
-//              self.adapter.params["selectedItem"] = mediaItem
-//              self.adapter.params["convert"] = false
-
-             var newParams = Parameters()
+              var newParams = Parameters()
 
               for (key, value) in self.params {
                 newParams[key] = value
@@ -447,8 +420,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
               newParams["requestType"] = "Tracks"
               newParams["selectedItem"] = mediaItem
               newParams["convert"] = false
-
-//              let mediaItems = try self.adapter.load()
 
               var mediaItems: [Any] = []
 
