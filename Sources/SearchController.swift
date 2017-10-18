@@ -10,7 +10,6 @@ open class SearchController: UIViewController {
 
   public class var SegueIdentifier: String { return "Search" }
 
-  public var adapter: ServiceAdapter!
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
   public var configuration: [String: Any]?
@@ -81,10 +80,9 @@ open class SearchController: UIViewController {
           }
 
           destination.configuration = configuration
-          destination.adapter = adapter
 
-          if let layout = adapter.buildLayout() {
-            destination.collectionView?.collectionViewLayout = layout
+          if let layout = configuration?["buildLayout"] {
+            destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
           }
         }
 

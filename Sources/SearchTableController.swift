@@ -10,8 +10,6 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
 
   public class var SegueIdentifier: String { return "Search" }
 
-  public var adapter: ServiceAdapter!
-
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
 
   public var configuration: [String: Any]?
@@ -99,7 +97,6 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
             }
 
             destination.configuration = configuration
-            destination.adapter = adapter
           }
 
         default: break

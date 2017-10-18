@@ -258,8 +258,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.params["isContainer"] = true
             
             if mobile == false {
-              if let layout = adapter.buildLayout() {
-                destination.collectionView?.collectionViewLayout = layout
+              if let layout = configuration?["buildLayout"] {
+                destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
               }
               
               present(destination, animated: true)
@@ -308,8 +308,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.configuration = configuration
 
             if mobile == false {
-              if let layout = adapter.buildLayout() {
-                destination.collectionView?.collectionViewLayout = layout
+              if let layout = configuration?["buildLayout"] {
+                destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
               }
             }
           }

@@ -56,10 +56,6 @@ open class ServiceAdapter {
     params["selectedItem"] = nil
   }
 
-  open func buildLayout() -> UICollectionViewFlowLayout? {
-    return nil
-  }
-
   open func getParentName() -> String? {
     if let selectedItem = params["selectedItem"] as? Item {
       return selectedItem.name
