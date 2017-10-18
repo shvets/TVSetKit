@@ -64,7 +64,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
       newParams["pageSize"] = self.items.pageLoader.pageSize
       newParams["currentPage"] = self.items.pageLoader.currentPage
-
+      
       if let data = try self.dataSource?.load(params: newParams) {
         return data
       }
