@@ -97,9 +97,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         self.mobile = mobile
       }
     }
-
-    //items.pageLoader = adapter.pageLoader
-    //adapter.pageLoader = items.pageLoader
     
     items.pageLoader.enablePagination()
     items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
@@ -243,13 +240,13 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         }
         else {
           if let destination = MediaItemsController.instantiateController(adapter) {
-            let newAdapter = adapter.clone()
-            newAdapter.params["selectedItem"] = mediaItem
-            newAdapter.params["parentId"] = mediaItem.id
-            newAdapter.params["parentName"] = mediaItem.name
-            newAdapter.params["isContainer"] = true
-            
-            destination.adapter = newAdapter
+//            let newAdapter = adapter.clone()
+//            newAdapter.params["selectedItem"] = mediaItem
+//            newAdapter.params["parentId"] = mediaItem.id
+//            newAdapter.params["parentName"] = mediaItem.name
+//            newAdapter.params["isContainer"] = true
+//
+//            destination.adapter = newAdapter
             destination.configuration = configuration
             
             destination.params["selectedItem"] = mediaItem
@@ -293,18 +290,18 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
-            let newAdapter = adapter.clone()
-            newAdapter.params["selectedItem"] = mediaItem
-
-            newAdapter.params["parentId"] = mediaItem.id
-            newAdapter.params["parentName"] = mediaItem.name
-            newAdapter.params["isContainer"] = true
+//            let newAdapter = adapter.clone()
+//            newAdapter.params["selectedItem"] = mediaItem
+//
+//            newAdapter.params["parentId"] = mediaItem.id
+//            newAdapter.params["parentName"] = mediaItem.name
+//            newAdapter.params["isContainer"] = true
 
             destination.params["parentId"] = mediaItem.id
             destination.params["parentName"] = mediaItem.name
             destination.params["isContainer"] = true
             
-            destination.adapter = newAdapter
+//            destination.adapter = newAdapter
             destination.configuration = configuration
 
             if mobile == false {
@@ -329,8 +326,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.thumb = mediaItem.thumb
             destination.id = mediaItem.id
 
-            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
-            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
+//            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
+//            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
+
 
             destination.pageLoader.load = {
               var items: [AudioItem] = []
@@ -380,10 +378,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.thumb = mediaItem.thumb
             destination.id = mediaItem.id
 
-            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
-            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
+//            destination.pageLoader.pageSize = adapter.pageLoader.pageSize
+//            destination.pageLoader.rowSize = adapter.pageLoader.rowSize
 
-            if let requestType = adapter.params["requestType"] as? String {
+            if let requestType = params["requestType"] as? String {
               if requestType != "History" {
                 historyManager?.addHistoryItem(mediaItem)
               }
@@ -468,7 +466,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         name = ""
       }
       
-      let localizer = Localizer(type(of: adapter).BundleId, bundleClass: TVSetKit.self)
+      let localizer = Localizer(configuration?["bundleId"] as! String, bundleClass: TVSetKit.self)
       
       let localizedName = localizer.localize(name)
       
