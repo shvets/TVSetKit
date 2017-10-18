@@ -15,11 +15,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   var dataSource: DataSource?
   var storyboardId: String?
   var mobile: Bool?
-  
-  static public func instantiateController(_ adapter: ServiceAdapter) -> MediaItemsController? {
+
+  static public func instantiateController(_ storyboardId: String) -> MediaItemsController? {
     return UIViewController.instantiate(
       controllerId: MediaItemsController.StoryboardControllerId,
-      storyboardId: type(of: adapter).StoryboardId,
+      storyboardId: storyboardId,
       bundle: Bundle.main
       ).getActionController() as? MediaItemsController
   }
@@ -34,8 +34,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
 #endif
 
-  public var adapter: ServiceAdapter!
-
   public var configuration: [String: Any]?
   public var params = Parameters()
 
@@ -43,16 +41,16 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   override open func viewDidLoad() {
     super.viewDidLoad()
-    
+
     title = getHeaderName()
-    
+
     clearsSelectionOnViewWillAppear = false
 
     #if os(iOS)
       let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
       collectionView?.addGestureRecognizer(longPressRecognizer)
     #endif
-    
+
     collectionView?.backgroundView = activityIndicatorView
 
     items.pageLoader.load = {
@@ -64,7 +62,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
       newParams["pageSize"] = self.items.pageLoader.pageSize
       newParams["currentPage"] = self.items.pageLoader.currentPage
-      
+
       if let data = try self.dataSource?.load(params: newParams) {
         return data
       }
@@ -84,7 +82,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       if let historyManager = configuration["historyManager"] as? HistoryManager {
         self.historyManager = historyManager
       }
-      
+
       if let dataSource = configuration["dataSource"] as? DataSource {
         self.dataSource = dataSource
       }
@@ -97,7 +95,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         self.mobile = mobile
       }
     }
-    
+
     items.pageLoader.enablePagination()
     items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
 
@@ -173,11 +171,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   // MARK: UICollectionViewDataSource
 
-#if os(iOS)  
+#if os(iOS)
   override open func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
     collectionViewLayout.invalidateLayout()
   }
-  
+
   public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
       let itemSize = layout.itemSize
@@ -228,7 +226,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
           mediaItem.resolveType()
         }
       }
-      
+
       if mediaItem.isContainer() {
         if mediaItem.isAudioContainer() {
           if mediaItem.hasMultipleVersions() {
@@ -239,7 +237,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
           }
         }
         else {
-          if let destination = MediaItemsController.instantiateController(adapter) {
+          if let destination = MediaItemsController.instantiateController(configuration?["storyboardId"] as! String) {
 //            let newAdapter = adapter.clone()
 //            newAdapter.params["selectedItem"] = mediaItem
 //            newAdapter.params["parentId"] = mediaItem.id
@@ -248,17 +246,17 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 //
 //            destination.adapter = newAdapter
             destination.configuration = configuration
-            
+
             destination.params["selectedItem"] = mediaItem
             destination.params["parentId"] = mediaItem.id
             destination.params["parentName"] = mediaItem.name
             destination.params["isContainer"] = true
-            
+
             if mobile == false {
               if let layout = configuration?["buildLayout"] {
                 destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
               }
-              
+
               present(destination, animated: true)
             }
             else {
@@ -300,7 +298,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.params["parentId"] = mediaItem.id
             destination.params["parentName"] = mediaItem.name
             destination.params["isContainer"] = true
-            
+
 //            destination.adapter = newAdapter
             destination.configuration = configuration
 
@@ -333,11 +331,29 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
-              self.adapter.params["requestType"] = "Versions"
-              self.adapter.params["selectedItem"] = mediaItem
-              self.adapter.params["convert"] = false
+//              self.adapter.params["requestType"] = "Versions"
+//              self.adapter.params["selectedItem"] = mediaItem
+//              self.adapter.params["convert"] = false
 
-              let mediaItems = try self.adapter.load()
+              //let mediaItems = try self.adapter.load()
+
+              var newParams = Parameters()
+
+//              for (key, value) in self.params {
+//                newParams[key] = value
+//              }
+
+              newParams["pageSize"] = self.items.pageLoader.pageSize
+              newParams["currentPage"] = self.items.pageLoader.currentPage
+              newParams["requestType"] = "Versions"
+              newParams["selectedItem"] = mediaItem
+              newParams["convert"] = false
+
+              var mediaItems: [Any] = []
+
+              if let data = try self.dataSource?.load(params: newParams) {
+                mediaItems = data
+              }
 
               for mediaItem in mediaItems {
                 if let item = mediaItem as? [String: String],
@@ -353,12 +369,29 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.audioItemsLoad = {
               var items: [AudioItem] = []
 
-              self.adapter.params["requestType"] = "Tracks"
-              self.adapter.params["selectedItem"] = mediaItem
-              self.adapter.params["version"] = destination.version
-              self.adapter.params["convert"] = false
+//              self.adapter.params["requestType"] = "Tracks"
+//              self.adapter.params["selectedItem"] = mediaItem
+//              self.adapter.params["version"] = destination.version
+//              self.adapter.params["convert"] = false
 
-              let mediaItems = try self.adapter.load()
+              var newParams = Parameters()
+
+//              for (key, value) in self.params {
+//                newParams[key] = value
+//              }
+
+              newParams["requestType"] = "Tracks"
+              newParams["selectedItem"] = mediaItem
+              newParams["version"] = destination.version
+              newParams["convert"] = false
+
+              var mediaItems: [Any] = []
+
+              if let data = try self.dataSource?.load(params: newParams) {
+                mediaItems = data
+              }
+
+//              let mediaItems = try self.adapter.load()
 
               for mediaItem in mediaItems {
                 if let item = mediaItem as? [String: String],
@@ -390,11 +423,27 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.pageLoader.load = {
               var items: [AudioItem] = []
 
-              self.adapter.params["requestType"] = "Tracks"
-              self.adapter.params["selectedItem"] = mediaItem
-              self.adapter.params["convert"] = false
+//              self.adapter.params["requestType"] = "Tracks"
+//              self.adapter.params["selectedItem"] = mediaItem
+//              self.adapter.params["convert"] = false
 
-              let mediaItems = try self.adapter.load()
+             var newParams = Parameters()
+
+//              for (key, value) in self.params {
+//                newParams[key] = value
+//              }
+
+              newParams["requestType"] = "Tracks"
+              newParams["selectedItem"] = mediaItem
+              newParams["convert"] = false
+
+//              let mediaItems = try self.adapter.load()
+
+              var mediaItems: [Any] = []
+
+              if let data = try self.dataSource?.load(params: newParams) {
+                mediaItems = data
+              }
 
               for mediaItem in mediaItems {
                 if let item = mediaItem as? [String: String] {
@@ -465,11 +514,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       else {
         name = ""
       }
-      
+
       let localizer = Localizer(configuration?["bundleId"] as! String, bundleClass: TVSetKit.self)
-      
+
       let localizedName = localizer.localize(name)
-      
+
       if !localizedName.isEmpty {
         name = localizedName
       }
