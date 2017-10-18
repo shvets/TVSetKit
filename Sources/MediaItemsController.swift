@@ -60,7 +60,13 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         newParams[key] = value
       }
 
-      newParams["pageSize"] = self.items.pageLoader.pageSize
+      if let pageSize = newParams["pageSize"] as? Int {
+        self.items.pageLoader.pageSize = pageSize
+      }
+      else {
+        newParams["pageSize"] = self.items.pageLoader.pageSize
+      }
+      
       newParams["currentPage"] = self.items.pageLoader.currentPage
       newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
       newParams["historyManager"] = self.configuration?["historyManager"]
