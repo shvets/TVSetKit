@@ -249,6 +249,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 //            destination.adapter = newAdapter
             destination.configuration = configuration
 
+            for (key, value) in self.params {
+              destination.params[key] = value
+            }
+
             destination.params["selectedItem"] = mediaItem
             destination.params["parentId"] = mediaItem.id
             destination.params["parentName"] = mediaItem.name
@@ -302,6 +306,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.params["isContainer"] = true
 
 //            destination.adapter = newAdapter
+            
+            for (key, value) in self.params {
+              destination.params[key] = value
+            }
+            
             destination.configuration = configuration
 
             if mobile == false {
@@ -341,9 +350,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
               var newParams = Parameters()
 
-//              for (key, value) in self.params {
-//                newParams[key] = value
-//              }
+              for (key, value) in self.params {
+                newParams[key] = value
+              }
 
               newParams["pageSize"] = self.items.pageLoader.pageSize
               newParams["currentPage"] = self.items.pageLoader.currentPage
@@ -378,9 +387,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
               var newParams = Parameters()
 
-//              for (key, value) in self.params {
-//                newParams[key] = value
-//              }
+              for (key, value) in self.params {
+                newParams[key] = value
+              }
 
               newParams["requestType"] = "Tracks"
               newParams["selectedItem"] = mediaItem
@@ -431,9 +440,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
              var newParams = Parameters()
 
-//              for (key, value) in self.params {
-//                newParams[key] = value
-//              }
+              for (key, value) in self.params {
+                newParams[key] = value
+              }
 
               newParams["requestType"] = "Tracks"
               newParams["selectedItem"] = mediaItem
