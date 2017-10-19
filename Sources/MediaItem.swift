@@ -188,19 +188,6 @@ open class MediaItem: MediaName {
     return qualityLevels
   }
 
-  override open func toDictionary() -> [String: Any] {
-    var result: [String: Any] = ["type": type ?? "", "parentName": parentName ?? "", "thumb": thumb ?? "",
-                                 "tags": tags ?? "", "description": description ?? "",
-                                 "rating": rating?.description ?? "",
-                                 "seasonNumber": seasonNumber ?? ""]
-
-    for (key, value) in super.toDictionary() {
-      result[key] = value
-    }
-
-    return result
-  }
-
   open func getMediaUrl(index: Int) -> URL? {
     do {
       let bitrates = try getBitrates()

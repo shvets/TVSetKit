@@ -35,13 +35,5 @@ open class MediaName: Item {
     try container.encode(id, forKey: .id)
     try container.encode(imageName, forKey: .imageName)
   }
-
-  public override func toDictionary() -> [String: Any] {
-    return [
-      "name": name ?? "",
-      "id": id ?? "",
-      "imageName": imageName ?? ""
-    ]
-  }
 }
 

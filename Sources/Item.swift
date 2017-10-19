@@ -31,12 +31,5 @@ open class Item: Codable {
     try container.encode(name, forKey: .name)
     try container.encode(id, forKey: .id)
   }
-
-  public func toDictionary() -> [String: Any] {
-    return [
-      "name": name ?? "",
-      "id": id ?? ""
-    ]
-  }
 }
 
