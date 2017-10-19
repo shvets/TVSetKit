@@ -5,48 +5,48 @@ import AVKit
 class VideoPlayerController: AVPlayerViewController {
   static let SegueIdentifier = "Video Player"
   public class var StoryboardControllerId: String { return "videoPlayerController" }
-
-//class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {
-
+  
+  //class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {
+  
   //let playerViewController: AVPlayerViewController? = AVPlayerViewController()
   var localizer = Localizer("com.rubikon.TVSetKit", bundleClass: TVSetKit.self)
-
+  
   var params = [String: Any]()
-
+  
   var navigator: MediaItemsNavigator?
-
+  
   var mode: String?
   var playVideo: Bool = false
-  var collectionItems: [MediaItem] = []
-  var mediaItem: MediaItem?
-
+  var items: [Item] = []
+  var mediaItem: Item?
+  
   var getMediaUrl: (() throws -> URL?)?
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    navigator = MediaItemsNavigator(collectionItems)
-
-#if os(tvOS)
-    let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
-    doubleTapRecognizer.numberOfTapsRequired = 2
-
-    self.view.addGestureRecognizer(doubleTapRecognizer)
-#endif
-
+    
+    navigator = MediaItemsNavigator(items)
+    
+    #if os(tvOS)
+      let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
+      doubleTapRecognizer.numberOfTapsRequired = 2
+      
+      self.view.addGestureRecognizer(doubleTapRecognizer)
+    #endif
+    
     _ = [UISwipeGestureRecognizerDirection.right, .left, .up, .down].map({ direction in
       let recognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.swiped(_:)))
-
+      
       recognizer.direction = direction
-
+      
       self.view.addGestureRecognizer(recognizer)
     })
-
+    
     if playVideo {
       play()
     }
   }
-
+  
   @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
     if preparePreviousMediaItem() {
       play()
@@ -54,8 +54,8 @@ class VideoPlayerController: AVPlayerViewController {
   }
   
   @objc func swiped(_ gesture: UISwipeGestureRecognizer) {
-#if os(iOS)
-    switch gesture.direction {
+    #if os(iOS)
+      switch gesture.direction {
       case UISwipeGestureRecognizerDirection.up:
         if prepareNextMediaItem() {
           play()
@@ -64,35 +64,35 @@ class VideoPlayerController: AVPlayerViewController {
         if preparePreviousMediaItem() {
           play()
         }
-
+        
       default:
         break
-    }
-#endif
-
-#if os(tvOS)
-    switch gesture.direction {
+      }
+    #endif
+    
+    #if os(tvOS)
+      switch gesture.direction {
       case UISwipeGestureRecognizerDirection.up:
         if prepareNextMediaItem() {
           play()
         }
-
+        
       default:
         break
-    }
-#endif
+      }
+    #endif
   }
-
+  
   func preparePreviousMediaItem() -> Bool {
     if let currentId = mediaItem?.id {
       let previousId = navigator?.getPreviousId(currentId)
-
+      
       if previousId != currentId {
         let previousItem = navigator?.items?.filter { item in item.id == previousId }.first
-
+        
         mediaItem = previousItem
       }
-
+      
       return previousId != currentId
     }
     else {
@@ -103,55 +103,63 @@ class VideoPlayerController: AVPlayerViewController {
   func prepareNextMediaItem() -> Bool {
     if let currentId = mediaItem?.id {
       let nextId = navigator?.getNextId(currentId)
-
+      
       if nextId != currentId {
         let nextItem = navigator?.items?.filter { item in item.id == nextId }.first
-
+        
         mediaItem = nextItem
       }
-
+      
       return nextId != currentId
     }
     else {
       return false
     }
   }
-
+  
   func play() {
     var mediaUrl: URL?
-
+    
     do {
       mediaUrl = try getMediaUrl!()
     }
     catch let e {
       print("Error: \(e)")
     }
-
+    
     if let url = mediaUrl,
-       let name = mediaItem?.name {
-       let description = mediaItem?.description ?? name
-
+      let name = mediaItem?.name {
+      
+      let description: String
+      
+      if let mediaItem = mediaItem as? MediaItem {
+        description = mediaItem.description ?? name
+      }
+      else {
+        description = name
+      }      
+      
       let asset = AVAsset(url: url)
-
+      
       let playerItem = AVPlayerItem(asset: asset)
-
-#if os(tvOS)
-      playerItem.externalMetadata = externalMetaData(title: name, description: description)
-#endif
-
+      
+      #if os(tvOS)
+        playerItem.externalMetadata = externalMetaData(title: name, description: description)
+      #endif
+      
       // playerViewController?.delegate = self
-
+      
       player = AVPlayer(playerItem: playerItem)
       // playerViewController?.player = player
-
+      
       let overlayView = UIView(frame: CGRect(x: 50, y: 50, width: 200, height: 200))
       overlayView.addSubview(UIImageView(image: UIImage(named: "tv-watermark")))
-
+      
       self.contentOverlayView?.addSubview(overlayView)
       //playerViewController?.contentOverlayView?.addSubview(overlayView)
-
+      
       player?.play()
-
+      
       //self.present(playerViewController!, animated: false) {
       //  /*
       //   Begin playing the media as soon as the controller has
@@ -175,22 +183,23 @@ class VideoPlayerController: AVPlayerViewController {
       present(alertController, animated: false, completion: nil)
     }
   }
-
+  
   // MARK: Meta data
-
+  
   private func externalMetaData(title: String, description: String) -> [AVMetadataItem] {
     let titleItem = AVMutableMetadataItem()
     
     titleItem.identifier = AVMetadataIdentifier.commonIdentifierTitle
     titleItem.value = title as NSString
     titleItem.extendedLanguageTag = "und"
-
+    
     let descriptionItem = AVMutableMetadataItem()
     descriptionItem.identifier = AVMetadataIdentifier.commonIdentifierDescription
     descriptionItem.value = description as NSString
     descriptionItem.extendedLanguageTag = "und"
-
+    
     return [titleItem, descriptionItem]
   }
-
+  
 }
+

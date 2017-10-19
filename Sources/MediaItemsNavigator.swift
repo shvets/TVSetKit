@@ -1,7 +1,7 @@
 class MediaItemsNavigator {
-  let items: [MediaItem]!
+  let items: [Item]!
   
-  init(_ items: [MediaItem]) {
+  init(_ items: [Item]) {
     self.items = items
   }
 

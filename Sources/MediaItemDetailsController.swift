@@ -15,14 +15,14 @@ class MediaItemDetailsController: UIViewController {
 
   @IBOutlet private weak var playButtonsView: PlayButtonsView!
 
+  var historyManager: HistoryManager?
+
   var storyboardId: String?
 
   public var params = Parameters()
   public var configuration: [String: Any]?
 
-  var collectionItems: [MediaItem]!
-
-  var historyManager: HistoryManager?
+  var items: [Item]!
     
   var mediaItem: MediaItem!
   var bitrates = [MediaName]()
@@ -103,7 +103,7 @@ class MediaItemDetailsController: UIViewController {
 
     imageView.image = image
 
-    if let frame = configuration?["getailsImageFrame"] {
+    if let frame = configuration?["detailsImageFrame"] {
       imageView.frame = frame as! CGRect
     }
   }
@@ -155,13 +155,13 @@ class MediaItemDetailsController: UIViewController {
   @objc func playMediaItem(sender: UIView) {
     let controller = UIViewController.instantiate(
       controllerId: VideoPlayerController.StoryboardControllerId,
-      storyboardId: storyboardId!,
+      storyboardId: storyboardId? ?? "",
       bundle: Bundle.main
     )
 
     if let destination = controller.getActionController() as? VideoPlayerController {
       destination.playVideo = true
-      destination.collectionItems = collectionItems
+      destination.items = items
       destination.mediaItem = mediaItem
 
       if let view = playButtonsView {

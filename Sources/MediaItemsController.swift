@@ -302,16 +302,14 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             
             destination.configuration = configuration
 
-            if mobile == false {
-              if let layout = configuration?["buildLayout"] {
-                destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
-              }
+            if mobile == false, let layout = configuration?["buildLayout"] as? UICollectionViewLayout {
+              destination.collectionView?.collectionViewLayout = layout
             }
           }
 
         case MediaItemDetailsController.SegueIdentifier:
           if let destination = segue.destination as? MediaItemDetailsController {
-            destination.collectionItems = items.items as! [MediaItem]
+            destination.items = items.items as! [MediaItem]
             destination.mediaItem = mediaItem
             destination.historyManager = historyManager
             destination.storyboardId = storyboardId
@@ -438,7 +436,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         case VideoPlayerController.SegueIdentifier:
           if let destination = segue.destination as? VideoPlayerController {
             destination.playVideo = true
-            destination.collectionItems = items.items  as! [MediaItem]
+            destination.items = items.items
             destination.mediaItem = mediaItem
           }
         default: break
