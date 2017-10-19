@@ -99,7 +99,6 @@
 		FAB20D5C1F89AB390063458F /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FAB327DD1F978E7500925755 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		FABA16DF1E8DE899000AFD34 /* AudioPlayerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayerSwift.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphoneos/AudioPlayerSwift.framework"; sourceTree = "<group>"; };
-		FAE009491E469DE000941CAD /* ServiceAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAdapter.swift; sourceTree = "<group>"; };
 		FAE009521E46A15300941CAD /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerControllerSimple.swift; sourceTree = "<group>"; };
 		FAE009571E46A15300941CAD /* Bookmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
@@ -112,7 +111,6 @@
 		FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemsNavigator.swift; sourceTree = "<group>"; };
 		FAE009661E46A15300941CAD /* VideoPlayerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerController.swift; sourceTree = "<group>"; };
 		FAED60F11E4693A7007A2B91 /* QualityLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QualityLevel.swift; sourceTree = "<group>"; };
-		FAED61001E4693E4007A2B91 /* JsonConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonConverter.swift; sourceTree = "<group>"; };
 		FAED610A1E469BCA007A2B91 /* UIColor-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor-extension.swift"; sourceTree = "<group>"; };
 		FAFF2F2B1EFEEF92002B7C0C /* TVSetKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TVSetKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAFF2F2D1EFEEF92002B7C0C /* TVSetKit_iOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVSetKit_iOS.h; sourceTree = "<group>"; };
@@ -227,9 +225,7 @@
 				FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */,
 				FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */,
 				FAE009661E46A15300941CAD /* VideoPlayerController.swift */,
-				FAE009491E469DE000941CAD /* ServiceAdapter.swift */,
 				FAED610A1E469BCA007A2B91 /* UIColor-extension.swift */,
-				FAED61001E4693E4007A2B91 /* JsonConverter.swift */,
 				FAED60F11E4693A7007A2B91 /* QualityLevel.swift */,
 				FA67DC9B1E46933600734FB6 /* MediaItem.swift */,
 				FA67DC9C1E46933600734FB6 /* MediaName.swift */,
