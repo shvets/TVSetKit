@@ -1,14 +1,11 @@
 import UIKit
 
 open class MediaName: Item {
-//  public var name: String?
-//  public var id: String?
   public var imageName: String?
 
   public init(name: String?=nil, id: String?=nil, imageName: String?=nil) {
     super.init(name: name, id: id)
-//    self.name = name
-//    self.id = id
+
     self.imageName = imageName
   }
 
@@ -46,11 +43,5 @@ open class MediaName: Item {
       "imageName": imageName ?? ""
     ]
   }
-
-//  public func toData() throws -> Data {
-//    let encoder = JSONEncoder()
-//
-//    return try encoder.encode(self)
-//  }
 }
 

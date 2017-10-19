@@ -201,10 +201,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     if gesture.state == UIGestureRecognizerState.ended,
        let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
-      let indexPath = collectionView.indexPathForItem(at: point)
 
-      if let indexPath = indexPath {
-        items.cellSelection.setIndexPath(indexPath)
+      if let indexPath = collectionView.indexPathForItem(at: point) {
+        items.cellSelection = indexPath
 
         processBookmark()
       }

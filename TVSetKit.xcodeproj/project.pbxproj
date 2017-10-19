@@ -103,7 +103,6 @@
 		FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerControllerSimple.swift; sourceTree = "<group>"; };
 		FAE009571E46A15300941CAD /* Bookmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
 		FAE009581E46A15300941CAD /* CellHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellHelper.swift; sourceTree = "<group>"; };
-		FAE009591E46A15300941CAD /* CellSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSelection.swift; sourceTree = "<group>"; };
 		FAE0095A1E46A15300941CAD /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		FAE0095F1E46A15300941CAD /* MediaItemDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemDetailsController.swift; sourceTree = "<group>"; };
 		FAE009601E46A15300941CAD /* MediaItemsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItemsController.swift; sourceTree = "<group>"; };
@@ -218,7 +217,6 @@
 				FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */,
 				FAE009571E46A15300941CAD /* Bookmarks.swift */,
 				FAE009581E46A15300941CAD /* CellHelper.swift */,
-				FAE009591E46A15300941CAD /* CellSelection.swift */,
 				FAE0095A1E46A15300941CAD /* History.swift */,
 				FAE0095F1E46A15300941CAD /* MediaItemDetailsController.swift */,
 				FAE009601E46A15300941CAD /* MediaItemsController.swift */,

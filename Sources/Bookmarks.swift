@@ -91,30 +91,6 @@ open class Bookmarks {
   }
 
   public func getBookmarks(pageSize: Int, page: Int) -> [BookmarkItem] {
-//    var data: [Any] = []
-//
-//    for (_, item) in items {
-////      var json = JSON(item)
-////
-////      var item = json["item"]
-////
-////      let parentName = item["parentName"]
-////
-////      if parentName != JSON.null {
-////        let pname = parentName.rawString() ?? ""
-////        let name = item["name"].rawString() ?? ""
-////
-////        if pname.isEmpty {
-////          item["name"] = JSON("\(name)")
-////        }
-////        else {
-////          item["name"] = JSON("\(pname) (\(name))")
-////        }
-//      }
-//
-//      data.append(item)
-//    }
-
     var newData: [BookmarkItem] = []
     
       for index in (page-1)*pageSize ..< page*pageSize {

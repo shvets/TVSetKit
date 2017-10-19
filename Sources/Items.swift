@@ -2,7 +2,7 @@ import Foundation
 
 open class Items {
   public var pageLoader = PageLoader()
-  public let cellSelection = CellSelection()
+  public var cellSelection: IndexPath?
   
   public var items: [Item] = []
 
@@ -21,12 +21,6 @@ open class Items {
     }
   }
 
-//  public init(_ load: @escaping () throws -> [Any] ) {
-//    pageLoader.load = {
-//      return try load()
-//    }
-//  }
-  
   public func loadInitialData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
     return self.pageLoader.loadData { result in
       if let items = result as? [Item] {
@@ -88,7 +82,7 @@ open class Items {
   public func getSelectedItem() -> Item? {
     var item: Item?
 
-    if let indexPath = cellSelection.getIndexPath() {
+    if let indexPath = cellSelection {
       item = items[indexPath.row]
     }
 
@@ -96,10 +90,10 @@ open class Items {
   }
 
   public func removeCell(_ onRemoveCompleted: (() -> Void)?=nil) {
-    if let indexPath = cellSelection.getIndexPath() {
+    if let indexPath = cellSelection {
       _ = items.remove(at: indexPath.row)
 
-      cellSelection.resetIndexPath()
+      cellSelection = nil
 
       if let onRemoveCompleted = onRemoveCompleted {
         onRemoveCompleted()
