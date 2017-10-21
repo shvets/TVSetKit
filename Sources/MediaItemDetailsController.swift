@@ -155,7 +155,7 @@ class MediaItemDetailsController: UIViewController {
   @objc func playMediaItem(sender: UIView) {
     let controller = UIViewController.instantiate(
       controllerId: VideoPlayerController.StoryboardControllerId,
-      storyboardId: storyboardId? ?? "",
+      storyboardId: storyboardId!,
       bundle: Bundle.main
     )
 
