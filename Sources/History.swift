@@ -1,4 +1,5 @@
 import Foundation
+import Files
 
 public struct HistoryItem: Codable {
   public let time: String
@@ -24,7 +25,7 @@ open class History {
   }
 
   public func exist() -> Bool {
-    return Files.exist(fileName)
+    return File.exists(atPath: fileName)
   }
   
   public func add(item: MediaItem) {
@@ -70,9 +71,9 @@ open class History {
     clear()
     
     do {
-      if let data = Files.readFile(fileName) {
-        items = try decoder.decode([HistoryItem].self, from: data)
-      }
+      let data = try File(path: fileName).read()
+      
+      items = try decoder.decode([HistoryItem].self, from: data)
     }
     catch let e {
       print("Error: \(e)")
@@ -82,10 +83,8 @@ open class History {
   public func save() {
     do {
       let data = try encoder.encode(items)
-      
-      if !Files.createFile(fileName, data: data) {
-        print("Error writing to file")
-      }
+
+      try FileSystem().createFile(at: fileName, contents: data)
     }
     catch let e {
       print("Error: \(e)")

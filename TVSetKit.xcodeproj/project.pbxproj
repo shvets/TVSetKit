@@ -13,9 +13,9 @@
 		C94976DBB971042954E91E0F /* Pods_TVSetKit_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC458D63330A17812B574E /* Pods_TVSetKit_tvOS.framework */; };
 		FA27867A1F93E5C30088F553 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2786791F93E5C30088F553 /* HistoryManager.swift */; };
 		FA27867C1F93E5EE0088F553 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA27867B1F93E5EE0088F553 /* BookmarksManager.swift */; };
-		FA477CB61F8448660040E7CF /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB51F8448660040E7CF /* Files.swift */; };
 		FA4CDDD11F90EEFF00AF4DCE /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4CDDD01F90EEFF00AF4DCE /* Items.swift */; };
 		FA7E46521F9BE2C500EA8F1C /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */; };
+		FA98C0D01F9BE60300BD7501 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
 		FAB20D5D1F89AB390063458F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
 		FAB327DE1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
 		FAB327DF1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
@@ -61,7 +61,6 @@
 		FADECD911F9BDE2800C9C42C /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
 		FADECD921F9BDE2E00C9C42C /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4CDDD01F90EEFF00AF4DCE /* Items.swift */; };
 		FADECD931F9BDE2E00C9C42C /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
-		FADECD941F9BDE2E00C9C42C /* Files.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA477CB51F8448660040E7CF /* Files.swift */; };
 		FADECD951F9BDE2E00C9C42C /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
 		FADECD961F9BDE2E00C9C42C /* AudioPlayerControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */; };
 		FADECD971F9BDE2E00C9C42C /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009571E46A15300941CAD /* Bookmarks.swift */; };
@@ -134,7 +133,6 @@
 		FA3505291E4663B3009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		FA3505331E4663B4009BB40E /* TVSetKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSetKitTests.swift; sourceTree = "<group>"; };
 		FA3505351E4663B4009BB40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		FA477CB51F8448660040E7CF /* Files.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Files.swift; sourceTree = "<group>"; };
 		FA4CDDD01F90EEFF00AF4DCE /* Items.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		FA62DE951E886EBD00637BBA /* Jukebox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Jukebox.framework; path = "../Jukebox/build/Debug-iphoneos/Jukebox.framework"; sourceTree = "<group>"; };
 		FA67DC9B1E46933600734FB6 /* MediaItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
@@ -145,6 +143,7 @@
 		FA88DC011E8EBD5C00AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-appletvos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		FA88DC101E8EBF4100AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-appletvsimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		FA88DC121E8EBF5200AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
+		FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Files-extension.swift"; sourceTree = "<group>"; };
 		FA9A18A01E58958E00DC0DCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FA9A18A21E58959A00DC0DCE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		FAAFE5251EA6E41F0092387A /* AudioPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayer.framework; path = "../AudioPlayer/build/Debug-iphoneos/AudioPlayer.framework"; sourceTree = "<group>"; };
@@ -260,10 +259,10 @@
 		FA3505271E4663B3009BB40E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */,
 				FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */,
 				FA4CDDD01F90EEFF00AF4DCE /* Items.swift */,
 				FAB20D5C1F89AB390063458F /* Item.swift */,
-				FA477CB51F8448660040E7CF /* Files.swift */,
 				FAE009521E46A15300941CAD /* UIHelper.swift */,
 				FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */,
 				FAE009571E46A15300941CAD /* Bookmarks.swift */,
@@ -752,6 +751,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA98C0D01F9BE60300BD7501 /* Files-extension.swift in Sources */,
 				FADECD6B1F9BDE1000C9C42C /* MediaItemDetailsController.swift in Sources */,
 				FAB20D5D1F89AB390063458F /* Item.swift in Sources */,
 				FADECD671F9BDDED00C9C42C /* CellHelper.swift in Sources */,
@@ -781,7 +781,6 @@
 				FADECD7F1F9BDE2100C9C42C /* SearchController.swift in Sources */,
 				FAB327DE1F978E7500925755 /* Configuration.swift in Sources */,
 				FADECD6C1F9BDE1000C9C42C /* MediaItemsController.swift in Sources */,
-				FA477CB61F8448660040E7CF /* Files.swift in Sources */,
 				FADECD791F9BDE2100C9C42C /* MediaItemTableCell.swift in Sources */,
 				FADECD651F9BDDE400C9C42C /* UIHelper.swift in Sources */,
 				FADECD7D1F9BDE2100C9C42C /* Parameters.swift in Sources */,
@@ -802,7 +801,6 @@
 			files = (
 				FADECDA01F9BDE2E00C9C42C /* QualityLevel.swift in Sources */,
 				FADECD931F9BDE2E00C9C42C /* Item.swift in Sources */,
-				FADECD941F9BDE2E00C9C42C /* Files.swift in Sources */,
 				FADECDA21F9BDE2E00C9C42C /* MediaName.swift in Sources */,
 				FADECD9B1F9BDE2E00C9C42C /* MediaItemsController.swift in Sources */,
 				FADECD961F9BDE2E00C9C42C /* AudioPlayerControllerSimple.swift in Sources */,

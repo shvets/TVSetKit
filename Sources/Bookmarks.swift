@@ -1,4 +1,5 @@
 import Foundation
+import Files
 
 public struct BookmarkItem: Codable {
   public var item: MediaItem
@@ -61,16 +62,16 @@ open class Bookmarks {
   }
 
   public func exist() -> Bool {
-    return Files.exist(fileName)
+    return File.exists(atPath: fileName)
   }
 
   public func load() {
     clear()
 
     do {
-      if let data = Files.readFile(fileName) {
-        items = try decoder.decode([BookmarkItem].self, from: data)
-      }
+      let data = try File(path: fileName).read()
+      
+      items = try decoder.decode([BookmarkItem].self, from: data)
     }
     catch let e {
       print("Error: \(e)")
@@ -81,9 +82,7 @@ open class Bookmarks {
     do {
       let data = try encoder.encode(items)
 
-      if !Files.createFile(fileName, data: data) {
-        print("Error writing to file")
-      }
+      try FileSystem().createFile(at: fileName, contents: data)
     }
     catch let e {
       print("Error: \(e)")
