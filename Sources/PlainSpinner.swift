@@ -1,4 +1,5 @@
 import UIKit
+import PageLoader
 
 open class PlainSpinner: Spinner {
   open var view: UIActivityIndicatorView

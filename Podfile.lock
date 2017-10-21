@@ -1,19 +1,28 @@
 PODS:
   - AudioPlayer (1.0.8):
     - SwiftyJSON (~> 3.1.4)
+  - ConfigFile (1.0.0):
+    - Files (~> 1.9.0)
+  - Files (1.9.0)
+  - PageLoader (1.0.0)
   - Runglish (1.0.1)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
   - AudioPlayer (~> 1.0.8)
+  - ConfigFile (~> 1.0.0)
+  - PageLoader (~> 1.0.0)
   - Runglish (~> 1.0.0)
   - SwiftyJSON (~> 3.1.4)
 
 SPEC CHECKSUMS:
   AudioPlayer: b947047202f338e06a86ce213b406fb5ae26e5fa
+  ConfigFile: c40c446a2865a85594b81f083226c576cfd333dd
+  Files: e5c828e13b7728fa88a6c0e30f42f0ffb536e333
+  PageLoader: e4ac308a5c082b8513a85b259798bb9dec6e8a89
   Runglish: ca180daeffe03ee928e44fe021963e29ce81ec3d
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: 310dd60e8ac62a6eb5588d150e3c604cf5e62f67
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0.beta.1

@@ -1,10 +1,11 @@
 import UIKit
+import ConfigFile
 
 open class Localizer {
   public static let DefaultLocale = "ru"
   private static let configName = NSHomeDirectory() + "/Library/Caches/localizer.json"
 
-  let config: PlainConfig!
+  let config: StringConfigFile!
 
   public var bundle: Bundle?
 
@@ -26,18 +27,28 @@ open class Localizer {
       }
     }
 
-    config = PlainConfig(Localizer.configName)
+    config = StringConfigFile(Localizer.configName)
   }
 
   public func setLocale(langCode: String) {
     config.items["langCode"] = langCode
-    config.save()
+    do {
+      try config.save()
+    }
+    catch let error {
+      print("Error saving configuration: \(error)")
+    }
   }
 
   public func getLocale() -> String {
     var locale = Localizer.DefaultLocale
 
-    config.load()
+    do {
+      try config.load()
+    }
+    catch let error {
+      print("Error loading configuration: \(error)")
+    }
 
     if let langCode = config.items["langCode"] {
       locale = langCode
