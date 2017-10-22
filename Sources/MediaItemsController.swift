@@ -501,7 +501,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
 #if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-    items.cellSelection.setIndexPath(indexPath)
+    items.cellSelection = indexPath
 
     let item = items[indexPath.row]
 
