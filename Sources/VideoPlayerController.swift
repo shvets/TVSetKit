@@ -20,7 +20,7 @@ class VideoPlayerController: AVPlayerViewController {
   var items: [Item] = []
   var mediaItem: Item?
   
-  var getMediaUrl: (() throws -> URL?)?
+  var getMediaUrl: ((MediaItem) throws -> URL?)!
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -121,7 +121,7 @@ class VideoPlayerController: AVPlayerViewController {
     var mediaUrl: URL?
     
     do {
-      mediaUrl = try getMediaUrl!()
+      mediaUrl = try getMediaUrl(mediaItem as! MediaItem)
     }
     catch let e {
       print("Error: \(e)")

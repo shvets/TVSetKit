@@ -438,6 +438,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.playVideo = true
             destination.items = items.items
             destination.mediaItem = mediaItem
+            
+            func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
+              return mediaItem.getMediaUrl(index: 0)
+            }
+            
+            destination.getMediaUrl = getMediaUrl
           }
         default: break
         }

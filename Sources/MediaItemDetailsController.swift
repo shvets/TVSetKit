@@ -168,7 +168,7 @@ class MediaItemDetailsController: UIViewController {
         let index = view.buttons.index(where: { $0 == sender as? UIButton })
 
         if let index = index {
-          func getMediaUrl() throws -> URL? {
+          func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
             return mediaItem.getMediaUrl(index: index)
           }
             
