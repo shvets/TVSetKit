@@ -44,13 +44,13 @@ class MediaItemDetailsController: UIViewController {
       print("Error loading data.")
     }
 
-    var mobile = false
+    var isMobile = false
+    
+    if let mobile = configuration?["mobile"] as? Bool {
+        isMobile = mobile
+    }
 
-#if os(iOS)
-    mobile = true
-#endif
-
-    playButtonsView.createPlayButtons(bitrates, mobile: mobile)
+    playButtonsView.createPlayButtons(bitrates, mobile: isMobile)
 
     if let view = playButtonsView {
       for button in view.buttons {
@@ -58,20 +58,18 @@ class MediaItemDetailsController: UIViewController {
 
         playButton.controller = self
 
-        if mobile {
+        if isMobile {
           let action = #selector(self.playMediaItem)
 
           button.addTarget(self, action: action, for: .touchUpInside)
         }
         else {
-#if os(tvOS)
           let action = #selector(self.tapped(_:))
           let tapGesture = UITapGestureRecognizer(target: self, action: action)
 
           tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
 
           button.addGestureRecognizer(tapGesture)
-#endif
         }
       }
     }
