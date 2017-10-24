@@ -57,6 +57,16 @@ open class Bookmarks {
     self.fileName = fileName
   }
 
+  public func getMediaItems() -> [MediaItem] {
+    var mediaItems = [MediaItem]()
+    
+    for item in items {
+      mediaItems.append(item.item)
+    }
+    
+    return mediaItems
+  }
+    
   public func clear() {
     items.removeAll()
   }
