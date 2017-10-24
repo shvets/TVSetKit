@@ -5,7 +5,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   open static let SegueIdentifier = "Media Items"
   open static let StoryboardControllerId = "MediaItemsController"
   static let BundleId = "com.rubikon.TVSetKit"
-  
+
   let CellIdentifier = "MediaItemCell"
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
@@ -21,7 +21,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       controllerId: MediaItemsController.StoryboardControllerId,
       storyboardId: storyboardId,
       bundle: Bundle.main
-      ).getActionController() as? MediaItemsController
+    ).getActionController() as? MediaItemsController
   }
 
   let localizer = Localizer(MediaItemsController.BundleId, bundleClass: TVSetKit.self)
@@ -46,10 +46,10 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     clearsSelectionOnViewWillAppear = false
 
-    #if os(iOS)
-      let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
-      collectionView?.addGestureRecognizer(longPressRecognizer)
-    #endif
+#if os(iOS)
+    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
+    collectionView?.addGestureRecognizer(longPressRecognizer)
+#endif
 
     collectionView?.backgroundView = activityIndicatorView
 
@@ -66,7 +66,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       else {
         newParams["pageSize"] = self.items.pageLoader.pageSize
       }
-      
+
       newParams["currentPage"] = self.items.pageLoader.currentPage
       newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
       newParams["historyManager"] = self.configuration?["historyManager"]
@@ -165,12 +165,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
   }
 
-//  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
-//    if let location = gesture.view as? UICollectionViewCell {
-//      navigate(from: location)
-//    }
-//  }
-
   override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if let location = collectionView.cellForItem(at: indexPath) {
       navigate(from: location)
@@ -227,7 +221,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
     if let indexPath = collectionView?.indexPath(for: view),
-      let mediaItem = items.getItem(for: indexPath) as? MediaItem {
+       let mediaItem = items.getItem(for: indexPath) as? MediaItem {
       if let type = mediaItem.type {
         if type.isEmpty {
           mediaItem.resolveType()
@@ -295,11 +289,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.params["parentId"] = mediaItem.id
             destination.params["parentName"] = mediaItem.name
             destination.params["isContainer"] = true
-            
+
             for (key, value) in self.params {
               destination.params[key] = value
             }
-            
+
             destination.configuration = configuration
 
             if mobile == false, let layout = configuration?["buildLayout"] as? UICollectionViewLayout {
@@ -337,17 +331,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
               newParams["selectedItem"] = mediaItem
               newParams["convert"] = false
 
-              var mediaItems: [Any] = []
+              if let data = try self.dataSource?.load(params: newParams),
+                  let mediaItems = data as? [MediaItem] {
+                for mediaItem in mediaItems {
+                  let item = mediaItem
 
-              if let data = try self.dataSource?.load(params: newParams) {
-                mediaItems = data
-              }
-
-              for mediaItem in mediaItems {
-                if let item = mediaItem as? [String: String],
-                  let name = item["name"],
-                  let id = item["id"] {
-                  items.append(AudioItem(name: name, id: id))
+                  items.append(AudioItem(name: item.name!, id: item.id!))
                 }
               }
 
@@ -368,17 +357,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
               newParams["version"] = destination.version
               newParams["convert"] = false
 
-              var mediaItems: [Any] = []
+              if let data = try self.dataSource?.load(params: newParams),
+                 let mediaItems = data as? [MediaItem] {
+                for mediaItem in mediaItems {
+                  let item = mediaItem
 
-              if let data = try self.dataSource?.load(params: newParams) {
-                mediaItems = data
-              }
-
-              for mediaItem in mediaItems {
-                if let item = mediaItem as? [String: String],
-                   let name = item["name"],
-                   let id = item["id"] {
-                  items.append(AudioItem(name: name, id: id))
+                  items.append(AudioItem(name: item.name!, id: item.id!))
                 }
               }
 
@@ -421,16 +405,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
                     items.append(AudioItem(name: item.name!, id: item.id!))
                   }
                 }
-                else if let mediaItems = data as? [[String: String]] {
-                  for mediaItem in mediaItems {
-                    let item = mediaItem
-
-                    let name = item["name"] ?? ""
-                    let id = item["id"] ?? ""
-
-                    items.append(AudioItem(name: name, id: id))
-                  }
-                }
               }
 
               return items
@@ -442,11 +416,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.playVideo = true
             destination.items = items.items
             destination.mediaItem = mediaItem
-            
+
             func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
               return mediaItem.getMediaUrl(index: 0)
             }
-            
+
             destination.getMediaUrl = getMediaUrl
           }
         default: break
@@ -457,7 +431,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
 #if os(tvOS)
   override open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-                               at indexPath: IndexPath) -> UICollectionReusableView {
+                                    at indexPath: IndexPath) -> UICollectionReusableView {
     if kind == "UICollectionElementKindSectionHeader" {
       if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
         withReuseIdentifier: HeaderViewIdentifier, for: indexPath as IndexPath) as? MediaItemsHeaderView {
