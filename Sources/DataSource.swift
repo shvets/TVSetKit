@@ -14,5 +14,15 @@ open class DataSource {
 
     return list
   }
+
+  open func transformWithIndex(_ items: [Any], transformer: (Int, Any) -> Item) -> [Item] {
+    var list = [Item]()
+        
+    for (index, item) in items.enumerated() {
+      list.append(transformer(index, item))
+    }
+        
+    return list
+  }
 }
 
