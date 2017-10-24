@@ -414,18 +414,22 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
               var mediaItems: [Any] = []
 
               if let data = try self.dataSource?.load(params: newParams) {
-                mediaItems = data
-              }
+                if let mediaItems = data as? [MediaItem] {
+                  for mediaItem in mediaItems {
+                    let item = mediaItem
 
-              for mediaItem in mediaItems {
-                if let item = mediaItem as? [String: String] {
-                  let name = item["name"] ?? ""
-                  let id = item["id"] ?? ""
-
-                  items.append(AudioItem(name: name, id: id))
+                    items.append(AudioItem(name: item.name!, id: item.id!))
+                  }
                 }
-                else if let item = mediaItem as? AudioItem {
-                  items.append(item)
+                else if let mediaItems = data as? [[String: String]] {
+                  for mediaItem in mediaItems {
+                    let item = mediaItem
+
+                    let name = item["name"] ?? ""
+                    let id = item["id"] ?? ""
+
+                    items.append(AudioItem(name: name, id: id))
+                  }
                 }
               }
 
