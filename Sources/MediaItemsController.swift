@@ -14,7 +14,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   var historyManager: HistoryManager?
   var dataSource: DataSource?
   var storyboardId: String?
-  var mobile: Bool?
+  var mobile: Bool = true
 
   static public func instantiateController(_ storyboardId: String) -> MediaItemsController? {
     return UIViewController.instantiate(
@@ -136,7 +136,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
 #endif
 
-      if mobile == false,
+      if !mobile,
          let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
         let itemSize = layout.itemSize
 
@@ -250,7 +250,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.params["parentName"] = mediaItem.name
             destination.params["isContainer"] = true
 
-            if mobile == false {
+            if !mobile {
               if let layout = configuration?["buildLayout"] {
                 destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
               }
@@ -296,7 +296,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
             destination.configuration = configuration
 
-            if mobile == false, let layout = configuration?["buildLayout"] as? UICollectionViewLayout {
+            if !mobile, let layout = configuration?["buildLayout"] as? UICollectionViewLayout {
               destination.collectionView?.collectionViewLayout = layout
             }
           }
