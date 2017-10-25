@@ -1,5 +1,5 @@
 import UIKit
-import AudioPlayer
+//import AudioPlayer
 
 open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout  {
   open static let SegueIdentifier = "Media Items"
@@ -10,11 +10,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
-  var bookmarksManager: BookmarksManager?
-  var historyManager: HistoryManager?
-  var dataSource: DataSource?
-  var storyboardId: String?
-  var mobile: Bool = true
+  public var bookmarksManager: BookmarksManager?
+  public var historyManager: HistoryManager?
+  public var dataSource: DataSource?
+  public var storyboardId: String?
+  public var mobile: Bool = true
 
   static public func instantiateController(_ storyboardId: String) -> MediaItemsController? {
     return UIViewController.instantiate(
@@ -37,7 +37,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public var configuration: Configuration?
   public var params = Parameters()
 
-  private var items = Items()
+  public var items = Items()
 
   override open func viewDidLoad() {
     super.viewDidLoad()
@@ -165,6 +165,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
   }
 
+#if os(iOS)
+
   override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     if let location = collectionView.cellForItem(at: indexPath) {
       navigate(from: location)
@@ -173,7 +175,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   // MARK: UICollectionViewDataSource
 
-#if os(iOS)
   override open func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
     collectionViewLayout.invalidateLayout()
   }
@@ -188,9 +189,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       return CGSize(width: 0, height: 0)
     }
   }
-#endif
 
-#if os(iOS)
   @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended,
        let collectionView = collectionView {
@@ -219,58 +218,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 #endif
 
-  func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
-    if let indexPath = collectionView?.indexPath(for: view),
-       let mediaItem = items.getItem(for: indexPath) as? MediaItem {
-      if let type = mediaItem.type {
-        if type.isEmpty {
-          mediaItem.resolveType()
-        }
-      }
-
-      if mediaItem.isContainer() {
-        if mediaItem.isAudioContainer() {
-          if mediaItem.hasMultipleVersions() {
-            performSegue(withIdentifier: AudioVersionsController.SegueIdentifier, sender: view)
-          }
-          else {
-            performSegue(withIdentifier: AudioItemsController.SegueIdentifier, sender: view)
-          }
-        }
-        else {
-          if let destination = MediaItemsController.instantiateController(configuration?["storyboardId"] as! String) {
-            destination.configuration = configuration
-
-            for (key, value) in self.params {
-              destination.params[key] = value
-            }
-
-            destination.params["selectedItem"] = mediaItem
-            destination.params["parentId"] = mediaItem.id
-            destination.params["parentName"] = mediaItem.name
-            destination.params["isContainer"] = true
-
-            if !mobile {
-              if let layout = configuration?["buildLayout"] {
-                destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
-              }
-
-              present(destination, animated: true)
-            }
-            else {
-              navigationController?.pushViewController(destination, animated: true)
-            }
-          }
-        }
-      }
-      else {
-        if playImmediately {
-          performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
-        }
-        else {
-          performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
-        }
-      }
+  open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
+    if playImmediately {
+      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+    }
+    else {
+      performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
     }
   }
 
@@ -308,107 +261,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.historyManager = historyManager
             destination.storyboardId = storyboardId
             destination.configuration = configuration
-          }
-
-        case AudioVersionsController.SegueIdentifier:
-          if let destination = segue.destination as? AudioVersionsController {
-            destination.name = mediaItem.name
-            destination.thumb = mediaItem.thumb
-            destination.id = mediaItem.id
-
-            destination.pageLoader.load = {
-              var items: [AudioItem] = []
-
-              var newParams = Parameters()
-
-//              for (key, value) in self.params {
-//                newParams[key] = value
-//              }
-
-              newParams["pageSize"] = self.items.pageLoader.pageSize
-              newParams["currentPage"] = self.items.pageLoader.currentPage
-              newParams["requestType"] = "Versions"
-              newParams["selectedItem"] = mediaItem
-              newParams["convert"] = false
-
-              if let data = try self.dataSource?.load(params: newParams),
-                  let mediaItems = data as? [MediaItem] {
-                for mediaItem in mediaItems {
-                  let item = mediaItem
-
-                  items.append(AudioItem(name: item.name!, id: item.id!))
-                }
-              }
-
-              return items
-            }
-
-            destination.audioItemsLoad = {
-              var items: [AudioItem] = []
-
-              var newParams = Parameters()
-
-              for (key, value) in self.params {
-                newParams[key] = value
-              }
-
-              newParams["requestType"] = "Tracks"
-              newParams["selectedItem"] = mediaItem
-              newParams["version"] = destination.version
-              newParams["convert"] = false
-
-              if let data = try self.dataSource?.load(params: newParams),
-                 let mediaItems = data as? [MediaItem] {
-                for mediaItem in mediaItems {
-                  let item = mediaItem
-
-                  items.append(AudioItem(name: item.name!, id: item.id!))
-                }
-              }
-
-              return items
-            }
-          }
-
-        case AudioItemsController.SegueIdentifier:
-          if let destination = segue.destination as? AudioItemsController {
-            destination.name = mediaItem.name
-            destination.thumb = mediaItem.thumb
-            destination.id = mediaItem.id
-
-            if let requestType = params["requestType"] as? String {
-              if requestType != "History" {
-                historyManager?.addHistoryItem(mediaItem)
-              }
-            }
-
-            destination.pageLoader.load = {
-              var items: [AudioItem] = []
-
-              var newParams = Parameters()
-
-              for (key, value) in self.params {
-                newParams[key] = value
-              }
-
-              newParams["requestType"] = "Tracks"
-              newParams["selectedItem"] = mediaItem
-              newParams["convert"] = false
-
-              var mediaItems: [Any] = []
-
-              if let data = try self.dataSource?.load(params: newParams) {
-                if let mediaItems = data as? [MediaItem] {
-                  for mediaItem in mediaItems {
-                    let item = mediaItem
-
-                    items.append(AudioItem(name: item.name!, id: item.id!))
-                  }
-                }
-              }
-
-              return items
-            }
           }
 
         case VideoPlayerController.SegueIdentifier:

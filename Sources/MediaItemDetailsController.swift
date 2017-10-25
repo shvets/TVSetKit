@@ -1,7 +1,7 @@
 import UIKit
 
-class MediaItemDetailsController: UIViewController {
-  static let SegueIdentifier = "Media Item Details"
+open class MediaItemDetailsController: UIViewController {
+  public static let SegueIdentifier = "Media Item Details"
   let CellIdentifier = "MediaItemDetailsCell"
 
   @IBOutlet private weak var imageView: UIImageView!
@@ -27,7 +27,7 @@ class MediaItemDetailsController: UIViewController {
   var mediaItem: MediaItem!
   var bitrates = [MediaName]()
 
-  override func viewDidLoad() {
+  override open func viewDidLoad() {
     super.viewDidLoad()
 
     do {

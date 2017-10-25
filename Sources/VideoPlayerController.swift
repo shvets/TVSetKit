@@ -2,9 +2,9 @@ import AVFoundation
 import UIKit
 import AVKit
 
-class VideoPlayerController: AVPlayerViewController {
-  static let SegueIdentifier = "Video Player"
-  public class var StoryboardControllerId: String { return "videoPlayerController" }
+open class VideoPlayerController: AVPlayerViewController {
+  public static let SegueIdentifier = "Video Player"
+  public static let StoryboardControllerId = "videoPlayerController"
   
   //class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {
   
@@ -22,7 +22,7 @@ class VideoPlayerController: AVPlayerViewController {
   
   var getMediaUrl: ((MediaItem) throws -> URL?)!
   
-  override func viewDidLoad() {
+  override open func viewDidLoad() {
     super.viewDidLoad()
     
     navigator = MediaItemsNavigator(items)
