@@ -121,9 +121,9 @@ open class MediaItem: MediaName {
     try container.encode(episodeNumber, forKey: .episodeNumber)
   }
 
-//  open func isContainer() -> Bool {
-//    return false
-//  }
+  open func isContainer() -> Bool {
+    return false
+  }
 
   open func getDetailedName() -> String {
     if let name = name {

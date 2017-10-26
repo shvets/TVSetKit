@@ -219,11 +219,47 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 #endif
 
   open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
-    if playImmediately {
-      performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+    if let indexPath = collectionView?.indexPath(for: view),
+       let mediaItem = items.getItem(for: indexPath) as? MediaItem {
+
+      if mediaItem.isContainer() {
+        navigateWithContainer(mediaItem)
+      }
+      else {
+        if playImmediately {
+          performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+        }
+        else {
+          performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
+        }
+      }
     }
-    else {
-      performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
+  }
+
+  func navigateWithContainer(_ mediaItem: MediaItem) {
+    if let storyboardId = configuration?["storyboardId"] as? String,
+       let destination = MediaItemsController.instantiateController(storyboardId) {
+      destination.configuration = configuration
+
+      for (key, value) in self.params {
+        destination.params[key] = value
+      }
+
+      destination.params["selectedItem"] = mediaItem
+      destination.params["parentId"] = mediaItem.id
+      destination.params["parentName"] = mediaItem.name
+      destination.params["isContainer"] = true
+
+      if !mobile {
+        if let layout = configuration?["buildLayout"] {
+          destination.collectionView?.collectionViewLayout = layout as! UICollectionViewLayout
+        }
+
+        present(destination, animated: true)
+      }
+      else {
+        navigationController?.pushViewController(destination, animated: true)
+      }
     }
   }
 
@@ -239,14 +275,28 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         switch identifier {
         case MediaItemsController.SegueIdentifier:
           if let destination = segue.destination.getActionController() as? MediaItemsController {
-            destination.params["parentId"] = mediaItem.id
-            destination.params["parentName"] = mediaItem.name
-            destination.params["isContainer"] = true
+            if mediaItem.isContainer() {
+              //destination.configuration = configuration
 
-            for (key, value) in self.params {
-              destination.params[key] = value
+              for (key, value) in self.params {
+                destination.params[key] = value
+              }
+
+              destination.params["selectedItem"] = mediaItem
+              destination.params["parentId"] = mediaItem.id
+              destination.params["parentName"] = mediaItem.name
+              destination.params["isContainer"] = true
             }
+            else {
+              destination.params["parentId"] = mediaItem.id
+              destination.params["parentName"] = mediaItem.name
+              destination.params["isContainer"] = true
 
+              for (key, value) in self.params {
+                destination.params[key] = value
+              }
+            }
+            
             destination.configuration = configuration
 
             if !mobile, let layout = configuration?["buildLayout"] as? UICollectionViewLayout {
