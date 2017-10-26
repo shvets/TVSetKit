@@ -44,7 +44,9 @@ open class Localizer {
     var locale = Localizer.DefaultLocale
 
     do {
-      try config.load()
+      if config.exists() {
+        try config.load()
+      }
     }
     catch let error {
       print("Error loading configuration: \(error)")

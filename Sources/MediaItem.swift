@@ -121,17 +121,9 @@ open class MediaItem: MediaName {
     try container.encode(episodeNumber, forKey: .episodeNumber)
   }
 
-  open func isContainer() -> Bool {
-    return false
-  }
-  
-  open func isAudioContainer() -> Bool {
-    return false
-  }
-
-  open func hasMultipleVersions() -> Bool {
-    return false
-  }
+//  open func isContainer() -> Bool {
+//    return false
+//  }
 
   open func getDetailedName() -> String {
     if let name = name {
@@ -140,8 +132,6 @@ open class MediaItem: MediaName {
 
     return ""
   }
-
-  open func resolveType() {}
 
   open func getPosterPath(isBetterQuality: Bool = false) -> String {
     return thumb ?? ""
