@@ -23,7 +23,7 @@ open class Items {
   }
 
   public func loadInitialData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
-    return self.pageLoader.loadData { result in
+    self.pageLoader.loadData { result in
       if let items = result as? [Item] {
         self.items = items
       }
