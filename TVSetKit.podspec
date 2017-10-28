@@ -10,20 +10,22 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4' }
 
   s.ios.deployment_target = "10.0"
-  #s.osx.deployment_target = "10.10"
+  s.osx.deployment_target = "10.10"
   s.tvos.deployment_target = "10.0"
   #s.watchos.deployment_target = "2.0"
 
   s.source = { :git => "https://github.com/shvets/TVSetKit.git", :tag => s.version }
-  s.source_files = "Sources/**/*.swift"
+
+  s.ios.source_files = "Sources/**/*.swift"
+  s.tvos.source_files = "Sources/**/*.swift"
 
   s.resource_bundles = {
     'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings,lproj}', ]
   }
 
   s.dependency 'SwiftyJSON', '~> 3.1.4'
-  s.dependency 'Runglish', '~> 1.0.0'
-  s.dependency 'AudioPlayer', '~> 1.0.8'
+  s.dependency 'Runglish', '~> 1.0.2'
+  s.ios.dependency 'AudioPlayer', '~> 1.0.8'
   s.dependency 'Files', '~> 1.9.0'
   s.dependency 'ConfigFile', '~> 1.0.0'
   s.dependency 'PageLoader', '~> 1.0.0'
