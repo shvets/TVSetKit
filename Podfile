@@ -4,9 +4,9 @@ source 'https://github.com/shvets/Specs.git'
 use_frameworks!
 
 def project_dependencies
-  pod 'Runglish', path: '../Runglish'
-  pod 'ConfigFile', path: '../ConfigFile'
-  pod 'PageLoader', path: '../PageLoader'
+  #pod 'Runglish', path: '../Runglish'
+  #pod 'ConfigFile', path: '../ConfigFile'
+  #pod 'PageLoader', path: '../PageLoader'
 end
 
 target 'TVSetKit_iOS' do

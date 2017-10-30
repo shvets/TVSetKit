@@ -1,7 +1,9 @@
 PODS:
-  - AudioPlayer (1.0.8):
-    - SwiftyJSON (~> 3.1.4)
-  - ConfigFile (1.0.0):
+  - AudioPlayer (1.0.9):
+    - ConfigFile (~> 1.0.0)
+    - Files (~> 1.9.0)
+    - PageLoader (~> 1.0.0)
+  - ConfigFile (1.0.1):
     - Files (~> 1.9.0)
   - Files (1.9.0)
   - PageLoader (1.0.0)
@@ -9,29 +11,21 @@ PODS:
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
-  - AudioPlayer (~> 1.0.8)
-  - ConfigFile (from `../ConfigFile`)
+  - AudioPlayer (~> 1.0.9)
+  - ConfigFile (~> 1.0.1)
   - Files (~> 1.9.0)
-  - PageLoader (from `../PageLoader`)
-  - Runglish (from `../Runglish`)
+  - PageLoader (~> 1.0.0)
+  - Runglish (~> 1.0.2)
   - SwiftyJSON (~> 3.1.4)
 
-EXTERNAL SOURCES:
-  ConfigFile:
-    :path: ../ConfigFile
-  PageLoader:
-    :path: ../PageLoader
-  Runglish:
-    :path: ../Runglish
-
 SPEC CHECKSUMS:
-  AudioPlayer: b947047202f338e06a86ce213b406fb5ae26e5fa
-  ConfigFile: 077bbc33e5b1b5b5ef0803053292dd6931af4eb1
+  AudioPlayer: 96138b48dbcbfc85467211754a7b00c392a6176f
+  ConfigFile: ab3b69ebe202c384a6f35695b480bfc3bdbd251c
   Files: e5c828e13b7728fa88a6c0e30f42f0ffb536e333
-  PageLoader: 1ec0540f1d69421e188c869ade7d2d19fc785e40
-  Runglish: 79f946bc73a1ffb0bb1b24c64c149133fe0c37d3
+  PageLoader: ff01299d4c8c81d68d0564636182698370364bea
+  Runglish: 2d51d3e48e176650d3c3f8fc629502ddd0afa6f2
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
-PODFILE CHECKSUM: ada2c98ff10bf4983d8d1cd753ad0a60ba5936ea
+PODFILE CHECKSUM: 0da5e4341d3e6678d876109a8a7930a0ca452c72
 
 COCOAPODS: 1.3.1

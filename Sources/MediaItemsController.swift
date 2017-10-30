@@ -1,5 +1,5 @@
 import UIKit
-//import AudioPlayer
+import PageLoader
 
 open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout  {
   open static let SegueIdentifier = "Media Items"

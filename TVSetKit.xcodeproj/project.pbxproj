@@ -24,6 +24,8 @@
 		FAB20D5D1F89AB390063458F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
 		FAB327DE1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
 		FAB327DF1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
+		FAD326011FA79AF1000226D4 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
+		FAD326021FA79AF2000226D4 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
 		FADECD641F9BDDDA00C9C42C /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009571E46A15300941CAD /* Bookmarks.swift */; };
 		FADECD651F9BDDE400C9C42C /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
 		FADECD661F9BDDE700C9C42C /* AudioPlayerControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */; };
@@ -839,19 +841,19 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TVSetKit_macOSTests/Pods-TVSetKit_macOSTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ConfigFile-macOS/ConfigFile.framework",
 				"${BUILT_PRODUCTS_DIR}/Files-macOS/Files.framework",
+				"${BUILT_PRODUCTS_DIR}/PageLoader-macOS/PageLoader.framework",
+				"${BUILT_PRODUCTS_DIR}/Runglish-macOS/Runglish.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON-macOS/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/ConfigFile/ConfigFile.framework",
-				"${BUILT_PRODUCTS_DIR}/PageLoader/PageLoader.framework",
-				"${BUILT_PRODUCTS_DIR}/Runglish/Runglish.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Files.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ConfigFile.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Files.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageLoader.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Runglish.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -866,13 +868,19 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TVSetKit_iOSTests/Pods-TVSetKit_iOSTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AudioPlayer/AudioPlayer.framework",
+				"${BUILT_PRODUCTS_DIR}/ConfigFile-iOS/ConfigFile.framework",
 				"${BUILT_PRODUCTS_DIR}/Files-iOS/Files.framework",
+				"${BUILT_PRODUCTS_DIR}/PageLoader-iOS/PageLoader.framework",
+				"${BUILT_PRODUCTS_DIR}/Runglish-iOS/Runglish.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON-iOS/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AudioPlayer.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ConfigFile.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Files.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageLoader.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Runglish.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -938,12 +946,18 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TVSetKit_tvOSTests/Pods-TVSetKit_tvOSTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ConfigFile-tvOS/ConfigFile.framework",
 				"${BUILT_PRODUCTS_DIR}/Files-tvOS/Files.framework",
+				"${BUILT_PRODUCTS_DIR}/PageLoader-tvOS/PageLoader.framework",
+				"${BUILT_PRODUCTS_DIR}/Runglish-tvOS/Runglish.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON-tvOS/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ConfigFile.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Files.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PageLoader.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Runglish.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -973,6 +987,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD326011FA79AF1000226D4 /* Files-extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1049,6 +1064,7 @@
 				FADECD991F9BDE2E00C9C42C /* History.swift in Sources */,
 				FADECD861F9BDE2200C9C42C /* MediaItemCell.swift in Sources */,
 				FADECD981F9BDE2E00C9C42C /* CellHelper.swift in Sources */,
+				FAD326021FA79AF2000226D4 /* Files-extension.swift in Sources */,
 				FADECDA11F9BDE2E00C9C42C /* MediaItem.swift in Sources */,
 				FADECD971F9BDE2E00C9C42C /* Bookmarks.swift in Sources */,
 				FADECD841F9BDE2200C9C42C /* MediaItemTableCell.swift in Sources */,
@@ -1290,6 +1306,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FD6DE4261AAF13624CE20CCF /* Pods-TVSetKit_macOSTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -1312,6 +1329,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 92D35C2703FCC649EA633C53 /* Pods-TVSetKit_macOSTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
