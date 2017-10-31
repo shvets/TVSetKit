@@ -26,6 +26,33 @@
 		FAB327DF1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
 		FAD326011FA79AF1000226D4 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
 		FAD326021FA79AF2000226D4 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
+		FAD326051FA801ED000226D4 /* UIViewController-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */; };
+		FAD326061FA801ED000226D4 /* UIColor-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAED610A1E469BCA007A2B91 /* UIColor-extension.swift */; };
+		FAD326071FA801ED000226D4 /* VideoPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009661E46A15300941CAD /* VideoPlayerController.swift */; };
+		FAD326081FA801ED000226D4 /* MediaItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009601E46A15300941CAD /* MediaItemsController.swift */; };
+		FAD326091FA801ED000226D4 /* MediaItemsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */; };
+		FAD3260A1FA801ED000226D4 /* MediaItemDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0095F1E46A15300941CAD /* MediaItemDetailsController.swift */; };
+		FAD3260B1FA801ED000226D4 /* PlayButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */; };
+		FAD3260C1FA801ED000226D4 /* CellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009581E46A15300941CAD /* CellHelper.swift */; };
+		FAD3260D1FA801ED000226D4 /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
+		FAD3260E1FA801ED000226D4 /* AudioPlayerControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */; };
+		FAD3260F1FA801ED000226D4 /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */; };
+		FAD326101FA801ED000226D4 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1F63E04E4BA852D52BC5 /* SearchController.swift */; };
+		FAD326111FA801ED000226D4 /* MediaNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */; };
+		FAD326121FA801ED000226D4 /* MediaItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */; };
+		FAD326131FA801ED000226D4 /* SearchTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1DA30A6EA5DDE6B16540 /* SearchTableController.swift */; };
+		FAD326151FA801FE000226D4 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
+		FAD326161FA801FE000226D4 /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009571E46A15300941CAD /* Bookmarks.swift */; };
+		FAD326171FA801FE000226D4 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0095A1E46A15300941CAD /* History.swift */; };
+		FAD326181FA801FE000226D4 /* MediaItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */; };
+		FAD326191FA801FE000226D4 /* QualityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAED60F11E4693A7007A2B91 /* QualityLevel.swift */; };
+		FAD3261A1FA801FE000226D4 /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9B1E46933600734FB6 /* MediaItem.swift */; };
+		FAD3261B1FA801FE000226D4 /* MediaName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9C1E46933600734FB6 /* MediaName.swift */; };
+		FAD3261C1FA80204000226D4 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
+		FAD3261D1FA80209000226D4 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10015F1A359BBBCE9565 /* Localizer.swift */; };
+		FAD326201FA80209000226D4 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A77D3BA0AD459DB64E3ED /* Parameters.swift */; };
+		FAD326211FA80209000226D4 /* TVSetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D3147AF9FAFBDFEC554 /* TVSetKit.swift */; };
+		FAD326241FA80209000226D4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
 		FADECD641F9BDDDA00C9C42C /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009571E46A15300941CAD /* Bookmarks.swift */; };
 		FADECD651F9BDDE400C9C42C /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
 		FADECD661F9BDDE700C9C42C /* AudioPlayerControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */; };
@@ -53,32 +80,18 @@
 		FADECD7F1F9BDE2100C9C42C /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1F63E04E4BA852D52BC5 /* SearchController.swift */; };
 		FADECD801F9BDE2100C9C42C /* TVSetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D3147AF9FAFBDFEC554 /* TVSetKit.swift */; };
 		FADECD811F9BDE2200C9C42C /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10015F1A359BBBCE9565 /* Localizer.swift */; };
-		FADECD821F9BDE2200C9C42C /* PlayButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */; };
 		FADECD831F9BDE2200C9C42C /* MediaNameTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */; };
 		FADECD841F9BDE2200C9C42C /* MediaItemTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */; };
-		FADECD851F9BDE2200C9C42C /* MediaNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */; };
-		FADECD861F9BDE2200C9C42C /* MediaItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */; };
 		FADECD881F9BDE2200C9C42C /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A77D3BA0AD459DB64E3ED /* Parameters.swift */; };
-		FADECD891F9BDE2200C9C42C /* SearchTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1DA30A6EA5DDE6B16540 /* SearchTableController.swift */; };
-		FADECD8A1F9BDE2200C9C42C /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1F63E04E4BA852D52BC5 /* SearchController.swift */; };
 		FADECD8B1F9BDE2200C9C42C /* TVSetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1D3147AF9FAFBDFEC554 /* TVSetKit.swift */; };
 		FADECD8C1F9BDE2200C9C42C /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2786791F93E5C30088F553 /* HistoryManager.swift */; };
 		FADECD8D1F9BDE2200C9C42C /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA27867B1F93E5EE0088F553 /* BookmarksManager.swift */; };
-		FADECD901F9BDE2800C9C42C /* UIViewController-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */; };
 		FADECD911F9BDE2800C9C42C /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA140B06A6A92129BE33D8 /* DataSource.swift */; };
 		FADECD921F9BDE2E00C9C42C /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4CDDD01F90EEFF00AF4DCE /* Items.swift */; };
 		FADECD931F9BDE2E00C9C42C /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
-		FADECD951F9BDE2E00C9C42C /* UIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009521E46A15300941CAD /* UIHelper.swift */; };
-		FADECD961F9BDE2E00C9C42C /* AudioPlayerControllerSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */; };
 		FADECD971F9BDE2E00C9C42C /* Bookmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009571E46A15300941CAD /* Bookmarks.swift */; };
-		FADECD981F9BDE2E00C9C42C /* CellHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009581E46A15300941CAD /* CellHelper.swift */; };
 		FADECD991F9BDE2E00C9C42C /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0095A1E46A15300941CAD /* History.swift */; };
-		FADECD9A1F9BDE2E00C9C42C /* MediaItemDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE0095F1E46A15300941CAD /* MediaItemDetailsController.swift */; };
-		FADECD9B1F9BDE2E00C9C42C /* MediaItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009601E46A15300941CAD /* MediaItemsController.swift */; };
-		FADECD9C1F9BDE2E00C9C42C /* MediaItemsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */; };
 		FADECD9D1F9BDE2E00C9C42C /* MediaItemsNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */; };
-		FADECD9E1F9BDE2E00C9C42C /* VideoPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE009661E46A15300941CAD /* VideoPlayerController.swift */; };
-		FADECD9F1F9BDE2E00C9C42C /* UIColor-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAED610A1E469BCA007A2B91 /* UIColor-extension.swift */; };
 		FADECDA01F9BDE2E00C9C42C /* QualityLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAED60F11E4693A7007A2B91 /* QualityLevel.swift */; };
 		FADECDA11F9BDE2E00C9C42C /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9B1E46933600734FB6 /* MediaItem.swift */; };
 		FADECDA21F9BDE2E00C9C42C /* MediaName.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67DC9C1E46933600734FB6 /* MediaName.swift */; };
@@ -310,41 +323,23 @@
 		FA3505271E4663B3009BB40E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FAD326041FA800E2000226D4 /* tvos */,
+				FAD326031FA800B3000226D4 /* ios */,
 				FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */,
-				FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */,
-				FA4CDDD01F90EEFF00AF4DCE /* Items.swift */,
 				FAB20D5C1F89AB390063458F /* Item.swift */,
-				FAE009521E46A15300941CAD /* UIHelper.swift */,
-				FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */,
 				FAE009571E46A15300941CAD /* Bookmarks.swift */,
-				FAE009581E46A15300941CAD /* CellHelper.swift */,
 				FAE0095A1E46A15300941CAD /* History.swift */,
-				FAE0095F1E46A15300941CAD /* MediaItemDetailsController.swift */,
-				FAE009601E46A15300941CAD /* MediaItemsController.swift */,
-				FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */,
 				FAE009631E46A15300941CAD /* MediaItemsNavigator.swift */,
-				FAE009661E46A15300941CAD /* VideoPlayerController.swift */,
-				FAED610A1E469BCA007A2B91 /* UIColor-extension.swift */,
 				FAED60F11E4693A7007A2B91 /* QualityLevel.swift */,
 				FA67DC9B1E46933600734FB6 /* MediaItem.swift */,
 				FA67DC9C1E46933600734FB6 /* MediaName.swift */,
 				FA3505281E4663B3009BB40E /* TVSetKit.h */,
 				FA3505291E4663B3009BB40E /* Info.plist */,
-				2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */,
 				2DBA140B06A6A92129BE33D8 /* DataSource.swift */,
 				FA9A18A11E58958E00DC0DCE /* Localizable.strings */,
 				2DBA10015F1A359BBBCE9565 /* Localizer.swift */,
-				2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */,
-				2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */,
-				2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */,
-				2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */,
-				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
 				D56A77D3BA0AD459DB64E3ED /* Parameters.swift */,
-				2DBA1DA30A6EA5DDE6B16540 /* SearchTableController.swift */,
-				2DBA1F63E04E4BA852D52BC5 /* SearchController.swift */,
 				2DBA1D3147AF9FAFBDFEC554 /* TVSetKit.swift */,
-				FA2786791F93E5C30088F553 /* HistoryManager.swift */,
-				FA27867B1F93E5EE0088F553 /* BookmarksManager.swift */,
 				FAB327DD1F978E7500925755 /* Configuration.swift */,
 			);
 			path = Sources;
@@ -397,6 +392,40 @@
 				FA7BDF591FA5228F003FCEC3 /* Info.plist */,
 			);
 			path = TVSetKit_macOSTests;
+			sourceTree = "<group>";
+		};
+		FAD326031FA800B3000226D4 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				FA4CDDD01F90EEFF00AF4DCE /* Items.swift */,
+				2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */,
+				2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */,
+				2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */,
+				FAED610A1E469BCA007A2B91 /* UIColor-extension.swift */,
+				FAE009661E46A15300941CAD /* VideoPlayerController.swift */,
+				FAE009601E46A15300941CAD /* MediaItemsController.swift */,
+				FAE009621E46A15300941CAD /* MediaItemsHeaderView.swift */,
+				FAE0095F1E46A15300941CAD /* MediaItemDetailsController.swift */,
+				2DBA1228A122C19B8CE738CE /* PlayButtonsView.swift */,
+				FAE009581E46A15300941CAD /* CellHelper.swift */,
+				FAE009521E46A15300941CAD /* UIHelper.swift */,
+				FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */,
+				FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */,
+				2DBA1F63E04E4BA852D52BC5 /* SearchController.swift */,
+				FA2786791F93E5C30088F553 /* HistoryManager.swift */,
+				FA27867B1F93E5EE0088F553 /* BookmarksManager.swift */,
+				2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */,
+				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
+				2DBA1DA30A6EA5DDE6B16540 /* SearchTableController.swift */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		FAD326041FA800E2000226D4 /* tvos */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = tvos;
 			sourceTree = "<group>";
 		};
 		FAFF2F2C1EFEEF92002B7C0C /* TVSetKit_iOS */ = {
@@ -987,7 +1016,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD326201FA80209000226D4 /* Parameters.swift in Sources */,
+				FAD3261A1FA801FE000226D4 /* MediaItem.swift in Sources */,
+				FAD3261D1FA80209000226D4 /* Localizer.swift in Sources */,
+				FAD326211FA80209000226D4 /* TVSetKit.swift in Sources */,
+				FAD326191FA801FE000226D4 /* QualityLevel.swift in Sources */,
+				FAD326151FA801FE000226D4 /* Item.swift in Sources */,
 				FAD326011FA79AF1000226D4 /* Files-extension.swift in Sources */,
+				FAD3261B1FA801FE000226D4 /* MediaName.swift in Sources */,
+				FAD326241FA80209000226D4 /* Configuration.swift in Sources */,
+				FAD326161FA801FE000226D4 /* Bookmarks.swift in Sources */,
+				FAD326171FA801FE000226D4 /* History.swift in Sources */,
+				FAD3261C1FA80204000226D4 /* DataSource.swift in Sources */,
+				FAD326181FA801FE000226D4 /* MediaItemsNavigator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,37 +1092,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAD326071FA801ED000226D4 /* VideoPlayerController.swift in Sources */,
+				FAD326101FA801ED000226D4 /* SearchController.swift in Sources */,
+				FAD326091FA801ED000226D4 /* MediaItemsHeaderView.swift in Sources */,
+				FAD326051FA801ED000226D4 /* UIViewController-extension.swift in Sources */,
 				FADECDA01F9BDE2E00C9C42C /* QualityLevel.swift in Sources */,
 				FADECD931F9BDE2E00C9C42C /* Item.swift in Sources */,
+				FAD3260D1FA801ED000226D4 /* UIHelper.swift in Sources */,
+				FAD3260C1FA801ED000226D4 /* CellHelper.swift in Sources */,
+				FAD3260E1FA801ED000226D4 /* AudioPlayerControllerSimple.swift in Sources */,
 				FADECDA21F9BDE2E00C9C42C /* MediaName.swift in Sources */,
-				FADECD9B1F9BDE2E00C9C42C /* MediaItemsController.swift in Sources */,
-				FADECD961F9BDE2E00C9C42C /* AudioPlayerControllerSimple.swift in Sources */,
-				FADECD951F9BDE2E00C9C42C /* UIHelper.swift in Sources */,
+				FAD326081FA801ED000226D4 /* MediaItemsController.swift in Sources */,
 				FADECD831F9BDE2200C9C42C /* MediaNameTableCell.swift in Sources */,
-				FADECD851F9BDE2200C9C42C /* MediaNameCell.swift in Sources */,
-				FADECD891F9BDE2200C9C42C /* SearchTableController.swift in Sources */,
 				FAB327DF1F978E7500925755 /* Configuration.swift in Sources */,
 				FADECD991F9BDE2E00C9C42C /* History.swift in Sources */,
-				FADECD861F9BDE2200C9C42C /* MediaItemCell.swift in Sources */,
-				FADECD981F9BDE2E00C9C42C /* CellHelper.swift in Sources */,
 				FAD326021FA79AF2000226D4 /* Files-extension.swift in Sources */,
 				FADECDA11F9BDE2E00C9C42C /* MediaItem.swift in Sources */,
+				FAD3260F1FA801ED000226D4 /* PlainSpinner.swift in Sources */,
+				FAD326061FA801ED000226D4 /* UIColor-extension.swift in Sources */,
+				FAD3260B1FA801ED000226D4 /* PlayButtonsView.swift in Sources */,
+				FAD326111FA801ED000226D4 /* MediaNameCell.swift in Sources */,
 				FADECD971F9BDE2E00C9C42C /* Bookmarks.swift in Sources */,
 				FADECD841F9BDE2200C9C42C /* MediaItemTableCell.swift in Sources */,
 				FADECD8C1F9BDE2200C9C42C /* HistoryManager.swift in Sources */,
+				FAD3260A1FA801ED000226D4 /* MediaItemDetailsController.swift in Sources */,
+				FAD326131FA801ED000226D4 /* SearchTableController.swift in Sources */,
 				FADECD9D1F9BDE2E00C9C42C /* MediaItemsNavigator.swift in Sources */,
 				FADECD921F9BDE2E00C9C42C /* Items.swift in Sources */,
-				FADECD821F9BDE2200C9C42C /* PlayButtonsView.swift in Sources */,
 				FADECD8B1F9BDE2200C9C42C /* TVSetKit.swift in Sources */,
-				FADECD901F9BDE2800C9C42C /* UIViewController-extension.swift in Sources */,
 				FADECD911F9BDE2800C9C42C /* DataSource.swift in Sources */,
 				FADECD811F9BDE2200C9C42C /* Localizer.swift in Sources */,
-				FADECD8A1F9BDE2200C9C42C /* SearchController.swift in Sources */,
-				FADECD9F1F9BDE2E00C9C42C /* UIColor-extension.swift in Sources */,
+				FAD326121FA801ED000226D4 /* MediaItemCell.swift in Sources */,
 				FADECD8D1F9BDE2200C9C42C /* BookmarksManager.swift in Sources */,
-				FADECD9C1F9BDE2E00C9C42C /* MediaItemsHeaderView.swift in Sources */,
-				FADECD9A1F9BDE2E00C9C42C /* MediaItemDetailsController.swift in Sources */,
-				FADECD9E1F9BDE2E00C9C42C /* VideoPlayerController.swift in Sources */,
 				FADECD881F9BDE2200C9C42C /* Parameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

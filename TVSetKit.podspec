@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TVSetKit"
-  s.version      = "1.0.15"
+  s.version      = "1.0.16"
   s.summary      = "Framework for representing movies as collection and playing them"
   s.description  = "Framework for representing movies as collection and playing them."
 
@@ -15,6 +15,11 @@ Pod::Spec.new do |s|
   #s.watchos.deployment_target = "2.0"
 
   s.source = { :git => "https://github.com/shvets/TVSetKit.git", :tag => s.version }
+
+  s.source_files = "Sources/*.swift"
+  s.ios.source_files = "Sources/ios/**/*.swift"
+  s.tvos.source_files = "Sources/ios/**/*.swift"
+  s.osx.source_files = "Sources/macos/**/*.swift"
 
   s.ios.source_files = "Sources/**/*.swift"
   s.tvos.source_files = "Sources/**/*.swift"

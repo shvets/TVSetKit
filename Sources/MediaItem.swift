@@ -1,4 +1,4 @@
-import UIKit
+//import UIKit
 import SwiftyJSON
 
 open class MediaItem: MediaName {
