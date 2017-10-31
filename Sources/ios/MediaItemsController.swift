@@ -1,12 +1,14 @@
 import UIKit
 import PageLoader
 
-open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout  {
+extension MediaItemCell: ReusableView { }
+
+open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ReusableController {
   open static let SegueIdentifier = "Media Items"
-  open static let StoryboardControllerId = "MediaItemsController"
+  //open static let StoryboardControllerId = "MediaItemsController"
   static let BundleId = "com.rubikon.TVSetKit"
 
-  let CellIdentifier = "MediaItemCell"
+  //let CellIdentifier = "MediaItemCell"
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
@@ -18,7 +20,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   static public func instantiateController(_ storyboardId: String) -> MediaItemsController? {
     return UIViewController.instantiate(
-      controllerId: MediaItemsController.StoryboardControllerId,
+      controllerId: MediaItemsController.reuseIdentifier,
       storyboardId: storyboardId,
       bundle: Bundle.main
     ).getActionController() as? MediaItemsController
@@ -121,7 +123,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellIdentifier, for: indexPath) as? MediaItemCell {
+    if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
       if items.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
         items.loadMoreData(collectionView)
       }

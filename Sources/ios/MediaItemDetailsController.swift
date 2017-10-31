@@ -2,7 +2,7 @@ import UIKit
 
 open class MediaItemDetailsController: UIViewController {
   public static let SegueIdentifier = "Media Item Details"
-  let CellIdentifier = "MediaItemDetailsCell"
+  //let CellIdentifier = "MediaItemDetailsCell"
 
   @IBOutlet private weak var imageView: UIImageView!
   @IBOutlet private weak var movieDescription: UITextView!
@@ -152,7 +152,7 @@ open class MediaItemDetailsController: UIViewController {
 
   @objc func playMediaItem(sender: UIView) {
     let controller = UIViewController.instantiate(
-      controllerId: VideoPlayerController.StoryboardControllerId,
+      controllerId: VideoPlayerController.reuseIdentifier,
       storyboardId: storyboardId!,
       bundle: Bundle.main
     )

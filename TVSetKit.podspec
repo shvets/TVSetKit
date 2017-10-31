@@ -21,9 +21,6 @@ Pod::Spec.new do |s|
   s.tvos.source_files = "Sources/ios/**/*.swift"
   s.osx.source_files = "Sources/macos/**/*.swift"
 
-  s.ios.source_files = "Sources/**/*.swift"
-  s.tvos.source_files = "Sources/**/*.swift"
-
   s.resource_bundles = {
     'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings,lproj}', ]
   }

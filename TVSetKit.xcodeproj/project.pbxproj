@@ -27,6 +27,10 @@
 		FAB20D5D1F89AB390063458F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
 		FAB327DE1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
 		FAB327DF1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
+		FAC054631FA8B64700F246CB /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054621FA8B64700F246CB /* ReusableView.swift */; };
+		FAC054651FA8B6F200F246CB /* ReusableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054641FA8B6F200F246CB /* ReusableController.swift */; };
+		FAC054661FA8B87C00F246CB /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054621FA8B64700F246CB /* ReusableView.swift */; };
+		FAC054671FA8B88000F246CB /* ReusableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054641FA8B6F200F246CB /* ReusableController.swift */; };
 		FAD326011FA79AF1000226D4 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
 		FAD326021FA79AF2000226D4 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
 		FAD326051FA801ED000226D4 /* UIViewController-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBA1499323797FAEDC75EAE /* UIViewController-extension.swift */; };
@@ -193,6 +197,8 @@
 		FAB20D5C1F89AB390063458F /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		FAB327DD1F978E7500925755 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		FABA16DF1E8DE899000AFD34 /* AudioPlayerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioPlayerSwift.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphoneos/AudioPlayerSwift.framework"; sourceTree = "<group>"; };
+		FAC054621FA8B64700F246CB /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
+		FAC054641FA8B6F200F246CB /* ReusableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableController.swift; sourceTree = "<group>"; };
 		FAE009521E46A15300941CAD /* UIHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIHelper.swift; sourceTree = "<group>"; };
 		FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayerControllerSimple.swift; sourceTree = "<group>"; };
 		FAE009571E46A15300941CAD /* Bookmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmarks.swift; sourceTree = "<group>"; };
@@ -432,6 +438,8 @@
 				2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */,
 				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
 				2DBA1DA30A6EA5DDE6B16540 /* SearchTableController.swift */,
+				FAC054621FA8B64700F246CB /* ReusableView.swift */,
+				FAC054641FA8B6F200F246CB /* ReusableController.swift */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1063,6 +1071,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA98C0D01F9BE60300BD7501 /* Files-extension.swift in Sources */,
+				FAC054631FA8B64700F246CB /* ReusableView.swift in Sources */,
 				FADECD6B1F9BDE1000C9C42C /* MediaItemDetailsController.swift in Sources */,
 				FAB20D5D1F89AB390063458F /* Item.swift in Sources */,
 				FADECD671F9BDDED00C9C42C /* CellHelper.swift in Sources */,
@@ -1080,6 +1089,7 @@
 				FADECD701F9BDE1000C9C42C /* UIColor-extension.swift in Sources */,
 				FA27867C1F93E5EE0088F553 /* BookmarksManager.swift in Sources */,
 				FADECD771F9BDE2100C9C42C /* PlayButtonsView.swift in Sources */,
+				FAC054651FA8B6F200F246CB /* ReusableController.swift in Sources */,
 				FADECD6D1F9BDE1000C9C42C /* MediaItemsHeaderView.swift in Sources */,
 				FADECD761F9BDE2100C9C42C /* Localizer.swift in Sources */,
 				FADECD6F1F9BDE1000C9C42C /* VideoPlayerController.swift in Sources */,
@@ -1111,6 +1121,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAD326071FA801ED000226D4 /* VideoPlayerController.swift in Sources */,
+				FAC054661FA8B87C00F246CB /* ReusableView.swift in Sources */,
 				FAD326101FA801ED000226D4 /* SearchController.swift in Sources */,
 				FAD326091FA801ED000226D4 /* MediaItemsHeaderView.swift in Sources */,
 				FAD326051FA801ED000226D4 /* UIViewController-extension.swift in Sources */,
@@ -1128,6 +1139,7 @@
 				FADECDA11F9BDE2E00C9C42C /* MediaItem.swift in Sources */,
 				FAD3260F1FA801ED000226D4 /* PlainSpinner.swift in Sources */,
 				FAD326061FA801ED000226D4 /* UIColor-extension.swift in Sources */,
+				FAC054671FA8B88000F246CB /* ReusableController.swift in Sources */,
 				FAD3260B1FA801ED000226D4 /* PlayButtonsView.swift in Sources */,
 				FAD326111FA801ED000226D4 /* MediaNameCell.swift in Sources */,
 				FADECD971F9BDE2E00C9C42C /* Bookmarks.swift in Sources */,
