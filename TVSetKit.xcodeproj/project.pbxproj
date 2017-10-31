@@ -20,6 +20,9 @@
 		FA7BDF581FA5228F003FCEC3 /* TVSetKit_macOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7BDF571FA5228F003FCEC3 /* TVSetKit_macOSTests.swift */; };
 		FA7BDF5A1FA5228F003FCEC3 /* TVSetKit_macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = FA7BDF4C1FA5228E003FCEC3 /* TVSetKit_macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FA7E46521F9BE2C500EA8F1C /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */; };
+		FA830EC51FA8113C00EEF904 /* BookmarksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA830EC41FA8113C00EEF904 /* BookmarksManager.swift */; };
+		FA830EC81FA8133500EEF904 /* PlainSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA830EC71FA8133500EEF904 /* PlainSpinner.swift */; };
+		FA830EC91FA8141800EEF904 /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2786791F93E5C30088F553 /* HistoryManager.swift */; };
 		FA98C0D01F9BE60300BD7501 /* Files-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */; };
 		FAB20D5D1F89AB390063458F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB20D5C1F89AB390063458F /* Item.swift */; };
 		FAB327DE1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
@@ -178,6 +181,8 @@
 		FA7BDF571FA5228F003FCEC3 /* TVSetKit_macOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVSetKit_macOSTests.swift; sourceTree = "<group>"; };
 		FA7BDF591FA5228F003FCEC3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
+		FA830EC41FA8113C00EEF904 /* BookmarksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksManager.swift; sourceTree = "<group>"; };
+		FA830EC71FA8133500EEF904 /* PlainSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainSpinner.swift; sourceTree = "<group>"; };
 		FA88DC011E8EBD5C00AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-appletvos/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		FA88DC101E8EBF4100AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-appletvsimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		FA88DC121E8EBF5200AD28D2 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/EtvnetApp-gdyhsaliqubivtfjullxnayrebpq/Build/Products/Debug-iphonesimulator/SwiftyJSON.framework"; sourceTree = "<group>"; };
@@ -323,9 +328,11 @@
 		FA3505271E4663B3009BB40E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FA830EC31FA8110C00EEF904 /* macos */,
 				FAD326041FA800E2000226D4 /* tvos */,
 				FAD326031FA800B3000226D4 /* ios */,
 				FA98C0CF1F9BE60300BD7501 /* Files-extension.swift */,
+				FA2786791F93E5C30088F553 /* HistoryManager.swift */,
 				FAB20D5C1F89AB390063458F /* Item.swift */,
 				FAE009571E46A15300941CAD /* Bookmarks.swift */,
 				FAE0095A1E46A15300941CAD /* History.swift */,
@@ -394,9 +401,19 @@
 			path = TVSetKit_macOSTests;
 			sourceTree = "<group>";
 		};
+		FA830EC31FA8110C00EEF904 /* macos */ = {
+			isa = PBXGroup;
+			children = (
+				FA830EC41FA8113C00EEF904 /* BookmarksManager.swift */,
+				FA830EC71FA8133500EEF904 /* PlainSpinner.swift */,
+			);
+			path = macos;
+			sourceTree = "<group>";
+		};
 		FAD326031FA800B3000226D4 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */,
 				FA4CDDD01F90EEFF00AF4DCE /* Items.swift */,
 				2DBA1558B2069A775BE665DA /* MediaNameTableCell.swift */,
 				2DBA1BB1EF60A3C7CB859A48 /* MediaItemTableCell.swift */,
@@ -410,9 +427,7 @@
 				FAE009581E46A15300941CAD /* CellHelper.swift */,
 				FAE009521E46A15300941CAD /* UIHelper.swift */,
 				FAE009551E46A15300941CAD /* AudioPlayerControllerSimple.swift */,
-				FA7E46511F9BE2C500EA8F1C /* PlainSpinner.swift */,
 				2DBA1F63E04E4BA852D52BC5 /* SearchController.swift */,
-				FA2786791F93E5C30088F553 /* HistoryManager.swift */,
 				FA27867B1F93E5EE0088F553 /* BookmarksManager.swift */,
 				2DBA10516E2C5005A2F2A0B3 /* MediaNameCell.swift */,
 				2DBA179547C0A40A26E75D28 /* MediaItemCell.swift */,
@@ -1026,7 +1041,10 @@
 				FAD3261B1FA801FE000226D4 /* MediaName.swift in Sources */,
 				FAD326241FA80209000226D4 /* Configuration.swift in Sources */,
 				FAD326161FA801FE000226D4 /* Bookmarks.swift in Sources */,
+				FA830EC81FA8133500EEF904 /* PlainSpinner.swift in Sources */,
 				FAD326171FA801FE000226D4 /* History.swift in Sources */,
+				FA830EC91FA8141800EEF904 /* HistoryManager.swift in Sources */,
+				FA830EC51FA8113C00EEF904 /* BookmarksManager.swift in Sources */,
 				FAD3261C1FA80204000226D4 /* DataSource.swift in Sources */,
 				FAD326181FA801FE000226D4 /* MediaItemsNavigator.swift in Sources */,
 			);
