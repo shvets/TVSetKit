@@ -32,10 +32,10 @@ class PlayButtonsView: UIView {
       button.bitrate = bitrate
 
       if mobile == true {
-        button.frame.size = CGSize(width: title.characters.count*10, height: 20)
+        button.frame.size = CGSize(width: title.count*10, height: 20)
       }
       else {
-        button.frame.size = CGSize(width: title.characters.count*50, height: 80)
+        button.frame.size = CGSize(width: title.count*50, height: 80)
       }
 
       button.frame.origin = CGPoint(x: width+delta, y: 0)
