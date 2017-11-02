@@ -84,33 +84,40 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
 
     //if let requestType = params["requestType"] as? String, requestType != "New Books" {
-      items.pageLoader.load = {
-        var newParams = Parameters()
-
-        for (key, value) in self.params {
-          newParams[key] = value
-        }
-
-        if let pageSize = newParams["pageSize"] as? Int {
-          self.items.pageLoader.pageSize = pageSize
-        }
-        else {
-          newParams["pageSize"] = self.items.pageLoader.pageSize
-        }
-
-        newParams["currentPage"] = self.items.pageLoader.currentPage
-        newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
-        newParams["historyManager"] = self.configuration?["historyManager"]
-
-        if let data = try self.dataSource?.load(params: newParams) {
-          return data
-        }
-        else {
-          return []
-        }
+    items.pageLoader.load = {
+      var newParams = Parameters()
+      
+      for (key, value) in self.params {
+        newParams[key] = value
       }
+      
+      if let pageSize = newParams["pageSize"] as? Int {
+        self.items.pageLoader.pageSize = pageSize
+      }
+      else {
+        newParams["pageSize"] = self.items.pageLoader.pageSize
+      }
+      
+      newParams["currentPage"] = self.items.pageLoader.currentPage
+      newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
+      newParams["historyManager"] = self.configuration?["historyManager"]
+      
+      if let data = try self.dataSource?.load(params: newParams) {
+        return data
+      }
+      else {
+        return []
+      }
+    }
 
-      items.loadInitialData(self.collectionView)
+    items.pageLoader.loadData { result in
+      if let items = result as? [Item] {
+        self.items.items = items
+
+        self.collectionView?.reloadData()
+      }
+    }
+
     //}
   }
 

@@ -22,25 +22,6 @@ open class Items {
     }
   }
 
-  public func loadInitialData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
-    self.pageLoader.loadData { result in
-      if let items = result as? [Item] {
-        self.items = items
-      }
-
-      if let onLoadCompleted = onLoadCompleted {
-        onLoadCompleted(self.items)
-      }
-
-      if let view = view as? UITableView {
-        view.reloadData()
-      }
-      else if let view = view as? UICollectionView {
-        view.reloadData()
-      }
-    }
-  }
-  
   public func loadMoreData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
     pageLoader.loadData { result in
       var indexPaths: [IndexPath] = []
@@ -50,7 +31,7 @@ open class Items {
 
         indexPaths.append(indexPath)
       }
-      
+
       if let items = result as? [Item] {
         self.items += items
 
