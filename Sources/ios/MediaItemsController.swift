@@ -55,6 +55,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     collectionView?.backgroundView = activityIndicatorView
 
+    items.pageLoader.enablePagination()
+    items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
+
     if let configuration = configuration {
       items.pageLoader.pageSize = configuration["pageSize"] as! Int
       items.pageLoader.rowSize = configuration["rowSize"] as? Int ?? 1
@@ -80,36 +83,35 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    items.pageLoader.load = {
-      var newParams = Parameters()
+    //if let requestType = params["requestType"] as? String, requestType != "New Books" {
+      items.pageLoader.load = {
+        var newParams = Parameters()
 
-      for (key, value) in self.params {
-        newParams[key] = value
+        for (key, value) in self.params {
+          newParams[key] = value
+        }
+
+        if let pageSize = newParams["pageSize"] as? Int {
+          self.items.pageLoader.pageSize = pageSize
+        }
+        else {
+          newParams["pageSize"] = self.items.pageLoader.pageSize
+        }
+
+        newParams["currentPage"] = self.items.pageLoader.currentPage
+        newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
+        newParams["historyManager"] = self.configuration?["historyManager"]
+
+        if let data = try self.dataSource?.load(params: newParams) {
+          return data
+        }
+        else {
+          return []
+        }
       }
 
-      if let pageSize = newParams["pageSize"] as? Int {
-        self.items.pageLoader.pageSize = pageSize
-      }
-      else {
-        newParams["pageSize"] = self.items.pageLoader.pageSize
-      }
-
-      newParams["currentPage"] = self.items.pageLoader.currentPage
-      newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
-      newParams["historyManager"] = self.configuration?["historyManager"]
-
-      if let data = try self.dataSource?.load(params: newParams) {
-        return data
-      }
-      else {
-        return []
-      }
-    }
-
-    items.pageLoader.enablePagination()
-    items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
-
-    items.loadInitialData(self.collectionView)
+      items.loadInitialData(self.collectionView)
+    //}
   }
 
   // MARK: UICollectionViewDataSource
@@ -124,7 +126,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
-      if items.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+      if items.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
         items.loadMoreData(collectionView)
       }
 
@@ -161,7 +163,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     let deltaOffset = maximumOffset - currentOffset
 
     if deltaOffset <= 1 { // approximately, close to zero
-      if items.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+      if items.pageLoader.nextPageAvailable(dataCount: items.count, index: items.count-1) {
         items.loadMoreData(self.collectionView)
       }
     }

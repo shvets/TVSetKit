@@ -75,10 +75,6 @@ open class Items {
       }
     }
   }
-  
-  public func nextPageAvailable(dataCount: Int, index: Int) -> Bool {
-    return pageLoader.nextPageAvailable(dataCount: dataCount, index: index)
-  }
 
   public func getSelectedItem() -> Item? {
     var item: Item?
