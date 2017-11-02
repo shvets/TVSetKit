@@ -12,6 +12,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
+  public let pageLoader = PageLoader()
+  
   public var bookmarksManager: BookmarksManager?
   public var historyManager: HistoryManager?
   public var dataSource: DataSource?
@@ -55,12 +57,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     collectionView?.backgroundView = activityIndicatorView
 
-    items.pageLoader.enablePagination()
-    items.pageLoader.spinner = PlainSpinner(activityIndicatorView)
+    pageLoader.enablePagination()
+    pageLoader.spinner = PlainSpinner(activityIndicatorView)
 
     if let configuration = configuration {
-      items.pageLoader.pageSize = configuration["pageSize"] as! Int
-      items.pageLoader.rowSize = configuration["rowSize"] as? Int ?? 1
+      pageLoader.pageSize = configuration["pageSize"] as! Int
+      pageLoader.rowSize = configuration["rowSize"] as? Int ?? 1
 
       if let bookmarksManager = configuration["bookmarksManager"] as? BookmarksManager {
         self.bookmarksManager = bookmarksManager
@@ -84,7 +86,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
 
     //if let requestType = params["requestType"] as? String, requestType != "New Books" {
-    items.pageLoader.load = {
+    pageLoader.load = {
       var newParams = Parameters()
       
       for (key, value) in self.params {
@@ -92,13 +94,13 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
       
       if let pageSize = newParams["pageSize"] as? Int {
-        self.items.pageLoader.pageSize = pageSize
+        self.pageLoader.pageSize = pageSize
       }
       else {
-        newParams["pageSize"] = self.items.pageLoader.pageSize
+        newParams["pageSize"] = self.pageLoader.pageSize
       }
       
-      newParams["currentPage"] = self.items.pageLoader.currentPage
+      newParams["currentPage"] = self.pageLoader.currentPage
       newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
       newParams["historyManager"] = self.configuration?["historyManager"]
       
@@ -110,7 +112,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    items.pageLoader.loadData { result in
+    pageLoader.loadData { result in
       if let items = result as? [Item] {
         self.items.items = items
 
@@ -133,8 +135,14 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
-      if items.pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-        items.loadMoreData(collectionView)
+      if pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
+        pageLoader.loadData { result in
+          if let items = result as? [Item] {
+            self.items.items += items
+            
+            self.collectionView?.reloadData()
+          }
+        }
       }
 
       let item = items[indexPath.row]
@@ -170,8 +178,14 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     let deltaOffset = maximumOffset - currentOffset
 
     if deltaOffset <= 1 { // approximately, close to zero
-      if items.pageLoader.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        items.loadMoreData(self.collectionView)
+      if pageLoader.nextPageAvailable(dataCount: items.count, index: items.count-1) {
+        pageLoader.loadData { result in
+          if let items = result as? [Item] {
+            self.items.items += items
+
+            self.collectionView?.reloadData()
+          }
+        }
       }
     }
   }

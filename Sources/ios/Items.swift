@@ -2,7 +2,6 @@ import Foundation
 import PageLoader
 
 open class Items {
-  public var pageLoader = PageLoader()
   public var cellSelection: IndexPath?
   
   public var items: [Item] = []
@@ -22,40 +21,40 @@ open class Items {
     }
   }
 
-  public func loadMoreData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
-    pageLoader.loadData { result in
-      var indexPaths: [IndexPath] = []
-
-      for (index, _) in result.enumerated() {
-        let indexPath = IndexPath(row: self.items.count + index, section: 0)
-
-        indexPaths.append(indexPath)
-      }
-
-      if let items = result as? [Item] {
-        self.items += items
-
-        if let view = view as? UITableView {
-          view.insertRows(at: indexPaths, with: .none)
-
-          let step = min(result.count, self.pageLoader.rowSize)
-
-          view.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
-        }
-        else if let view = view as? UICollectionView {
-          view.insertItems(at: indexPaths)
-
-          let step = min(result.count, self.pageLoader.rowSize)
-
-          view.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
-        }
-      }
-
-      if let onLoadCompleted = onLoadCompleted {
-        onLoadCompleted(self.items)
-      }
-    }
-  }
+//  public func loadMoreData(_ view: UIView?, onLoadCompleted: (([Item]) -> Void)?=nil) {
+//    pageLoader.loadData { result in
+//      var indexPaths: [IndexPath] = []
+//
+//      for (index, _) in result.enumerated() {
+//        let indexPath = IndexPath(row: self.items.count + index, section: 0)
+//
+//        indexPaths.append(indexPath)
+//      }
+//
+//      if let items = result as? [Item] {
+//        self.items += items
+//
+//        if let view = view as? UITableView {
+//          view.insertRows(at: indexPaths, with: .none)
+//
+//          let step = min(result.count, self.pageLoader.rowSize)
+//
+//          view.scrollToRow(at: indexPaths[step-1], at: .middle, animated: false)
+//        }
+//        else if let view = view as? UICollectionView {
+//          view.insertItems(at: indexPaths)
+//
+//          let step = min(result.count, self.pageLoader.rowSize)
+//
+//          view.scrollToItem(at: indexPaths[step-1], at: .left, animated: false)
+//        }
+//      }
+//
+//      if let onLoadCompleted = onLoadCompleted {
+//        onLoadCompleted(self.items)
+//      }
+//    }
+//  }
 
   public func getSelectedItem() -> Item? {
     var item: Item?
