@@ -55,6 +55,31 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     collectionView?.backgroundView = activityIndicatorView
 
+    if let configuration = configuration {
+      items.pageLoader.pageSize = configuration["pageSize"] as! Int
+      items.pageLoader.rowSize = configuration["rowSize"] as? Int ?? 1
+
+      if let bookmarksManager = configuration["bookmarksManager"] as? BookmarksManager {
+        self.bookmarksManager = bookmarksManager
+      }
+
+      if let historyManager = configuration["historyManager"] as? HistoryManager {
+        self.historyManager = historyManager
+      }
+
+      if let dataSource = configuration["dataSource"] as? DataSource {
+        self.dataSource = dataSource
+      }
+
+      if let storyboardId = configuration["storyboardId"] as? String {
+        self.storyboardId = storyboardId
+      }
+
+      if let mobile = configuration["mobile"] as? Bool {
+        self.mobile = mobile
+      }
+    }
+
     items.pageLoader.load = {
       var newParams = Parameters()
 
@@ -78,31 +103,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
       else {
         return []
-      }
-    }
-
-    if let configuration = configuration {
-      items.pageLoader.pageSize = configuration["pageSize"] as! Int
-      items.pageLoader.rowSize = configuration["rowSize"] as? Int ?? 1
-
-      if let bookmarksManager = configuration["bookmarksManager"] as? BookmarksManager {
-        self.bookmarksManager = bookmarksManager
-      }
-
-      if let historyManager = configuration["historyManager"] as? HistoryManager {
-        self.historyManager = historyManager
-      }
-
-      if let dataSource = configuration["dataSource"] as? DataSource {
-        self.dataSource = dataSource
-      }
-
-      if let storyboardId = configuration["storyboardId"] as? String {
-        self.storyboardId = storyboardId
-      }
-
-      if let mobile = configuration["mobile"] as? Bool {
-        self.mobile = mobile
       }
     }
 
