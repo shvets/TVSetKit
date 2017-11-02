@@ -7,7 +7,7 @@ PODS:
     - Files (~> 1.9.0)
   - Files (1.9.0)
   - PageLoader (1.0.0)
-  - Runglish (1.0.2)
+  - Runglish (1.0.3)
   - SwiftyJSON (3.1.4)
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ DEPENDENCIES:
   - ConfigFile (~> 1.0.1)
   - Files (~> 1.9.0)
   - PageLoader (~> 1.0.0)
-  - Runglish (~> 1.0.2)
+  - Runglish (~> 1.0.3)
   - SwiftyJSON (~> 3.1.4)
 
 SPEC CHECKSUMS:
@@ -23,7 +23,7 @@ SPEC CHECKSUMS:
   ConfigFile: ab3b69ebe202c384a6f35695b480bfc3bdbd251c
   Files: e5c828e13b7728fa88a6c0e30f42f0ffb536e333
   PageLoader: ff01299d4c8c81d68d0564636182698370364bea
-  Runglish: 2d51d3e48e176650d3c3f8fc629502ddd0afa6f2
+  Runglish: 75ef074b2251278c4c91912521672417d7b8f518
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
 
 PODFILE CHECKSUM: 0da5e4341d3e6678d876109a8a7930a0ca452c72
