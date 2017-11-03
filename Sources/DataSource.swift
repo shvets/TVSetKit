@@ -3,6 +3,22 @@ import RxSwift
 open class DataSource {
   public init() {}
 
+  public func loadAndWait(params: Parameters) throws -> [Any] {
+    var items = [Any]()
+
+    let semaphore = DispatchSemaphore.init(value: 0)
+
+    _ = try loadAsync(params: params).subscribe(onNext: { result in
+      items = result
+
+      semaphore.signal()
+    })
+
+    _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+
+    return items
+  }
+
   open func loadAsync(params: Parameters) throws -> Observable<[Any]> {
     return .create { observer in
       observer.onNext([])

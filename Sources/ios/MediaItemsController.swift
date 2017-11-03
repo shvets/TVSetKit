@@ -104,21 +104,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
         newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
         newParams["historyManager"] = self.configuration?["historyManager"]
         
-        var items = [Any]()
-        
-        let semaphore = DispatchSemaphore.init(value: 0)
-        
-        try self.dataSource?.loadAsync(params: newParams).subscribe(
-          onNext: { result in
-            items = result
-            
-            semaphore.signal()
-        }
-        )
-        
-        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-        
-        return items
+        return try (self.dataSource?.loadAndWait(params: params))!
       }
       
       pageLoader.load = load
