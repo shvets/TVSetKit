@@ -12,7 +12,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
-  public let pageLoader = PageLoader()
+  public var pageLoader = PageLoader()
   
   public var bookmarksManager: BookmarksManager?
   public var historyManager: HistoryManager?
@@ -85,8 +85,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    //if let requestType = params["requestType"] as? String, requestType != "New Books" {
-    pageLoader.load = {
+    if let requestType = params["requestType"] as? String, requestType != "New Books" {
+    func load() throws -> [Any] {
       var newParams = Parameters()
       
       for (key, value) in self.params {
@@ -112,7 +112,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    pageLoader.loadData { result in
+    pageLoader.loadData(onLoad: load) { result in
       if let items = result as? [Item] {
         self.items.items = items
 
@@ -120,7 +120,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    //}
+    }
   }
 
   // MARK: UICollectionViewDataSource
