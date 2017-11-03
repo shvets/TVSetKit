@@ -85,49 +85,28 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    if let async = params["async"] as? Bool, async == true {
-      func load() throws -> [Any] {
-        var newParams = Parameters()
-        
-        for (key, value) in self.params {
-          newParams[key] = value
-        }
-        
-        if let pageSize = newParams["pageSize"] as? Int {
-          self.pageLoader.pageSize = pageSize
-        }
-        else {
-          newParams["pageSize"] = self.pageLoader.pageSize
-        }
-        
-        newParams["currentPage"] = self.pageLoader.currentPage
-        newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
-        newParams["historyManager"] = self.configuration?["historyManager"]
-        
-        return try (self.dataSource?.loadAndWait(params: params))!
+    func load() throws -> [Any] {
+      var newParams = Parameters()
+
+      for (key, value) in self.params {
+        newParams[key] = value
       }
-      
-      pageLoader.load = load
-    }
-    else {
-      func load() throws -> [Any] {
-        var newParams = Parameters()
-        
-        for (key, value) in self.params {
-          newParams[key] = value
-        }
-        
-        if let pageSize = newParams["pageSize"] as? Int {
-          self.pageLoader.pageSize = pageSize
-        }
-        else {
-          newParams["pageSize"] = self.pageLoader.pageSize
-        }
-        
-        newParams["currentPage"] = self.pageLoader.currentPage
-        newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
-        newParams["historyManager"] = self.configuration?["historyManager"]
-        
+
+      if let pageSize = newParams["pageSize"] as? Int {
+        self.pageLoader.pageSize = pageSize
+      }
+      else {
+        newParams["pageSize"] = self.pageLoader.pageSize
+      }
+
+      newParams["currentPage"] = self.pageLoader.currentPage
+      newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
+      newParams["historyManager"] = self.configuration?["historyManager"]
+
+      if let async = params["async"] as? Bool, async == true {
+        return try (self.dataSource?.loadAndWait(params: newParams))!
+      }
+      else {
         if let data = try self.dataSource?.load(params: newParams) {
           return data
         }
@@ -135,9 +114,9 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
           return []
         }
       }
-      
-      pageLoader.load = load
     }
+
+    pageLoader.load = load
 
     pageLoader.loadData(onLoad: pageLoader.load) { result in
       if let items = result as? [Item] {
