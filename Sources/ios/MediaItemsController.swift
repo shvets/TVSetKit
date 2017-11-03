@@ -85,25 +85,63 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    if let requestType = params["requestType"] as? String, requestType != "New Books" {
+    if let async = params["async"] as? Bool, async == true {
       func load() throws -> [Any] {
         var newParams = Parameters()
-
+        
         for (key, value) in self.params {
           newParams[key] = value
         }
-
+        
         if let pageSize = newParams["pageSize"] as? Int {
           self.pageLoader.pageSize = pageSize
         }
         else {
           newParams["pageSize"] = self.pageLoader.pageSize
         }
-
+        
         newParams["currentPage"] = self.pageLoader.currentPage
         newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
         newParams["historyManager"] = self.configuration?["historyManager"]
-
+        
+        var items = [Any]()
+        
+        let semaphore = DispatchSemaphore.init(value: 0)
+        
+        try self.dataSource?.loadAsync(params: newParams).subscribe(
+          onNext: { result in
+            items = result
+            
+            semaphore.signal()
+        }
+        )
+        
+        _ = semaphore.wait(timeout: DispatchTime.distantFuture)
+        
+        return items
+      }
+      
+      pageLoader.load = load
+    }
+    else {
+      func load() throws -> [Any] {
+        var newParams = Parameters()
+        
+        for (key, value) in self.params {
+          newParams[key] = value
+        }
+        
+        if let pageSize = newParams["pageSize"] as? Int {
+          self.pageLoader.pageSize = pageSize
+        }
+        else {
+          newParams["pageSize"] = self.pageLoader.pageSize
+        }
+        
+        newParams["currentPage"] = self.pageLoader.currentPage
+        newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
+        newParams["historyManager"] = self.configuration?["historyManager"]
+        
         if let data = try self.dataSource?.load(params: newParams) {
           return data
         }
@@ -111,6 +149,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
           return []
         }
       }
+      
+      pageLoader.load = load
     }
 
     pageLoader.loadData(onLoad: pageLoader.load) { result in

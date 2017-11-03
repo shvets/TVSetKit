@@ -1,5 +1,16 @@
+import RxSwift
+
 open class DataSource {
   public init() {}
+
+  open func loadAsync(params: Parameters) throws -> Observable<[Any]> {
+    return .create { observer in
+      observer.onNext([])
+      observer.onCompleted()
+      
+      return Disposables.create()
+    }
+  }
 
   open func load(params: Parameters) throws -> [Any] {
     return []

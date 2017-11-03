@@ -31,4 +31,5 @@ Pod::Spec.new do |s|
   s.dependency 'Files', '~> 1.9.0'
   s.dependency 'ConfigFile', '~> 1.0.1'
   s.dependency 'PageLoader', '~> 1.0.0'
+  s.dependency 'RxSwift', '~> 4.0.0'
 end
