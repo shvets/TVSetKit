@@ -1,5 +1,4 @@
 import Foundation
-import PageLoader
 
 open class Items {
   public var cellSelection: IndexPath?
