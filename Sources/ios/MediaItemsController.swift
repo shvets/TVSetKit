@@ -85,34 +85,38 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
 
-    func load() throws -> [Any] {
-      var newParams = Parameters()
-
-      for (key, value) in self.params {
-        newParams[key] = value
-      }
-
-      if let pageSize = newParams["pageSize"] as? Int {
-        self.pageLoader.pageSize = pageSize
-      }
-      else {
-        newParams["pageSize"] = self.pageLoader.pageSize
-      }
-
-      newParams["currentPage"] = self.pageLoader.currentPage
-      newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
-      newParams["historyManager"] = self.configuration?["historyManager"]
-
-      return try (self.dataSource?.loadAndWait(params: newParams))!
-    }
-
-    pageLoader.loadData(onLoad: load) { result in
+    pageLoader.loadData(onLoad: loadMediaItems) { result in
       if let items = result as? [Item] {
         self.items.items = items
       }
 
       self.collectionView?.reloadData()
     }
+  }
+
+  func loadMediaItems() throws -> [Any] {
+    var newParams = Parameters()
+
+    for (key, value) in self.params {
+      newParams[key] = value
+    }
+
+    if let pageSize = newParams["pageSize"] as? Int {
+      self.pageLoader.pageSize = pageSize
+    }
+    else {
+      newParams["pageSize"] = self.pageLoader.pageSize
+    }
+
+    newParams["currentPage"] = self.pageLoader.currentPage
+    newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
+    newParams["historyManager"] = self.configuration?["historyManager"]
+
+    if let dataSource = dataSource {
+      return try dataSource.loadAndWait(params: newParams)
+    }
+
+    return []
   }
 
   // MARK: UICollectionViewDataSource
@@ -128,7 +132,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
       if pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
-        pageLoader.loadData { result in
+        pageLoader.loadData(onLoad: loadMediaItems) { result in
           if let items = result as? [Item] {
             self.items.items += items
             
@@ -171,7 +175,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     if deltaOffset <= 1 { // approximately, close to zero
       if pageLoader.nextPageAvailable(dataCount: items.count, index: items.count-1) {
-        pageLoader.loadData { result in
+        pageLoader.loadData(onLoad: loadMediaItems) { result in
           if let items = result as? [Item] {
             self.items.items += items
 
