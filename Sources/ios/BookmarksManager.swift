@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 open class BookmarksManager {
   public var bookmarks: Bookmarks!

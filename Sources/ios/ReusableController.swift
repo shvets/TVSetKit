@@ -1,3 +1,5 @@
+import UIKit
+
 protocol ReusableController: class {}
 
 extension ReusableController where Self: UIViewController {

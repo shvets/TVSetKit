@@ -4,7 +4,6 @@ import AVKit
 
 open class VideoPlayerController: AVPlayerViewController, ReusableController {
   public static let SegueIdentifier = "Video Player"
-  //public static let StoryboardControllerId = "videoPlayerController"
   
   //class VideoPlayerController: UIViewController, AVPlayerViewControllerDelegate {
   
