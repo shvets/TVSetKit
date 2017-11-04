@@ -68,7 +68,6 @@ open class SearchController: UIViewController {
       case MediaItemsController.SegueIdentifier:
         if let destination = segue.destination.getActionController() as? MediaItemsController {
           destination.params["requestType"] = "Search"
-          destination.params["async"] = params["async"] as? Bool
 
           if localizer.getLocale() == "ru" && isChecked {
             let transcoded = LatToRusConverter().transliterate(query.text ?? "")

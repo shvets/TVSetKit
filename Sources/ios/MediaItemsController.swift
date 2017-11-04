@@ -103,17 +103,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       newParams["bookmarksManager"] = self.configuration?["bookmarksManager"]
       newParams["historyManager"] = self.configuration?["historyManager"]
 
-      if let async = params["async"] as? Bool, async == true {
-        return try (self.dataSource?.loadAndWait(params: newParams))!
-      }
-      else {
-        if let data = try self.dataSource?.load(params: newParams) {
-          return data
-        }
-        else {
-          return []
-        }
-      }
+      return try (self.dataSource?.loadAndWait(params: newParams))!
     }
 
     pageLoader.load = load
