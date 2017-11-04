@@ -8,7 +8,7 @@ open class DataSource {
 
     let semaphore = DispatchSemaphore.init(value: 0)
 
-    _ = try loadAsync(params: params).subscribe(onNext: { result in
+    _ = try load(params: params).subscribe(onNext: { result in
       items = result
 
       semaphore.signal()
@@ -19,7 +19,7 @@ open class DataSource {
     return items
   }
 
-  open func loadAsync(params: Parameters) throws -> Observable<[Any]> {
+  open func load(params: Parameters) throws -> Observable<[Any]> {
     return .create { observer in
       observer.onNext([])
       observer.onCompleted()
@@ -27,10 +27,6 @@ open class DataSource {
       return Disposables.create()
     }
   }
-
-//  open func load(params: Parameters) throws -> [Any] {
-//    return []
-//  }
 
   open func transform(_ items: [Any], transformer: (Any) -> Item) -> [Item] {
     var list = [Item]()
