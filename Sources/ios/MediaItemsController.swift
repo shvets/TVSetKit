@@ -106,9 +106,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       return try (self.dataSource?.loadAndWait(params: newParams))!
     }
 
-    pageLoader.load = load
-
-    pageLoader.loadData(onLoad: pageLoader.load) { result in
+    pageLoader.loadData(onLoad: load) { result in
       if let items = result as? [Item] {
         self.items.items = items
       }
