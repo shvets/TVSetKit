@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
     'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings,lproj}', ]
   }
 
-  s.dependency 'SwiftyJSON', '~> 3.1.4'
+  s.dependency 'SwiftyJSON', '~> 4.0.0'
   s.dependency 'Runglish', '~> 1.0.3'
   s.ios.dependency 'AudioPlayer', '~> 1.0.10'
   s.dependency 'Files', '~> 2.0.1'
