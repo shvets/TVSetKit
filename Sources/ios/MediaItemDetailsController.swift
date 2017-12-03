@@ -47,7 +47,7 @@ open class MediaItemDetailsController: UIViewController {
     var isMobile = false
     
     if let mobile = configuration?["mobile"] as? Bool {
-        isMobile = mobile
+      isMobile = mobile
     }
 
     playButtonsView.createPlayButtons(bitrates, mobile: isMobile)
@@ -59,7 +59,7 @@ open class MediaItemDetailsController: UIViewController {
         playButton.controller = self
 
         if isMobile {
-          let action = #selector(self.playMediaItem)
+          let action = #selector(self.playMediaItemAction)
 
           button.addTarget(self, action: action, for: .touchUpInside)
         }
@@ -146,35 +146,41 @@ open class MediaItemDetailsController: UIViewController {
 
   @objc func tapped(_ gesture: UITapGestureRecognizer) {
     if let sender = gesture.view {
-      playMediaItem(sender: sender)
+      playMediaItemAction(sender: sender)
     }
   }
 
-  @objc func playMediaItem(sender: UIView) {
+  @objc func playMediaItemAction(sender: UIView) {
+    if let view = playButtonsView {
+      let index = view.buttons.index(where: { $0 == sender as? UIButton })
+
+      if let index = index, let storyboardId = storyboardId {
+        MediaItemDetailsController.playMediaItem(mediaItem, parent: self, items: items,
+          storyboardId: storyboardId, index: index)
+      }
+    }
+  }
+
+  open static func playMediaItem(_ mediaItem: MediaItem, parent: UIViewController,
+    items: [Item], storyboardId: String, index: Int) {
     let controller = UIViewController.instantiate(
       controllerId: VideoPlayerController.reuseIdentifier,
-      storyboardId: storyboardId!,
+      storyboardId: storyboardId,
       bundle: Bundle.main
     )
 
-    if let destination = controller.getActionController() as? VideoPlayerController {
+    if let destination = controller as? VideoPlayerController {
       destination.playVideo = true
       destination.items = items
       destination.mediaItem = mediaItem
 
-      if let view = playButtonsView {
-        let index = view.buttons.index(where: { $0 == sender as? UIButton })
-
-        if let index = index {
-          func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
-            return mediaItem.getMediaUrl(index: index)
-          }
-            
-          destination.getMediaUrl = getMediaUrl
-        }
+      func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
+        return mediaItem.getMediaUrl(index: index)
       }
 
-      present(controller, animated: true, completion: nil)
+      destination.getMediaUrl = getMediaUrl
+
+      parent.present(controller, animated: true, completion: nil)
     }
   }
 

@@ -46,10 +46,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     title = getHeaderName()
 
     clearsSelectionOnViewWillAppear = false
-
+    
 #if os(iOS)
-    let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
-    collectionView?.addGestureRecognizer(longPressRecognizer)
+    if let collectionView = collectionView {
+      registerGestures(collectionView)
+    }
 #endif
     
     collectionView?.backgroundView = activityIndicatorView
@@ -125,7 +126,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return items.count
   }
-
+  
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
       if pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
@@ -143,23 +144,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       cell.configureCell(item: item, localizedName: localizer.getLocalizedName(item.name))
 
 #if os(tvOS)
-      let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
-
-      longPressGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
-
-      cell.addGestureRecognizer(longPressGesture)
-
-      let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
-      doubleTapGesture.numberOfTapsRequired = 2
-
-      cell.addGestureRecognizer(doubleTapGesture)
-  
-      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
-      tapGesture.require(toFail: doubleTapGesture)
-  
-      tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
-  
-      cell.addGestureRecognizer(tapGesture)
+        registerGestures(cell)
 #endif
 
       if !mobile,
@@ -198,12 +183,27 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
 #if os(iOS)
+  func registerGestures(_ view: UIView) {
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
 
-  override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    if let location = collectionView.cellForItem(at: indexPath) {
-      navigate(from: location)
-    }
+    view.addGestureRecognizer(longPressGesture)
+
+    let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
+    doubleTapGesture.numberOfTapsRequired = 2
+
+    view.addGestureRecognizer(doubleTapGesture)
+
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
+    tapGesture.require(toFail: doubleTapGesture)
+
+    view.addGestureRecognizer(tapGesture)
   }
+
+//  override open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//    if let location = collectionView.cellForItem(at: indexPath) {
+//      navigate(from: location)
+//    }
+//  }
 
   // MARK: UICollectionViewDataSource
 
@@ -222,14 +222,44 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
   }
 
-  @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
+  @objc func tapped(_ gesture: UITapGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended,
-       let collectionView = collectionView {
+      let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
 
       if let indexPath = collectionView.indexPathForItem(at: point) {
         items.cellSelection = indexPath
 
+        if let location = collectionView.cellForItem(at: indexPath) {
+          navigate(from: location, playImmediately: true)
+        }
+      }
+    }
+  }
+  
+  @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
+    if gesture.state == UIGestureRecognizerState.ended,
+      let collectionView = collectionView {
+      let point = gesture.location(in: collectionView)
+      
+      if let indexPath = collectionView.indexPathForItem(at: point) {
+        items.cellSelection = indexPath
+        
+        if let location = collectionView.cellForItem(at: indexPath) {
+          navigate(from: location, playImmediately: false)
+        }
+      }
+    }
+  }
+  
+  @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
+    if gesture.state == UIGestureRecognizerState.ended,
+      let collectionView = collectionView {
+      let point = gesture.location(in: collectionView)
+      
+      if let indexPath = collectionView.indexPathForItem(at: point) {
+        items.cellSelection = indexPath
+        
         processBookmark()
       }
     }
@@ -237,6 +267,26 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 #endif
 
 #if os(tvOS)
+  func registerGestures(_ view: UIView) {
+    let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
+
+    longPressGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
+
+    view.addGestureRecognizer(longPressGesture)
+
+    let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
+    doubleTapGesture.numberOfTapsRequired = 2
+
+    view.addGestureRecognizer(doubleTapGesture)
+
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
+    tapGesture.require(toFail: doubleTapGesture)
+
+    tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
+
+    view.addGestureRecognizer(tapGesture)
+  }
+  
   @objc func tapped(_ gesture: UITapGestureRecognizer) {
     if let location = gesture.view as? UICollectionViewCell {
       navigate(from: location, playImmediately: true)
@@ -253,18 +303,17 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
     if let location = gesture.view as? UICollectionViewCell,
-       let indexPath = collectionView?.indexPath(for: location),
-       let mediaItem = items.getItem(for: indexPath) as? MediaItem {
+      let indexPath = collectionView?.indexPath(for: location),
+      let mediaItem = items.getItem(for: indexPath) as? MediaItem {
       items.cellSelection = indexPath
-  
+    
       navigationItem.title = mediaItem.name
-
+    
       processBookmark()
     }
   }
-  
 #endif
-
+  
   open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
     if let indexPath = collectionView?.indexPath(for: view),
        let mediaItem = items.getItem(for: indexPath) as? MediaItem {
@@ -274,7 +323,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
       else {
         if playImmediately {
-          performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+          //performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+          MediaItemDetailsController.playMediaItem(mediaItem, parent: self, items: items.items, storyboardId: storyboardId!, index: 0)
         }
         else {
           performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
@@ -360,18 +410,18 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
             destination.configuration = configuration
           }
 
-        case VideoPlayerController.SegueIdentifier:
-          if let destination = segue.destination as? VideoPlayerController {
-            destination.playVideo = true
-            destination.items = items.items
-            destination.mediaItem = mediaItem
-
-            func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
-              return mediaItem.getMediaUrl(index: 0)
-            }
-
-            destination.getMediaUrl = getMediaUrl
-          }
+//        case VideoPlayerController.SegueIdentifier:
+//          if let destination = segue.destination as? VideoPlayerController {
+//            destination.playVideo = true
+//            destination.items = items.items
+//            destination.mediaItem = mediaItem
+//
+//            func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
+//              return mediaItem.getMediaUrl(index: 0)
+//            }
+//
+//            destination.getMediaUrl = getMediaUrl
+//          }
         default: break
         }
       }

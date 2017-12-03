@@ -7,7 +7,7 @@ class PlayButton: UIButton {
   override func pressesBegan(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
     for item in presses {
       if item.type == .select {
-        controller?.playMediaItem(sender: self)
+        controller?.playMediaItemAction(sender: self)
       }
     }
   }
