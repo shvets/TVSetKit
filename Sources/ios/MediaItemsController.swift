@@ -5,10 +5,7 @@ extension MediaItemCell: ReusableView { }
 
 open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ReusableController {
   open static let SegueIdentifier = "Media Items"
-  //open static let StoryboardControllerId = "MediaItemsController"
   static let BundleId = "com.rubikon.TVSetKit"
-
-  //let CellIdentifier = "MediaItemCell"
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
@@ -54,7 +51,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
     collectionView?.addGestureRecognizer(longPressRecognizer)
 #endif
-
+    
     collectionView?.backgroundView = activityIndicatorView
 
     pageLoader.enablePagination()
@@ -146,9 +143,23 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       cell.configureCell(item: item, localizedName: localizer.getLocalizedName(item.name))
 
 #if os(tvOS)
-      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .select)
+      let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
 
-      CellHelper.shared.addTapGestureRecognizer(view: cell, target: self, action: #selector(self.tapped(_:)), pressType: .playPause)
+      longPressGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
+
+      cell.addGestureRecognizer(longPressGesture)
+
+      let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(self.doubleTapPressed(_:)))
+      doubleTapGesture.numberOfTapsRequired = 2
+
+      cell.addGestureRecognizer(doubleTapGesture)
+  
+      let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
+      tapGesture.require(toFail: doubleTapGesture)
+  
+      tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
+  
+      cell.addGestureRecognizer(tapGesture)
 #endif
 
       if !mobile,
@@ -226,17 +237,32 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 #endif
 
 #if os(tvOS)
-  @objc open func tapped(_ gesture: UITapGestureRecognizer) {
-    var playImmediately = false
-
-    if gesture.allowedPressTypes.contains(NSNumber(value: UIPressType.playPause.rawValue)) {
-      playImmediately = true
-    }
-
+  @objc func tapped(_ gesture: UITapGestureRecognizer) {
     if let location = gesture.view as? UICollectionViewCell {
-      navigate(from: location, playImmediately: playImmediately)
+      navigate(from: location, playImmediately: true)
     }
   }
+  
+  @objc func longPressed(_ gesture: UITapGestureRecognizer) {
+    if gesture.state == UIGestureRecognizerState.ended {
+      if let location = gesture.view as? UICollectionViewCell {
+        navigate(from: location, playImmediately: false)
+      }
+    }
+  }
+
+  @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
+    if let location = gesture.view as? UICollectionViewCell,
+       let indexPath = collectionView?.indexPath(for: location),
+       let mediaItem = items.getItem(for: indexPath) as? MediaItem {
+      items.cellSelection = indexPath
+  
+      navigationItem.title = mediaItem.name
+
+      processBookmark()
+    }
+  }
+  
 #endif
 
   open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
@@ -405,20 +431,6 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     return name
   }
-
-#if os(tvOS)
-  override open func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-    items.cellSelection = indexPath
-
-    let item = items[indexPath.row]
-
-    navigationItem.title = item.name
-
-    processBookmark()
-
-    return true
-  }
-#endif
 
   func processBookmark() {
     if let selectedItem = items.getSelectedItem() as? MediaItem {
