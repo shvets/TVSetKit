@@ -10,6 +10,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
 
   public var pageLoader = PageLoader()
+
+  var newMediaItemIndex = -1
   
   public var bookmarksManager: BookmarksManager?
   public var historyManager: HistoryManager?
@@ -40,13 +42,20 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   public var items = Items()
 
+  required public init(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)!
+
+    let nc = NotificationCenter.default
+    nc.addObserver(self, selector: #selector(changeSelectedItem), name: NSNotification.Name(rawValue: "mediaItem"), object: nil)
+  }
+
   override open func viewDidLoad() {
     super.viewDidLoad()
 
     title = getHeaderName()
 
-    clearsSelectionOnViewWillAppear = false
-    
+    restoresFocusAfterTransition = false
+
 #if os(iOS)
     if let collectionView = collectionView {
       registerGestures(collectionView)
@@ -92,6 +101,27 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
   }
 
+  @objc func changeSelectedItem(notification:NSNotification) {
+    let userInfo:Dictionary<String,String> = notification.userInfo as! Dictionary<String, String>
+
+    let id = userInfo["id"]! as String
+
+    if let index = items.items.index(where: { $0.id == id }) {
+      newMediaItemIndex = index
+    }
+  }
+
+  override open var preferredFocusEnvironments: [UIFocusEnvironment] {
+    let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
+    
+    if let cell = collectionView?.cellForItem(at: indexPath) {
+      return [cell]
+    }
+    else {
+      return []
+    }
+  }
+  
   func loadMediaItems() throws -> [Any] {
     var newParams = Parameters()
 

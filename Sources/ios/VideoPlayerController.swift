@@ -18,12 +18,15 @@ open class VideoPlayerController: AVPlayerViewController, ReusableController {
   var playVideo: Bool = false
   var items: [Item] = []
   var mediaItem: Item?
+  var originalMediaItem: Item?
   
   var getMediaUrl: ((MediaItem) throws -> URL?)!
   
   override open func viewDidLoad() {
     super.viewDidLoad()
-    
+
+    originalMediaItem = mediaItem
+
     navigator = MediaItemsNavigator(items)
     
     #if os(tvOS)
@@ -44,6 +47,19 @@ open class VideoPlayerController: AVPlayerViewController, ReusableController {
     if playVideo {
       play()
     }
+  }
+  
+  override open func viewWillDisappear(_ animated: Bool) {
+    if let mediaItem = mediaItem, let originalMediaItem = originalMediaItem,
+      mediaItem.id != originalMediaItem.id {
+      notifyMediaItemChange()
+    }
+  }
+
+  func notifyMediaItemChange() {
+    let nc = NotificationCenter.default
+
+    nc.post(name: NSNotification.Name(rawValue: "mediaItem"), object: nil, userInfo: ["id" : mediaItem!.id])
   }
   
   @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
