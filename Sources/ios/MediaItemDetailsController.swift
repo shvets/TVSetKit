@@ -173,6 +173,7 @@ open class MediaItemDetailsController: UIViewController {
       destination.playVideo = true
       destination.items = items
       destination.mediaItem = mediaItem
+      destination.receiver = parent
 
       func getMediaUrl(_ mediaItem: MediaItem) throws -> URL? {
         return mediaItem.getMediaUrl(index: index)

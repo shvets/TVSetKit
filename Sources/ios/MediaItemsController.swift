@@ -12,6 +12,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   public var pageLoader = PageLoader()
 
   var newMediaItemIndex = -1
+  var receiver: UIViewController?
   
   public var bookmarksManager: BookmarksManager?
   public var historyManager: HistoryManager?
@@ -101,24 +102,53 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     }
   }
 
+  override open func viewWillDisappear(_ animated: Bool) {
+    if let mediaItem = params["selectedItem"] as? Item {
+      notifyMediaItemChange(mediaItem)
+    }
+  }
+
+  func notifyMediaItemChange(_ mediaItem: Item) {
+    let nc = NotificationCenter.default
+
+    nc.post(name: NSNotification.Name(
+      rawValue: "mediaItem"),
+      object: nil,
+      userInfo: [
+        "id" : mediaItem.id as Any,
+        "receiver": receiver as Any
+      ])
+  }
+
   @objc func changeSelectedItem(notification:NSNotification) {
-    let userInfo:Dictionary<String,String> = notification.userInfo as! Dictionary<String, String>
+    if let userInfo = notification.userInfo as? Dictionary<String, Any>,
+      let id = userInfo["id"] as? String,
+      let receiver = userInfo["receiver"] as? UIViewController {
 
-    let id = userInfo["id"]! as String
-
-    if let index = items.items.index(where: { $0.id == id }) {
-      newMediaItemIndex = index
+      if receiver == self, let index = items.items.index(where: { $0.id == id }) {
+        newMediaItemIndex = index
+      }
     }
   }
 
   override open var preferredFocusEnvironments: [UIFocusEnvironment] {
-    let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
-    
-    if let cell = collectionView?.cellForItem(at: indexPath) {
-      return [cell]
+    if newMediaItemIndex == -1 {
+      return []
     }
     else {
-      return []
+      let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
+
+      collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
+
+      newMediaItemIndex = -1
+
+      //if let cell = collectionView?.cellForItem(at: indexPath) {
+      if let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
+        return [cell]
+      }
+      else {
+        return []
+      }
     }
   }
   
@@ -376,6 +406,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       destination.params["parentId"] = mediaItem.id
       destination.params["parentName"] = mediaItem.name
       destination.params["isContainer"] = true
+      destination.receiver = self
 
       if !mobile {
         if let layout = configuration?["buildLayout"] {
@@ -423,7 +454,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
                 destination.params[key] = value
               }
             }
-            
+
+            destination.receiver = self
             destination.configuration = configuration
 
             if !mobile, let layout = configuration?["buildLayout"] as? UICollectionViewLayout {
