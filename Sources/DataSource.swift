@@ -12,6 +12,8 @@ open class DataSource {
       items = result
 
       semaphore.signal()
+    }, onError: { (error) -> Void in
+      print(error)
     })
 
     _ = semaphore.wait(timeout: DispatchTime.distantFuture)

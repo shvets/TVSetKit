@@ -13,7 +13,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   var newMediaItemIndex = -1
   var receiver: UIViewController?
-  
+
   public var bookmarksManager: BookmarksManager?
   public var historyManager: HistoryManager?
   public var dataSource: DataSource?
@@ -62,7 +62,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       registerGestures(collectionView)
     }
 #endif
-    
+
     collectionView?.backgroundView = activityIndicatorView
 
     pageLoader.enablePagination()
@@ -125,33 +125,36 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       let id = userInfo["id"] as? String,
       let receiver = userInfo["receiver"] as? UIViewController {
 
-      if receiver == self, let index = items.items.index(where: { $0.id == id }) {
-        newMediaItemIndex = index
+      if receiver == self {
+        if let index = items.items.index(where: { $0.id == id }) {
+          newMediaItemIndex = index
+        }
+        else {
+          newMediaItemIndex = 1
+        }
       }
     }
   }
 
   override open var preferredFocusEnvironments: [UIFocusEnvironment] {
-    if newMediaItemIndex == -1 {
-      return []
-    }
-    else {
+    var selection: [UIView] = []
+
+    if newMediaItemIndex >= 0 {
       let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
 
       collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
 
       newMediaItemIndex = -1
 
-      //if let cell = collectionView?.cellForItem(at: indexPath) {
-      if let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
-        return [cell]
-      }
-      else {
-        return []
+      if let cell = collectionView?.cellForItem(at: indexPath) {
+      //if let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
+        selection = [cell]
       }
     }
+
+    return selection
   }
-  
+
   func loadMediaItems() throws -> [Any] {
     var newParams = Parameters()
 
@@ -186,14 +189,14 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   override open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return items.count
   }
-  
+
   override open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
       if pageLoader.nextPageAvailable(dataCount: items.count, index: indexPath.row) {
         pageLoader.loadData(onLoad: loadMediaItems) { result in
           if let items = result as? [Item] {
             self.items.items += items
-            
+
             self.collectionView?.reloadData()
           }
         }
@@ -296,30 +299,30 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       }
     }
   }
-  
+
   @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended,
       let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
-      
+
       if let indexPath = collectionView.indexPathForItem(at: point) {
         items.cellSelection = indexPath
-        
+
         if let location = collectionView.cellForItem(at: indexPath) {
           navigate(from: location, playImmediately: false)
         }
       }
     }
   }
-  
+
   @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended,
       let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
-      
+
       if let indexPath = collectionView.indexPathForItem(at: point) {
         items.cellSelection = indexPath
-        
+
         processBookmark()
       }
     }
@@ -346,13 +349,13 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
     view.addGestureRecognizer(tapGesture)
   }
-  
+
   @objc func tapped(_ gesture: UITapGestureRecognizer) {
     if let location = gesture.view as? UICollectionViewCell {
       navigate(from: location, playImmediately: true)
     }
   }
-  
+
   @objc func longPressed(_ gesture: UITapGestureRecognizer) {
     if gesture.state == UIGestureRecognizerState.ended {
       if let location = gesture.view as? UICollectionViewCell {
@@ -366,14 +369,14 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       let indexPath = collectionView?.indexPath(for: location),
       let mediaItem = items.getItem(for: indexPath) as? MediaItem {
       items.cellSelection = indexPath
-    
+
       navigationItem.title = mediaItem.name
-    
+
       processBookmark()
     }
   }
 #endif
-  
+
   open func navigate(from view: UICollectionViewCell, playImmediately: Bool=false) {
     if let indexPath = collectionView?.indexPath(for: view),
        let mediaItem = items.getItem(for: indexPath) as? MediaItem {
@@ -427,8 +430,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     if let identifier = segue.identifier,
        let selectedCell = sender as? MediaItemCell {
 
-      if let indexPath = collectionView?.indexPath(for: selectedCell) {
-        let mediaItem = items[indexPath.row] as! MediaItem
+      if let indexPath = collectionView?.indexPath(for: selectedCell),
+         let mediaItem = items[indexPath.row] as? MediaItem {
 
         switch identifier {
         case MediaItemsController.SegueIdentifier:

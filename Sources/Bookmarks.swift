@@ -84,7 +84,7 @@ open class Bookmarks {
       items = try decoder.decode([BookmarkItem].self, from: data)
     }
     catch let e {
-      print("Error: \(e)")
+      print("Error loading: \(e)")
     }
   }
 
@@ -95,7 +95,7 @@ open class Bookmarks {
       try FileSystem().createFile(at: fileName, contents: data)
     }
     catch let e {
-      print("Error: \(e)")
+      print("Error saving: \(e)")
     }
   }
 
