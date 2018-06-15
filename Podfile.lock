@@ -9,16 +9,16 @@ PODS:
   - PageLoader (1.0.9)
   - Runglish (1.0.3)
   - RxSwift (4.0.0)
-  - SwiftyJSON (3.1.4)
+  - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
-  - AudioPlayer (~> 1.0.9)
+  - AudioPlayer (~> 1.0.10)
   - ConfigFile (~> 1.1.0)
   - Files (~> 2.0.1)
   - PageLoader (~> 1.0.9)
   - Runglish (~> 1.0.3)
   - RxSwift (~> 4.0.0)
-  - SwiftyJSON (~> 3.1.4)
+  - SwiftyJSON (~> 4.0.0)
 
 SPEC CHECKSUMS:
   AudioPlayer: 9230d8fb033a20957260a76e4e1dd521794191a3
@@ -27,7 +27,7 @@ SPEC CHECKSUMS:
   PageLoader: 221e34bbfe51be6331cdc5e4c54529ea37b421a0
   Runglish: 75ef074b2251278c4c91912521672417d7b8f518
   RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
 PODFILE CHECKSUM: 0da5e4341d3e6678d876109a8a7930a0ca452c72
 
