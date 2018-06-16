@@ -74,6 +74,42 @@ open class MediaItemDetailsController: UIViewController {
       }
     }
 
+//    let width = playButtonsView.createPlayButtons(bitrates, mobile: isMobile)
+//    playButtonsView.createEmailButton(width: width, mobile: isMobile)
+//
+//    if let view = playButtonsView {
+//      for button in view.buttons {
+//        if let playButton = button as? PlayButton {
+//          playButton.controller = self
+//
+//          if isMobile {
+//            let action = #selector(self.playMediaItemAction)
+//
+//            button.addTarget(self, action: action, for: .touchUpInside)
+//          }
+//          else {
+//            let action = #selector(self.tapped(_:))
+//            let tapGesture = UITapGestureRecognizer(target: self, action: action)
+//
+//            tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
+//
+//            button.addGestureRecognizer(tapGesture)
+//          }
+//        }
+//        else {
+//          let emailButton = button
+//
+//          let count = view.buttons.count
+//
+//          for index in 0..<count-1 {
+//            if let url = mediaItem.getMediaUrl(index: index) {
+//              print(url)
+//            }
+//          }
+//        }
+//      }
+//    }
+
     if let requestType = params["requestType"] as? String, requestType != "History" {
       historyManager?.addHistoryItem(mediaItem)
     }

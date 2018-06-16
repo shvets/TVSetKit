@@ -142,7 +142,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     if newMediaItemIndex >= 0 {
       let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
 
-      collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
+      // collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
 
       newMediaItemIndex = -1
 
