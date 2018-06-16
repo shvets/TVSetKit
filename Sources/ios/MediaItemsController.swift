@@ -387,6 +387,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       else {
         if playImmediately {
           //performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
+          historyManager?.addHistoryItem(mediaItem)
           MediaItemDetailsController.playMediaItem(mediaItem, parent: self, items: items.items, storyboardId: storyboardId!, index: 0)
         }
         else {

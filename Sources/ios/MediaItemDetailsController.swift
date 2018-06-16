@@ -110,7 +110,12 @@ open class MediaItemDetailsController: UIViewController {
 //      }
 //    }
 
-    if let requestType = params["requestType"] as? String, requestType != "History" {
+    if let requestType = params["requestType"] as? String {
+      if  requestType != "History" {
+        historyManager?.addHistoryItem(mediaItem)
+      }
+    }
+    else {
       historyManager?.addHistoryItem(mediaItem)
     }
 
