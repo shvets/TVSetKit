@@ -96,6 +96,10 @@ open class SearchTableController: UIViewController, UITextFieldDelegate {
               destination.params["query"] = query.text
             }
 
+            if let pageSize = self.params["pageSize"] {
+              destination.params["pageSize"] = pageSize
+            }
+
             destination.configuration = configuration
           }
 
