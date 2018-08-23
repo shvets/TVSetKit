@@ -10,7 +10,7 @@ def project_dependencies
 end
 
 target 'TVSetKit_iOS' do
-  platform :ios, '10.0'
+  platform :ios, '10.11'
 
   podspec :path => 'TVSetKit.podspec'
 
@@ -20,7 +20,7 @@ target 'TVSetKit_iOS' do
 end
 
 target 'TVSetKit_tvOS' do
-  platform :tvos, '10.10'
+  platform :tvos, '10.11'
 
   podspec :path => 'TVSetKit.podspec'
 
@@ -30,7 +30,7 @@ target 'TVSetKit_tvOS' do
 end
 
 target 'TVSetKit_macOS' do
-  platform :osx, '10.10'
+  platform :osx, '10.11'
 
   podspec :path => 'TVSetKit.podspec'
 
