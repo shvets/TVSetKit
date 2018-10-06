@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TVSetKit"
-  s.version      = "1.0.19"
+  s.version      = "1.0.20"
   s.summary      = "Framework for representing movies as collection and playing them"
   s.description  = "Framework for representing movies as collection and playing them."
 
@@ -31,5 +31,5 @@ Pod::Spec.new do |s|
   s.dependency 'Files', '~> 2.0.1'
   s.dependency 'ConfigFile', '~> 1.1.0'
   s.dependency 'PageLoader', '~> 1.0.9'
-  s.dependency 'RxSwift', '~> 4.2.0'
+  s.dependency 'RxSwift', '~> 4.3.1'
 end

@@ -50,7 +50,7 @@ open class MediaItemDetailsController: UIViewController {
       isMobile = mobile
     }
 
-    playButtonsView.createPlayButtons(bitrates, mobile: isMobile)
+    _ = playButtonsView.createPlayButtons(bitrates, mobile: isMobile)
 
     if let view = playButtonsView {
       for button in view.buttons {
@@ -202,7 +202,7 @@ open class MediaItemDetailsController: UIViewController {
     }
   }
 
-  open static func playMediaItem(_ mediaItem: MediaItem, parent: UIViewController,
+  public static func playMediaItem(_ mediaItem: MediaItem, parent: UIViewController,
     items: [Item], storyboardId: String, index: Int) {
     let controller = UIViewController.instantiate(
       controllerId: VideoPlayerController.reuseIdentifier,

@@ -4,7 +4,7 @@ import PageLoader
 extension MediaItemCell: ReusableView { }
 
 open class MediaItemsController: UICollectionViewController, UICollectionViewDelegateFlowLayout, ReusableController {
-  open static let SegueIdentifier = "Media Items"
+  public static let SegueIdentifier = "Media Items"
   static let BundleId = "com.rubikon.TVSetKit"
 
   var HeaderViewIdentifier: String { return "MediaItemsHeader" }
