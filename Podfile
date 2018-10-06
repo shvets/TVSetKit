@@ -29,14 +29,14 @@ target 'TVSetKit_tvOS' do
   end
 end
 
-target 'TVSetKit_macOS' do
-  platform :osx, '10.11'
-
-  podspec :path => 'TVSetKit.podspec'
-
-  project_dependencies
-
-  target 'TVSetKit_macOSTests' do
-    inherit! :search_paths
-  end
-end
+# target 'TVSetKit_macOS' do
+#   platform :osx, '10.11'
+#
+#   podspec :path => 'TVSetKit.podspec'
+#
+#   project_dependencies
+#
+#   target 'TVSetKit_macOSTests' do
+#     inherit! :search_paths
+#   end
+# end

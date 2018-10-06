@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4' }
 
   s.ios.deployment_target = "10.0"
-  s.osx.deployment_target = "10.10"
+  #s.osx.deployment_target = "10.10"
   s.tvos.deployment_target = "10.0"
   #s.watchos.deployment_target = "2.0"
 
@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.source_files = "Sources/*.swift"
   s.ios.source_files = "Sources/ios/**/*.swift"
   s.tvos.source_files = "Sources/ios/**/*.swift"
-  s.osx.source_files = "Sources/macos/**/*.swift"
+  #s.osx.source_files = "Sources/macos/**/*.swift"
 
   s.resource_bundles = {
     'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings,lproj}', ]
