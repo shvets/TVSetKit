@@ -26,7 +26,6 @@
 		FAB327DF1F978E7500925755 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB327DD1F978E7500925755 /* Configuration.swift */; };
 		FAB6FCAA1FAE27EE0086F458 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB6FCA91FAE27EE0086F458 /* Items.swift */; };
 		FAB6FCAB1FAE27F60086F458 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB6FCA91FAE27EE0086F458 /* Items.swift */; };
-		FAB6FCAC1FAE27F80086F458 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAB6FCA91FAE27EE0086F458 /* Items.swift */; };
 		FAC054631FA8B64700F246CB /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054621FA8B64700F246CB /* ReusableView.swift */; };
 		FAC054651FA8B6F200F246CB /* ReusableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054641FA8B6F200F246CB /* ReusableController.swift */; };
 		FAC054661FA8B87C00F246CB /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC054621FA8B64700F246CB /* ReusableView.swift */; };
@@ -947,7 +946,6 @@
 				FAD326151FA801FE000226D4 /* Item.swift in Sources */,
 				FAD326011FA79AF1000226D4 /* Files-extension.swift in Sources */,
 				FAD3261B1FA801FE000226D4 /* MediaName.swift in Sources */,
-				FAB6FCAC1FAE27F80086F458 /* Items.swift in Sources */,
 				FAD326241FA80209000226D4 /* Configuration.swift in Sources */,
 				FAD326161FA801FE000226D4 /* Bookmarks.swift in Sources */,
 				FAD326171FA801FE000226D4 /* History.swift in Sources */,

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "TVSetKit"
-  s.version      = "1.0.22"
+  s.version      = "1.0.23"
   s.summary      = "Framework for representing movies as collection and playing them"
   s.description  = "Framework for representing movies as collection and playing them."
 
