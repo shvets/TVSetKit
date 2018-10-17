@@ -21,7 +21,8 @@ open class VideoPlayerController: AVPlayerViewController, ReusableController {
   var receiver: UIViewController?
   
   var getMediaUrl: ((MediaItem) throws -> URL?)!
-  
+  var getRequestHeaders: ((MediaItem) -> [String : String])!
+
   override open func viewDidLoad() {
     super.viewDidLoad()
 
@@ -155,10 +156,14 @@ open class VideoPlayerController: AVPlayerViewController, ReusableController {
       }
       else {
         description = name
-      }      
-      
-      let asset = AVAsset(url: url)
-      
+      }
+
+      let headers = getRequestHeaders(mediaItem as! MediaItem)
+
+      print(headers)
+
+      let asset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
+
       let playerItem = AVPlayerItem(asset: asset)
       
       #if os(tvOS)

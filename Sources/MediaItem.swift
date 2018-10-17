@@ -195,6 +195,10 @@ open class MediaItem: MediaName {
     return nil
   }
 
+  open func getRequestHeaders() -> [String: String] {
+    return [:]
+  }
+
   open func getUrl(_ bitrate: [String: String]) throws -> String? {
     return bitrate["url"]
   }

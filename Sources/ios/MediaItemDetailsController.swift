@@ -220,7 +220,12 @@ open class MediaItemDetailsController: UIViewController {
         return mediaItem.getMediaUrl(index: index)
       }
 
+      func getRequestHeaders(_ mediaItem: MediaItem) -> [String: String] {
+        return mediaItem.getRequestHeaders()
+      }
+
       destination.getMediaUrl = getMediaUrl
+      destination.getRequestHeaders = getRequestHeaders
 
       parent.present(controller, animated: true, completion: nil)
     }
