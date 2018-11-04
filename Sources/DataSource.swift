@@ -49,5 +49,17 @@ open class DataSource {
         
     return list
   }
+
+  open func paginated(items: [Any], currentPage: Int, pageSize: Int) -> [Any] {
+    var paginated: [Any] = []
+
+    for (index, item) in items.enumerated() {
+      if index >= (currentPage - 1) * pageSize && index < currentPage * pageSize {
+        paginated.append(item)
+      }
+    }
+
+    return paginated
+  }
 }
 
