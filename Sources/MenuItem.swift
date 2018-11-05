@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-struct MenuItem {
-  let name: String?
-  let imageName: String?
+public struct MenuItem {
+  public let name: String?
+  public let imageName: String?
 }
