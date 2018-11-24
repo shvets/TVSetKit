@@ -158,11 +158,12 @@ open class VideoPlayerController: AVPlayerViewController, ReusableController {
         description = name
       }
 
-      let headers = getRequestHeaders(mediaItem as! MediaItem)
+//      let headers = getRequestHeaders(mediaItem as! MediaItem)
+//
+//      print(headers)
 
-      print(headers)
-
-      let asset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
+      let asset = AVURLAsset(url: url)
+      //, options: ["AVURLAssetHTTPHeaderFieldsKey": headers])
 
       let playerItem = AVPlayerItem(asset: asset)
       
