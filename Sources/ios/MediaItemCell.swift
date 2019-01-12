@@ -8,7 +8,11 @@ open class MediaItemCell: UICollectionViewCell {
     if let item = item as? MediaItem {
       self.title.text = item.getDetailedName()
       
-      CellHelper.shared.loadImage(path: item.getPosterPath(), name: localizedName, imageView: thumb)
+      let path = item.getPosterPath()
+      
+      if !path.isEmpty {
+         CellHelper.shared.loadImage(path: path, name: localizedName, imageView: thumb)
+      }
     }
   }
 

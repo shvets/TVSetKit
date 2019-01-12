@@ -32,6 +32,7 @@ open class Localizer {
 
   public func setLocale(langCode: String) {
     config.items["langCode"] = langCode
+    
     do {
       try config.save()
     }
@@ -39,7 +40,7 @@ open class Localizer {
       print("Error saving configuration: \(error)")
     }
   }
-
+  
   public func getLocale() -> String {
     var locale = Localizer.DefaultLocale
 
@@ -57,6 +58,36 @@ open class Localizer {
     }
 
     return locale
+  }
+  
+  public func setOffset(offset: Int) {
+    config.items["offset"] = String(offset)
+    
+    do {
+      try config.save()
+    }
+    catch let error {
+      print("Error saving configuration: \(error)")
+    }
+  }
+
+  public func getOffset() -> Int {
+    var newOffset = 0
+    
+    do {
+      if config.exists() {
+        try config.load()
+      }
+    }
+    catch let error {
+      print("Error loading configuration: \(error)")
+    }
+    
+    if let offset = config.items["offset"] {
+      newOffset = Int(offset)!
+    }
+    
+    return newOffset
   }
 
   public func localize(_ key: String, comment: String = "") -> String {
