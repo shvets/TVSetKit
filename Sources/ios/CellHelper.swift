@@ -8,7 +8,7 @@ open class CellHelper {
     return CellHelper()
   }()
   
-  public func addTapGestureRecognizer(view: UIView, target: Any?, action: Selector?, pressType: UIPressType = .select) {
+  public func addTapGestureRecognizer(view: UIView, target: Any?, action: Selector?, pressType: UIPress.PressType = .select) {
     let tapGesture = UITapGestureRecognizer(target: target, action: action)
 
     tapGesture.allowedPressTypes = [NSNumber(value: pressType.rawValue)]

@@ -128,7 +128,7 @@ open class Bookmarks {
   }
 
   public func removeBookmark(id: String, type: String="bookmark") -> Bool {
-    if let index = items.index(where: {$0.item.id == id && $0.type == type}) {
+    if let index = items.firstIndex(where: {$0.item.id == id && $0.type == type}) {
       items.remove(at: index)
 
       save()

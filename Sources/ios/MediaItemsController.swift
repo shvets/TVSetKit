@@ -31,7 +31,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   let localizer = Localizer(MediaItemsController.BundleId, bundleClass: TVSetKit.self)
 
 #if os(iOS)
-  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+  public let activityIndicatorView = UIActivityIndicatorView(style: .gray)
 #endif
 
 #if os(tvOS)
@@ -126,7 +126,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       let receiver = userInfo["receiver"] as? UIViewController {
 
       if receiver == self {
-        if let index = items.items.index(where: { $0.id == id }) {
+        if let index = items.items.firstIndex(where: { $0.id == id }) {
           newMediaItemIndex = index
         }
         else {
@@ -286,7 +286,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
   @objc func tapped(_ gesture: UITapGestureRecognizer) {
-    if gesture.state == UIGestureRecognizerState.ended,
+    if gesture.state == UIGestureRecognizer.State.ended,
       let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
 
@@ -301,7 +301,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
   @objc func longPressed(_ gesture: UILongPressGestureRecognizer) {
-    if gesture.state == UIGestureRecognizerState.ended,
+    if gesture.state == UIGestureRecognizer.State.ended,
       let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
 
@@ -316,7 +316,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
   @objc func doubleTapPressed(_ gesture: UITapGestureRecognizer) {
-    if gesture.state == UIGestureRecognizerState.ended,
+    if gesture.state == UIGestureRecognizer.State.ended,
       let collectionView = collectionView {
       let point = gesture.location(in: collectionView)
 

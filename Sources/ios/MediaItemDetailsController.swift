@@ -67,7 +67,7 @@ open class MediaItemDetailsController: UIViewController {
           let action = #selector(self.tapped(_:))
           let tapGesture = UITapGestureRecognizer(target: self, action: action)
 
-          tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.playPause.rawValue)]
+          tapGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.playPause.rawValue)]
 
           button.addGestureRecognizer(tapGesture)
         }
@@ -193,7 +193,7 @@ open class MediaItemDetailsController: UIViewController {
 
   @objc func playMediaItemAction(sender: UIView) {
     if let view = playButtonsView {
-      let index = view.buttons.index(where: { $0 == sender as? UIButton })
+      let index = view.buttons.firstIndex(where: { $0 == sender as? UIButton })
 
       if let index = index, let storyboardId = storyboardId {
         MediaItemDetailsController.playMediaItem(mediaItem, parent: self, items: items,

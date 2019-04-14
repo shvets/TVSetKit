@@ -38,7 +38,7 @@ open class SearchController: UIViewController {
     searchButton.setTitle(localizer.localize(searchButton.title(for: .normal) ?? ""), for: .normal)
     query.placeholder = localizer.localize(query.placeholder ?? "")
 
-    query.addTarget(self, action: #selector(self.textFieldDidChange(textField:)), for: UIControlEvents.editingChanged)
+    query.addTarget(self, action: #selector(self.textFieldDidChange(textField:)), for: UIControl.Event.editingChanged)
 
     if localizer.getLocale() == "en" {
       transcodedQuery.isHidden = true

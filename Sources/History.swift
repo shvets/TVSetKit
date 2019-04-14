@@ -58,7 +58,7 @@ open class History {
   }
   
   public func remove(_ id: String) -> Bool {
-    if let index = items.index(where: {$0.item.id == id}) {
+    if let index = items.firstIndex(where: {$0.item.id == id}) {
       items.remove(at: index)
       
       return true
