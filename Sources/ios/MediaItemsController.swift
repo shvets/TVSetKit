@@ -35,7 +35,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 #endif
 
 #if os(tvOS)
-  public let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    public let activityIndicatorView = UIActivityIndicatorView(style: .whiteLarge)
 #endif
 
   public var configuration: Configuration?
@@ -333,7 +333,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   func registerGestures(_ view: UIView) {
     let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressed(_:)))
 
-    longPressGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
+    longPressGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.select.rawValue), NSNumber(value: UIPress.PressType.playPause.rawValue)]
 
     view.addGestureRecognizer(longPressGesture)
 
@@ -345,7 +345,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapped(_:)))
     tapGesture.require(toFail: doubleTapGesture)
 
-    tapGesture.allowedPressTypes = [NSNumber(value: UIPressType.select.rawValue), NSNumber(value: UIPressType.playPause.rawValue)]
+    tapGesture.allowedPressTypes = [NSNumber(value: UIPress.PressType.select.rawValue), NSNumber(value: UIPress.PressType.playPause.rawValue)]
 
     view.addGestureRecognizer(tapGesture)
   }
@@ -357,7 +357,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   }
 
   @objc func longPressed(_ gesture: UITapGestureRecognizer) {
-    if gesture.state == UIGestureRecognizerState.ended {
+    if gesture.state == UIGestureRecognizer.State.ended {
       if let location = gesture.view as? UICollectionViewCell {
         navigate(from: location, playImmediately: false)
       }

@@ -91,7 +91,7 @@ open class VideoPlayerController: AVPlayerViewController, ReusableController {
     
     #if os(tvOS)
       switch gesture.direction {
-      case UISwipeGestureRecognizerDirection.up:
+      case UISwipeGestureRecognizer.Direction.up:
         if prepareNextMediaItem() {
           play()
         }
