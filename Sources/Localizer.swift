@@ -1,11 +1,10 @@
-//import UIKit
-import ConfigFile
+import SimpleHttpClient
 
 open class Localizer {
   public static let DefaultLocale = "ru"
-  private static let configName = NSHomeDirectory() + "/Library/Caches/localizer.json"
+  private static let configName = "/Library/Caches/localizer.json"
 
-  let config: StringConfigFile!
+  let configFile: ConfigFile<String>!
 
   public var bundle: Bundle?
 
@@ -27,44 +26,52 @@ open class Localizer {
       }
     }
 
-    config = StringConfigFile(Localizer.configName)
+    configFile = ConfigFile<String>(path: URL(fileURLWithPath: NSHomeDirectory()), fileName: Localizer.configName)
   }
 
   public func setLocale(langCode: String) {
-    config.items["langCode"] = langCode
-    
+    configFile.items["langCode"] = langCode
+
     do {
-      try config.save()
+      try Await.await() { handler in
+        self.configFile.write(handler)
+      }
     }
     catch let error {
       print("Error saving configuration: \(error)")
     }
   }
-  
+
   public func getLocale() -> String {
     var locale = Localizer.DefaultLocale
 
     do {
-      if config.exists() {
-        try config.load()
+      if configFile.exists() {
+        if let items = (try Await.await() { handler in
+          self.configFile.read(handler)
+        }) {
+          self.configFile.items = items
+        }
       }
     }
     catch let error {
       print("Error loading configuration: \(error)")
     }
 
-    if let langCode = config.items["langCode"] {
+    if let langCode = configFile.items["langCode"] {
       locale = langCode
     }
 
     return locale
   }
-  
+
   public func setOffset(offset: Int) {
-    config.items["offset"] = String(offset)
-    
+    configFile.items["offset"] = String(offset)
+
     do {
-      try config.save()
+      try Await.await() { handler in
+        self.configFile.write(handler)
+      }
     }
     catch let error {
       print("Error saving configuration: \(error)")
@@ -73,20 +80,24 @@ open class Localizer {
 
   public func getOffset() -> Int {
     var newOffset = 0
-    
+
     do {
-      if config.exists() {
-        try config.load()
+      if configFile.exists() {
+        if let items = (try Await.await() { handler in
+          self.configFile.read(handler)
+        }) {
+          self.configFile.items = items
+        }
       }
     }
     catch let error {
       print("Error loading configuration: \(error)")
     }
-    
-    if let offset = config.items["offset"] {
+
+    if let offset = configFile.items["offset"] {
       newOffset = Int(offset)!
     }
-    
+
     return newOffset
   }
 
@@ -102,7 +113,7 @@ open class Localizer {
       return comment
     }
   }
-  
+
   public func getLocalizedName(_ name: String?) -> String {
     if let name = name {
       return localize(name)

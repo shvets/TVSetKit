@@ -8,11 +8,11 @@ public class UIHelper {
     return UIHelper()
   }()
 
-  public func textToImage(drawText text: String, width: Int, height: Int) -> UIImage {
+  public func textToImage(drawText text: String, width: Int, height: Int) -> UIImage? {
     return textToImage(drawText: text, size: CGSize(width: width, height: height))
   }
 
-  public func textToImage(drawText text: String, size: CGSize, drawImage: UIImage?=nil) -> UIImage {
+  public func textToImage(drawText text: String, size: CGSize, drawImage: UIImage?=nil) -> UIImage? {
     var image: UIImage?
     
     if let cachedImage = self.cache.object(forKey: text as NSString) {
@@ -63,7 +63,7 @@ public class UIHelper {
       }
     }
 
-    return image!
+    return image
   }
 
   public func getItemSize(_ controller: UICollectionViewController) -> CGSize {

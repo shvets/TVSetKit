@@ -11,7 +11,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   public var pageLoader = PageLoader()
 
-  var newMediaItemIndex = -1
+  //var newMediaItemIndex = -1
   var receiver: UIViewController?
 
   public var bookmarksManager: BookmarksManager?
@@ -46,8 +46,8 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
   required public init(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)!
 
-    let nc = NotificationCenter.default
-    nc.addObserver(self, selector: #selector(changeSelectedItem), name: NSNotification.Name(rawValue: "mediaItem"), object: nil)
+//    let nc = NotificationCenter.default
+//    nc.addObserver(self, selector: #selector(changeSelectedItem), name: NSNotification.Name(rawValue: "mediaItem"), object: nil)
   }
 
   override open func viewDidLoad() {
@@ -120,40 +120,40 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       ])
   }
 
-  @objc func changeSelectedItem(notification:NSNotification) {
-    if let userInfo = notification.userInfo as? Dictionary<String, Any>,
-      let id = userInfo["id"] as? String,
-      let receiver = userInfo["receiver"] as? UIViewController {
+//  @objc func changeSelectedItem(notification:NSNotification) {
+//    if let userInfo = notification.userInfo as? Dictionary<String, Any>,
+//      let id = userInfo["id"] as? String,
+//      let receiver = userInfo["receiver"] as? UIViewController {
+//
+//      if receiver == self {
+//        if let index = items.items.firstIndex(where: { $0.id == id }) {
+//          newMediaItemIndex = index
+//        }
+//        else {
+//          newMediaItemIndex = 1
+//        }
+//      }
+//    }
+//  }
 
-      if receiver == self {
-        if let index = items.items.firstIndex(where: { $0.id == id }) {
-          newMediaItemIndex = index
-        }
-        else {
-          newMediaItemIndex = 1
-        }
-      }
-    }
-  }
-
-  override open var preferredFocusEnvironments: [UIFocusEnvironment] {
-    var selection: [UIView] = []
-
-    if newMediaItemIndex >= 0 {
-      let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
-
-      // collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
-
-      newMediaItemIndex = -1
-
-      if let cell = collectionView?.cellForItem(at: indexPath) {
-      //if let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
-        selection = [cell]
-      }
-    }
-
-    return selection
-  }
+//  override open var preferredFocusEnvironments: [UIFocusEnvironment] {
+//    var selection: [UIView] = []
+//
+//    if newMediaItemIndex >= 0 {
+//      let indexPath = IndexPath(row: newMediaItemIndex, section: 0)
+//
+//      // collectionView?.scrollToItem(at: indexPath, at: .top, animated: true)
+//
+//      newMediaItemIndex = -1
+//
+//      if let cell = collectionView?.cellForItem(at: indexPath) {
+//      //if let cell = collectionView?.dequeueReusableCell(withReuseIdentifier: MediaItemCell.reuseIdentifier, for: indexPath) as? MediaItemCell {
+//        selection = [cell]
+//      }
+//    }
+//
+//    return selection
+//  }
 
   func loadMediaItems() throws -> [Any] {
     var newParams = Parameters()
@@ -174,7 +174,7 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
     newParams["historyManager"] = self.configuration?["historyManager"]
 
     if let dataSource = dataSource {
-      return try dataSource.loadAndWait(params: newParams)
+      return try dataSource.load(params: newParams)
     }
 
     return []
@@ -387,8 +387,11 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
       else {
         if playImmediately {
           //performSegue(withIdentifier: VideoPlayerController.SegueIdentifier, sender: view)
-          historyManager?.addHistoryItem(mediaItem)
-          MediaItemDetailsController.playMediaItem(mediaItem, parent: self, items: items.items, storyboardId: storyboardId!, index: 0)
+          if let storyboardId = storyboardId {
+            historyManager?.addHistoryItem(mediaItem)
+            MediaItemDetailsController.playMediaItem(mediaItem, parent: self, items: items.items,
+              storyboardId: storyboardId, index: 0)
+          }
         }
         else {
           performSegue(withIdentifier: MediaItemDetailsController.SegueIdentifier, sender: view)
@@ -550,12 +553,12 @@ open class MediaItemsController: UICollectionViewController, UICollectionViewDel
 
   func processBookmark() {
     if let selectedItem = items.getSelectedItem() as? MediaItem {
-      func addCallback() {
-        self.bookmarksManager?.addBookmark(item: selectedItem)
+      func addCallback() throws {
+        try self.bookmarksManager?.addBookmark(item: selectedItem)
       }
 
-      func removeCallback() {
-        let result = self.bookmarksManager?.removeBookmark(item: selectedItem)
+      func removeCallback() throws {
+        let result = try self.bookmarksManager?.removeBookmark(item: selectedItem)
 
         if let result = result, result {
           items.removeCell() {

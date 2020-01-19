@@ -1,33 +1,12 @@
-import RxSwift
-
 open class DataSource {
   public init() {}
 
-  public func loadAndWait(params: Parameters) throws -> [Any] {
-    var items = [Any]()
+//  public func loadAndWait(params: Parameters) throws -> [Any] {
+//    return try load(params: params)
+//  }
 
-    let semaphore = DispatchSemaphore.init(value: 0)
-
-    _ = try load(params: params).subscribe(onNext: { result in
-      items = result
-
-      semaphore.signal()
-    }, onError: { (error) -> Void in
-      print(error)
-    })
-
-    _ = semaphore.wait(timeout: DispatchTime.distantFuture)
-
-    return items
-  }
-
-  open func load(params: Parameters) throws -> Observable<[Any]> {
-    return .create { observer in
-      observer.onNext([])
-      observer.onCompleted()
-      
-      return Disposables.create()
-    }
+  open func load(params: Parameters) throws -> [Any] {
+    return []
   }
 
   open func transform(_ items: [Any], transformer: (Any) -> Item) -> [Item] {

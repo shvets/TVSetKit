@@ -20,8 +20,13 @@ public struct BookmarkItem: Codable {
     
     let container = try decoder.container(keyedBy: CodingKeys.self)
     
-    item = try container.decodeIfPresent(MediaItem.self, forKey: .item)!
-    type = try container.decodeIfPresent(String.self, forKey: .type)!
+    if let item = try container.decodeIfPresent(MediaItem.self, forKey: .item) {
+      self.item = item
+    }
+
+    if let type = try container.decodeIfPresent(String.self, forKey: .type) {
+      self.type = type
+    }
   }
   
   public func encode(to encoder: Encoder) throws {

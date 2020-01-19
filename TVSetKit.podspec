@@ -1,3 +1,5 @@
+swift_version = File.new('.swift-version').read
+
 Pod::Spec.new do |s|
   s.name         = "TVSetKit"
   s.version      = "1.0.27"
@@ -7,12 +9,9 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/shvets/TVSetKit"
   s.authors = { "Alexander Shvets" => "alexander.shvets@gmail.com" }
   s.license      = "MIT"
-  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5' }
 
-  s.ios.deployment_target = "10.0"
-  #s.osx.deployment_target = "10.10"
-  s.tvos.deployment_target = "10.0"
-  #s.watchos.deployment_target = "2.0"
+  s.ios.deployment_target = "12.2"
+  s.tvos.deployment_target = "12.2"
 
   s.source = { :git => "https://github.com/shvets/TVSetKit.git", :tag => s.version }
 
@@ -25,11 +24,15 @@ Pod::Spec.new do |s|
     'com.rubikon.TVSetKit' => ['Sources/**/*.{storyboard,strings,lproj}', ]
   }
 
-  s.dependency 'SwiftyJSON', '~> 4.1.0'
-  s.dependency 'Runglish', '~> 1.0.3'
-  s.ios.dependency 'AudioPlayer', '~> 1.0.10'
+  #s.dependency 'SwiftyJSON', '~> 4.1.0'
+  #s.dependency 'ConfigFile', '~> 1.1.0'
+  #s.dependency 'RxSwift', '~> 4.3.1'
+
   s.dependency 'Files', '~> 2.0.1'
-  s.dependency 'ConfigFile', '~> 1.1.0'
+  s.dependency 'SimpleHttpClient', '~> 1.0.2'
   s.dependency 'PageLoader', '~> 1.0.9'
-  s.dependency 'RxSwift', '~> 4.3.1'
+  s.dependency 'Runglish', '~> 1.0.3'
+  #s.ios.dependency 'AudioPlayer', '~> 1.0.10'
+
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => swift_version }
 end

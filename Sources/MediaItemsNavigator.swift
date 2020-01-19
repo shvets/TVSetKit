@@ -29,7 +29,7 @@ class MediaItemsNavigator {
     var currentIndex = -1
     
     for (index, item) in items.enumerated() {
-      if item.id! == id {
+      if let itemId = item.id, itemId == id {
         currentIndex = index
         break
       }
